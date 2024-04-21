@@ -1,0 +1,8 @@
+.line {
+  display: flex;
+  gap: 4px;
+}
+
+.line + .line {
+  margin-top: 16px;
+}

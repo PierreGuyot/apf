@@ -1,0 +1,10 @@
+.page {
+  padding: 32px;
+  max-width: 800px;
+  min-height: 100vh;
+  margin-left: 200px;
+
+  /* TODO: extract color */
+  border-left: 1px solid rgb(208, 208, 208);
+  border-right: 1px solid rgb(208, 208, 208);
+}
