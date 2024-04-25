@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Code } from "./Code";
 
 type Unit = "ng-per-mL";
 
@@ -50,7 +51,11 @@ export const InputNumber = ({
         onInput={onInput}
       />
       {isTouched || isSubmitted ? <div>{errorMessage}</div> : undefined}
-      {unit ? <UnitLabel unit={unit} /> : undefined}
+      {unit ? (
+        <Code>
+          <UnitLabel unit={unit} />
+        </Code>
+      ) : undefined}
     </>
   );
 };
