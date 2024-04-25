@@ -1,6 +1,7 @@
 import { ColumnWithTotal, EditableTable } from "../../ui/EditableTable";
 import { Input } from "../../ui/Input";
 import { InputNumber } from "../../ui/InputNumber";
+import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { sum } from "../../ui/helpers";
@@ -95,7 +96,9 @@ export const BiopsiesProstatiques = () => {
         />
       </Line>
 
-      <EditableTable columns={MOCK_COLUMNS} rowCount={6} hasFooter />
+      <Item>
+        <EditableTable columns={MOCK_COLUMNS} rowCount={6} hasFooter />
+      </Item>
     </>
   );
 

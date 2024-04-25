@@ -1,3 +1,5 @@
+import "./table.css";
+
 export type ValueOf<Row> = Row[keyof Row];
 
 // TODO: fix with a mapped type after re-reading Gabriel's Typescript course
