@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ColumnWithTotal, EditableTable } from "../../ui/EditableTable";
 import { Input } from "../../ui/Input";
 import { InputNumber } from "../../ui/InputNumber";
@@ -44,73 +45,6 @@ export const BiopsiesProstatiques = () => {
   ];
   const MOCK_SUMMARY = range(4).map(aMessage).join("\n");
 
-  const form = (
-    <>
-      <Line>
-        <InputNumber
-          value={psaRate}
-          label="Taux de PSA"
-          unit="ng-per-mL"
-          onChange={setPsaRate}
-        />
-      </Line>
-      <>
-        <Line>
-          <Select
-            value={hasMri}
-            options={YES_NO_OPTIONS}
-            name="IRM"
-            label="Avez-vous une IRM ?"
-            onChange={setHasMri}
-          />
-        </Line>
-        {hasMri ? (
-          <>
-            <Line>
-              <Select
-                value={hasTarget}
-                options={YES_NO_OPTIONS}
-                name="Cible"
-                label="Avez-vous une cible ?"
-                onChange={setHasTarget}
-              />
-            </Line>
-            {hasTarget ? (
-              <>
-                <Line>
-                  {/* PIRADS: Prostate Imaging Reporting & Data System */}
-                  PIRADS <Input value={TEMP1} onChange={setTEMP1} /> située à{" "}
-                  <Input value={TEMP2} onChange={setTEMP2} />
-                </Line>
-                <Line>
-                  {/* TODO: it's unclear what to do in the case where there is a target and it doesn't replace one of the sextants */}
-                  TODO: sextant position
-                </Line>
-              </>
-            ) : undefined}
-          </>
-        ) : undefined}
-      </>
-      <Line>
-        <InputNumber
-          value={potCount}
-          label="Combien de pots avez-vous ?"
-          onChange={setPotCount}
-        />
-      </Line>
-
-      <Item>
-        <EditableTable columns={MOCK_COLUMNS} rowCount={6} hasFooter />
-      </Item>
-
-      {/* TODO: add comment section (TextArea component) */}
-
-      <Item>
-        <Summary content={MOCK_SUMMARY} />
-      </Item>
-    </>
-  );
-
   return (
     <div>
       <Line>
@@ -122,7 +56,71 @@ export const BiopsiesProstatiques = () => {
           onChange={setHasInfo}
         />
       </Line>
-      {hasInfo ? form : undefined}
+      {hasInfo ? (
+        <>
+          <Line>
+            <InputNumber
+              value={psaRate}
+              label="Taux de PSA"
+              unit="ng-per-mL"
+              onChange={setPsaRate}
+            />
+          </Line>
+          <Line>
+            <Select
+              value={hasMri}
+              options={YES_NO_OPTIONS}
+              name="IRM"
+              label="Avez-vous une IRM ?"
+              onChange={setHasMri}
+            />
+          </Line>
+          {hasMri ? (
+            <>
+              <Line>
+                <Select
+                  value={hasTarget}
+                  options={YES_NO_OPTIONS}
+                  name="Cible"
+                  label="Avez-vous une cible ?"
+                  onChange={setHasTarget}
+                />
+              </Line>
+              {hasTarget ? (
+                <>
+                  <Line>
+                    {/* PIRADS: Prostate Imaging Reporting & Data System */}
+                    PIRADS <Input value={TEMP1} onChange={setTEMP1} /> située à{" "}
+                    <Input value={TEMP2} onChange={setTEMP2} />
+                  </Line>
+                  <Line>
+                    {/* TODO: it's unclear what to do in the case where there is a target and it doesn't replace one of the sextants */}
+                    TODO: sextant position
+                  </Line>
+                </>
+              ) : undefined}
+            </>
+          ) : undefined}
+
+          <Line>
+            <InputNumber
+              value={potCount}
+              label="Combien de pots avez-vous ?"
+              onChange={setPotCount}
+            />
+          </Line>
+
+          <Item>
+            <EditableTable columns={MOCK_COLUMNS} rowCount={6} hasFooter />
+          </Item>
+
+          {/* TODO: add comment section (TextArea component) */}
+
+          <Item>
+            <Summary content={MOCK_SUMMARY} />
+          </Item>
+        </>
+      ) : undefined}
     </div>
   );
 };
