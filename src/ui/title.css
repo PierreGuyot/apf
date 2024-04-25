@@ -1,0 +1,12 @@
+.title {
+  font-size: 3em;
+  margin-bottom: 3rem;
+}
+
+.title--margin-bottom-sm {
+  margin-bottom: 0.8rem;
+}
+
+.title--margin-bottom-md {
+  margin-bottom: 3rem;
+}

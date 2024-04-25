@@ -4,7 +4,9 @@ import { InputNumber } from "../../ui/InputNumber";
 import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
-import { sum } from "../../ui/helpers";
+import { Summary } from "../../ui/Summary";
+import { range, sum } from "../../ui/helpers";
+import { aMessage } from "../../ui/mock";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 
@@ -40,6 +42,7 @@ export const BiopsiesProstatiques = () => {
       render: (value) => <span>{String(value)}</span>,
     },
   ];
+  const MOCK_SUMMARY = range(4).map(aMessage).join("\n");
 
   const form = (
     <>
@@ -98,6 +101,12 @@ export const BiopsiesProstatiques = () => {
 
       <Item>
         <EditableTable columns={MOCK_COLUMNS} rowCount={6} hasFooter />
+      </Item>
+
+      {/* TODO: add comment section (TextArea component) */}
+
+      <Item>
+        <Summary content={MOCK_SUMMARY} />
       </Item>
     </>
   );
