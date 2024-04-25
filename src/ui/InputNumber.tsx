@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { Code } from "./Code";
+import { InputProps, OnInput } from "./input.types";
+import "./input-number.css";
+import { ErrorMessage } from "./ErrorMessage";
+import { Label } from "./Label";
 
 type Unit = "ng-per-mL";
 
-type InputNumberProps = {
-  value: number;
-  label?: string;
+type InputNumberProps = InputProps<number> & {
   min?: number;
   max?: number;
   unit?: Unit;
-  errorMessage?: string;
-  isSubmitted?: boolean;
-  onChange: (value: number) => void;
 };
 
 export const InputNumber = ({
@@ -26,10 +25,10 @@ export const InputNumber = ({
 }: InputNumberProps) => {
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const onBlur = () => setIsTouched(true);
-  const onInput = (e: React.FormEvent<HTMLInputElement>) => {
+  const onInput: OnInput<HTMLInputElement> = (e) => {
     // CAUTION: this cast is type-unsafe
-    const InputEvent = e.target as HTMLInputElement;
-    const valueAsNumber = Number(InputEvent.value);
+    const inputEvent = e.target as HTMLInputElement;
+    const valueAsNumber = Number(inputEvent.value);
 
     if (isNaN(valueAsNumber)) {
       return;
@@ -40,9 +39,9 @@ export const InputNumber = ({
 
   return (
     <>
-      {label ? <label>{label}</label> : undefined}
+      {label ? <Label label={label} /> : undefined}
       <input
-        className="number"
+        className="input-number"
         type="text"
         value={value}
         min={min}
@@ -50,7 +49,9 @@ export const InputNumber = ({
         onBlur={onBlur}
         onInput={onInput}
       />
-      {isTouched || isSubmitted ? <div>{errorMessage}</div> : undefined}
+      {isTouched || isSubmitted ? (
+        <ErrorMessage errorMessage={errorMessage} />
+      ) : undefined}
       {unit ? (
         <Code>
           <UnitLabel unit={unit} />

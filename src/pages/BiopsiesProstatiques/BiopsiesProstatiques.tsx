@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ColumnWithTotal, EditableTable } from "../../ui/EditableTable";
-import { Input } from "../../ui/Input";
+import { InputText } from "../../ui/InputText";
 import { InputNumber } from "../../ui/InputNumber";
 import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
@@ -10,6 +10,7 @@ import { range, sum } from "../../ui/helpers";
 import { aMessage } from "../../ui/mock";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
+import { InputTextArea } from "../../ui/InputTextArea";
 
 export const BiopsiesProstatiques = () => {
   // TODO: extract state
@@ -22,6 +23,7 @@ export const BiopsiesProstatiques = () => {
   const [TEMP2, setTEMP2] = useString();
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
   const [potCount, setPotCount] = useNumber();
+  const [comment, setComment] = useString();
 
   // TODO: un-mock
   type MockUser = { name: string; age: number; isAdmin: boolean };
@@ -90,8 +92,8 @@ export const BiopsiesProstatiques = () => {
                 <>
                   <Line>
                     {/* PIRADS: Prostate Imaging Reporting & Data System */}
-                    PIRADS <Input value={TEMP1} onChange={setTEMP1} /> située à{" "}
-                    <Input value={TEMP2} onChange={setTEMP2} />
+                    PIRADS <InputText value={TEMP1} onChange={setTEMP1} />{" "}
+                    située à <InputText value={TEMP2} onChange={setTEMP2} />
                   </Line>
                   <Line>
                     {/* TODO: it's unclear what to do in the case where there is a target and it doesn't replace one of the sextants */}
@@ -114,7 +116,14 @@ export const BiopsiesProstatiques = () => {
             <EditableTable columns={MOCK_COLUMNS} rowCount={6} hasFooter />
           </Item>
 
-          {/* TODO: add comment section (TextArea component) */}
+          <Item>
+            <InputTextArea
+              value={comment}
+              label="Commentaires additionnels"
+              placeholder="Ajoutez vos remarques additionnelles dans ce champ."
+              onChange={setComment}
+            />
+          </Item>
 
           <Item>
             <Summary content={MOCK_SUMMARY} />
