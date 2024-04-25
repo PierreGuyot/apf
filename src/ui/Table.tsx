@@ -14,7 +14,7 @@ type TableProps<Row> = {
   hasFooter?: boolean;
 };
 
-const EMPTY_STATE = <span>N/A</span>
+const EMPTY_STATE = <span>N/A</span>;
 
 export function Table<Row>({ columns, rows, hasFooter }: TableProps<Row>) {
   return (
