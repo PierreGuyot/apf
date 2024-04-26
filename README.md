@@ -4,6 +4,24 @@
 
 APF is a small form to generate reports for anatomical pathology.
 
+## Goals
+
+Generate quickly an anatomical pathology report in a clean, standardized format.
+
+For that:
+- The form should be easy to use
+- The form should indicate when it has been updated last
+- The form should be as up-to-date as realistically possible
+- The report should be easy to read for practitioners that are not anatomical pathologists
+- Reporting error or feedback should be easy
+- Visual design should be simple and clean, with a clear visual hierarchy
+- The form should work offline
+- The form should be portable on any machine
+- Code should be robust and automatically tested
+- Information should be filled once, and only once
+- Everything that can be computed automatically should be updated automatically (for instance, the total of a column)
+
+
 ## Principles of design
 
 TODO: principles of design (with related articles)
