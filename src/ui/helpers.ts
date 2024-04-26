@@ -32,10 +32,19 @@ export const join = (...classNames: Array<string | undefined>) =>
     .filter(filterEmpty)
     .join(" ");
 
-/** Generate a range of number of length n (from 1 to n).
+/** Generate a range of number from start to end.
+ * If only end is passed, we assume start is 0.
  *
  * For instance:
  *  `range(3)` should return `[1, 2, 3]`
+ *  `range(2, 5)` should return `[2, 3, 4, 5]`
  */
-export const range = (size: number) =>
-  [...new Array(size)].map((_, i) => i + 1);
+export const range = (
+  ...params: [end: number] | [start: number, end: number]
+) => {
+  const { end, start } =
+    params.length === 2
+      ? { end: params[1], start: params[0] }
+      : { end: params[0], start: 0 };
+  return [...new Array(end - start + 1)].map((_, i) => i + start);
+};

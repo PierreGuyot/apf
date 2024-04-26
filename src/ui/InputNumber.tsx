@@ -30,6 +30,8 @@ export const InputNumber = ({
     const inputEvent = e.target as HTMLInputElement;
     const valueAsNumber = Number(inputEvent.value);
 
+    // TODO: handle decimals
+
     if (isNaN(valueAsNumber)) {
       return;
     }

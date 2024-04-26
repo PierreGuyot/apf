@@ -1,26 +1,76 @@
 import { useState } from "react";
 import { ColumnWithTotal, EditableTable } from "../../ui/EditableTable";
-import { InputText } from "../../ui/InputText";
 import { InputNumber } from "../../ui/InputNumber";
+import { InputText } from "../../ui/InputText";
+import { InputTextArea } from "../../ui/InputTextArea";
 import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
+import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
 import { range, sum } from "../../ui/helpers";
 import { aMessage } from "../../ui/mock";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
-import { InputTextArea } from "../../ui/InputTextArea";
+
+const MAX_TARGET_COUNT = 3;
+
+type PiradsItem = {
+  count: number;
+  location: string;
+};
+
+const aPiradsItem = (): PiradsItem => ({
+  count: 0,
+  location: "b",
+});
+
+// PIRADS: Prostate Imaging Reporting & Data System
+const PiradsSelect = ({
+  value,
+  onChange,
+}: {
+  value: PiradsItem;
+  onChange: (value: PiradsItem) => void;
+}) => {
+  const onChangeCount = (count: number) => onChange({ ...value, count });
+  const onChangeLocation = (location: string) =>
+    onChange({ ...value, location });
+
+  return (
+    <Line>
+      <SelectNumber
+        name="PIRADS count" // TODO: check this with Louis
+        label="PIRADS"
+        min={2}
+        max={5}
+        value={value.count}
+        onChange={onChangeCount}
+      />{" "}
+      située à <InputText value={value.location} onChange={onChangeLocation} />
+    </Line>
+  );
+};
 
 export const BiopsiesProstatiques = () => {
   // TODO: extract state
   // TODO: structure as a nested object to flatten template
   const [hasInfo, setHasInfo] = useBoolean();
   const [hasTarget, setHasTarget] = useBoolean();
+  const [targetCount, setTargetCount] = useNumber();
+  const [piradsItems, setPiradsItems] = useState<PiradsItem[]>(
+    range(MAX_TARGET_COUNT).map(aPiradsItem),
+  );
+
+  const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
+    const updatedArray = [...piradsItems];
+    updatedArray[index] = value;
+    setPiradsItems(updatedArray);
+  };
+
   const [hasMri, setHasMri] = useBoolean();
   // TODO: rename
-  const [TEMP1, setTEMP1] = useString();
-  const [TEMP2, setTEMP2] = useString();
+
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
   const [potCount, setPotCount] = useNumber();
   const [comment, setComment] = useString();
@@ -50,6 +100,7 @@ export const BiopsiesProstatiques = () => {
   return (
     <div>
       <Line>
+        {/* TODO: is this option actually useful? */}
         <Select
           value={hasInfo}
           options={YES_NO_OPTIONS}
@@ -83,22 +134,33 @@ export const BiopsiesProstatiques = () => {
                 <Select
                   value={hasTarget}
                   options={YES_NO_OPTIONS}
-                  name="Cible"
-                  label="Avez-vous une cible ?"
+                  name="Présence de cible"
+                  label="Avez-vous au moins une cible ?"
                   onChange={setHasTarget}
                 />
               </Line>
               {hasTarget ? (
                 <>
                   <Line>
-                    {/* PIRADS: Prostate Imaging Reporting & Data System */}
-                    PIRADS <InputText value={TEMP1} onChange={setTEMP1} />{" "}
-                    située à <InputText value={TEMP2} onChange={setTEMP2} />
+                    {/* TODO NOW: replace with a dropdown */}
+                    <SelectNumber
+                      value={targetCount}
+                      name="Nombre de cibles"
+                      label="Nombre de cibles"
+                      max={MAX_TARGET_COUNT}
+                      onChange={setTargetCount}
+                    />
                   </Line>
-                  <Line>
-                    {/* TODO: it's unclear what to do in the case where there is a target and it doesn't replace one of the sextants */}
-                    TODO: sextant position
-                  </Line>
+                  {/* We handle the maximum number of items in all cases and simply hide according to count
+                  This way, changing the count doesn't erase user input */}
+                  {piradsItems.slice(0, targetCount).map((item, i) => (
+                    <Line key={i}>
+                      <PiradsSelect
+                        value={item}
+                        onChange={(value) => onUpdatePiradsItem(value, i)}
+                      />
+                    </Line>
+                  ))}
                 </>
               ) : undefined}
             </>
@@ -119,7 +181,7 @@ export const BiopsiesProstatiques = () => {
           <Item>
             <InputTextArea
               value={comment}
-              label="Commentaires additionnels"
+              label="Remarques particulières"
               placeholder="Ajoutez vos remarques additionnelles dans ce champ."
               onChange={setComment}
             />

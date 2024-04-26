@@ -6,7 +6,7 @@ type SelectProps<T extends string | number | boolean> = {
   value: T;
   options: Option<T>[];
   name: string;
-  label?: string;
+  label?: string; // TODO: consider using label as name
   onChange: (value: T) => void;
 };
 
