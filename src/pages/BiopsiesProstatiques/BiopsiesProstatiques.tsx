@@ -14,6 +14,11 @@ import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 
 // TODO: extract table to a separate file
+// TODO: make table inputs editable
+// TODO: clarify logic to initialize the table
+// TODO: generate summary from data (french)
+// TODO: generate summary from data (english)
+// TODO: add button to switch languages
 
 const TableHeader = () => (
   <>
