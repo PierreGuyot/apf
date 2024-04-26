@@ -3,6 +3,7 @@ import { range, sum } from "../../ui/helpers";
 
 // TODO: make table inputs editable
 // TODO: clarify logic to initialize the table
+// TODO: extract renderer for cells (string, number, boolean, pair)
 
 const TableHeader = () => (
   <>
@@ -34,6 +35,15 @@ const TableHeader = () => (
 );
 
 type Pair = [number, number];
+
+const byGleasonScore = (a: Pair, b: Pair) =>
+  // By sum
+  (sum(b) - sum(a)) ||
+  // By left value in case of equality
+  (b[0] - a[0])
+
+const getMaximumByGleasonScore = (pairs: Pair[]) =>
+  pairs.sort(byGleasonScore)[0];
 
 type Row = {
   // TODO: rename the site group
@@ -141,8 +151,13 @@ const COLUMNS: Column<Row>[] = [
         </span>
       );
     },
-    total: (_rows) => {
-      return <span>TODO</span>;
+    total: (rows) => {
+      const pairs = rows.map(row => row.tumor.gleason)
+      const [a, b] = getMaximumByGleasonScore(pairs)
+
+      return <span>
+        {a + b} ({a} + {b})
+      </span>;
     },
   },
   {
@@ -192,5 +207,7 @@ const anEmptyRow = (): Row => ({
 const rows = range(6).map(anEmptyRow);
 
 export const BiopsiesProstatiquesTable = () => {
-  return <Table columns={COLUMNS} rows={rows} header={TableHeader} hasFooter />;
+  return (
+    <Table columns={COLUMNS} rows={rows} header={TableHeader} hasFooter />
+  );
 };
