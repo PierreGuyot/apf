@@ -14,9 +14,18 @@ type TableProps<Row> = {
   columns: Column<Row>[];
   rows: Row[];
   header?: () => JSX.Element;
+  hasFooter?: boolean;
 };
 
-export function Table<Row>({ columns, rows, header: Header }: TableProps<Row>) {
+// TODO: style
+const EMPTY_STATE = <span>N/A</span>;
+
+export function Table<Row>({
+  columns,
+  rows,
+  header: Header,
+  hasFooter,
+}: TableProps<Row>) {
   return (
     <table>
       <thead>
@@ -41,6 +50,17 @@ export function Table<Row>({ columns, rows, header: Header }: TableProps<Row>) {
           </tr>
         ))}
       </tbody>
+      {hasFooter ? (
+        <tfoot>
+          {columns.map((column) => {
+            return (
+              <th key={`footer--${String(column.key)}`}>
+                {column.total ? column.total(rows) : EMPTY_STATE}
+              </th>
+            );
+          })}
+        </tfoot>
+      ) : undefined}
     </table>
   );
 }

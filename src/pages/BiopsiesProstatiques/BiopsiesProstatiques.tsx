@@ -8,7 +8,7 @@ import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
 import { Column, Table } from "../../ui/Table";
-import { range } from "../../ui/helpers";
+import { range, sum } from "../../ui/helpers";
 import { aMessage } from "../../ui/mock";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
@@ -128,6 +128,7 @@ const COLUMNS: Column<Row>[] = [
     label: "Biopsy Count",
     key: "biopsy.count",
     render: (row) => <span>{row.biopsy.count}</span>,
+    total: (rows) => <span>{sum(rows.map((row) => row.biopsy.count))}</span>,
   },
   {
     label: "Biopsy Size",
@@ -140,11 +141,22 @@ const COLUMNS: Column<Row>[] = [
         </span>
       );
     },
+    total: (rows) => (
+      <span>
+        {sum(
+          rows.map((row) => {
+            const [a, b] = row.biopsy.size;
+            return a + b;
+          }),
+        )}
+      </span>
+    ),
   },
   {
     label: "Tumor count",
     key: "tumor.count",
     render: (row) => <span>{row.tumor.count}</span>,
+    total: (rows) => <span>{sum(rows.map((row) => row.tumor.count))}</span>,
   },
   {
     label: "Tumor size",
@@ -157,6 +169,16 @@ const COLUMNS: Column<Row>[] = [
         </span>
       );
     },
+    total: (rows) => (
+      <span>
+        {sum(
+          rows.map((row) => {
+            const [a, b] = row.tumor.size;
+            return a + b;
+          }),
+        )}
+      </span>
+    ),
   },
   {
     label: "Tumor gleason",
@@ -169,21 +191,33 @@ const COLUMNS: Column<Row>[] = [
         </span>
       );
     },
+    total: (_rows) => {
+      return <span>TODO</span>;
+    },
   },
   {
     label: "Tumor EPN",
     key: "tumor.epn",
     render: (row) => <span>{row.tumor.epn ? "Oui" : "Non"}</span>,
+    total: (rows) => (
+      <span>{rows.map((row) => row.tumor.epn).some(Boolean)}</span>
+    ),
   },
   {
     label: "Tumor TEP",
     key: "tumor.tep",
     render: (row) => <span>{row.tumor.tep ? "Oui" : "Non"}</span>,
+    total: (rows) => (
+      <span>{rows.map((row) => row.tumor.tep).some(Boolean)}</span>
+    ),
   },
   {
     label: "Tumor PIN",
     key: "tumor.pin",
     render: (row) => <span>{row.tumor.pin ? "Oui" : "Non"}</span>,
+    total: (rows) => (
+      <span>{rows.map((row) => row.tumor.pin).some(Boolean)}</span>
+    ),
   },
   {
     label: "Other lesions",
@@ -308,8 +342,9 @@ export const BiopsiesProstatiques = () => {
             />
           </Line>
 
+          {/* TODO: make state controlled and editable */}
           <Item>
-            <Table columns={COLUMNS} rows={rows} header={TableHeader} />
+            <Table columns={COLUMNS} rows={rows} header={TableHeader} hasFooter />
           </Item>
 
           <Item>
