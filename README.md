@@ -27,7 +27,7 @@ Re-format the code (this should be part of a CI ideally).
 `yarn tsc` \
 Checks the TypeScript annotations are correct.
 
-## Technical stack
+### Technical stack
 
 APF is a React TypeScript web page.
 
