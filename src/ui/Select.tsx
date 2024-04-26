@@ -33,7 +33,13 @@ export function Select<T extends string | number | boolean>({
     <>
       {/* TODO: replace with Label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
-      <select className="select" value={String(value)} name={name} id={id} onChange={onChange}>
+      <select
+        className="select"
+        value={String(value)}
+        name={name}
+        id={id}
+        onChange={onChange}
+      >
         {options.map((option) => {
           const value = option.value as string | number;
           return (
