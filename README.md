@@ -12,19 +12,19 @@ TODO: principles of design (with related articles)
 
 ### Quick start
 
-You'll need `yarn` installed:
+You'll need `yarn` installed: \
 TODO: guide to install yarn
 
-`yarn start`
+`yarn start` \
 Starts the app in development mode.
 
-`yarn build`
+`yarn build` \
 Builds the app for production to the `build` folder.
 
-`yarn clean`
+`yarn clean` \
 Re-format the code (this should be part of a CI ideally).
 
-`yarn tsc`
+`yarn tsc` \
 Checks the TypeScript annotations are correct.
 
 ## Technical stack
@@ -44,8 +44,8 @@ It has no backend to make it:
 
 ### Structure of the repository
 
-All important code lives under `apf/src`.
-Base form components (like text inputs or dropdowns) live under `apf/src/ui`.
+All important code lives under `apf/src`. \
+Base form components (like text inputs or dropdowns) live under `apf/src/ui`. \
 Pages (one per form, plus some additional pages like the bibliography) live under `apf/src/pages`.
 
 ## Roadmap
