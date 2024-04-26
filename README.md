@@ -44,6 +44,10 @@ It has no backend to make it:
 
 ### Structure of the repository
 
-All import code lives under `apf/src`.
+All important code lives under `apf/src`.
 Base form components (like text inputs or dropdowns) live under `apf/src/ui`.
 Pages (one per form, plus some additional pages like the bibliography) live under `apf/src/pages`.
+
+## Roadmap
+
+TODO: roadmap
