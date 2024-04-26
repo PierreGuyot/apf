@@ -53,29 +53,8 @@ const PiradsSelect = ({
 };
 
 export const BiopsiesProstatiques = () => {
-  // TODO: extract state
-  // TODO: structure as a nested object to flatten template
-  const [hasInfo, setHasInfo] = useBoolean();
-  const [hasTarget, setHasTarget] = useBoolean();
-  const [targetCount, setTargetCount] = useNumber();
-  const [piradsItems, setPiradsItems] = useState<PiradsItem[]>(
-    range(MAX_TARGET_COUNT).map(aPiradsItem),
-  );
-
-  const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
-    const updatedArray = [...piradsItems];
-    updatedArray[index] = value;
-    setPiradsItems(updatedArray);
-  };
-
-  const [hasMri, setHasMri] = useBoolean();
-  // TODO: rename
-
-  const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
-  const [potCount, setPotCount] = useNumber();
-  const [comment, setComment] = useString();
-
   // TODO: un-mock
+
   type MockUser = { name: string; age: number; isAdmin: boolean };
   const MOCK_COLUMNS: ColumnWithTotal<MockUser>[] = [
     {
@@ -96,6 +75,29 @@ export const BiopsiesProstatiques = () => {
     },
   ];
   const MOCK_SUMMARY = range(4).map(aMessage).join("\n");
+
+  // State
+
+  const [hasInfo, setHasInfo] = useBoolean();
+  const [hasTarget, setHasTarget] = useBoolean();
+  const [targetCount, setTargetCount] = useNumber();
+  const [piradsItems, setPiradsItems] = useState<PiradsItem[]>(
+    range(MAX_TARGET_COUNT).map(aPiradsItem),
+  );
+  const [hasMri, setHasMri] = useBoolean();
+  const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
+  const [potCount, setPotCount] = useNumber();
+  const [comment, setComment] = useString();
+
+  // Callbacks
+
+  const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
+    const updatedArray = [...piradsItems];
+    updatedArray[index] = value;
+    setPiradsItems(updatedArray);
+  };
+
+  // Template
 
   return (
     <div>
