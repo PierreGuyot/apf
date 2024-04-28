@@ -17,9 +17,6 @@ type TableProps<Row> = {
   hasFooter?: boolean;
 };
 
-// TODO: style
-const EMPTY_STATE = <span>N/A</span>;
-
 export function Table<Row>({
   columns,
   rows,
@@ -55,7 +52,7 @@ export function Table<Row>({
           {columns.map((column) => {
             return (
               <th key={`footer--${String(column.key)}`}>
-                {column.total ? column.total(rows) : EMPTY_STATE}
+                {column.total ? column.total(rows) : undefined}
               </th>
             );
           })}

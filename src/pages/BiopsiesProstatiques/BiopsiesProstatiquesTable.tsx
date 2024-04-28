@@ -1,5 +1,6 @@
 import { Column, Table } from "../../ui/Table";
 import { patchArray, sum } from "../../ui/helpers";
+import { YES_NO_OPTIONS } from "../../ui/options";
 import {
   CellChoice,
   CellGleason,
@@ -10,6 +11,12 @@ import {
   CellYesNo,
 } from "./cells";
 import { LOCATIONS, POT_TYPES, Pair, Row } from "./helpers";
+
+// TODO: extract as a helper
+const YesOrNo = ({ value }: { value: boolean }) => {
+  const option = YES_NO_OPTIONS.find((item) => item.value === value);
+  return <span>{option?.label}</span>;
+};
 
 const TableHeader = () => (
   <>
@@ -239,7 +246,7 @@ export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
         />
       ),
       total: (rows) => (
-        <span>{rows.map((row) => row.tumor.epn).some(Boolean)}</span>
+        <YesOrNo value={rows.map((row) => row.tumor.epn).some(Boolean)} />
       ),
     },
     {
@@ -260,7 +267,7 @@ export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
         />
       ),
       total: (rows) => (
-        <span>{rows.map((row) => row.tumor.tep).some(Boolean)}</span>
+        <YesOrNo value={rows.map((row) => row.tumor.tep).some(Boolean)} />
       ),
     },
     {
@@ -281,7 +288,7 @@ export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
         />
       ),
       total: (rows) => (
-        <span>{rows.map((row) => row.tumor.pin).some(Boolean)}</span>
+        <YesOrNo value={rows.map((row) => row.tumor.pin).some(Boolean)} />
       ),
     },
     {
