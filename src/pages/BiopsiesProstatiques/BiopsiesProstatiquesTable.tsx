@@ -1,10 +1,24 @@
 import { Column, Table } from "../../ui/Table";
 import { range, sum } from "../../ui/helpers";
-import { LOCALIZATIONS, Localization, POT_TYPES, PotType } from "./constants";
+import {
+  CellChoice,
+  CellGleason,
+  CellNumber,
+  CellNumberField,
+  CellSize,
+  CellTextField,
+  CellYesNo,
+} from "./cells";
+import {
+  LOCALIZATIONS,
+  Localization,
+  POT_TYPES,
+  Pair,
+  PotType,
+} from "./constants";
 
 // TODO: make table inputs editable
 // TODO: clarify logic to initialize the table
-// TODO: extract renderer for cells (string, number, boolean, pair, select, gleason)
 
 const TableHeader = () => (
   <>
@@ -41,17 +55,14 @@ const TableHeader = () => (
   </>
 );
 
-type Pair = [number, number];
-
 const byGleasonScore = (a: Pair, b: Pair) =>
   // By sum
-  (sum(b) - sum(a)) ||
+  sum(b) - sum(a) ||
   // By left value in case of equality
-  (b[0] - a[0])
+  b[0] - a[0];
 
 const getMaximumByGleasonScore = (pairs: Pair[]) =>
   pairs.sort(byGleasonScore)[0];
-
 
 type Row = {
   // TODO: rename the site group
@@ -73,39 +84,45 @@ type Row = {
   otherLesions: string;
 };
 
+// TODO: pass value/setter as props
+// TODO NOW: extract to a separate cells.tsx file
+// TODO NOW: adjust style
+// TODO NOW: separate GleasonField vs Gleason, SizeField vs Size
+
 const COLUMNS: Column<Row>[] = [
   {
-    label: "Numéro",
-    key: "site.index",
-    render: (_value, rowIndex) => <span>{rowIndex + 1}</span>,
+    label: "Index",
+    key: "index",
+    render: (_value, rowIndex) => <CellNumber value={rowIndex + 1} />,
   },
   {
-    label: "Site 2",
-    key: "site.2",
-    render: (value) => <span>{value.type}</span>,
+    label: "Type",
+    key: "type",
+    render: (value) => (
+      <CellChoice name="Type" options={POT_TYPES} _value={value.type} />
+    ),
   },
   {
-    label: "Site 3",
-    key: "site.3",
-    render: (value) => <span>{value.localization}</span>,
+    label: "Localization",
+    key: "localization",
+    render: (value) => (
+      <CellChoice
+        name="Localization"
+        options={LOCALIZATIONS}
+        _value={value.localization}
+      />
+    ),
   },
   {
     label: "Biopsy Count",
     key: "biopsy.count",
-    render: (row) => <span>{row.biopsy.count}</span>,
+    render: (row) => <CellNumberField _value={row.biopsy.count} />,
     total: (rows) => <span>{sum(rows.map((row) => row.biopsy.count))}</span>,
   },
   {
     label: "Biopsy Size",
     key: "biopsy.size",
-    render: (row) => {
-      const [a, b] = row.biopsy.size;
-      return (
-        <span>
-          {a} + {b}
-        </span>
-      );
-    },
+    render: (row) => <CellSize _value={row.biopsy.size} />,
     total: (rows) => (
       <span>
         {sum(
@@ -120,20 +137,13 @@ const COLUMNS: Column<Row>[] = [
   {
     label: "Tumor count",
     key: "tumor.count",
-    render: (row) => <span>{row.tumor.count}</span>,
+    render: (row) => <CellNumberField _value={row.tumor.count} />,
     total: (rows) => <span>{sum(rows.map((row) => row.tumor.count))}</span>,
   },
   {
     label: "Tumor size",
     key: "tumor.size",
-    render: (row) => {
-      const [a, b] = row.tumor.size;
-      return (
-        <span>
-          {a} + {b}
-        </span>
-      );
-    },
+    render: (row) => <CellSize _value={row.tumor.size} />,
     total: (rows) => (
       <span>
         {sum(
@@ -148,27 +158,22 @@ const COLUMNS: Column<Row>[] = [
   {
     label: "Tumor gleason",
     key: "tumor.gleason",
-    render: (row) => {
-      const [a, b] = row.tumor.gleason;
+    render: (row) => <CellGleason _value={row.tumor.gleason} />,
+    total: (rows) => {
+      const pairs = rows.map((row) => row.tumor.gleason);
+      const [a, b] = getMaximumByGleasonScore(pairs);
+
       return (
         <span>
           {a + b} ({a} + {b})
         </span>
       );
     },
-    total: (rows) => {
-      const pairs = rows.map(row => row.tumor.gleason)
-      const [a, b] = getMaximumByGleasonScore(pairs)
-
-      return <span>
-        {a + b} ({a} + {b})
-      </span>;
-    },
   },
   {
     label: "Tumor EPN",
     key: "tumor.epn",
-    render: (row) => <span>{row.tumor.epn ? "Oui" : "Non"}</span>,
+    render: (row) => <CellYesNo name="Tumor EPN" _value={row.tumor.epn} />,
     total: (rows) => (
       <span>{rows.map((row) => row.tumor.epn).some(Boolean)}</span>
     ),
@@ -176,7 +181,7 @@ const COLUMNS: Column<Row>[] = [
   {
     label: "Tumor TEP",
     key: "tumor.tep",
-    render: (row) => <span>{row.tumor.tep ? "Oui" : "Non"}</span>,
+    render: (row) => <CellYesNo name="Tumor TEP" _value={row.tumor.tep} />,
     total: (rows) => (
       <span>{rows.map((row) => row.tumor.tep).some(Boolean)}</span>
     ),
@@ -184,7 +189,7 @@ const COLUMNS: Column<Row>[] = [
   {
     label: "Tumor PIN",
     key: "tumor.pin",
-    render: (row) => <span>{row.tumor.pin ? "Oui" : "Non"}</span>,
+    render: (row) => <CellYesNo name="Tumor PIN" _value={row.tumor.pin} />,
     total: (rows) => (
       <span>{rows.map((row) => row.tumor.pin).some(Boolean)}</span>
     ),
@@ -192,14 +197,16 @@ const COLUMNS: Column<Row>[] = [
   {
     label: "Other lesions",
     key: "otherLesions",
-    render: (row) => <span>{row.otherLesions}</span>,
+    render: (row) => {
+      return <CellTextField _value={row.otherLesions} />;
+    },
   },
 ];
 
 const anEmptyRow = (index: number): Row => ({
   index,
-  type: POT_TYPES[0],
-  localization: LOCALIZATIONS[0],
+  type: "sextan",
+  localization: "base-right",
   biopsy: { count: 2, size: [0, 0] },
   tumor: {
     count: 0,
@@ -216,5 +223,7 @@ const rows = range(6).map(anEmptyRow);
 export const BiopsiesProstatiquesTable = () => {
   return (
     <Table columns={COLUMNS} rows={rows} header={TableHeader} hasFooter />
+    // TODO: display validation errors here:
+    // - Check target/sextan count
   );
 };

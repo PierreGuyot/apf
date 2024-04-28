@@ -12,17 +12,5 @@ table {
     border-bottom: var(--border);
     border-right: var(--border);
     font-size: 0.9rem;
-
-    /** Style for EditableTable */
-    /** TODO: consider moving to EditableTable or to InputNumber */
-    input {
-      padding: 0;
-      margin: 0;
-      border: 0;
-      outline: none;
-
-      /** To indicate the input is actually interactive */
-      border-bottom: 1px solid lightgrey;
-    }
   }
 }

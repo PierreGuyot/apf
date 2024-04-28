@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Code } from "./Code";
-import { InputProps, OnInput } from "./input.types";
-import "./input-number.css";
 import { ErrorMessage } from "./ErrorMessage";
 import { Label } from "./Label";
+import { InputProps, OnInput } from "./input.types";
+import "./input-number.css";
 
 type Unit = "ng-per-mL";
 

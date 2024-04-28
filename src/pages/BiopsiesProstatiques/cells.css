@@ -1,0 +1,14 @@
+.cell {
+  display: flex;
+  font-size: 1rem;
+  align-items: center;
+
+  .cell-sum {
+    font-size: 1rem;
+    margin-right: 0.3em;
+  }
+
+  .cell-plus {
+    margin: 0 0.3em;
+  }
+}

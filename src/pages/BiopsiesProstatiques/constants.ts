@@ -1,19 +1,30 @@
 // TODO: check naming in English with Louis
 // TODO: extract a dedicated valueOf helper
-export const LOCALIZATIONS = [
-    'base-right',
-    'medium-right',
-    'apex-right',
-    'base-left',
-    'medium-left',
-    'apex-left',
-  ] as const;
 
-export type Localization = (typeof LOCALIZATIONS)[number];
-export const POT_TYPES = [
-    'sextan',
-    'target',
-  ] as const;
+import { Option } from "../../ui/options";
 
-export type PotType = (typeof POT_TYPES)[number];
-  
+export type Localization =
+  | "base-right"
+  | "medium-right"
+  | "apex-right"
+  | "base-left"
+  | "medium-left"
+  | "apex-left";
+
+export const LOCALIZATIONS: Option<Localization>[] = [
+  { value: "base-right", label: "Base droit" },
+  { value: "medium-right", label: "Milieu droit" },
+  { value: "apex-right", label: "Apex droit" },
+  { value: "base-left", label: "Base gauche" },
+  { value: "medium-left", label: "Milieu gauche" },
+  { value: "apex-left", label: "Apex gauche" },
+];
+
+export type PotType = "sextan" | "target";
+
+export const POT_TYPES: Option<PotType>[] = [
+  { value: "sextan", label: "Sextant" },
+  { value: "target", label: "Cible" },
+] as const;
+
+export type Pair = [number, number];

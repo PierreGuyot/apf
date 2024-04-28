@@ -1,12 +1,8 @@
 .page {
-  /* TODO: extract color */
   --border: 1px solid rgb(208, 208, 208);
 
   padding: 32px;
-  width: 900px;
   min-height: 100vh;
-  margin-left: 200px;
-
+  margin-left: 150px;
   border-left: var(--border);
-  border-right: var(--border);
 }
