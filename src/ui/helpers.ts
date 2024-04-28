@@ -1,9 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
+export type Pair = [number, number];
 
 export const anId = () => uuidv4();
 
 export const sum = (items: number[]): number =>
   items.reduce((acc, item) => acc + item, 0);
+
+export const sumPairs = (pairs: Pair[]) => sum(pairs.map(([a, b]) => a + b));
 
 /** Remove the nullish (i.e. null or undefined) items in an array and properly narrow the result's type.
  *

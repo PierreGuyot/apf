@@ -1,6 +1,7 @@
 // TODO: check naming in English with Louis
 // TODO: extract a dedicated valueOf helper
 
+import { Pair, sum } from "../../ui/helpers";
 import { Option } from "../../ui/options";
 
 // PIRADS: Prostate Imaging Reporting & Data System
@@ -38,8 +39,6 @@ export const POT_TYPES: Option<PotType>[] = [
   { value: "sextan", label: "Sextant" },
   { value: "target", label: "Cible" },
 ] as const;
-
-export type Pair = [number, number];
 
 // TODO: flatten type to simplify Table access and update
 export type Row = {
@@ -81,16 +80,37 @@ const EMPTY_LINE = "";
 
 // TODO: test thoroughly
 export const generateReport = ({
+  score,
   rows,
   comment,
 }: {
+  score: Score;
   rows: Row[];
   comment: string;
 }): string => {
   return [
     // TODO: un-mock
-    JSON.stringify({ rows }),
+    JSON.stringify(score, null, 2),
+    JSON.stringify(rows),
     EMPTY_LINE,
     comment,
   ].join("\n");
+};
+
+const byGleasonScore = (a: Pair, b: Pair) =>
+  // By sum
+  sum(b) - sum(a) ||
+  // By left value in case of equality
+  b[0] - a[0];
+
+const DEFAULT_PAIR: Pair = [0, 0];
+export const getMaximumByGleasonScore = (pairs: Pair[]) =>
+  pairs.sort(byGleasonScore)[0] ?? DEFAULT_PAIR;
+
+export type Score = {
+  "biopsy-count": number;
+  "biopsy-size": number;
+  "tumor-count": number;
+  "tumor-size": number;
+  gleason: Pair;
 };

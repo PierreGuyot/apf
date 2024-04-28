@@ -1,5 +1,5 @@
 import { Column, Table } from "../../ui/Table";
-import { patchArray, sum } from "../../ui/helpers";
+import { patchArray } from "../../ui/helpers";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import {
   CellChoice,
@@ -10,7 +10,7 @@ import {
   CellTextField,
   CellYesNo,
 } from "./cells";
-import { LOCATIONS, POT_TYPES, Pair, Row } from "./helpers";
+import { LOCATIONS, POT_TYPES, Row, Score } from "./helpers";
 
 // TODO: extract as a helper
 const YesOrNo = ({ value }: { value: boolean }) => {
@@ -53,22 +53,13 @@ const TableHeader = () => (
   </>
 );
 
-const byGleasonScore = (a: Pair, b: Pair) =>
-  // By sum
-  sum(b) - sum(a) ||
-  // By left value in case of equality
-  b[0] - a[0];
-
-const DEFAULT_PAIR: Pair = [0, 0];
-const getMaximumByGleasonScore = (pairs: Pair[]) =>
-  pairs.sort(byGleasonScore)[0] ?? DEFAULT_PAIR;
-
 type Props = {
   rows: Row[];
+  score: Score;
   onChange: (rows: Row[]) => void;
 };
 
-export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
+export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
   const COLUMNS: Column<Row>[] = [
     {
       label: "Index",
@@ -126,7 +117,7 @@ export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
           }
         />
       ),
-      total: (rows) => <span>{sum(rows.map((row) => row.biopsy.count))}</span>,
+      total: (_rows) => <span>{score["biopsy-count"]}</span>,
     },
     {
       label: "Biopsy Size",
@@ -144,16 +135,7 @@ export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
           }
         />
       ),
-      total: (rows) => (
-        <span>
-          {sum(
-            rows.map((row) => {
-              const [a, b] = row.biopsy.size;
-              return a + b;
-            }),
-          )}
-        </span>
-      ),
+      total: (_rows) => <span>{score["biopsy-size"]}</span>,
     },
     {
       label: "Tumor count",
@@ -171,7 +153,7 @@ export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
           }
         />
       ),
-      total: (rows) => <span>{sum(rows.map((row) => row.tumor.count))}</span>,
+      total: (_rows) => <span>{score["tumor-count"]}</span>,
     },
     {
       label: "Tumor size",
@@ -189,16 +171,7 @@ export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
           }
         />
       ),
-      total: (rows) => (
-        <span>
-          {sum(
-            rows.map((row) => {
-              const [a, b] = row.tumor.size;
-              return a + b;
-            }),
-          )}
-        </span>
-      ),
+      total: (_rows) => <span>{score["tumor-size"]}</span>,
     },
     {
       label: "Tumor gleason",
@@ -216,10 +189,8 @@ export const BiopsiesProstatiquesTable = ({ rows, onChange }: Props) => {
           }
         />
       ),
-      total: (rows) => {
-        const pairs = rows.map((row) => row.tumor.gleason);
-        console.log(pairs);
-        const [a, b] = getMaximumByGleasonScore(pairs);
+      total: (_rows) => {
+        const [a, b] = score.gleason;
 
         return (
           <span>

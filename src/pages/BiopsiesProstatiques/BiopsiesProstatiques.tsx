@@ -6,7 +6,7 @@ import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
-import { range } from "../../ui/helpers";
+import { range, sum, sumPairs } from "../../ui/helpers";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
@@ -14,9 +14,11 @@ import { PiradsSelect } from "./PiradsSelect";
 import {
   PiradsItem,
   Row,
+  Score,
   anEmptyPiradsItem,
   anEmptyRow,
   generateReport,
+  getMaximumByGleasonScore,
 } from "./helpers";
 
 const MAX_TARGET_COUNT = 3;
@@ -39,6 +41,14 @@ export const BiopsiesProstatiques = () => {
 
   // TODO: un-mock initial value
   const [rows, setRows] = useState<Row[]>(range(6).map(anEmptyRow));
+
+  const score: Score = {
+    "biopsy-count": sum(rows.map((row) => row.biopsy.count)),
+    "biopsy-size": sumPairs(rows.map((row) => row.biopsy.size)),
+    "tumor-count": sum(rows.map((row) => row.tumor.count)),
+    "tumor-size": sumPairs(rows.map((row) => row.tumor.size)),
+    gleason: getMaximumByGleasonScore(rows.map((row) => row.tumor.gleason)),
+  };
 
   // Callbacks
 
@@ -127,7 +137,11 @@ export const BiopsiesProstatiques = () => {
           </Line>
 
           <Item>
-            <BiopsiesProstatiquesTable rows={rows} onChange={setRows} />
+            <BiopsiesProstatiquesTable
+              rows={rows}
+              score={score}
+              onChange={setRows}
+            />
           </Item>
 
           <Item>
@@ -144,7 +158,7 @@ export const BiopsiesProstatiques = () => {
           {/* TODO: generate summary from data (english) */}
           {/* TODO: add button to switch languages */}
           <Item>
-            <Summary content={generateReport({ rows, comment })} />
+            <Summary content={generateReport({ score, rows, comment })} />
           </Item>
         </>
       ) : undefined}

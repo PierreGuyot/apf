@@ -1,9 +1,9 @@
 import { InputNumber } from "../../ui/InputNumber";
 import { InputText } from "../../ui/InputText";
 import { Select } from "../../ui/Select";
+import { Pair } from "../../ui/helpers";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import "./cells.css";
-import { Pair } from "./helpers";
 
 // TODO: separate GleasonField vs Gleason, SizeField vs Size (for footer)
 
