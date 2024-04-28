@@ -3,6 +3,18 @@
 
 import { Option } from "../../ui/options";
 
+// PIRADS: Prostate Imaging Reporting & Data System
+
+export type PiradsItem = {
+  count: number;
+  location: string;
+};
+
+export const anEmptyPiradsItem = (): PiradsItem => ({
+  count: 0,
+  location: "",
+});
+
 export type Location =
   | "base-right"
   | "medium-right"
@@ -48,3 +60,19 @@ export type Row = {
   };
   otherLesions: string;
 };
+
+export const anEmptyRow = (index: number): Row => ({
+  index,
+  type: "sextan",
+  location: "base-right",
+  biopsy: { count: 2, size: [0, 0] },
+  tumor: {
+    count: 0,
+    size: [0, 0],
+    gleason: [0, 0],
+    epn: false,
+    tep: false,
+    pin: false,
+  },
+  otherLesions: "",
+});

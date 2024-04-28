@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { InputNumber } from "../../ui/InputNumber";
-import { InputText } from "../../ui/InputText";
 import { InputTextArea } from "../../ui/InputTextArea";
 import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
@@ -8,68 +7,13 @@ import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
 import { range } from "../../ui/helpers";
-import { aMessage } from "../../ui/mock";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
-import { Row } from "./constants";
+import { PiradsSelect } from "./PiradsSelect";
+import { PiradsItem, Row, anEmptyPiradsItem, anEmptyRow } from "./helpers";
 
 const MAX_TARGET_COUNT = 3;
-
-// TODO: extract PIRADS components to a dedicated file
-
-type PiradsItem = {
-  count: number;
-  location: string;
-};
-
-const aPiradsItem = (): PiradsItem => ({
-  count: 0,
-  location: "b",
-});
-
-// PIRADS: Prostate Imaging Reporting & Data System
-const PiradsSelect = ({
-  value,
-  onChange,
-}: {
-  value: PiradsItem;
-  onChange: (value: PiradsItem) => void;
-}) => {
-  const onChangeCount = (count: number) => onChange({ ...value, count });
-  const onChangeLocation = (location: string) =>
-    onChange({ ...value, location });
-
-  return (
-    <Line>
-      <SelectNumber
-        name="PIRADS count" // TODO: check this with Louis
-        label="PIRADS"
-        min={2}
-        max={5}
-        value={value.count}
-        onChange={onChangeCount}
-      />{" "}
-      située à <InputText value={value.location} onChange={onChangeLocation} />
-    </Line>
-  );
-};
-
-const anEmptyRow = (index: number): Row => ({
-  index,
-  type: "sextan",
-  location: "base-right",
-  biopsy: { count: 2, size: [0, 0] },
-  tumor: {
-    count: 0,
-    size: [0, 0],
-    gleason: [0, 0],
-    epn: false,
-    tep: false,
-    pin: false,
-  },
-  otherLesions: "",
-});
 
 export const BiopsiesProstatiques = () => {
   // Form state
@@ -78,7 +22,7 @@ export const BiopsiesProstatiques = () => {
   const [hasTarget, setHasTarget] = useBoolean();
   const [targetCount, setTargetCount] = useNumber();
   const [piradsItems, setPiradsItems] = useState<PiradsItem[]>(
-    range(MAX_TARGET_COUNT).map(aPiradsItem),
+    range(MAX_TARGET_COUNT).map(anEmptyPiradsItem),
   );
   const [hasMri, setHasMri] = useBoolean();
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen

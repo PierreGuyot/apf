@@ -9,7 +9,7 @@ import {
   CellTextField,
   CellYesNo,
 } from "./cells";
-import { LOCATIONS, POT_TYPES, Pair, Row } from "./constants";
+import { LOCATIONS, POT_TYPES, Pair, Row } from "./helpers";
 
 const TableHeader = () => (
   <>
