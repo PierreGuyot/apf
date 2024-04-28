@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 export const anId = () => uuidv4();
 
 export const sum = (items: number[]): number =>
-  items.reduce((acc, item) => acc + item);
+  items.reduce((acc, item) => acc + item, 0);
 
 /** Remove the nullish (i.e. null or undefined) items in an array and properly narrow the result's type.
  *
@@ -48,3 +48,9 @@ export const range = (
       : { end: params[0], start: 1 };
   return [...new Array(end - start + 1)].map((_, i) => i + start);
 };
+
+export const patchArray = <T>(
+  items: T[],
+  index: number,
+  updater: (item: T) => T,
+) => items.map((row, i) => (i === index ? updater(row) : row));

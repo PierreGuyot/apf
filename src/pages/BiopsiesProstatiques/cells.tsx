@@ -1,84 +1,68 @@
 import { InputNumber } from "../../ui/InputNumber";
 import { InputText } from "../../ui/InputText";
 import { Select } from "../../ui/Select";
-import { Option, YES_NO_OPTIONS } from "../../ui/options";
-import { useBoolean, useNumber, useString } from "../../ui/state";
-import { Pair } from "./constants";
+import { YES_NO_OPTIONS } from "../../ui/options";
 import "./cells.css";
+import { Pair } from "./constants";
 
-// TODO: pass value/setter as props
-// TODO NOW: extract to a separate cells.tsx file
-// TODO NOW: adjust style
-// TODO NOW: separate GleasonField vs Gleason, SizeField vs Size
+// TODO: separate GleasonField vs Gleason, SizeField vs Size (for footer)
 
-export const CellTextField = ({ _value }: { _value: string }) => {
-  const [value, setValue] = useString();
-  return <InputText value={value} onChange={setValue} />;
-};
-
+export const CellTextField = InputText;
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
-
-export const CellNumberField = ({ _value }: { _value: number }) => {
-  const [value, setValue] = useNumber();
-  return <InputNumber value={value} onChange={setValue} />;
-};
-
-export function CellChoice<T extends string>({
-  _value,
-  name,
-  options,
-}: {
-  _value: T;
-  name: string;
-  options: Option<T>[];
-}) {
-  const [value, setValue] = useString();
-  return (
-    <Select value={value} name={name} options={options} onChange={setValue} />
-  );
-}
-
+export const CellNumberField = InputNumber;
+export const CellChoice = Select;
 export const CellYesNo = ({
-  _value,
+  value,
   name,
+  onChange,
 }: {
-  _value: boolean;
+  value: boolean;
   name: string;
-}) => {
-  const [value, setValue] = useBoolean();
-  return (
-    <Select
-      value={value}
-      name={name}
-      options={YES_NO_OPTIONS}
-      onChange={setValue}
-    />
-  );
-};
+  onChange: (value: boolean) => void;
+}) => (
+  <Select
+    value={value}
+    name={name}
+    options={YES_NO_OPTIONS}
+    onChange={onChange}
+  />
+);
 
-export const CellSize = ({ _value }: { _value: Pair }) => {
-  const [a, setA] = useNumber();
-  const [b, setB] = useNumber();
+const BaseCellSum = ({
+  value,
+  onChange,
+}: {
+  value: Pair;
+  onChange: (value: Pair) => void;
+}) => (
+  <>
+    <InputNumber value={value[0]} onChange={(a) => onChange([a, value[1]])} />
+    <span className="cell-plus">+</span>
+    <InputNumber value={value[1]} onChange={(b) => onChange([value[0], b])} />
+  </>
+);
 
-  return (
-    <div className="cell">
-      <InputNumber value={a} onChange={setA} />{" "}
-      <span className="cell-plus">+</span>
-      <InputNumber value={b} onChange={setB} />
-    </div>
-  );
-};
+export const CellSize = ({
+  value,
+  onChange,
+}: {
+  value: Pair;
+  onChange: (value: Pair) => void;
+}) => (
+  <div className="cell">
+    <BaseCellSum value={value} onChange={onChange} />
+  </div>
+);
 
-export const CellGleason = ({ _value }: { _value: Pair }) => {
-  const [a, setA] = useNumber();
-  const [b, setB] = useNumber();
-
-  return (
-    <div className="cell">
-      <div className="cell-sum">{a + b}</div>
-      (<InputNumber value={a} onChange={setA} />{" "}
-      <span className="cell-plus">+</span>
-      <InputNumber value={b} onChange={setB} />)
-    </div>
-  );
-};
+export const CellGleason = ({
+  value,
+  onChange,
+}: {
+  value: Pair;
+  onChange: (value: Pair) => void;
+}) => (
+  <div className="cell">
+    <div className="cell-sum">{value[0] + value[1]}</div>
+    (<BaseCellSum value={value} onChange={onChange} />)
+  </div>
+);

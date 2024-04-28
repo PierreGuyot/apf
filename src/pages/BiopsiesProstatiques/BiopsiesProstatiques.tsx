@@ -12,8 +12,11 @@ import { aMessage } from "../../ui/mock";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
+import { Row } from "./constants";
 
 const MAX_TARGET_COUNT = 3;
+
+// TODO: extract PIRADS components to a dedicated file
 
 type PiradsItem = {
   count: number;
@@ -52,10 +55,24 @@ const PiradsSelect = ({
   );
 };
 
-const MOCK_SUMMARY = range(4).map(aMessage).join("\n");
+const anEmptyRow = (index: number): Row => ({
+  index,
+  type: "sextan",
+  location: "base-right",
+  biopsy: { count: 2, size: [0, 0] },
+  tumor: {
+    count: 0,
+    size: [0, 0],
+    gleason: [0, 0],
+    epn: false,
+    tep: false,
+    pin: false,
+  },
+  otherLesions: "",
+});
 
 export const BiopsiesProstatiques = () => {
-  // State
+  // Form state
 
   const [hasInfo, setHasInfo] = useBoolean();
   const [hasTarget, setHasTarget] = useBoolean();
@@ -67,6 +84,11 @@ export const BiopsiesProstatiques = () => {
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
   const [potCount, setPotCount] = useNumber();
   const [comment, setComment] = useString();
+
+  // Table state
+
+  // TODO: un-mock initial value
+  const [rows, setRows] = useState<Row[]>(range(6).map(anEmptyRow));
 
   // Callbacks
 
@@ -154,9 +176,8 @@ export const BiopsiesProstatiques = () => {
             />
           </Line>
 
-          {/* TODO: make state controlled and editable */}
           <Item>
-            <BiopsiesProstatiquesTable />
+            <BiopsiesProstatiquesTable rows={rows} onChange={setRows} />
           </Item>
 
           <Item>
@@ -173,7 +194,12 @@ export const BiopsiesProstatiques = () => {
           {/* TODO: generate summary from data (english) */}
           {/* TODO: add button to switch languages */}
           <Item>
-            <Summary content={MOCK_SUMMARY} />
+            <Summary
+              content={
+                // TODO: un-mock
+                JSON.stringify({ rows })
+              }
+            />
           </Item>
         </>
       ) : undefined}
