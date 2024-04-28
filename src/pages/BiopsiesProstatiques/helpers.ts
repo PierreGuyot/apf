@@ -76,3 +76,21 @@ export const anEmptyRow = (index: number): Row => ({
   },
   otherLesions: "",
 });
+
+const EMPTY_LINE = "";
+
+// TODO: test thoroughly
+export const generateReport = ({
+  rows,
+  comment,
+}: {
+  rows: Row[];
+  comment: string;
+}): string => {
+  return [
+    // TODO: un-mock
+    JSON.stringify({ rows }),
+    EMPTY_LINE,
+    comment,
+  ].join("\n");
+};

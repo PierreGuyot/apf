@@ -11,7 +11,13 @@ import { YES_NO_OPTIONS } from "../../ui/options";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
 import { PiradsSelect } from "./PiradsSelect";
-import { PiradsItem, Row, anEmptyPiradsItem, anEmptyRow } from "./helpers";
+import {
+  PiradsItem,
+  Row,
+  anEmptyPiradsItem,
+  anEmptyRow,
+  generateReport,
+} from "./helpers";
 
 const MAX_TARGET_COUNT = 3;
 
@@ -138,12 +144,7 @@ export const BiopsiesProstatiques = () => {
           {/* TODO: generate summary from data (english) */}
           {/* TODO: add button to switch languages */}
           <Item>
-            <Summary
-              content={
-                // TODO: un-mock
-                JSON.stringify({ rows })
-              }
-            />
+            <Summary content={generateReport({ rows, comment })} />
           </Item>
         </>
       ) : undefined}
