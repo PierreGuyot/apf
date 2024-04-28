@@ -24,6 +24,9 @@ import {
 
 const MAX_TARGET_COUNT = 3;
 
+// TODO: create a Block component to handle max width
+// TODO: re-organize ui folder (layout, inputs, table, etc.)
+
 export const BiopsiesProstatiques = () => {
   // Form state
 
@@ -158,6 +161,7 @@ export const BiopsiesProstatiques = () => {
           ) : undefined}
 
           <Line>
+            {/* TODO: this question should be unnecessary (potCount should be computed from targetCount) */}
             <InputNumber
               value={potCount}
               label="Combien de pots avez-vous ?"

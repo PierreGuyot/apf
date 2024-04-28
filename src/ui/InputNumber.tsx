@@ -31,6 +31,7 @@ export const InputNumber = ({
     const valueAsNumber = Number(inputEvent.value);
 
     // TODO: handle decimals
+    // TODO: handle min/max
 
     if (isNaN(valueAsNumber)) {
       return;
