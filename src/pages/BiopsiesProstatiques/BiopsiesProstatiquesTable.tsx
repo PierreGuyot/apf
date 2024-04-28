@@ -106,92 +106,91 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       key: "biopsy.count",
       render: (row, rowIndex) => (
         <CellNumberField
-          value={row.biopsy.count}
+          value={row.biopsyCount}
           onChange={(value) =>
             onChange(
               patchArray(rows, rowIndex, (row) => ({
                 ...row,
-                biopsy: { ...row.biopsy, count: value },
+                biopsyCount: value,
               })),
             )
           }
         />
       ),
-      total: (_rows) => <span>{score["biopsy-count"]}</span>,
+      total: (_rows) => <span>{score.biopsyCount}</span>,
     },
     {
       label: "Biopsy Size",
       key: "biopsy.size",
       render: (row, rowIndex) => (
         <CellSize
-          value={row.biopsy.size}
+          value={row.biopsySize}
           onChange={(value) =>
             onChange(
               patchArray(rows, rowIndex, (row) => ({
                 ...row,
-                biopsy: { ...row.biopsy, size: value },
+                biopsySize: value,
               })),
             )
           }
         />
       ),
-      total: (_rows) => <span>{score["biopsy-size"]}</span>,
+      total: (_rows) => <span>{score.biopsySize}</span>,
     },
     {
       label: "Tumor count",
       key: "tumor.count",
       render: (row, rowIndex) => (
         <CellNumberField
-          value={row.tumor.count}
+          value={row.tumorCount}
           onChange={(value) =>
             onChange(
               patchArray(rows, rowIndex, (row) => ({
                 ...row,
-                tumor: { ...row.tumor, count: value },
+                tumorCount: value,
               })),
             )
           }
         />
       ),
-      total: (_rows) => <span>{score["tumor-count"]}</span>,
+      total: (_rows) => <span>{score.tumorCount}</span>,
     },
     {
       label: "Tumor size",
       key: "tumor.size",
       render: (row, rowIndex) => (
         <CellSize
-          value={row.tumor.size}
+          value={row.tumorSize}
           onChange={(value) =>
             onChange(
               patchArray(rows, rowIndex, (row) => ({
                 ...row,
-                tumor: { ...row.tumor, size: value },
+                tumorSize: value,
               })),
             )
           }
         />
       ),
-      total: (_rows) => <span>{score["tumor-size"]}</span>,
+      total: (_rows) => <span>{score.tumorSize}</span>,
     },
     {
       label: "Tumor gleason",
       key: "tumor.gleason",
       render: (row, rowIndex) => (
         <CellGleason
-          value={row.tumor.gleason}
+          value={row.tumorGleason}
           onChange={(value) =>
             onChange(
               patchArray(rows, rowIndex, (row) => ({
                 ...row,
-                tumor: { ...row.tumor, gleason: value },
+                tumorGleason: value,
               })),
             )
           }
         />
       ),
       total: (_rows) => {
-        const [a, b] = score.gleason;
-
+        const [a, b] = score.tumorGleason;
         return (
           <span>
             {a + b} ({a} + {b})
@@ -205,20 +204,18 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor EPN"
-          value={row.tumor.epn}
+          value={row.tumorEpn}
           onChange={(value) =>
             onChange(
               patchArray(rows, rowIndex, (row) => ({
                 ...row,
-                tumor: { ...row.tumor, epn: value },
+                tumorEpn: value,
               })),
             )
           }
         />
       ),
-      total: (rows) => (
-        <YesOrNo value={rows.map((row) => row.tumor.epn).some(Boolean)} />
-      ),
+      total: (_rows) => <YesOrNo value={score.tumorEpn} />,
     },
     {
       label: "Tumor TEP",
@@ -226,20 +223,18 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor TEP"
-          value={row.tumor.tep}
+          value={row.tumorTep}
           onChange={(value) =>
             onChange(
               patchArray(rows, rowIndex, (row) => ({
                 ...row,
-                tumor: { ...row.tumor, tep: value },
+                tumorTep: value,
               })),
             )
           }
         />
       ),
-      total: (rows) => (
-        <YesOrNo value={rows.map((row) => row.tumor.tep).some(Boolean)} />
-      ),
+      total: (_rows) => <YesOrNo value={score.tumorTep} />,
     },
     {
       label: "Tumor PIN",
@@ -247,20 +242,18 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor PIN"
-          value={row.tumor.pin}
+          value={row.tumorPin}
           onChange={(value) =>
             onChange(
               patchArray(rows, rowIndex, (row) => ({
                 ...row,
-                tumor: { ...row.tumor, pin: value },
+                tumorPin: value,
               })),
             )
           }
         />
       ),
-      total: (rows) => (
-        <YesOrNo value={rows.map((row) => row.tumor.pin).some(Boolean)} />
-      ),
+      total: (_rows) => <YesOrNo value={score.tumorPin} />,
     },
     {
       label: "Other lesions",

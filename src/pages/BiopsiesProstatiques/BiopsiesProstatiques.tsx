@@ -43,11 +43,14 @@ export const BiopsiesProstatiques = () => {
   const [rows, setRows] = useState<Row[]>(range(6).map(anEmptyRow));
 
   const score: Score = {
-    "biopsy-count": sum(rows.map((row) => row.biopsy.count)),
-    "biopsy-size": sumPairs(rows.map((row) => row.biopsy.size)),
-    "tumor-count": sum(rows.map((row) => row.tumor.count)),
-    "tumor-size": sumPairs(rows.map((row) => row.tumor.size)),
-    gleason: getMaximumByGleasonScore(rows.map((row) => row.tumor.gleason)),
+    biopsyCount: sum(rows.map((row) => row.biopsyCount)),
+    biopsySize: sumPairs(rows.map((row) => row.biopsySize)),
+    tumorCount: sum(rows.map((row) => row.tumorCount)),
+    tumorSize: sumPairs(rows.map((row) => row.tumorSize)),
+    tumorGleason: getMaximumByGleasonScore(rows.map((row) => row.tumorGleason)),
+    tumorEpn: rows.map((row) => row.tumorEpn).some(Boolean),
+    tumorTep: rows.map((row) => row.tumorTep).some(Boolean),
+    tumorPin: rows.map((row) => row.tumorPin).some(Boolean),
   };
 
   // Callbacks

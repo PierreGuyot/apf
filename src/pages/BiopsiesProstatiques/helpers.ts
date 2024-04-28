@@ -40,23 +40,18 @@ export const POT_TYPES: Option<PotType>[] = [
   { value: "target", label: "Cible" },
 ] as const;
 
-// TODO: flatten type to simplify Table access and update
 export type Row = {
   index: number;
   type: PotType;
   location: Location;
-  biopsy: {
-    count: number;
-    size: Pair;
-  };
-  tumor: {
-    count: number;
-    size: Pair;
-    gleason: Pair;
-    epn: boolean;
-    tep: boolean;
-    pin: boolean;
-  };
+  biopsyCount: number;
+  biopsySize: Pair;
+  tumorCount: number;
+  tumorSize: Pair;
+  tumorGleason: Pair;
+  tumorEpn: boolean;
+  tumorTep: boolean;
+  tumorPin: boolean;
   otherLesions: string;
 };
 
@@ -64,15 +59,14 @@ export const anEmptyRow = (index: number): Row => ({
   index,
   type: "sextan",
   location: "base-right",
-  biopsy: { count: 2, size: [0, 0] },
-  tumor: {
-    count: 0,
-    size: [0, 0],
-    gleason: [0, 0],
-    epn: false,
-    tep: false,
-    pin: false,
-  },
+  biopsyCount: 2,
+  biopsySize: [0, 0],
+  tumorCount: 0,
+  tumorSize: [0, 0],
+  tumorGleason: [0, 0],
+  tumorEpn: false,
+  tumorTep: false,
+  tumorPin: false,
   otherLesions: "",
 });
 
@@ -107,10 +101,14 @@ const DEFAULT_PAIR: Pair = [0, 0];
 export const getMaximumByGleasonScore = (pairs: Pair[]) =>
   pairs.sort(byGleasonScore)[0] ?? DEFAULT_PAIR;
 
+// TODO: what about lesions? Do we need to save the table too?
 export type Score = {
-  "biopsy-count": number;
-  "biopsy-size": number;
-  "tumor-count": number;
-  "tumor-size": number;
-  gleason: Pair;
+  biopsyCount: number;
+  biopsySize: number;
+  tumorCount: number;
+  tumorSize: number;
+  tumorGleason: Pair;
+  tumorEpn: boolean;
+  tumorTep: boolean;
+  tumorPin: boolean;
 };
