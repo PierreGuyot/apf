@@ -2,7 +2,9 @@ import { useMemo } from "react";
 import { anId } from "./helpers";
 import { Option } from "./options";
 
-type SelectProps<T extends string | number | boolean> = {
+type SelectValue = string | number | boolean;
+
+type SelectProps<T extends SelectValue> = {
   value: T;
   options: Option<T>[];
   name: string;
@@ -10,7 +12,7 @@ type SelectProps<T extends string | number | boolean> = {
   onChange: (value: T) => void;
 };
 
-export function Select<T extends string | number | boolean>({
+export function Select<T extends SelectValue>({
   value,
   options,
   name,
