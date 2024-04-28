@@ -14,6 +14,7 @@ import { PiradsSelect } from "./PiradsSelect";
 import {
   PiradsItem,
   Row,
+  SEXTAN_COUNT,
   Score,
   anEmptyPiradsItem,
   anEmptyRow,
@@ -51,6 +52,31 @@ export const BiopsiesProstatiques = () => {
     tumorEpn: rows.map((row) => row.tumorEpn).some(Boolean),
     tumorTep: rows.map((row) => row.tumorTep).some(Boolean),
     tumorPin: rows.map((row) => row.tumorPin).some(Boolean),
+  };
+
+  const getErrors = () => {
+    const errors: string[] = [];
+
+    const sextans = rows.filter((row) => row.type === "sextan");
+    const targets = rows.filter((row) => row.type === "target");
+    const targetCount = targets.length;
+    const expectedTargetCount = potCount - SEXTAN_COUNT;
+
+    if (targetCount !== expectedTargetCount) {
+      // TODO: extract a plural helper
+      errors.push(
+        `Le tableau devrait contenir ${expectedTargetCount} ${expectedTargetCount > 1 ? "cibles" : "cible"} et non ${targetCount}.`,
+      );
+    }
+
+    const locations = new Set(sextans.map((sextan) => sextan.location));
+    if (locations.size !== 6) {
+      errors.push(
+        `Le tableau devrait contenir un et un seul sextan à chacune des six positions.`,
+      );
+    }
+
+    return errors;
   };
 
   // Callbacks
@@ -143,6 +169,7 @@ export const BiopsiesProstatiques = () => {
             <BiopsiesProstatiquesTable
               rows={rows}
               score={score}
+              errors={getErrors()}
               onChange={setRows}
             />
           </Item>

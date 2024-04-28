@@ -4,6 +4,8 @@
 import { Pair, sum } from "../../ui/helpers";
 import { Option } from "../../ui/options";
 
+export const SEXTAN_COUNT = 6;
+
 // PIRADS: Prostate Imaging Reporting & Data System
 
 export type PiradsItem = {
@@ -64,6 +66,8 @@ export const anEmptyRow = (index: number): Row => ({
   tumorCount: 0,
   tumorSize: [0, 0],
   tumorGleason: [0, 0],
+
+  // TODO: check naming with Louis
   tumorEpn: false,
   tumorTep: false,
   tumorPin: false,
@@ -102,6 +106,7 @@ export const getMaximumByGleasonScore = (pairs: Pair[]) =>
   pairs.sort(byGleasonScore)[0] ?? DEFAULT_PAIR;
 
 // TODO: what about lesions? Do we need to save the table too?
+// CAUTION: keys must match the ones in Row
 export type Score = {
   biopsyCount: number;
   biopsySize: number;

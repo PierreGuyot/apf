@@ -1,6 +1,7 @@
 import { Column, Table, ValueOf } from "../../ui/Table";
 import { patchArray } from "../../ui/helpers";
 import { YES_NO_OPTIONS } from "../../ui/options";
+import { ValidationErrors } from "./ValidationErrors";
 import {
   CellChoice,
   CellGleason,
@@ -56,10 +57,17 @@ const TableHeader = () => (
 type Props = {
   rows: Row[];
   score: Score;
+  errors: string[];
   onChange: (rows: Row[]) => void;
 };
 
-export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
+// TODO: spread in parent
+export const BiopsiesProstatiquesTable = ({
+  rows,
+  score,
+  errors,
+  onChange,
+}: Props) => {
   // TODO: consider passing score directly as an object to Table
   // TODO: move this wrapper down in Table
   const getOnChange =
@@ -67,6 +75,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       onChange(patchArray(rows, rowIndex, (row) => ({ ...row, [key]: value })));
     };
 
+  // TODO: disable tumor related cells when tumor count is zero
   const COLUMNS: Column<Row>[] = [
     {
       label: "Index",
@@ -210,8 +219,9 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
   ];
 
   return (
-    <Table columns={COLUMNS} rows={rows} header={TableHeader} hasFooter />
-    // TODO: display validation errors here:
-    // - Check target/sextan count
+    <>
+      <Table columns={COLUMNS} rows={rows} header={TableHeader} hasFooter />
+      <ValidationErrors errors={errors} />
+    </>
   );
 };
