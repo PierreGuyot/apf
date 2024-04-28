@@ -1,4 +1,4 @@
-import { Column, Table } from "../../ui/Table";
+import { Column, Table, ValueOf } from "../../ui/Table";
 import { patchArray } from "../../ui/helpers";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import {
@@ -60,6 +60,13 @@ type Props = {
 };
 
 export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
+  // TODO: consider passing score directly as an object to Table
+  // TODO: move this wrapper down in Table
+  const getOnChange =
+    (key: keyof Row, rowIndex: number) => (value: ValueOf<Row>) => {
+      onChange(patchArray(rows, rowIndex, (row) => ({ ...row, [key]: value })));
+    };
+
   const COLUMNS: Column<Row>[] = [
     {
       label: "Index",
@@ -74,11 +81,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
           name="Type"
           options={POT_TYPES}
           value={value.type}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({ ...row, type: value })),
-            )
-          }
+          onChange={getOnChange("type", rowIndex)}
         />
       ),
     },
@@ -90,14 +93,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
           name="Location"
           options={LOCATIONS}
           value={value.location}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                location: value,
-              })),
-            )
-          }
+          onChange={getOnChange("location", rowIndex)}
         />
       ),
     },
@@ -107,14 +103,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       render: (row, rowIndex) => (
         <CellNumberField
           value={row.biopsyCount}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                biopsyCount: value,
-              })),
-            )
-          }
+          onChange={getOnChange("biopsyCount", rowIndex)}
         />
       ),
       total: (_rows) => <span>{score.biopsyCount}</span>,
@@ -125,14 +114,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       render: (row, rowIndex) => (
         <CellSize
           value={row.biopsySize}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                biopsySize: value,
-              })),
-            )
-          }
+          onChange={getOnChange("biopsySize", rowIndex)}
         />
       ),
       total: (_rows) => <span>{score.biopsySize}</span>,
@@ -143,14 +125,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       render: (row, rowIndex) => (
         <CellNumberField
           value={row.tumorCount}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                tumorCount: value,
-              })),
-            )
-          }
+          onChange={getOnChange("tumorCount", rowIndex)}
         />
       ),
       total: (_rows) => <span>{score.tumorCount}</span>,
@@ -161,14 +136,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       render: (row, rowIndex) => (
         <CellSize
           value={row.tumorSize}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                tumorSize: value,
-              })),
-            )
-          }
+          onChange={getOnChange("tumorSize", rowIndex)}
         />
       ),
       total: (_rows) => <span>{score.tumorSize}</span>,
@@ -179,14 +147,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
       render: (row, rowIndex) => (
         <CellGleason
           value={row.tumorGleason}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                tumorGleason: value,
-              })),
-            )
-          }
+          onChange={getOnChange("tumorGleason", rowIndex)}
         />
       ),
       total: (_rows) => {
@@ -205,14 +166,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
         <CellYesNo
           name="Tumor EPN"
           value={row.tumorEpn}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                tumorEpn: value,
-              })),
-            )
-          }
+          onChange={getOnChange("tumorEpn", rowIndex)}
         />
       ),
       total: (_rows) => <YesOrNo value={score.tumorEpn} />,
@@ -224,14 +178,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
         <CellYesNo
           name="Tumor TEP"
           value={row.tumorTep}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                tumorTep: value,
-              })),
-            )
-          }
+          onChange={getOnChange("tumorTep", rowIndex)}
         />
       ),
       total: (_rows) => <YesOrNo value={score.tumorTep} />,
@@ -243,14 +190,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
         <CellYesNo
           name="Tumor PIN"
           value={row.tumorPin}
-          onChange={(value) =>
-            onChange(
-              patchArray(rows, rowIndex, (row) => ({
-                ...row,
-                tumorPin: value,
-              })),
-            )
-          }
+          onChange={getOnChange("tumorPin", rowIndex)}
         />
       ),
       total: (_rows) => <YesOrNo value={score.tumorPin} />,
@@ -262,14 +202,7 @@ export const BiopsiesProstatiquesTable = ({ rows, score, onChange }: Props) => {
         return (
           <CellTextField
             value={row.otherLesions}
-            onChange={(value) =>
-              onChange(
-                patchArray(rows, rowIndex, (row) => ({
-                  ...row,
-                  otherLesions: value,
-                })),
-              )
-            }
+            onChange={getOnChange("otherLesions", rowIndex)}
           />
         );
       },
