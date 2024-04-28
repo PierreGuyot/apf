@@ -8,9 +8,14 @@ table {
   th,
   td {
     margin: 0;
-    padding: 0.7rem;
+    padding: 0.2rem;
     border-bottom: var(--border);
     border-right: var(--border);
     font-size: 0.9rem;
+  }
+
+  .table-cell {
+    display: flex;
+    justify-content: center;
   }
 }

@@ -44,7 +44,7 @@ export function Table<Row>({
           <tr key={`row--${rowIndex}`}>
             {columns.map((column) => (
               <td key={`cell--${String(column.key)}--${rowIndex}`}>
-                {column.render(row, rowIndex)}
+                <div className="table-cell">{column.render(row, rowIndex)}</div>
               </td>
             ))}
           </tr>

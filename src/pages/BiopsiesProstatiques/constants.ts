@@ -12,7 +12,7 @@ export type Localization =
   | "apex-left";
 
 export const LOCALIZATIONS: Option<Localization>[] = [
-  { value: "base-right", label: "Base droit" },
+  { value: "base-right", label: "Base droite" },
   { value: "medium-right", label: "Milieu droit" },
   { value: "apex-right", label: "Apex droit" },
   { value: "base-left", label: "Base gauche" },

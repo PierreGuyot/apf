@@ -16,6 +16,8 @@ export const CellTextField = ({ _value }: { _value: string }) => {
   return <InputText value={value} onChange={setValue} />;
 };
 
+export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
+
 export const CellNumberField = ({ _value }: { _value: number }) => {
   const [value, setValue] = useNumber();
   return <InputNumber value={value} onChange={setValue} />;
@@ -53,8 +55,6 @@ export const CellYesNo = ({
     />
   );
 };
-
-export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 
 export const CellSize = ({ _value }: { _value: Pair }) => {
   const [a, setA] = useNumber();
