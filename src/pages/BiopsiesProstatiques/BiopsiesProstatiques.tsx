@@ -163,6 +163,7 @@ export const BiopsiesProstatiques = () => {
             <InputTextArea
               value={comment}
               label="Remarques particulières"
+              // TODO: add examples
               placeholder="Ajoutez vos remarques additionnelles dans ce champ."
               onChange={setComment}
             />

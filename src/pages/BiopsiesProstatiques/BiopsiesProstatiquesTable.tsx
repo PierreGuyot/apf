@@ -1,15 +1,22 @@
 import { Column, Table } from "../../ui/Table";
 import { range, sum } from "../../ui/helpers";
+import { LOCALIZATIONS, Localization, POT_TYPES, PotType } from "./constants";
 
 // TODO: make table inputs editable
 // TODO: clarify logic to initialize the table
-// TODO: extract renderer for cells (string, number, boolean, pair)
+// TODO: extract renderer for cells (string, number, boolean, pair, select, gleason)
 
 const TableHeader = () => (
   <>
     <tr>
-      <th scope="col" rowSpan={2} colSpan={3}>
-        Sites
+      <th scope="col" rowSpan={2} colSpan={1}>
+        N<sup>o</sup>
+      </th>
+      <th scope="col" rowSpan={2} colSpan={1}>
+        Type
+      </th>
+      <th scope="col" rowSpan={2} colSpan={1}>
+        Localisation
       </th>
       <th scope="col" rowSpan={1} colSpan={2}>
         Biopsies
@@ -45,14 +52,12 @@ const byGleasonScore = (a: Pair, b: Pair) =>
 const getMaximumByGleasonScore = (pairs: Pair[]) =>
   pairs.sort(byGleasonScore)[0];
 
+
 type Row = {
   // TODO: rename the site group
-  sites: {
-    1: string;
-    2: string;
-    3: string;
-  };
-
+  index: number;
+  type: PotType;
+  localization: Localization;
   biopsy: {
     count: number;
     size: Pair;
@@ -70,19 +75,19 @@ type Row = {
 
 const COLUMNS: Column<Row>[] = [
   {
-    label: "Site 1",
-    key: "site.1",
-    render: (value) => <span>{value.sites[1]}</span>,
+    label: "Numéro",
+    key: "site.index",
+    render: (_value, rowIndex) => <span>{rowIndex + 1}</span>,
   },
   {
     label: "Site 2",
     key: "site.2",
-    render: (value) => <span>{value.sites[2]}</span>,
+    render: (value) => <span>{value.type}</span>,
   },
   {
     label: "Site 3",
     key: "site.3",
-    render: (value) => <span>{value.sites[3]}</span>,
+    render: (value) => <span>{value.localization}</span>,
   },
   {
     label: "Biopsy Count",
@@ -187,12 +192,14 @@ const COLUMNS: Column<Row>[] = [
   {
     label: "Other lesions",
     key: "otherLesions",
-    render: (row) => <span>{row.otherLesions ? "Oui" : "Non"}</span>,
+    render: (row) => <span>{row.otherLesions}</span>,
   },
 ];
 
-const anEmptyRow = (): Row => ({
-  sites: { 1: "TODO", 2: "TODO", 3: "TODO" },
+const anEmptyRow = (index: number): Row => ({
+  index,
+  type: POT_TYPES[0],
+  localization: LOCALIZATIONS[0],
   biopsy: { count: 2, size: [0, 0] },
   tumor: {
     count: 0,
