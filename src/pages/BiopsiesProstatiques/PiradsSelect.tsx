@@ -1,11 +1,11 @@
 import { InputText } from "../../ui/InputText";
-import { Line } from "../../ui/Line";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { PiradsItem } from "./helpers";
+import "./pirads-select.css";
 
 // PIRADS: Prostate Imaging Reporting & Data System
 
-export const PiradsSelect = ({
+const PiradsLine = ({
   value,
   onChange,
 }: {
@@ -17,7 +17,7 @@ export const PiradsSelect = ({
     onChange({ ...value, location });
 
   return (
-    <Line>
+    <div className="pirads-item">
       <SelectNumber
         name="PIRADS count" // TODO: check this with Louis
         label="PIRADS"
@@ -27,6 +27,26 @@ export const PiradsSelect = ({
         onChange={onChangeCount}
       />{" "}
       située à <InputText value={value.location} onChange={onChangeLocation} />
-    </Line>
+    </div>
+  );
+};
+
+export const PiradsSelect = ({
+  items,
+  onChange,
+}: {
+  items: PiradsItem[];
+  onChange: (value: PiradsItem, index: number) => void;
+}) => {
+  return (
+    <div className="pirads-select">
+      {items.map((item, i) => (
+        <PiradsLine
+          key={i}
+          value={item}
+          onChange={(value) => onChange(value, i)}
+        />
+      ))}
+    </div>
   );
 };

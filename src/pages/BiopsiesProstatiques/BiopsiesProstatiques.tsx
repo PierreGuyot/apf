@@ -147,14 +147,10 @@ export const BiopsiesProstatiques = () => {
                   </Line>
                   {/* We handle the maximum number of items in all cases and simply hide according to count
                   This way, changing the count doesn't erase user input */}
-                  {piradsItems.slice(0, targetCount).map((item, i) => (
-                    <Line key={i}>
-                      <PiradsSelect
-                        value={item}
-                        onChange={(value) => onUpdatePiradsItem(value, i)}
-                      />
-                    </Line>
-                  ))}
+                  <PiradsSelect
+                    items={piradsItems.slice(0, targetCount)}
+                    onChange={onUpdatePiradsItem}
+                  />
                 </>
               ) : undefined}
             </>
