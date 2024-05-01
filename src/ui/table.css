@@ -18,4 +18,8 @@ table {
     display: flex;
     justify-content: center;
   }
+
+  .cell--is-disabled {
+    background-color: lightgray;
+  }
 }

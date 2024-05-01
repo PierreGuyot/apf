@@ -41,6 +41,35 @@ const getRows = () => [
   ),
 ];
 
+// TODO: test thoroughly
+// CAUTION: be very cautious about counting only visible items
+const getScore = (rows: Row[]): Score => {
+  // CAUTION: only count non-disabled rows (i.e. the ones with a tumorCount)
+  const rowsWithTumor = rows.filter((row) => row.tumorCount);
+  const tumorCount = sum(rows.map((row) => row.tumorCount));
+  const tumorScore = tumorCount
+    ? {
+        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+        tumorGleason: getMaximumByGleasonScore(
+          rowsWithTumor.map((row) => row.tumorGleason),
+        ),
+        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+        tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
+      }
+    : {};
+
+  return {
+    biopsyCount: sum(rows.map((row) => row.biopsyCount)),
+    // CAUTION: only count visible inputs for size (not the hidden ones)
+    biopsySize: sumArrays(
+      rows.map((row) => row.biopsySize.slice(0, row.biopsyCount)),
+    ),
+    tumorCount,
+    ...tumorScore,
+  };
+};
+
 export const BiopsiesProstatiques = () => {
   // Form state
 
@@ -70,19 +99,7 @@ export const BiopsiesProstatiques = () => {
     [_piradsItems, targetCount],
   );
 
-  const score: Score = {
-    biopsyCount: sum(rows.map((row) => row.biopsyCount)),
-    // CAUTION: we must only count visible items
-    biopsySize: sumArrays(
-      rows.map((row) => row.biopsySize.slice(0, row.biopsyCount)),
-    ),
-    tumorCount: sum(rows.map((row) => row.tumorCount)),
-    tumorSize: sumArrays(rows.map((row) => row.tumorSize)),
-    tumorGleason: getMaximumByGleasonScore(rows.map((row) => row.tumorGleason)),
-    tumorEpn: rows.map((row) => row.tumorEpn).some(Boolean),
-    tumorTep: rows.map((row) => row.tumorTep).some(Boolean),
-    tumorPin: rows.map((row) => row.tumorPin).some(Boolean),
-  };
+  const score = getScore(rows);
 
   const getErrors = () => {
     const errors: string[] = [];

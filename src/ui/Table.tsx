@@ -1,4 +1,6 @@
+import { ReactNode } from "react";
 import "./table.css";
+import { join } from "./helpers";
 
 export type ValueOf<Row> = Row[keyof Row];
 
@@ -6,14 +8,15 @@ export type ValueOf<Row> = Row[keyof Row];
 export type Column<Row> = {
   label: string;
   key: keyof Row;
-  render: (row: Row, rowIndex: number) => JSX.Element;
-  total?: (rows: Row[]) => JSX.Element;
+  isDisabled?: (row: Row) => boolean;
+  render: (row: Row, rowIndex: number) => ReactNode;
+  total?: (rows: Row[]) => ReactNode;
 };
 
 type TableProps<Row> = {
   columns: Column<Row>[];
   rows: Row[];
-  header?: () => JSX.Element;
+  header?: () => ReactNode;
   hasFooter?: boolean;
 };
 
@@ -39,11 +42,14 @@ export function Table<Row>({
       <tbody>
         {rows.map((row, rowIndex) => (
           <tr key={`row--${rowIndex}`}>
-            {columns.map((column) => (
-              <td key={`cell--${String(column.key)}--${rowIndex}`}>
-                <div className="table-cell">{column.render(row, rowIndex)}</div>
-              </td>
-            ))}
+            {columns.map((column) => {
+              const isDisabled = column.isDisabled && column.isDisabled(row);
+              return (
+                <td key={`cell--${String(column.key)}--${rowIndex}`} className={join(isDisabled ? 'cell--is-disabled' : undefined)}>
+                  {isDisabled ? undefined : <div className="table-cell">{column.render(row, rowIndex)}</div>}
+                </td>
+              )
+            })}
           </tr>
         ))}
       </tbody>

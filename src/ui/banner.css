@@ -10,17 +10,13 @@
   justify-content: space-between;
   box-sizing: border-box;
   z-index: 100;
-
   font-size: 0.8rem;
-
-  /* display: flex; */
-  /* align-items: center; */
 }
 
 .banner--warning {
-  --TEMP: rgb(229, 0, 0);
+  --warning-color: rgb(229, 0, 0);
 
-  border-color: var(--TEMP);
-  color: var(--TEMP);
+  border-color: var(--warning-color);
+  color: var(--warning-color);
   background-color: rgb(255, 223, 223);
 }

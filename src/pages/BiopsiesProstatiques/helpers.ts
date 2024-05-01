@@ -87,11 +87,12 @@ export type Score = {
   biopsyCount: number;
   biopsySize: number;
   tumorCount: number;
-  tumorSize: number;
-  tumorGleason: GleasonPair;
-  tumorEpn: boolean;
-  tumorTep: boolean;
-  tumorPin: boolean;
+  // Only computed if tumorCount is not zero
+  tumorSize?: number;
+  tumorGleason?: GleasonPair;
+  tumorEpn?: boolean;
+  tumorTep?: boolean;
+  tumorPin?: boolean;
 };
 
 // PIRADS: Prostate Imaging Reporting & Data System

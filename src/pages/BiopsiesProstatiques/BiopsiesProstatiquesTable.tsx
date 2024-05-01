@@ -15,6 +15,7 @@ import {
 } from "./cells";
 import { CONTAINER_TYPES, Row, Score } from "./helpers";
 
+
 const TableHeader = () => (
   <>
     <tr>
@@ -70,7 +71,6 @@ export const BiopsiesProstatiquesTable = ({
       onChange(patchArray(rows, rowIndex, (row) => ({ ...row, [key]: value })));
     };
 
-  // TODO: disable tumor related cells when tumor count is zero
   const COLUMNS: Column<Row>[] = [
     {
       label: "Index",
@@ -136,6 +136,7 @@ export const BiopsiesProstatiquesTable = ({
     {
       label: "Tumor size",
       key: "tumorSize",
+      isDisabled: (row) => row.tumorCount === 0,
       render: (row, rowIndex) => (
         <CellNumberSum
           value={row.tumorSize}
@@ -148,6 +149,7 @@ export const BiopsiesProstatiquesTable = ({
     {
       label: "Tumor gleason",
       key: "tumorGleason",
+      isDisabled: (row) => row.tumorCount === 0,
       render: (row, rowIndex) => (
         <CellGleason
           value={row.tumorGleason}
@@ -155,6 +157,10 @@ export const BiopsiesProstatiquesTable = ({
         />
       ),
       total: (_rows) => {
+        if (!score.tumorGleason) {
+          return undefined;
+        }
+
         const [a, b] = score.tumorGleason;
         return (
           <span>
@@ -166,6 +172,7 @@ export const BiopsiesProstatiquesTable = ({
     {
       label: "Tumor EPN",
       key: "tumorEpn",
+      isDisabled: (row) => row.tumorCount === 0,
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor EPN"
@@ -173,11 +180,18 @@ export const BiopsiesProstatiquesTable = ({
           onChange={getOnChange("tumorEpn", rowIndex)}
         />
       ),
-      total: (_rows) => <YesOrNo value={score.tumorEpn} />,
+      total: (_rows) => {
+        if (!score.tumorEpn) {
+          return undefined;
+        }
+
+        return <YesOrNo value={score.tumorEpn} />;
+      },
     },
     {
       label: "Tumor TEP",
       key: "tumorTep",
+      isDisabled: (row) => row.tumorCount === 0,
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor TEP"
@@ -185,11 +199,18 @@ export const BiopsiesProstatiquesTable = ({
           onChange={getOnChange("tumorTep", rowIndex)}
         />
       ),
-      total: (_rows) => <YesOrNo value={score.tumorTep} />,
+      total: (_rows) => {
+        if (!score.tumorTep) {
+          return undefined;
+        }
+
+        return <YesOrNo value={score.tumorTep} />;
+      },
     },
     {
       label: "Tumor PIN",
       key: "tumorPin",
+      isDisabled: (row) => row.tumorCount === 0,
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor PIN"
@@ -197,7 +218,13 @@ export const BiopsiesProstatiquesTable = ({
           onChange={getOnChange("tumorPin", rowIndex)}
         />
       ),
-      total: (_rows) => <YesOrNo value={score.tumorPin} />,
+      total: (_rows) => {
+        if (!score.tumorPin) {
+          return undefined;
+        }
+
+        return <YesOrNo value={score.tumorPin} />;
+      },
     },
     {
       label: "Other lesions",
