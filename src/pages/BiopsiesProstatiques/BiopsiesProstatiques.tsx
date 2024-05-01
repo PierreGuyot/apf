@@ -75,7 +75,7 @@ export const BiopsiesProstatiques = () => {
     const locations = new Set(sextans.map((sextan) => sextan.location));
     if (locations.size !== 6) {
       errors.push(
-        `Le tableau devrait contenir un et un seul sextan à chacune des six positions.`,
+        `Le tableau devrait contenir un et un seul sextant à chacune des six positions.`,
       );
     }
 
