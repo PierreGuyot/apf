@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-
-export type Pair<T extends number = number> = [T, T];
+import { Pair } from "./helpers.types";
 
 export const anId = () => uuidv4();
 
@@ -63,8 +62,5 @@ export const toOption = <T extends number = number>(value: T) => ({
   value,
   label: String(value),
 });
-
-// Base type for any kind of input/field
-export type FieldProps<T> = { value: T; onChange: (value: T) => void };
 
 export const px = (value: number) => `${value}px`;

@@ -1,7 +1,6 @@
 // TODO: check naming in English with Louis
-// TODO: extract a dedicated valueOf helper
-
-import { Pair, sum } from "../../ui/helpers";
+import { sum } from "../../ui/helpers";
+import { Pair } from "../../ui/helpers.types";
 import { Option } from "../../ui/options";
 
 // TODO:

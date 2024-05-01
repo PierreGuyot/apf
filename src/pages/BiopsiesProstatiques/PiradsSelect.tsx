@@ -1,5 +1,5 @@
 import { SelectNumber } from "../../ui/SelectNumber";
-import { FieldProps } from "../../ui/helpers";
+import { FieldProps } from "../../ui/helpers.types";
 import { SelectLocation } from "./SelectLocation";
 import { Location, PiradsItem } from "./helpers";
 import "./pirads-select.css";

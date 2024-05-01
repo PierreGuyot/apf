@@ -1,7 +1,8 @@
 import { InputNumber } from "../../ui/InputNumber";
 import { InputText } from "../../ui/InputText";
 import { Select } from "../../ui/Select";
-import { FieldProps, Pair, toOption } from "../../ui/helpers";
+import { toOption } from "../../ui/helpers";
+import { FieldProps, Pair } from "../../ui/helpers.types";
 import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import "./cells.css";
 import {

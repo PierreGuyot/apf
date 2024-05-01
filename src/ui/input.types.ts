@@ -1,4 +1,4 @@
-import { FieldProps } from "./helpers";
+import { FieldProps } from "./helpers.types";
 
 export type OnInput<T> = React.FormEventHandler<T>;
 

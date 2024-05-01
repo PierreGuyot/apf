@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { FieldProps, anId } from "./helpers";
+import { anId } from "./helpers";
+import { FieldProps } from "./helpers.types";
 import { Option } from "./options";
 
 type SelectValue = string | number | boolean;
