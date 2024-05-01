@@ -1,17 +1,12 @@
 import { SelectNumber } from "../../ui/SelectNumber";
+import { FieldProps } from "../../ui/helpers";
 import { SelectLocation } from "./SelectLocation";
 import { Location, PiradsItem } from "./helpers";
 import "./pirads-select.css";
 
 // PIRADS: Prostate Imaging Reporting & Data System
 
-const PiradsLine = ({
-  value,
-  onChange,
-}: {
-  value: PiradsItem;
-  onChange: (value: PiradsItem) => void;
-}) => {
+const PiradsLine = ({ value, onChange }: FieldProps<PiradsItem>) => {
   const onChangeCount = (score: number) => onChange({ ...value, score: score });
   const onChangeLocation = (location: Location) =>
     onChange({ ...value, location });

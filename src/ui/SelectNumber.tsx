@@ -1,13 +1,11 @@
 import { Select } from "./Select";
-import { range, toOption } from "./helpers";
+import { FieldProps, range, toOption } from "./helpers";
 
-type SelectNumberProps = {
-  value: number;
+type SelectNumberProps = FieldProps<number> & {
   min?: number;
   max: number;
   name: string;
   label?: string;
-  onChange: (value: number) => void;
 };
 
 export const SelectNumber = ({

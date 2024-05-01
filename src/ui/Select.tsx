@@ -1,15 +1,13 @@
 import { useMemo } from "react";
-import { anId } from "./helpers";
+import { FieldProps, anId } from "./helpers";
 import { Option } from "./options";
 
 type SelectValue = string | number | boolean;
 
-type SelectProps<T extends SelectValue> = {
-  value: T;
+type SelectProps<T extends SelectValue> = FieldProps<T> & {
   options: Option<T>[];
   name: string;
   label?: string; // TODO: consider using label as name
-  onChange: (value: T) => void;
 };
 
 export function Select<T extends SelectValue>({

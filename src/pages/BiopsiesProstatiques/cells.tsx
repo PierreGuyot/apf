@@ -12,14 +12,13 @@ export const CellTextField = InputText;
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellNumberField = InputNumber;
 export const CellChoice = Select;
+
 export const CellYesNo = ({
   value,
   name,
   onChange,
-}: {
-  value: boolean;
+}: FieldProps<boolean> & {
   name: string;
-  onChange: (value: boolean) => void;
 }) => (
   <Select
     value={value}
@@ -29,13 +28,7 @@ export const CellYesNo = ({
   />
 );
 
-const BaseCellSum = ({
-  value,
-  onChange,
-}: {
-  value: Pair;
-  onChange: (value: Pair) => void;
-}) => (
+const BaseCellSum = ({ value, onChange }: FieldProps<Pair>) => (
   <>
     <InputNumber value={value[0]} onChange={(a) => onChange([a, value[1]])} />
     <span className="cell-plus">+</span>
@@ -43,25 +36,13 @@ const BaseCellSum = ({
   </>
 );
 
-export const CellSize = ({
-  value,
-  onChange,
-}: {
-  value: Pair;
-  onChange: (value: Pair) => void;
-}) => (
+export const CellSize = ({ value, onChange }: FieldProps<Pair>) => (
   <div className="cell">
     <BaseCellSum value={value} onChange={onChange} />
   </div>
 );
 
-export const CellGleason = ({
-  value,
-  onChange,
-}: {
-  value: GleasonPair;
-  onChange: (value: GleasonPair) => void;
-}) => (
+export const CellGleason = ({ value, onChange }: FieldProps<GleasonPair>) => (
   <div className="cell">
     <div className="cell-sum">{value[0] + value[1]}</div>(
     <span className="cell-parentheses">
