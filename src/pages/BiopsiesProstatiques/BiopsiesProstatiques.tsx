@@ -41,7 +41,7 @@ const getRows = () => [
   ),
 ];
 
-// TODO: test thoroughly
+// TODO: test extensively
 // CAUTION: be very cautious about counting only visible items
 const getScore = (rows: Row[]): Score => {
   // CAUTION: only count non-disabled rows (i.e. the ones with a tumorCount)
@@ -70,9 +70,66 @@ const getScore = (rows: Row[]): Score => {
   };
 };
 
-export const BiopsiesProstatiques = () => {
-  // Form state
+// TODO: test extensively
+const getErrors = ({
+  rows,
+  containerCount,
+  piradsItems,
+}: {
+  rows: Row[];
+  containerCount: number;
+  piradsItems: PiradsItem[];
+}) => {
+  const errors: string[] = [];
 
+  const sextans = rows.filter((row) => row.type === "sextan");
+  const sextantCount = sextans.length;
+  const targets = rows.filter((row) => row.type === "target");
+  const targetCount = targets.length;
+  const expectedTargetCount = containerCount - SEXTAN_COUNT;
+
+  if (targetCount !== expectedTargetCount) {
+    errors.push(
+      `Le tableau devrait contenir ${count(expectedTargetCount, "cible")} et non ${targetCount}.`,
+    );
+    errors.push(
+      `Le tableau devrait contenir ${count(SEXTAN_COUNT, "sextan")} et non ${sextantCount}.`,
+    );
+  }
+
+  const locations = new Set(sextans.map((sextan) => sextan.location));
+  if (locations.size !== SEXTAN_COUNT) {
+    errors.push(
+      `Le tableau devrait contenir un et un seul sextant à chacune des six positions.`,
+    );
+  }
+
+  rows.forEach((row, index) => {
+    if (row.tumorCount > row.biopsyCount) {
+      errors.push(
+        `Le nombre de biopsies présentant une tumeur pour le pot numéro ${index + 1} est plus grand que le nombre de biopsies.`,
+      );
+    }
+  });
+
+  // There can be more targets in the table than PIRADS items
+  // But the PIRADS items must match the targets declared in the table
+  const tableTargets = new Set(
+    rows.filter((row) => row.type === "target").map((item) => item.location),
+  );
+  piradsItems.forEach((item, index) => {
+    const match = tableTargets.has(item.location);
+    if (!match) {
+      errors.push(
+        `La position du PIRADS numéro ${index + 1} ne correspond pas à aucune cible indiquée dans le tableau.`,
+      );
+    }
+  });
+
+  return errors;
+};
+
+export const BiopsiesProstatiques = () => {
   const [hasInfo, setHasInfo] = useBoolean();
   const [hasTarget, setHasTarget] = useBoolean();
   const [targetCount, setTargetCount] = useNumber();
@@ -81,8 +138,6 @@ export const BiopsiesProstatiques = () => {
   const [containerCount, setContainerCount] =
     useState<ContainerCount>(MAX_CONTAINER_COUNT);
   const [comment, setComment] = useString();
-
-  // Table state
 
   // For rows and piradsItems, we handle the maximum number of items in all
   // cases and simply hide according to count.
@@ -100,66 +155,13 @@ export const BiopsiesProstatiques = () => {
   );
 
   const score = getScore(rows);
-
-  const getErrors = () => {
-    const errors: string[] = [];
-
-    const sextans = rows.filter((row) => row.type === "sextan");
-    const sextantCount = sextans.length;
-    const targets = rows.filter((row) => row.type === "target");
-    const targetCount = targets.length;
-    const expectedTargetCount = containerCount - SEXTAN_COUNT;
-
-    if (targetCount !== expectedTargetCount) {
-      errors.push(
-        `Le tableau devrait contenir ${count(expectedTargetCount, "cible")} et non ${targetCount}.`,
-      );
-      errors.push(
-        `Le tableau devrait contenir ${count(SEXTAN_COUNT, "sextan")} et non ${sextantCount}.`,
-      );
-    }
-
-    const locations = new Set(sextans.map((sextan) => sextan.location));
-    if (locations.size !== SEXTAN_COUNT) {
-      errors.push(
-        `Le tableau devrait contenir un et un seul sextant à chacune des six positions.`,
-      );
-    }
-
-    rows.forEach((row, index) => {
-      if (row.tumorCount > row.biopsyCount) {
-        errors.push(
-          `Le nombre de biopsies présentant une tumeur pour le pot numéro ${index + 1} est plus grand que le nombre de biopsies.`,
-        );
-      }
-    });
-
-    // There can be more targets in the table than PIRADS items
-    // But the PIRADS items must match the targets declared in the table
-    const tableTargets = new Set(
-      rows.filter((row) => row.type === "target").map((item) => item.location),
-    );
-    piradsItems.forEach((item, index) => {
-      const match = tableTargets.has(item.location);
-      if (!match) {
-        errors.push(
-          `La position du PIRADS numéro ${index + 1} ne correspond pas à aucune cible indiquée dans le tableau.`,
-        );
-      }
-    });
-
-    return errors;
-  };
-
-  // Callbacks
+  const errors = getErrors({ rows, containerCount, piradsItems });
 
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
     const updatedArray = [..._piradsItems];
     updatedArray[index] = value;
     setPiradsItems(updatedArray);
   };
-
-  // Template
 
   return (
     <div>
@@ -247,7 +249,7 @@ export const BiopsiesProstatiques = () => {
         <BiopsiesProstatiquesTable
           rows={rows}
           score={score}
-          errors={getErrors()}
+          errors={errors}
           onChange={setRows}
         />
       </Item>
