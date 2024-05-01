@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-export type Pair = [number, number];
+
+export type Pair<T extends number = number> = [T, T];
 
 export const anId = () => uuidv4();
 
@@ -57,3 +58,11 @@ export const patchArray = <T>(
   index: number,
   updater: (item: T) => T,
 ) => items.map((row, i) => (i === index ? updater(row) : row));
+
+export const toOption = <T extends number = number>(value: T) => ({
+  value,
+  label: String(value),
+});
+
+// Base type for any kind of input/field
+export type FieldProps<T> = { value: T; onChange: (value: T) => void };

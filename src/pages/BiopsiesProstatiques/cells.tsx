@@ -1,9 +1,10 @@
 import { InputNumber } from "../../ui/InputNumber";
 import { InputText } from "../../ui/InputText";
 import { Select } from "../../ui/Select";
-import { Pair } from "../../ui/helpers";
-import { YES_NO_OPTIONS } from "../../ui/options";
+import { FieldProps, Pair, toOption } from "../../ui/helpers";
+import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import "./cells.css";
+import { GLEASON_SCORES, GleasonPair, GleasonScore } from "./helpers";
 
 // TODO: separate GleasonField vs Gleason, SizeField vs Size (for footer)
 
@@ -58,11 +59,35 @@ export const CellGleason = ({
   value,
   onChange,
 }: {
-  value: Pair;
-  onChange: (value: Pair) => void;
+  value: GleasonPair;
+  onChange: (value: GleasonPair) => void;
 }) => (
   <div className="cell">
-    <div className="cell-sum">{value[0] + value[1]}</div>
-    (<BaseCellSum value={value} onChange={onChange} />)
+    <div className="cell-sum">{value[0] + value[1]}</div>(
+    <span className="cell-parentheses">
+      <SelectGleason
+        value={value[0]}
+        onChange={(a) => onChange([a, value[1]])}
+      />
+      <span className="cell-plus">+</span>
+      <SelectGleason
+        value={value[1]}
+        onChange={(b) => onChange([value[0], b])}
+      />
+    </span>
+    )
   </div>
+);
+
+const GLEASON_OPTIONS: Option<GleasonScore>[] = GLEASON_SCORES.map(toOption);
+export const SelectGleason = ({
+  value,
+  onChange,
+}: FieldProps<GleasonScore>) => (
+  <Select
+    name="Gleason score"
+    value={value}
+    options={GLEASON_OPTIONS}
+    onChange={onChange}
+  />
 );

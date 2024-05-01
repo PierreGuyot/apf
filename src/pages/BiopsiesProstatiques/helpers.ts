@@ -4,6 +4,14 @@
 import { Pair, sum } from "../../ui/helpers";
 import { Option } from "../../ui/options";
 
+// TODO:
+// - create base `Range` type 
+// - create typed `range` helper
+// - type `InputNumber` base on `min` and `max` props 
+export const GLEASON_SCORES = [3, 4, 5] as const;
+export type GleasonScore = (typeof GLEASON_SCORES)[number];
+export type GleasonPair = Pair<GleasonScore>;
+
 export const SEXTAN_COUNT = 6;
 
 export type Location =
@@ -38,7 +46,7 @@ export type Row = {
   biopsySize: Pair;
   tumorCount: number;
   tumorSize: Pair;
-  tumorGleason: Pair;
+  tumorGleason: GleasonPair;
   tumorEpn: boolean;
   tumorTep: boolean;
   tumorPin: boolean;
@@ -53,7 +61,7 @@ export const anEmptyRow = (index: number): Row => ({
   biopsySize: [0, 0],
   tumorCount: 0,
   tumorSize: [0, 0],
-  tumorGleason: [0, 0],
+  tumorGleason: [3, 3],
 
   // TODO: check naming with Louis
   tumorEpn: false,
@@ -89,9 +97,9 @@ const byGleasonScore = (a: Pair, b: Pair) =>
   // By left value in case of equality
   b[0] - a[0];
 
-const DEFAULT_PAIR: Pair = [0, 0];
-export const getMaximumByGleasonScore = (pairs: Pair[]) =>
-  pairs.sort(byGleasonScore)[0] ?? DEFAULT_PAIR;
+const DEFAULT_GLEASON_PAIR: GleasonPair = [3, 3];
+export const getMaximumByGleasonScore = (pairs: GleasonPair[]) =>
+  pairs.sort(byGleasonScore)[0] ?? DEFAULT_GLEASON_PAIR;
 
 // TODO: what about lesions? Do we need to save the table too?
 // CAUTION: keys must match the ones in Row
@@ -100,7 +108,7 @@ export type Score = {
   biopsySize: number;
   tumorCount: number;
   tumorSize: number;
-  tumorGleason: Pair;
+  tumorGleason: GleasonPair;
   tumorEpn: boolean;
   tumorTep: boolean;
   tumorPin: boolean;

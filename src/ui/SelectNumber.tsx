@@ -1,5 +1,5 @@
 import { Select } from "./Select";
-import { range } from "./helpers";
+import { range, toOption } from "./helpers";
 
 type SelectNumberProps = {
   value: number;
@@ -9,7 +9,6 @@ type SelectNumberProps = {
   label?: string;
   onChange: (value: number) => void;
 };
-const toOption = (value: number) => ({ value, label: String(value) });
 
 export const SelectNumber = ({
   value,
