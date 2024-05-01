@@ -6,18 +6,6 @@ import { Option } from "../../ui/options";
 
 export const SEXTAN_COUNT = 6;
 
-// PIRADS: Prostate Imaging Reporting & Data System
-
-export type PiradsItem = {
-  count: number;
-  location: string;
-};
-
-export const anEmptyPiradsItem = (): PiradsItem => ({
-  count: 0,
-  location: "",
-});
-
 export type Location =
   | "base-right"
   | "medium-right"
@@ -117,3 +105,15 @@ export type Score = {
   tumorTep: boolean;
   tumorPin: boolean;
 };
+
+// PIRADS: Prostate Imaging Reporting & Data System
+
+export type PiradsItem = {
+  score: number; // Malignancy score
+  location: Location;
+};
+
+export const anEmptyPiradsItem = (): PiradsItem => ({
+  score: 0,
+  location: "base-right",
+});

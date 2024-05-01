@@ -1,5 +1,5 @@
-import { YesOrNo } from "../../ui/YesOrNo";
 import { Column, Table, ValueOf } from "../../ui/Table";
+import { YesOrNo } from "../../ui/YesOrNo";
 import { patchArray } from "../../ui/helpers";
 import { SelectLocation } from "./SelectLocation";
 import { ValidationErrors } from "./ValidationErrors";

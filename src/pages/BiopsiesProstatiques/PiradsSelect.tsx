@@ -1,6 +1,6 @@
-import { InputText } from "../../ui/InputText";
 import { SelectNumber } from "../../ui/SelectNumber";
-import { PiradsItem } from "./helpers";
+import { SelectLocation } from "./SelectLocation";
+import { Location, PiradsItem } from "./helpers";
 import "./pirads-select.css";
 
 // PIRADS: Prostate Imaging Reporting & Data System
@@ -12,8 +12,8 @@ const PiradsLine = ({
   value: PiradsItem;
   onChange: (value: PiradsItem) => void;
 }) => {
-  const onChangeCount = (count: number) => onChange({ ...value, count });
-  const onChangeLocation = (location: string) =>
+  const onChangeCount = (score: number) => onChange({ ...value, score: score });
+  const onChangeLocation = (location: Location) =>
     onChange({ ...value, location });
 
   return (
@@ -23,10 +23,11 @@ const PiradsLine = ({
         label="PIRADS"
         min={2}
         max={5}
-        value={value.count}
+        value={value.score}
         onChange={onChangeCount}
       />{" "}
-      située à <InputText value={value.location} onChange={onChangeLocation} />
+      située à{" "}
+      <SelectLocation value={value.location} onChange={onChangeLocation} />
     </div>
   );
 };
