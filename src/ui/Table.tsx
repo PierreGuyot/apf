@@ -4,10 +4,14 @@ import { join } from "./helpers";
 
 export type ValueOf<Row> = Row[keyof Row];
 
+type Alignment = "left" | "center";
+
 // TODO clean: fix with a mapped type after re-reading Gabriel's Typescript course
 export type Column<Row> = {
   label: string;
   key: keyof Row;
+  alignment?: Alignment; // 'center' by default
+
   isDisabled?: (row: Row) => boolean;
   render: (row: Row, rowIndex: number) => ReactNode;
   total?: (rows: Row[]) => ReactNode;
@@ -44,13 +48,22 @@ export function Table<Row>({
           <tr key={`row--${rowIndex}`}>
             {columns.map((column) => {
               const isDisabled = column.isDisabled && column.isDisabled(row);
+              const alignment = column.alignment ?? "center";
+
               return (
                 <td
                   key={`cell--${String(column.key)}--${rowIndex}`}
-                  className={join(isDisabled ? "cell--is-disabled" : undefined)}
+                  className={join(
+                    isDisabled ? "table-cell--is-disabled" : undefined,
+                  )}
                 >
                   {isDisabled ? undefined : (
-                    <div className="table-cell">
+                    <div
+                      className={join(
+                        "table-cell",
+                        `table-cell--alignment-${alignment}`,
+                      )}
+                    >
                       {column.render(row, rowIndex)}
                     </div>
                   )}
@@ -63,13 +76,21 @@ export function Table<Row>({
       {hasFooter ? (
         <tfoot>
           <tr>
-            {columns.map((column) => (
-              <td key={`footer--${String(column.key)}`}>
-                <div className="table-cell">
-                  {column.total ? column.total(rows) : undefined}
-                </div>
-              </td>
-            ))}
+            {columns.map((column) => {
+              const alignment = column.alignment ?? "center";
+              return (
+                <td key={`footer--${String(column.key)}`}>
+                  <div
+                    className={join(
+                      "table-cell-footer",
+                      `table-cell-footer--alignment-${alignment}`,
+                    )}
+                  >
+                    {column.total ? column.total(rows) : undefined}
+                  </div>
+                </td>
+              );
+            })}
           </tr>
         </tfoot>
       ) : undefined}

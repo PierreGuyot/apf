@@ -109,10 +109,10 @@ export const BiopsiesProstatiquesTable = ({
       ),
       total: (_rows) => <span>{score.biopsyCount}</span>,
     },
-    // TODO: left align
     {
       label: "Biopsy Size",
       key: "biopsySize",
+      alignment: "left",
       render: (row, rowIndex) => (
         <CellNumberSum
           value={row.biopsySize}
@@ -133,10 +133,10 @@ export const BiopsiesProstatiquesTable = ({
       ),
       total: (_rows) => <span>{score.tumorCount}</span>,
     },
-    // TODO: left align
     {
       label: "Tumor size",
       key: "tumorSize",
+      alignment: "left",
       isDisabled: (row) => row.tumorCount === 0,
       render: (row, rowIndex) => (
         <CellNumberSum
@@ -230,6 +230,7 @@ export const BiopsiesProstatiquesTable = ({
     {
       label: "Other lesions",
       key: "otherLesions",
+      alignment: "left",
       render: (row, rowIndex) => (
         <CellTextField
           value={row.otherLesions}

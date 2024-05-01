@@ -16,10 +16,26 @@ table {
 
   .table-cell {
     display: flex;
+  }
+
+  .table-cell--is-disabled {
+    background-color: lightgray;
+  }
+
+  .table-cell--alignment-center {
     justify-content: center;
   }
 
-  .cell--is-disabled {
-    background-color: lightgray;
+  .table-cell-footer {
+    display: flex;
+    font-weight: bold;
+  }
+
+  .table-cell-footer--alignment-left {
+    padding-left: 0.5rem;
+  }
+
+  .table-cell-footer--alignment-center {
+    justify-content: center;
   }
 }
