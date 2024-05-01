@@ -6,15 +6,13 @@ import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
-import { range, sum, sumArrays } from "../../ui/helpers";
-import { YES_NO_OPTIONS } from "../../ui/options";
+import { range, sum, sumArrays, toOption } from "../../ui/helpers";
+import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import { count } from "../../ui/plural";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
 import { PiradsSelect } from "./PiradsSelect";
-import { SelectContainerCount } from "./cells";
 import {
-  ContainerCount,
   LOCATIONS,
   MAX_CONTAINER_COUNT,
   MAX_TARGET_COUNT,
@@ -27,6 +25,9 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+
+export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
+const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
 
 const getPiradsItems = () => range(MAX_TARGET_COUNT).map(anEmptyPiradsItem);
 
@@ -49,14 +50,14 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-      tumorGleason: getMaximumByGleasonScore(
-        rowsWithTumor.map((row) => row.tumorGleason),
-      ),
-      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-      tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
-    }
+        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+        tumorGleason: getMaximumByGleasonScore(
+          rowsWithTumor.map((row) => row.tumorGleason),
+        ),
+        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+        tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
+      }
     : {};
 
   return {
@@ -135,8 +136,7 @@ export const BiopsiesProstatiques = () => {
   const [targetCount, setTargetCount] = useNumber();
   const [hasMri, setHasMri] = useBoolean();
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
-  const [containerCount, setContainerCount] =
-    useState<ContainerCount>(MAX_CONTAINER_COUNT);
+  const [containerCount, setContainerCount] = useNumber(MAX_CONTAINER_COUNT);
   const [comment, setComment] = useString();
 
   // For rows and piradsItems, we handle the maximum number of items in all
@@ -238,9 +238,11 @@ export const BiopsiesProstatiques = () => {
           done on purpose, as info given to anatomical pathologists is not
           always standardized.
         */}
-        <SelectContainerCount
+        <Select
+          name="Container count"
           value={containerCount}
           label="Combien de pots avez-vous ?"
+          options={CONTAINER_COUNT_OPTIONS}
           onChange={setContainerCount}
         />
       </Line>

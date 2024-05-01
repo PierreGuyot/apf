@@ -11,12 +11,12 @@ export const useBoolean = (): Atom<boolean> => {
   return [value, setValue];
 };
 
-export const useString = (): Atom<string> => {
-  const [value, setValue] = useState<string>("");
+export const useString = (defaultValue: string = ""): Atom<string> => {
+  const [value, setValue] = useState<string>(defaultValue);
   return [value, setValue];
 };
 
-export const useNumber = (): Atom<number> => {
-  const [value, setValue] = useState<number>(0);
+export const useNumber = (defaultValue: number = 0): Atom<number> => {
+  const [value, setValue] = useState<number>(defaultValue);
   return [value, setValue];
 };

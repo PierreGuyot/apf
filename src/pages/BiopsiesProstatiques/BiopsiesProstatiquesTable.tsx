@@ -1,6 +1,8 @@
+import { Select } from "../../ui/Select";
 import { Column, Table, ValueOf } from "../../ui/Table";
 import { YesOrNo } from "../../ui/YesOrNo";
-import { patchArray } from "../../ui/helpers";
+import { patchArray, toOption } from "../../ui/helpers";
+import { Option } from "../../ui/options";
 import { SelectLocation } from "./SelectLocation";
 import { ValidationErrors } from "./ValidationErrors";
 import {
@@ -10,10 +12,11 @@ import {
   CellNumberSum,
   CellTextField,
   CellYesNo,
-  SelectBiopsyCount,
-  SelectTumorCount,
 } from "./cells";
 import { CONTAINER_TYPES, Row, Score } from "./helpers";
+
+const BIOPSY_COUNT_OPTIONS: Option<number>[] = [1, 2, 3, 4].map(toOption);
+const TUMOR_COUNT_OPTIONS: Option<number>[] = [0, 1, 2, 3, 4].map(toOption);
 
 const TableHeader = () => (
   <>
@@ -102,8 +105,10 @@ export const BiopsiesProstatiquesTable = ({
       label: "Biopsy Count",
       key: "biopsyCount",
       render: (row, rowIndex) => (
-        <SelectBiopsyCount
+        <Select
+          name="Biopsy count"
           value={row.biopsyCount}
+          options={BIOPSY_COUNT_OPTIONS}
           onChange={getOnChange("biopsyCount", rowIndex)}
         />
       ),
@@ -126,8 +131,10 @@ export const BiopsiesProstatiquesTable = ({
       label: "Tumor count",
       key: "tumorCount",
       render: (row, rowIndex) => (
-        <SelectTumorCount
+        <Select
+          name="Tumor count"
           value={row.tumorCount}
+          options={TUMOR_COUNT_OPTIONS}
           onChange={getOnChange("tumorCount", rowIndex)}
         />
       ),

@@ -7,15 +7,6 @@ export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
 export type GleasonPair = Pair<GleasonScore>;
 
-export const BIOPSY_COUNT = [1, 2, 3, 4] as const;
-export type BiopsyCount = (typeof BIOPSY_COUNT)[number];
-
-export const TUMOR_COUNT = [0, 1, 2, 3, 4] as const;
-export type TumorCount = (typeof TUMOR_COUNT)[number];
-
-export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
-export type ContainerCount = (typeof CONTAINER_COUNT)[number];
-
 export const SEXTAN_COUNT = 6;
 export const MAX_TARGET_COUNT = 3;
 export const MAX_CONTAINER_COUNT = 9;
@@ -49,9 +40,9 @@ export type Row = {
   index: number;
   type: ContainerType;
   location: Location;
-  biopsyCount: BiopsyCount;
+  biopsyCount: number;
   biopsySize: number[];
-  tumorCount: TumorCount;
+  tumorCount: number;
   tumorSize: number[];
   tumorGleason: GleasonPair;
   tumorEpn: boolean;
