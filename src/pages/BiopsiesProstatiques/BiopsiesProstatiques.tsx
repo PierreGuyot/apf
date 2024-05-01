@@ -24,9 +24,6 @@ import {
 
 const MAX_TARGET_COUNT = 3;
 
-// TODO: create a Block component to handle max width
-// TODO: re-organize ui folder (layout, inputs, table, etc.)
-
 export const BiopsiesProstatiques = () => {
   // Form state
 
