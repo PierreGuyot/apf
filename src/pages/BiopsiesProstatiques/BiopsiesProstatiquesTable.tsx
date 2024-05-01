@@ -13,7 +13,7 @@ import {
   CellYesNo,
   SelectBiopsyCount,
 } from "./cells";
-import { POT_TYPES, Row, Score } from "./helpers";
+import { CONTAINER_TYPES, Row, Score } from "./helpers";
 
 const TableHeader = () => (
   <>
@@ -83,7 +83,7 @@ export const BiopsiesProstatiquesTable = ({
       render: (value, rowIndex) => (
         <CellChoice
           name="Type"
-          options={POT_TYPES}
+          options={CONTAINER_TYPES}
           value={value.type}
           onChange={getOnChange("type", rowIndex)}
         />

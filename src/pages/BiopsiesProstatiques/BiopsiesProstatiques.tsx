@@ -15,7 +15,7 @@ import { PiradsSelect } from "./PiradsSelect";
 import {
   LOCATIONS,
   PiradsItem,
-  PotCount,
+  ContainerCount,
   Row,
   SEXTAN_COUNT,
   Score,
@@ -24,7 +24,7 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-import { SelectPotCount } from "./cells";
+import { SelectContainerCount } from "./cells";
 
 const MAX_TARGET_COUNT = 3;
 
@@ -39,7 +39,8 @@ export const BiopsiesProstatiques = () => {
   );
   const [hasMri, setHasMri] = useBoolean();
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
-  const [potCount, setPotCount] = useState<PotCount>(SEXTAN_COUNT);
+  const [containerCount, setContainerCount] =
+    useState<ContainerCount>(SEXTAN_COUNT);
   const [comment, setComment] = useString();
 
   // Table state
@@ -67,7 +68,7 @@ export const BiopsiesProstatiques = () => {
     const sextans = rows.filter((row) => row.type === "sextan");
     const targets = rows.filter((row) => row.type === "target");
     const targetCount = targets.length;
-    const expectedTargetCount = potCount - SEXTAN_COUNT;
+    const expectedTargetCount = containerCount - SEXTAN_COUNT;
 
     if (targetCount !== expectedTargetCount) {
       errors.push(
@@ -170,10 +171,10 @@ export const BiopsiesProstatiques = () => {
           done on purpose, as info given to anatomical pathologists is not
           always standardized.
         */}
-        <SelectPotCount
-          value={potCount}
+        <SelectContainerCount
+          value={containerCount}
           label="Combien de pots avez-vous ?"
-          onChange={setPotCount}
+          onChange={setContainerCount}
         />
       </Line>
 

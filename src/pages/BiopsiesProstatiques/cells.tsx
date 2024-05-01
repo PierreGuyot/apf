@@ -11,8 +11,8 @@ import {
   GLEASON_SCORES,
   GleasonPair,
   GleasonScore,
-  POT_COUNT,
-  PotCount,
+  CONTAINER_COUNT,
+  ContainerCount,
 } from "./helpers";
 
 export const CellTextField = InputText;
@@ -95,17 +95,18 @@ export const SelectBiopsyCount = ({
   />
 );
 
-const POT_COUNT_OPTIONS: Option<PotCount>[] = POT_COUNT.map(toOption);
-export const SelectPotCount = ({
+const CONTAINER_COUNT_OPTIONS: Option<ContainerCount>[] =
+  CONTAINER_COUNT.map(toOption);
+export const SelectContainerCount = ({
   label,
   value,
   onChange,
-}: FieldProps<PotCount> & { label?: string }) => (
+}: FieldProps<ContainerCount> & { label?: string }) => (
   <Select
-    name="Pot count"
+    name="Container count"
     label={label}
     value={value}
-    options={POT_COUNT_OPTIONS}
+    options={CONTAINER_COUNT_OPTIONS}
     onChange={onChange}
   />
 );

@@ -15,8 +15,8 @@ export type GleasonPair = Pair<GleasonScore>;
 export const BIOPSY_COUNT = [1, 2, 3, 4] as const;
 export type BiopsyCount = (typeof BIOPSY_COUNT)[number];
 
-export const POT_COUNT = [6, 7, 8, 9] as const;
-export type PotCount = (typeof POT_COUNT)[number];
+export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
+export type ContainerCount = (typeof CONTAINER_COUNT)[number];
 
 export const SEXTAN_COUNT = 6;
 
@@ -38,16 +38,16 @@ export const LOCATION_OPTIONS: Option<Location>[] = [
   { value: "apex-left", label: "Apex gauche" },
 ];
 
-export type PotType = "sextan" | "target";
+export type ContainerType = "sextan" | "target";
 
-export const POT_TYPES: Option<PotType>[] = [
+export const CONTAINER_TYPES: Option<ContainerType>[] = [
   { value: "sextan", label: "Sextant" },
   { value: "target", label: "Cible" },
 ] as const;
 
 export type Row = {
   index: number;
-  type: PotType;
+  type: ContainerType;
   location: Location;
   biopsyCount: BiopsyCount;
   biopsySize: Pair;
