@@ -66,7 +66,7 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   biopsyCount: 2,
   biopsySize: [0, 0, 0, 0],
   tumorCount: 0,
-  tumorSize: [0, 0],
+  tumorSize: [0, 0, 0, 0],
   tumorGleason: [3, 3],
   tumorEpn: false,
   tumorTep: false,
