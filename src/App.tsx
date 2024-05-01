@@ -4,7 +4,6 @@ import { BiopsiesProstatiques } from "./pages/BiopsiesProstatiques/BiopsiesProst
 export const App = () => {
   return (
     <Page title="Biopsies Prostatiques">
-      {/* TODO: add banner with `Last update on <date>` */}
       <BiopsiesProstatiques />
     </Page>
   );

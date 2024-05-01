@@ -1,4 +1,6 @@
 export const copyToClipboard = (content: string) => {
-  // TODO: add alert for feedback
   navigator.clipboard.writeText(content);
+  window.alert(
+    "Le texte a été copié dans votre presse-papier (Ctrl + V pour coller).",
+  );
 };

@@ -14,7 +14,7 @@ const PiradsLine = ({ value, onChange }: FieldProps<PiradsItem>) => {
   return (
     <div className="pirads-item">
       <SelectNumber
-        name="PIRADS count" // TODO: check this with Louis
+        name="PIRADS score"
         label="PIRADS"
         min={2}
         max={5}

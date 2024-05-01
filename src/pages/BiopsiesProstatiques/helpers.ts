@@ -84,7 +84,6 @@ const DEFAULT_GLEASON_PAIR: GleasonPair = [3, 3];
 export const getMaximumByGleasonScore = (pairs: GleasonPair[]) =>
   pairs.sort(byGleasonScore)[0] ?? DEFAULT_GLEASON_PAIR;
 
-// TODO: what about lesions? Do we need to save the table too?
 // CAUTION: keys must match the ones in Row
 export type Score = {
   biopsyCount: number;

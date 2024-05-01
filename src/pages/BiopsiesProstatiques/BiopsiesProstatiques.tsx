@@ -8,6 +8,7 @@ import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
 import { range, sum, sumPairs } from "../../ui/helpers";
 import { YES_NO_OPTIONS } from "../../ui/options";
+import { pluralize } from "../../ui/plural";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
 import { PiradsSelect } from "./PiradsSelect";
@@ -66,9 +67,8 @@ export const BiopsiesProstatiques = () => {
     const expectedTargetCount = potCount - SEXTAN_COUNT;
 
     if (targetCount !== expectedTargetCount) {
-      // TODO: extract a plural helper
       errors.push(
-        `Le tableau devrait contenir ${expectedTargetCount} ${expectedTargetCount > 1 ? "cibles" : "cible"} et non ${targetCount}.`,
+        `Le tableau devrait contenir ${pluralize(expectedTargetCount, "cible")} et non ${targetCount}.`,
       );
     }
 
@@ -95,7 +95,6 @@ export const BiopsiesProstatiques = () => {
   return (
     <div>
       <Line>
-        {/* TODO: is this option actually useful? */}
         <Select
           value={hasInfo}
           options={YES_NO_OPTIONS}
