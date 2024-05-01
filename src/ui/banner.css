@@ -1,0 +1,26 @@
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-bottom: 1px solid grey;
+  justify-content: space-between;
+  box-sizing: border-box;
+  z-index: 100;
+
+  font-size: 0.8rem;
+
+  /* display: flex; */
+  /* align-items: center; */
+}
+
+.banner--warning {
+  --TEMP: rgb(229, 0, 0);
+
+  border-color: var(--TEMP);
+  color: var(--TEMP);
+  background-color: rgb(255, 223, 223);
+}
