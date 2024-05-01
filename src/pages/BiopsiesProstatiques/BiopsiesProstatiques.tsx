@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { InputNumber } from "../../ui/InputNumber";
 import { InputTextArea } from "../../ui/InputTextArea";
 import { Item } from "../../ui/Item";
@@ -22,11 +22,22 @@ import {
   anEmptyPiradsItem,
   anEmptyRow,
   getMaximumByGleasonScore,
+  MAX_CONTAINER_COUNT,
+  MAX_TARGET_COUNT,
 } from "./helpers";
 import { generateReport } from "./report";
 import { SelectContainerCount } from "./cells";
 
-const MAX_TARGET_COUNT = 3;
+const getRows = () => [
+  // 6 sextans (each for one location)
+  ...LOCATIONS.map((location, index) =>
+    anEmptyRow({ index, location, type: "sextan" }),
+  ),
+  // 3 targets
+  ...range(MAX_TARGET_COUNT).map((_, index) =>
+    anEmptyRow({ index: index + LOCATIONS.length, type: "target" }),
+  ),
+];
 
 export const BiopsiesProstatiques = () => {
   // Form state
@@ -40,14 +51,17 @@ export const BiopsiesProstatiques = () => {
   const [hasMri, setHasMri] = useBoolean();
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
   const [containerCount, setContainerCount] =
-    useState<ContainerCount>(SEXTAN_COUNT);
+    useState<ContainerCount>(MAX_CONTAINER_COUNT);
   const [comment, setComment] = useString();
 
   // Table state
 
-  // TODO: un-mock initial value
-  const [rows, setRows] = useState<Row[]>(
-    LOCATIONS.map((location, index) => anEmptyRow({ location, index })),
+  const [_rows, setRows] = useState<Row[]>(getRows());
+  // We handle the maximum number of items in all cases and simply hide according to count
+  // This way, changing the count doesn't erase user input
+  const rows = useMemo(
+    () => _rows.slice(0, containerCount),
+    [containerCount, _rows],
   );
 
   const score: Score = {
@@ -198,7 +212,7 @@ export const BiopsiesProstatiques = () => {
       <Item>
         <Summary
           getContent={(language) =>
-            generateReport({ score, rows, comment, language })
+            generateReport({ score, rows: rows, comment, language })
           }
         />
       </Item>

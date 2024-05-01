@@ -19,6 +19,8 @@ export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 export type ContainerCount = (typeof CONTAINER_COUNT)[number];
 
 export const SEXTAN_COUNT = 6;
+export const MAX_TARGET_COUNT = 3;
+export const MAX_CONTAINER_COUNT = 9;
 
 export const LOCATIONS = [
   "base-right",
