@@ -3,6 +3,8 @@ import { anId } from "./helpers";
 import { FieldProps } from "./helpers.types";
 import { Option } from "./options";
 
+import "./select.css";
+
 type SelectValue = string | number | boolean;
 
 type SelectProps<T extends SelectValue> = FieldProps<T> & {
@@ -31,16 +33,10 @@ export function Select<T extends SelectValue>({
   };
 
   return (
-    <>
+    <div className="select">
       {/* TODO: replace with Label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
-      <select
-        className="select"
-        value={String(value)}
-        name={name}
-        id={id}
-        onChange={onChange}
-      >
+      <select value={String(value)} name={name} id={id} onChange={onChange}>
         {options.map((option) => {
           const value = option.value as string | number;
           return (
@@ -54,6 +50,6 @@ export function Select<T extends SelectValue>({
           );
         })}
       </select>
-    </>
+    </div>
   );
 }

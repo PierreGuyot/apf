@@ -19,9 +19,9 @@ import {
   Score,
   anEmptyPiradsItem,
   anEmptyRow,
-  generateReport,
   getMaximumByGleasonScore,
 } from "./helpers";
+import { generateReport } from "./report";
 
 const MAX_TARGET_COUNT = 3;
 
@@ -191,11 +191,12 @@ export const BiopsiesProstatiques = () => {
           onChange={setComment}
         />
       </Item>
-      {/* TODO: generate summary from data (french) */}
-      {/* TODO: generate summary from data (english) */}
-      {/* TODO: add button to switch languages */}
       <Item>
-        <Summary content={generateReport({ score, rows, comment })} />
+        <Summary
+          getContent={(language) =>
+            generateReport({ score, rows, comment, language })
+          }
+        />
       </Item>
     </div>
   );

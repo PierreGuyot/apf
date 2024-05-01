@@ -74,27 +74,6 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   ...partial,
 });
 
-const EMPTY_LINE = "";
-
-// TODO: test thoroughly
-export const generateReport = ({
-  score,
-  rows,
-  comment,
-}: {
-  score: Score;
-  rows: Row[];
-  comment: string;
-}): string => {
-  return [
-    // TODO: un-mock
-    JSON.stringify(score, null, 2),
-    JSON.stringify(rows),
-    EMPTY_LINE,
-    comment,
-  ].join("\n");
-};
-
 const byGleasonScore = (a: Pair, b: Pair) =>
   // By sum
   sum(b) - sum(a) ||

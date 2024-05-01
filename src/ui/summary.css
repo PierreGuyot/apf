@@ -14,8 +14,8 @@
   margin: 0;
 }
 
-.summary-copy-button {
-  position: absolute;
-  top: 1em;
-  right: 1em;
+.summary-buttons {
+  margin-bottom: 0.4rem;
+  display: flex;
+  justify-content: space-between;
 }
