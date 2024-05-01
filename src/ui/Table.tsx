@@ -45,10 +45,17 @@ export function Table<Row>({
             {columns.map((column) => {
               const isDisabled = column.isDisabled && column.isDisabled(row);
               return (
-                <td key={`cell--${String(column.key)}--${rowIndex}`} className={join(isDisabled ? 'cell--is-disabled' : undefined)}>
-                  {isDisabled ? undefined : <div className="table-cell">{column.render(row, rowIndex)}</div>}
+                <td
+                  key={`cell--${String(column.key)}--${rowIndex}`}
+                  className={join(isDisabled ? "cell--is-disabled" : undefined)}
+                >
+                  {isDisabled ? undefined : (
+                    <div className="table-cell">
+                      {column.render(row, rowIndex)}
+                    </div>
+                  )}
                 </td>
-              )
+              );
             })}
           </tr>
         ))}

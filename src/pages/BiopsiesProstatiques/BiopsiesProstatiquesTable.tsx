@@ -15,7 +15,6 @@ import {
 } from "./cells";
 import { CONTAINER_TYPES, Row, Score } from "./helpers";
 
-
 const TableHeader = () => (
   <>
     <tr>
