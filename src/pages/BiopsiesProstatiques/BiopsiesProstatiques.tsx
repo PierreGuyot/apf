@@ -8,25 +8,27 @@ import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
 import { range, sum, sumPairs } from "../../ui/helpers";
 import { YES_NO_OPTIONS } from "../../ui/options";
-import { pluralize } from "../../ui/plural";
+import { count } from "../../ui/plural";
 import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
 import { PiradsSelect } from "./PiradsSelect";
+import { SelectContainerCount } from "./cells";
 import {
-  LOCATIONS,
-  PiradsItem,
   ContainerCount,
+  LOCATIONS,
+  MAX_CONTAINER_COUNT,
+  MAX_TARGET_COUNT,
+  PiradsItem,
   Row,
   SEXTAN_COUNT,
   Score,
   anEmptyPiradsItem,
   anEmptyRow,
   getMaximumByGleasonScore,
-  MAX_CONTAINER_COUNT,
-  MAX_TARGET_COUNT,
 } from "./helpers";
 import { generateReport } from "./report";
-import { SelectContainerCount } from "./cells";
+
+const getPiradsItems = () => range(MAX_TARGET_COUNT).map(anEmptyPiradsItem);
 
 const getRows = () => [
   // 6 sextans (each for one location)
@@ -45,9 +47,6 @@ export const BiopsiesProstatiques = () => {
   const [hasInfo, setHasInfo] = useBoolean();
   const [hasTarget, setHasTarget] = useBoolean();
   const [targetCount, setTargetCount] = useNumber();
-  const [piradsItems, setPiradsItems] = useState<PiradsItem[]>(
-    range(MAX_TARGET_COUNT).map(anEmptyPiradsItem),
-  );
   const [hasMri, setHasMri] = useBoolean();
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
   const [containerCount, setContainerCount] =
@@ -56,12 +55,19 @@ export const BiopsiesProstatiques = () => {
 
   // Table state
 
+  // For rows and piradsItems, we handle the maximum number of items in all
+  // cases and simply hide according to count.
+  // This way, changing the count doesn't erase previous user input.
   const [_rows, setRows] = useState<Row[]>(getRows());
-  // We handle the maximum number of items in all cases and simply hide according to count
-  // This way, changing the count doesn't erase user input
   const rows = useMemo(
     () => _rows.slice(0, containerCount),
     [containerCount, _rows],
+  );
+  const [_piradsItems, setPiradsItems] =
+    useState<PiradsItem[]>(getPiradsItems());
+  const piradsItems = useMemo(
+    () => _piradsItems.slice(0, targetCount),
+    [_piradsItems, targetCount],
   );
 
   const score: Score = {
@@ -75,18 +81,21 @@ export const BiopsiesProstatiques = () => {
     tumorPin: rows.map((row) => row.tumorPin).some(Boolean),
   };
 
-  // TODO: debug this
   const getErrors = () => {
     const errors: string[] = [];
 
     const sextans = rows.filter((row) => row.type === "sextan");
+    const sextantCount = sextans.length;
     const targets = rows.filter((row) => row.type === "target");
     const targetCount = targets.length;
     const expectedTargetCount = containerCount - SEXTAN_COUNT;
 
     if (targetCount !== expectedTargetCount) {
       errors.push(
-        `Le tableau devrait contenir ${pluralize(expectedTargetCount, "cible")} et non ${targetCount}.`,
+        `Le tableau devrait contenir ${count(expectedTargetCount, "cible")} et non ${targetCount}.`,
+      );
+      errors.push(
+        `Le tableau devrait contenir ${count(SEXTAN_COUNT, "sextan")} et non ${sextantCount}.`,
       );
     }
 
@@ -97,13 +106,27 @@ export const BiopsiesProstatiques = () => {
       );
     }
 
+    // There can be more targets in the table than PIRADS items
+    // But the PIRADS items must match the targets declared in the table
+    const tableTargets = new Set(
+      rows.filter((row) => row.type === "target").map((item) => item.location),
+    );
+    piradsItems.forEach((item, index) => {
+      const match = tableTargets.has(item.location);
+      if (!match) {
+        errors.push(
+          `La position du PIRADS numéro ${index + 1} ne correspond pas à aucune cible indiquée dans le tableau.`,
+        );
+      }
+    });
+
     return errors;
   };
 
   // Callbacks
 
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
-    const updatedArray = [...piradsItems];
+    const updatedArray = [..._piradsItems];
     updatedArray[index] = value;
     setPiradsItems(updatedArray);
   };
@@ -168,7 +191,7 @@ export const BiopsiesProstatiques = () => {
                   {targetCount ? (
                     <Item depth={1}>
                       <PiradsSelect
-                        items={piradsItems.slice(0, targetCount)}
+                        items={piradsItems}
                         onChange={onUpdatePiradsItem}
                       />
                     </Item>
@@ -212,7 +235,19 @@ export const BiopsiesProstatiques = () => {
       <Item>
         <Summary
           getContent={(language) =>
-            generateReport({ score, rows: rows, comment, language })
+            generateReport({
+              hasInfo,
+              hasTarget,
+              targetCount,
+              hasMri,
+              psaRate,
+              containerCount,
+              piradsItems,
+              score,
+              rows,
+              comment,
+              language,
+            })
           }
         />
       </Item>

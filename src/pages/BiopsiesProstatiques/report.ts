@@ -1,48 +1,32 @@
 import { Language } from "../../ui/helpers.types";
-import { Row, Score } from "./helpers";
+import { PiradsItem, Row, Score } from "./helpers";
 
-const EMPTY_LINE = "";
+type FormState = {
+  hasInfo: boolean;
+  hasTarget: boolean;
+  targetCount: number;
+  hasMri: boolean;
+  psaRate: number;
+  containerCount: number;
+  piradsItems: PiradsItem[];
+  score: Score;
+  rows: Row[];
+  comment: string;
+  language: Language;
+};
 
 // TODO: un-mock
-const mockGetContent = ({
-  score,
-  rows,
-  comment,
-  language,
-}: {
-  score: Score;
-  rows: Row[];
-  comment: string;
-  language: Language;
-}) =>
-  [
-    language,
-    EMPTY_LINE,
-    JSON.stringify(score, null, 2),
-    JSON.stringify(rows),
-    EMPTY_LINE,
-    comment,
-  ].join("\n");
+const mockGetContent = (form: FormState & {}) => JSON.stringify(form, null, 2);
 
 // TODO: test thoroughly
-export const generateReport = ({
-  score,
-  rows,
-  comment,
-  language,
-}: {
-  score: Score;
-  rows: Row[];
-  comment: string;
-  language: Language;
-}): string => {
-  switch (language) {
+export const generateReport = (form: FormState): string => {
+  switch (form.language) {
     case "FR": {
-      return mockGetContent({ score, rows, comment, language });
+      return mockGetContent(form);
     }
 
     case "EN": {
-      return mockGetContent({ score, rows, comment, language });
+      return mockGetContent(form);
     }
   }
 };
