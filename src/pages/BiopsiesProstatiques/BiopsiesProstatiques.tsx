@@ -15,6 +15,7 @@ import { PiradsSelect } from "./PiradsSelect";
 import {
   LOCATIONS,
   PiradsItem,
+  PotCount,
   Row,
   SEXTAN_COUNT,
   Score,
@@ -23,6 +24,7 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+import { SelectPotCount } from "./cells";
 
 const MAX_TARGET_COUNT = 3;
 
@@ -37,7 +39,7 @@ export const BiopsiesProstatiques = () => {
   );
   const [hasMri, setHasMri] = useBoolean();
   const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
-  const [potCount, setPotCount] = useNumber();
+  const [potCount, setPotCount] = useState<PotCount>(SEXTAN_COUNT);
   const [comment, setComment] = useString();
 
   // Table state
@@ -58,6 +60,7 @@ export const BiopsiesProstatiques = () => {
     tumorPin: rows.map((row) => row.tumorPin).some(Boolean),
   };
 
+  // TODO: debug this
   const getErrors = () => {
     const errors: string[] = [];
 
@@ -73,7 +76,7 @@ export const BiopsiesProstatiques = () => {
     }
 
     const locations = new Set(sextans.map((sextan) => sextan.location));
-    if (locations.size !== 6) {
+    if (locations.size !== SEXTAN_COUNT) {
       errors.push(
         `Le tableau devrait contenir un et un seul sextant à chacune des six positions.`,
       );
@@ -167,7 +170,7 @@ export const BiopsiesProstatiques = () => {
           done on purpose, as info given to anatomical pathologists is not
           always standardized.
         */}
-        <InputNumber
+        <SelectPotCount
           value={potCount}
           label="Combien de pots avez-vous ?"
           onChange={setPotCount}

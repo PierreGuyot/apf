@@ -11,6 +11,8 @@ import {
   GLEASON_SCORES,
   GleasonPair,
   GleasonScore,
+  POT_COUNT,
+  PotCount,
 } from "./helpers";
 
 // TODO: separate GleasonField vs Gleason, SizeField vs Size (for footer)
@@ -49,19 +51,6 @@ export const CellSize = ({ value, onChange }: FieldProps<Pair>) => (
   </div>
 );
 
-const BIOPSY_COUNT_OPTIONS: Option<BiopsyCount>[] = BIOPSY_COUNT.map(toOption);
-export const SelectBiopsyCount = ({
-  value,
-  onChange,
-}: FieldProps<BiopsyCount>) => (
-  <Select
-    name="Biopsy count"
-    value={value}
-    options={BIOPSY_COUNT_OPTIONS}
-    onChange={onChange}
-  />
-);
-
 export const CellGleason = ({ value, onChange }: FieldProps<GleasonPair>) => (
   <div className="cell">
     <div className="cell-sum">{value[0] + value[1]}</div>(
@@ -80,6 +69,8 @@ export const CellGleason = ({ value, onChange }: FieldProps<GleasonPair>) => (
   </div>
 );
 
+// TODO: refactor these using `range` and `Range` helpers
+
 const GLEASON_OPTIONS: Option<GleasonScore>[] = GLEASON_SCORES.map(toOption);
 export const SelectGleason = ({
   value,
@@ -89,6 +80,34 @@ export const SelectGleason = ({
     name="Gleason score"
     value={value}
     options={GLEASON_OPTIONS}
+    onChange={onChange}
+  />
+);
+
+const BIOPSY_COUNT_OPTIONS: Option<BiopsyCount>[] = BIOPSY_COUNT.map(toOption);
+export const SelectBiopsyCount = ({
+  value,
+  onChange,
+}: FieldProps<BiopsyCount>) => (
+  <Select
+    name="Biopsy count"
+    value={value}
+    options={BIOPSY_COUNT_OPTIONS}
+    onChange={onChange}
+  />
+);
+
+const POT_COUNT_OPTIONS: Option<PotCount>[] = POT_COUNT.map(toOption);
+export const SelectPotCount = ({
+  label,
+  value,
+  onChange,
+}: FieldProps<PotCount> & { label?: string }) => (
+  <Select
+    name="Pot count"
+    label={label}
+    value={value}
+    options={POT_COUNT_OPTIONS}
     onChange={onChange}
   />
 );

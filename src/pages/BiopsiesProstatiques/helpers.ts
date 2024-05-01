@@ -15,6 +15,9 @@ export type GleasonPair = Pair<GleasonScore>;
 export const BIOPSY_COUNT = [1, 2, 3, 4] as const;
 export type BiopsyCount = (typeof BIOPSY_COUNT)[number];
 
+export const POT_COUNT = [6, 7, 8, 9] as const;
+export type PotCount = (typeof POT_COUNT)[number];
+
 export const SEXTAN_COUNT = 6;
 
 export const LOCATIONS = [
