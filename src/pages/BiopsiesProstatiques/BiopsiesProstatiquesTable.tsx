@@ -18,14 +18,8 @@ import { POT_TYPES, Row, Score } from "./helpers";
 const TableHeader = () => (
   <>
     <tr>
-      <th scope="col" rowSpan={2} colSpan={1}>
-        N<sup>o</sup>
-      </th>
-      <th scope="col" rowSpan={2} colSpan={1}>
-        Type
-      </th>
-      <th scope="col" rowSpan={2} colSpan={1}>
-        Localisation
+      <th scope="col" rowSpan={1} colSpan={3}>
+        Pots
       </th>
       <th scope="col" rowSpan={1} colSpan={2}>
         Biopsies
@@ -38,6 +32,11 @@ const TableHeader = () => (
       </th>
     </tr>
     <tr>
+      <th scope="col">
+        N<sup>o</sup>
+      </th>
+      <th scope="col">Type</th>
+      <th scope="col">Localisation</th>
       <th scope="col">Nombre</th>
       <th scope="col">Taille</th>
       <th scope="col">Nombre +</th>
