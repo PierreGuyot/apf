@@ -49,13 +49,15 @@ export function Table<Row>({
       </tbody>
       {hasFooter ? (
         <tfoot>
-          {columns.map((column) => {
-            return (
-              <th key={`footer--${String(column.key)}`}>
-                {column.total ? column.total(rows) : undefined}
-              </th>
-            );
-          })}
+          <tr>
+            {columns.map((column) => (
+              <td key={`footer--${String(column.key)}`}>
+                <div className="table-cell">
+                  {column.total ? column.total(rows) : undefined}
+                </div>
+              </td>
+            ))}
+          </tr>
         </tfoot>
       ) : undefined}
     </table>
