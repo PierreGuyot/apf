@@ -16,7 +16,8 @@ type FormState = {
 };
 
 // TODO: un-mock
-const mockGetContent = (form: FormState & {}) => JSON.stringify(form, null, 2);
+const mockGetContent = (form: FormState & {}) =>
+  JSON.stringify(form.score, null, 2);
 
 // TODO: test thoroughly
 export const generateReport = (form: FormState): string => {

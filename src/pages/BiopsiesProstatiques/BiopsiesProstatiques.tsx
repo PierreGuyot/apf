@@ -264,23 +264,25 @@ export const BiopsiesProstatiques = () => {
         />
       </Item>
       <Item>
-        <Summary
-          getContent={(language) =>
-            generateReport({
-              hasInfo,
-              hasTarget,
-              targetCount,
-              hasMri,
-              psaRate,
-              containerCount,
-              piradsItems,
-              score,
-              rows,
-              comment,
-              language,
-            })
-          }
-        />
+        {errors.length ? undefined : (
+          <Summary
+            getContent={(language) =>
+              generateReport({
+                hasInfo,
+                hasTarget,
+                targetCount,
+                hasMri,
+                psaRate,
+                containerCount,
+                piradsItems,
+                score,
+                rows,
+                comment,
+                language,
+              })
+            }
+          />
+        )}
       </Item>
     </div>
   );
