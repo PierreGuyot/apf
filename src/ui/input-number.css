@@ -6,7 +6,6 @@
   outline: none;
 
   padding: 0.2rem 0.5rem;
-  max-width: 1.2rem;
 
   /* TODO: extract common input style */
 
@@ -19,4 +18,12 @@
   /** To indicate the input is actually interactive */
   background-color: var(--background-color);
   border-bottom: var(--border);
+}
+
+.input-number--md {
+  max-width: 1.2rem;
+}
+
+.input-number--lg {
+  max-width: 4rem;
 }

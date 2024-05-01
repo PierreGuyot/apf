@@ -110,6 +110,7 @@ export const BiopsiesProstatiques = () => {
               value={psaRate}
               label="Taux de PSA"
               unit="ng-per-mL"
+              size="lg"
               onChange={setPsaRate}
             />
           </Line>

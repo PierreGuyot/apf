@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Code } from "./Code";
 import { ErrorMessage } from "./ErrorMessage";
 import { Label } from "./Label";
-import { InputProps, OnInput } from "./input.types";
+import { join } from "./helpers";
 import "./input-number.css";
+import { InputProps, OnInput } from "./input.types";
 
 type Unit = "ng-per-mL";
 
@@ -11,6 +12,8 @@ type InputNumberProps = InputProps<number> & {
   min?: number;
   max?: number;
   unit?: Unit;
+  size?: "md" | "lg";
+  // TODO: add a isDecimal?: boolean prop
 };
 
 export const InputNumber = ({
@@ -19,6 +22,7 @@ export const InputNumber = ({
   min,
   max,
   unit,
+  size = "md",
   errorMessage,
   isSubmitted,
   onChange,
@@ -44,8 +48,13 @@ export const InputNumber = ({
     <>
       {label ? <Label label={label} /> : undefined}
       <input
-        className="input-number"
+        className={join("input-number", `input-number--${size}`)}
+        // CAUTION:
+        // Native type number inputs are poorly implemented so we resort to customizing a string input
+        // (See https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/)
+        // For instance, it is impossible to clear a type number input
         type="text"
+        inputMode="numeric"
         value={value}
         min={min}
         max={max}
