@@ -17,7 +17,9 @@ import {
   TumorCount,
 } from "./helpers";
 
-export const CellTextField = InputText;
+export const CellTextField = ({ value, onChange }: FieldProps<string>) => (
+  <InputText placeholder=" ..." isFullWidth value={value} onChange={onChange} />
+);
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellNumberField = InputNumber;
 export const CellChoice = Select;

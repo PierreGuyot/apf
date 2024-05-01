@@ -3,15 +3,18 @@ import { InputProps, OnInput } from "./input.types";
 import "./input-text.css";
 import { Label } from "./Label";
 import { ErrorMessage } from "./ErrorMessage";
+import { join } from "./helpers";
 
 type InputTextProps = InputProps<string> & {
   placeholder?: string;
+  isFullWidth?: boolean;
 };
 
 export const InputText = ({
   value,
   label,
   placeholder,
+  isFullWidth,
   errorMessage,
   isSubmitted,
   onChange,
@@ -28,7 +31,10 @@ export const InputText = ({
     <>
       {label ? <Label label={label} /> : undefined}
       <input
-        className="input-text"
+        className={join(
+          "input-text",
+          isFullWidth ? "input-text--is-full-width" : undefined,
+        )}
         type="text"
         placeholder={placeholder}
         value={value}
