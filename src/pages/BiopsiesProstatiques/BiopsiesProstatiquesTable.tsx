@@ -7,11 +7,11 @@ import {
   CellChoice,
   CellGleason,
   CellNumber,
-  CellNumberField,
   CellNumberSum,
   CellTextField,
   CellYesNo,
   SelectBiopsyCount,
+  SelectTumorCount,
 } from "./cells";
 import { CONTAINER_TYPES, Row, Score } from "./helpers";
 
@@ -109,6 +109,7 @@ export const BiopsiesProstatiquesTable = ({
       ),
       total: (_rows) => <span>{score.biopsyCount}</span>,
     },
+    // TODO: left align
     {
       label: "Biopsy Size",
       key: "biopsySize",
@@ -125,13 +126,14 @@ export const BiopsiesProstatiquesTable = ({
       label: "Tumor count",
       key: "tumorCount",
       render: (row, rowIndex) => (
-        <CellNumberField
+        <SelectTumorCount
           value={row.tumorCount}
           onChange={getOnChange("tumorCount", rowIndex)}
         />
       ),
       total: (_rows) => <span>{score.tumorCount}</span>,
     },
+    // TODO: left align
     {
       label: "Tumor size",
       key: "tumorSize",
@@ -139,7 +141,7 @@ export const BiopsiesProstatiquesTable = ({
       render: (row, rowIndex) => (
         <CellNumberSum
           value={row.tumorSize}
-          inputCount={2}
+          inputCount={row.tumorCount}
           onChange={getOnChange("tumorSize", rowIndex)}
         />
       ),

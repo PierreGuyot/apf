@@ -126,6 +126,14 @@ export const BiopsiesProstatiques = () => {
       );
     }
 
+    rows.forEach((row, index) => {
+      if (row.tumorCount > row.biopsyCount) {
+        errors.push(
+          `Le nombre de biopsies présentant une tumeur pour le pot numéro ${index + 1} est plus grand que le nombre de biopsies.`,
+        );
+      }
+    });
+
     // There can be more targets in the table than PIRADS items
     // But the PIRADS items must match the targets declared in the table
     const tableTargets = new Set(

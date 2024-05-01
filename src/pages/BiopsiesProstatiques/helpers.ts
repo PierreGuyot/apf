@@ -10,6 +10,9 @@ export type GleasonPair = Pair<GleasonScore>;
 export const BIOPSY_COUNT = [1, 2, 3, 4] as const;
 export type BiopsyCount = (typeof BIOPSY_COUNT)[number];
 
+export const TUMOR_COUNT = [0, 1, 2, 3, 4] as const;
+export type TumorCount = (typeof TUMOR_COUNT)[number];
+
 export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 export type ContainerCount = (typeof CONTAINER_COUNT)[number];
 
@@ -48,7 +51,7 @@ export type Row = {
   location: Location;
   biopsyCount: BiopsyCount;
   biopsySize: number[];
-  tumorCount: number;
+  tumorCount: TumorCount;
   tumorSize: number[];
   tumorGleason: GleasonPair;
   tumorEpn: boolean;

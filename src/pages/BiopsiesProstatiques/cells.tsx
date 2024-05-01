@@ -13,6 +13,8 @@ import {
   GleasonScore,
   CONTAINER_COUNT,
   ContainerCount,
+  TUMOR_COUNT,
+  TumorCount,
 } from "./helpers";
 
 export const CellTextField = InputText;
@@ -103,6 +105,19 @@ export const SelectBiopsyCount = ({
     name="Biopsy count"
     value={value}
     options={BIOPSY_COUNT_OPTIONS}
+    onChange={onChange}
+  />
+);
+
+const TUMOR_COUNT_OPTIONS: Option<TumorCount>[] = TUMOR_COUNT.map(toOption);
+export const SelectTumorCount = ({
+  value,
+  onChange,
+}: FieldProps<TumorCount>) => (
+  <Select
+    name="Tumor count"
+    value={value}
+    options={TUMOR_COUNT_OPTIONS}
     onChange={onChange}
   />
 );
