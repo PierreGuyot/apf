@@ -101,7 +101,7 @@ export const BiopsiesProstatiquesTable = ({
     },
     {
       label: "Biopsy Count",
-      key: "biopsy.count",
+      key: "biopsyCount",
       render: (row, rowIndex) => (
         <CellNumberField
           value={row.biopsyCount}
@@ -112,7 +112,7 @@ export const BiopsiesProstatiquesTable = ({
     },
     {
       label: "Biopsy Size",
-      key: "biopsy.size",
+      key: "biopsySize",
       render: (row, rowIndex) => (
         <CellSize
           value={row.biopsySize}
@@ -123,7 +123,7 @@ export const BiopsiesProstatiquesTable = ({
     },
     {
       label: "Tumor count",
-      key: "tumor.count",
+      key: "tumorCount",
       render: (row, rowIndex) => (
         <CellNumberField
           value={row.tumorCount}
@@ -134,7 +134,7 @@ export const BiopsiesProstatiquesTable = ({
     },
     {
       label: "Tumor size",
-      key: "tumor.size",
+      key: "tumorSize",
       render: (row, rowIndex) => (
         <CellSize
           value={row.tumorSize}
@@ -145,7 +145,7 @@ export const BiopsiesProstatiquesTable = ({
     },
     {
       label: "Tumor gleason",
-      key: "tumor.gleason",
+      key: "tumorGleason",
       render: (row, rowIndex) => (
         <CellGleason
           value={row.tumorGleason}
@@ -163,7 +163,7 @@ export const BiopsiesProstatiquesTable = ({
     },
     {
       label: "Tumor EPN",
-      key: "tumor.epn",
+      key: "tumorEpn",
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor EPN"
@@ -175,7 +175,7 @@ export const BiopsiesProstatiquesTable = ({
     },
     {
       label: "Tumor TEP",
-      key: "tumor.tep",
+      key: "tumorTep",
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor TEP"
@@ -187,7 +187,7 @@ export const BiopsiesProstatiquesTable = ({
     },
     {
       label: "Tumor PIN",
-      key: "tumor.pin",
+      key: "tumorPin",
       render: (row, rowIndex) => (
         <CellYesNo
           name="Tumor PIN"

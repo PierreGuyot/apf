@@ -5,7 +5,7 @@ export type ValueOf<Row> = Row[keyof Row];
 // TODO: fix with a mapped type after re-reading Gabriel's Typescript course
 export type Column<Row> = {
   label: string;
-  key: string;
+  key: keyof Row;
   render: (row: Row, rowIndex: number) => JSX.Element;
   total?: (rows: Row[]) => JSX.Element;
 };
