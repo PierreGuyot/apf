@@ -10,7 +10,7 @@ type SelectValue = string | number | boolean;
 type SelectProps<T extends SelectValue> = FieldProps<T> & {
   options: Option<T>[];
   name: string;
-  label?: string; // TODO: consider using label as name
+  label?: string; // TODO clean: consider using label as name
 };
 
 export function Select<T extends SelectValue>({
@@ -34,7 +34,7 @@ export function Select<T extends SelectValue>({
 
   return (
     <div className="select">
-      {/* TODO: replace with Label */}
+      {/* TODO clean: replace with Label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
       <select value={String(value)} name={name} id={id} onChange={onChange}>
         {options.map((option) => {

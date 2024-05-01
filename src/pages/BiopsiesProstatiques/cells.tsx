@@ -15,8 +15,6 @@ import {
   PotCount,
 } from "./helpers";
 
-// TODO: separate GleasonField vs Gleason, SizeField vs Size (for footer)
-
 export const CellTextField = InputText;
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellNumberField = InputNumber;
@@ -69,7 +67,7 @@ export const CellGleason = ({ value, onChange }: FieldProps<GleasonPair>) => (
   </div>
 );
 
-// TODO: refactor these using `range` and `Range` helpers
+// TODO clean: refactor these using `range` and `Range` helpers
 
 const GLEASON_OPTIONS: Option<GleasonScore>[] = GLEASON_SCORES.map(toOption);
 export const SelectGleason = ({

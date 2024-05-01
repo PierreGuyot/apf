@@ -56,15 +56,15 @@ type Props = {
   onChange: (rows: Row[]) => void;
 };
 
-// TODO: spread in parent
+// TODO clean: spread in parent
 export const BiopsiesProstatiquesTable = ({
   rows,
   score,
   errors,
   onChange,
 }: Props) => {
-  // TODO: consider passing score directly as an object to Table
-  // TODO: move this wrapper down in Table
+  // TODO clean: consider passing score directly as an object to Table
+  // TODO clean: move this wrapper down in Table
   const getOnChange =
     (key: keyof Row, rowIndex: number) => (value: ValueOf<Row>) => {
       onChange(patchArray(rows, rowIndex, (row) => ({ ...row, [key]: value })));

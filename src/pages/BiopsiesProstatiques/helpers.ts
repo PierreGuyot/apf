@@ -3,10 +3,10 @@ import { sum } from "../../ui/helpers";
 import { Pair } from "../../ui/helpers.types";
 import { Option } from "../../ui/options";
 
-// TODO:
+// TODO clean:
 // - create base `Range` type
 // - create typed `range` helper
-// - type `InputNumber` base on `min` and `max` props
+// - type `InputNumber` based on `min` and `max` props
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
@@ -68,8 +68,6 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   tumorCount: 0,
   tumorSize: [0, 0],
   tumorGleason: [3, 3],
-
-  // TODO: check naming with Louis
   tumorEpn: false,
   tumorTep: false,
   tumorPin: false,
