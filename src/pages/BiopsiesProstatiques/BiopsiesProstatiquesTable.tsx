@@ -8,7 +8,7 @@ import {
   CellGleason,
   CellNumber,
   CellNumberField,
-  CellSize,
+  CellNumberSum,
   CellTextField,
   CellYesNo,
   SelectBiopsyCount,
@@ -114,8 +114,9 @@ export const BiopsiesProstatiquesTable = ({
       label: "Biopsy Size",
       key: "biopsySize",
       render: (row, rowIndex) => (
-        <CellSize
+        <CellNumberSum
           value={row.biopsySize}
+          inputCount={row.biopsyCount}
           onChange={getOnChange("biopsySize", rowIndex)}
         />
       ),
@@ -136,8 +137,9 @@ export const BiopsiesProstatiquesTable = ({
       label: "Tumor size",
       key: "tumorSize",
       render: (row, rowIndex) => (
-        <CellSize
+        <CellNumberSum
           value={row.tumorSize}
+          inputCount={2}
           onChange={getOnChange("tumorSize", rowIndex)}
         />
       ),

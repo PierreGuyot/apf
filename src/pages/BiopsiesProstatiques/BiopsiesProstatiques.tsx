@@ -6,7 +6,7 @@ import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
-import { range, sum, sumPairs } from "../../ui/helpers";
+import { range, sum, sumArrays } from "../../ui/helpers";
 import { YES_NO_OPTIONS } from "../../ui/options";
 import { count } from "../../ui/plural";
 import { useBoolean, useNumber, useString } from "../../ui/state";
@@ -72,9 +72,12 @@ export const BiopsiesProstatiques = () => {
 
   const score: Score = {
     biopsyCount: sum(rows.map((row) => row.biopsyCount)),
-    biopsySize: sumPairs(rows.map((row) => row.biopsySize)),
+    // CAUTION: we must only count visible items
+    biopsySize: sumArrays(
+      rows.map((row) => row.biopsySize.slice(0, row.biopsyCount)),
+    ),
     tumorCount: sum(rows.map((row) => row.tumorCount)),
-    tumorSize: sumPairs(rows.map((row) => row.tumorSize)),
+    tumorSize: sumArrays(rows.map((row) => row.tumorSize)),
     tumorGleason: getMaximumByGleasonScore(rows.map((row) => row.tumorGleason)),
     tumorEpn: rows.map((row) => row.tumorEpn).some(Boolean),
     tumorTep: rows.map((row) => row.tumorTep).some(Boolean),

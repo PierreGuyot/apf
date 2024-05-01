@@ -1,8 +1,8 @@
 import { InputNumber } from "../../ui/InputNumber";
 import { InputText } from "../../ui/InputText";
 import { Select } from "../../ui/Select";
-import { toOption } from "../../ui/helpers";
-import { FieldProps, Pair } from "../../ui/helpers.types";
+import { range, toOption } from "../../ui/helpers";
+import { FieldProps } from "../../ui/helpers.types";
 import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import "./cells.css";
 import {
@@ -35,19 +35,31 @@ export const CellYesNo = ({
   />
 );
 
-const BaseCellSum = ({ value, onChange }: FieldProps<Pair>) => (
-  <>
-    <InputNumber value={value[0]} onChange={(a) => onChange([a, value[1]])} />
-    <span className="cell-plus">+</span>
-    <InputNumber value={value[1]} onChange={(b) => onChange([value[0], b])} />
-  </>
-);
+const Plus = () => <span className="cell-plus">+</span>;
 
-export const CellSize = ({ value, onChange }: FieldProps<Pair>) => (
-  <div className="cell">
-    <BaseCellSum value={value} onChange={onChange} />
-  </div>
-);
+export const CellNumberSum = ({
+  value,
+  onChange,
+  inputCount,
+}: FieldProps<number[]> & { inputCount: number }) => {
+  return (
+    <div className="cell">
+      {range(inputCount).map((_, i) => (
+        <>
+          <InputNumber
+            value={value[i]}
+            onChange={(updatedNumber) => {
+              const updatedArray = [...value];
+              updatedArray[i] = updatedNumber;
+              onChange(updatedArray);
+            }}
+          />
+          {i === inputCount - 1 ? undefined : <Plus />}
+        </>
+      ))}
+    </div>
+  );
+};
 
 export const CellGleason = ({ value, onChange }: FieldProps<GleasonPair>) => (
   <div className="cell">
@@ -57,7 +69,7 @@ export const CellGleason = ({ value, onChange }: FieldProps<GleasonPair>) => (
         value={value[0]}
         onChange={(a) => onChange([a, value[1]])}
       />
-      <span className="cell-plus">+</span>
+      <Plus />
       <SelectGleason
         value={value[1]}
         onChange={(b) => onChange([value[0], b])}

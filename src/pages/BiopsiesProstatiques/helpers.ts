@@ -3,11 +3,6 @@ import { sum } from "../../ui/helpers";
 import { Pair } from "../../ui/helpers.types";
 import { Option } from "../../ui/options";
 
-// TODO clean:
-// - create base `Range` type
-// - create typed `range` helper
-// - type `InputNumber` based on `min` and `max` props
-
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
 export type GleasonPair = Pair<GleasonScore>;
@@ -52,9 +47,9 @@ export type Row = {
   type: ContainerType;
   location: Location;
   biopsyCount: BiopsyCount;
-  biopsySize: Pair;
+  biopsySize: number[];
   tumorCount: number;
-  tumorSize: Pair;
+  tumorSize: number[];
   tumorGleason: GleasonPair;
   tumorEpn: boolean;
   tumorTep: boolean;
@@ -66,7 +61,7 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   type: "sextan",
   location: "base-right",
   biopsyCount: 2,
-  biopsySize: [0, 0],
+  biopsySize: [0, 0, 0, 0],
   tumorCount: 0,
   tumorSize: [0, 0],
   tumorGleason: [3, 3],
@@ -77,7 +72,7 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   ...partial,
 });
 
-const byGleasonScore = (a: Pair, b: Pair) =>
+const byGleasonScore = (a: GleasonPair, b: GleasonPair) =>
   // By sum
   sum(b) - sum(a) ||
   // By left value in case of equality
