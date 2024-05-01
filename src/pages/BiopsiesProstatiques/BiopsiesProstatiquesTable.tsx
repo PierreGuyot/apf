@@ -11,6 +11,7 @@ import {
   CellSize,
   CellTextField,
   CellYesNo,
+  SelectBiopsyCount,
 } from "./cells";
 import { POT_TYPES, Row, Score } from "./helpers";
 
@@ -103,7 +104,7 @@ export const BiopsiesProstatiquesTable = ({
       label: "Biopsy Count",
       key: "biopsyCount",
       render: (row, rowIndex) => (
-        <CellNumberField
+        <SelectBiopsyCount
           value={row.biopsyCount}
           onChange={getOnChange("biopsyCount", rowIndex)}
         />

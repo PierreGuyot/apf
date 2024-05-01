@@ -4,7 +4,13 @@ import { Select } from "../../ui/Select";
 import { FieldProps, Pair, toOption } from "../../ui/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import "./cells.css";
-import { GLEASON_SCORES, GleasonPair, GleasonScore } from "./helpers";
+import {
+  BIOPSY_COUNT,
+  BiopsyCount,
+  GLEASON_SCORES,
+  GleasonPair,
+  GleasonScore,
+} from "./helpers";
 
 // TODO: separate GleasonField vs Gleason, SizeField vs Size (for footer)
 
@@ -40,6 +46,19 @@ export const CellSize = ({ value, onChange }: FieldProps<Pair>) => (
   <div className="cell">
     <BaseCellSum value={value} onChange={onChange} />
   </div>
+);
+
+const BIOPSY_COUNT_OPTIONS: Option<BiopsyCount>[] = BIOPSY_COUNT.map(toOption);
+export const SelectBiopsyCount = ({
+  value,
+  onChange,
+}: FieldProps<BiopsyCount>) => (
+  <Select
+    name="Biopsy count"
+    value={value}
+    options={BIOPSY_COUNT_OPTIONS}
+    onChange={onChange}
+  />
 );
 
 export const CellGleason = ({ value, onChange }: FieldProps<GleasonPair>) => (

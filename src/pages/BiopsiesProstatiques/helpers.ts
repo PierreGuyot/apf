@@ -8,9 +8,13 @@ import { Option } from "../../ui/options";
 // - create base `Range` type
 // - create typed `range` helper
 // - type `InputNumber` base on `min` and `max` props
+
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
 export type GleasonPair = Pair<GleasonScore>;
+
+export const BIOPSY_COUNT = [1, 2, 3, 4] as const;
+export type BiopsyCount = (typeof BIOPSY_COUNT)[number];
 
 export const SEXTAN_COUNT = 6;
 
@@ -42,7 +46,7 @@ export type Row = {
   index: number;
   type: PotType;
   location: Location;
-  biopsyCount: number;
+  biopsyCount: BiopsyCount;
   biopsySize: Pair;
   tumorCount: number;
   tumorSize: Pair;
