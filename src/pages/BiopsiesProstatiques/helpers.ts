@@ -18,15 +18,16 @@ export type BiopsyCount = (typeof BIOPSY_COUNT)[number];
 
 export const SEXTAN_COUNT = 6;
 
-export type Location =
-  | "base-right"
-  | "medium-right"
-  | "apex-right"
-  | "base-left"
-  | "medium-left"
-  | "apex-left";
-
-export const LOCATIONS: Option<Location>[] = [
+export const LOCATIONS = [
+  "base-right",
+  "medium-right",
+  "apex-right",
+  "base-left",
+  "medium-left",
+  "apex-left",
+];
+export type Location = (typeof LOCATIONS)[number];
+export const LOCATION_OPTIONS: Option<Location>[] = [
   { value: "base-right", label: "Base droite" },
   { value: "medium-right", label: "Milieu droit" },
   { value: "apex-right", label: "Apex droit" },
@@ -57,8 +58,7 @@ export type Row = {
   otherLesions: string;
 };
 
-export const anEmptyRow = (index: number): Row => ({
-  index,
+export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   type: "sextan",
   location: "base-right",
   biopsyCount: 2,
@@ -72,6 +72,7 @@ export const anEmptyRow = (index: number): Row => ({
   tumorTep: false,
   tumorPin: false,
   otherLesions: "",
+  ...partial,
 });
 
 const EMPTY_LINE = "";

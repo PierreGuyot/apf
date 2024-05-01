@@ -12,6 +12,7 @@ import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
 import { PiradsSelect } from "./PiradsSelect";
 import {
+  LOCATIONS,
   PiradsItem,
   Row,
   SEXTAN_COUNT,
@@ -41,7 +42,9 @@ export const BiopsiesProstatiques = () => {
   // Table state
 
   // TODO: un-mock initial value
-  const [rows, setRows] = useState<Row[]>(range(6).map(anEmptyRow));
+  const [rows, setRows] = useState<Row[]>(
+    LOCATIONS.map((location, index) => anEmptyRow({ location, index })),
+  );
 
   const score: Score = {
     biopsyCount: sum(rows.map((row) => row.biopsyCount)),
