@@ -66,3 +66,5 @@ export const toOption = <T extends number = number>(value: T) => ({
 
 // Base type for any kind of input/field
 export type FieldProps<T> = { value: T; onChange: (value: T) => void };
+
+export const px = (value: number) => `${value}px`;

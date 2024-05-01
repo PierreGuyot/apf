@@ -38,16 +38,14 @@ export const PiradsSelect = ({
 }: {
   items: PiradsItem[];
   onChange: (value: PiradsItem, index: number) => void;
-}) => {
-  return (
-    <div className="pirads-select">
-      {items.map((item, i) => (
-        <PiradsLine
-          key={i}
-          value={item}
-          onChange={(value) => onChange(value, i)}
-        />
-      ))}
-    </div>
-  );
-};
+}) => (
+  <>
+    {items.map((item, i) => (
+      <PiradsLine
+        key={i}
+        value={item}
+        onChange={(value) => onChange(value, i)}
+      />
+    ))}
+  </>
+);

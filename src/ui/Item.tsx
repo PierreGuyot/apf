@@ -1,9 +1,18 @@
 import { PropsWithChildren } from "react";
 
 import "./item.css";
+import { join, px } from "./helpers";
 
-type ItemProps = PropsWithChildren<{}>;
+type ItemProps = PropsWithChildren<{
+  depth?: number;
+}>;
 
-export const Item = ({ children }: ItemProps) => (
-  <div className="item">{children}</div>
+const BASE_NESTING = 25;
+export const Item = ({ children, depth = 0 }: ItemProps) => (
+  <div
+    className={join("item", depth ? "item--is-nested" : undefined)}
+    style={{ paddingLeft: px(depth * BASE_NESTING) }}
+  >
+    {children}
+  </div>
 );

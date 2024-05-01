@@ -1,8 +1,3 @@
-.pirads-select {
-  margin: 0.8rem 0;
-  margin-left: 2rem; /** TODO: handle this spacing at the parent level **/
-}
-
 .pirads-item {
   display: flex;
   align-items: center;

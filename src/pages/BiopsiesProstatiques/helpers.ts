@@ -5,9 +5,9 @@ import { Pair, sum } from "../../ui/helpers";
 import { Option } from "../../ui/options";
 
 // TODO:
-// - create base `Range` type 
+// - create base `Range` type
 // - create typed `range` helper
-// - type `InputNumber` base on `min` and `max` props 
+// - type `InputNumber` base on `min` and `max` props
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
 export type GleasonPair = Pair<GleasonScore>;

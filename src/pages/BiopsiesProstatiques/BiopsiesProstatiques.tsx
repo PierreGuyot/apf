@@ -147,51 +147,56 @@ export const BiopsiesProstatiques = () => {
                   </Line>
                   {/* We handle the maximum number of items in all cases and simply hide according to count
                   This way, changing the count doesn't erase user input */}
-                  <PiradsSelect
-                    items={piradsItems.slice(0, targetCount)}
-                    onChange={onUpdatePiradsItem}
-                  />
+                  {targetCount ? (
+                    <Item depth={1}>
+                      <PiradsSelect
+                        items={piradsItems.slice(0, targetCount)}
+                        onChange={onUpdatePiradsItem}
+                      />
+                    </Item>
+                  ) : undefined}
                 </>
               ) : undefined}
             </>
           ) : undefined}
-
-          <Line>
-            {/* TODO: this question should be unnecessary (potCount should be computed from targetCount) */}
-            <InputNumber
-              value={potCount}
-              label="Combien de pots avez-vous ?"
-              onChange={setPotCount}
-            />
-          </Line>
-
-          <Item>
-            <BiopsiesProstatiquesTable
-              rows={rows}
-              score={score}
-              errors={getErrors()}
-              onChange={setRows}
-            />
-          </Item>
-
-          <Item>
-            <InputTextArea
-              value={comment}
-              label="Remarques particulières"
-              // TODO: add examples
-              placeholder="Ajoutez vos remarques additionnelles dans ce champ."
-              onChange={setComment}
-            />
-          </Item>
-
-          {/* TODO: generate summary from data (french) */}
-          {/* TODO: generate summary from data (english) */}
-          {/* TODO: add button to switch languages */}
-          <Item>
-            <Summary content={generateReport({ score, rows, comment })} />
-          </Item>
         </>
       ) : undefined}
+      <Line>
+        {/* CAUTION:
+          This question is redundant with some previous questions but it is on
+          done on purpose, as info given to anatomical pathologists is not
+          always standardized.
+        */}
+        <InputNumber
+          value={potCount}
+          label="Combien de pots avez-vous ?"
+          onChange={setPotCount}
+        />
+      </Line>
+
+      <Item>
+        <BiopsiesProstatiquesTable
+          rows={rows}
+          score={score}
+          errors={getErrors()}
+          onChange={setRows}
+        />
+      </Item>
+      <Item>
+        <InputTextArea
+          value={comment}
+          label="Remarques particulières"
+          // TODO: add examples
+          placeholder="Ajoutez vos remarques additionnelles dans ce champ."
+          onChange={setComment}
+        />
+      </Item>
+      {/* TODO: generate summary from data (french) */}
+      {/* TODO: generate summary from data (english) */}
+      {/* TODO: add button to switch languages */}
+      <Item>
+        <Summary content={generateReport({ score, rows, comment })} />
+      </Item>
     </div>
   );
 };
