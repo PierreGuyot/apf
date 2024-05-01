@@ -1,6 +1,7 @@
+import { YesOrNo } from "../../ui/YesOrNo";
 import { Column, Table, ValueOf } from "../../ui/Table";
 import { patchArray } from "../../ui/helpers";
-import { YES_NO_OPTIONS } from "../../ui/options";
+import { SelectLocation } from "./SelectLocation";
 import { ValidationErrors } from "./ValidationErrors";
 import {
   CellChoice,
@@ -11,13 +12,7 @@ import {
   CellTextField,
   CellYesNo,
 } from "./cells";
-import { LOCATIONS, POT_TYPES, Row, Score } from "./helpers";
-
-// TODO: extract as a helper
-const YesOrNo = ({ value }: { value: boolean }) => {
-  const option = YES_NO_OPTIONS.find((item) => item.value === value);
-  return <span>{option?.label}</span>;
-};
+import { POT_TYPES, Row, Score } from "./helpers";
 
 const TableHeader = () => (
   <>
@@ -98,9 +93,7 @@ export const BiopsiesProstatiquesTable = ({
       label: "Location",
       key: "location",
       render: (value, rowIndex) => (
-        <CellChoice
-          name="Location"
-          options={LOCATIONS}
+        <SelectLocation
           value={value.location}
           onChange={getOnChange("location", rowIndex)}
         />
@@ -207,14 +200,12 @@ export const BiopsiesProstatiquesTable = ({
     {
       label: "Other lesions",
       key: "otherLesions",
-      render: (row, rowIndex) => {
-        return (
-          <CellTextField
-            value={row.otherLesions}
-            onChange={getOnChange("otherLesions", rowIndex)}
-          />
-        );
-      },
+      render: (row, rowIndex) => (
+        <CellTextField
+          value={row.otherLesions}
+          onChange={getOnChange("otherLesions", rowIndex)}
+        />
+      ),
     },
   ];
 
