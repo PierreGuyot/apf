@@ -31,7 +31,6 @@ TODO: principles of design (with related articles)
 ### Quick start
 
 You'll need `yarn` installed: \
-TODO: guide to install yarn
 
 `yarn start` \
 Starts the app in development mode.
