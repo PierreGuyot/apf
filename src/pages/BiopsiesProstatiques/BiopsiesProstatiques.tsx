@@ -9,7 +9,6 @@ import { Summary } from "../../ui/Summary";
 import { range, sum, sumArrays, toOption } from "../../ui/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import { count } from "../../ui/plural";
-import { useBoolean, useNumber, useString } from "../../ui/state";
 import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
 import { PiradsSelect } from "./PiradsSelect";
 import {
@@ -29,19 +28,6 @@ import { generateReport } from "./report";
 export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
 
-const getPiradsItems = () => range(MAX_TARGET_COUNT).map(anEmptyPiradsItem);
-
-const getRows = () => [
-  // 6 sextans (each for one location)
-  ...LOCATIONS.map((location, index) =>
-    anEmptyRow({ index, location, type: "sextan" }),
-  ),
-  // 3 targets
-  ...range(MAX_TARGET_COUNT).map((_, index) =>
-    anEmptyRow({ index: index + LOCATIONS.length, type: "target" }),
-  ),
-];
-
 // TODO: test extensively
 // CAUTION: be very cautious about counting only visible items
 const getScore = (rows: Row[]): Score => {
@@ -50,14 +36,14 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-        tumorGleason: getMaximumByGleasonScore(
-          rowsWithTumor.map((row) => row.tumorGleason),
-        ),
-        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-        tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
-      }
+      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+      tumorGleason: getMaximumByGleasonScore(
+        rowsWithTumor.map((row) => row.tumorGleason),
+      ),
+      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+      tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
+    }
     : {};
 
   return {
@@ -130,37 +116,87 @@ const getErrors = ({
   return errors;
 };
 
+type State = {
+  hasInfo: boolean;
+  hasTarget: boolean;
+  targetCount: number;
+  hasMri: boolean;
+  psaRate: number;
+  containerCount: number;
+  rows: Row[];
+  piradsItems: PiradsItem[];
+  comment: string;
+};
+
+const getPiradsItems = () => range(MAX_TARGET_COUNT).map(anEmptyPiradsItem);
+
+const getRows = () => [
+  // 6 sextans (each for one location)
+  ...LOCATIONS.map((location, index) =>
+    anEmptyRow({ index, location, type: "sextan" }),
+  ),
+  // 3 targets
+  ...range(MAX_TARGET_COUNT).map((_, index) =>
+    anEmptyRow({ index: index + LOCATIONS.length, type: "target" }),
+  ),
+];
+
+const getInitialState = (): State => ({
+  hasInfo: false,
+  hasTarget: false,
+  targetCount: 0,
+  hasMri: false,
+  psaRate: 0,
+  containerCount: MAX_CONTAINER_COUNT,
+  rows: getRows(),
+  piradsItems: getPiradsItems(),
+  comment: "",
+});
+
 export const BiopsiesProstatiques = () => {
-  const [hasInfo, setHasInfo] = useBoolean();
-  const [hasTarget, setHasTarget] = useBoolean();
-  const [targetCount, setTargetCount] = useNumber();
-  const [hasMri, setHasMri] = useBoolean();
-  const [psaRate, setPsaRate] = useNumber(); // Prostatic Specific Antigen
-  const [containerCount, setContainerCount] = useNumber(MAX_CONTAINER_COUNT);
-  const [comment, setComment] = useString();
+  // State
+
+  const [state, _setState] = useState<State>(getInitialState());
+  const {
+    hasInfo,
+    hasTarget,
+    targetCount,
+    hasMri,
+    psaRate,
+    containerCount,
+    comment,
+  } = state;
+
+  // TODO: extract useForm hook: const {state, setState, clearState} = useForm<State>(getInitialState)
+  function update<K extends keyof State>(key: K) {
+    return (value: State[K]) => _setState({ ...state, [key]: value });
+  }
 
   // For rows and piradsItems, we handle the maximum number of items in all
   // cases and simply hide according to count.
   // This way, changing the count doesn't erase previous user input.
-  const [_rows, setRows] = useState<Row[]>(getRows());
   const rows = useMemo(
-    () => _rows.slice(0, containerCount),
-    [containerCount, _rows],
+    () => state.rows.slice(0, state.containerCount),
+    [state.rows, state.containerCount],
   );
-  const [_piradsItems, setPiradsItems] =
-    useState<PiradsItem[]>(getPiradsItems());
   const piradsItems = useMemo(
-    () => _piradsItems.slice(0, targetCount),
-    [_piradsItems, targetCount],
+    () => state.piradsItems.slice(0, state.targetCount),
+    [state.piradsItems, state.targetCount],
   );
+
+  // Computed
 
   const score = getScore(rows);
-  const errors = getErrors({ rows, containerCount, piradsItems });
+  const errors = getErrors({
+    rows,
+    containerCount: state.containerCount,
+    piradsItems,
+  });
 
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
-    const updatedArray = [..._piradsItems];
+    const updatedArray = [...piradsItems];
     updatedArray[index] = value;
-    setPiradsItems(updatedArray);
+    update("piradsItems")(updatedArray);
   };
 
   return (
@@ -171,7 +207,7 @@ export const BiopsiesProstatiques = () => {
           options={YES_NO_OPTIONS}
           name="Renseignements cliniques"
           label="Avez-vous des renseignements cliniques ?"
-          onChange={setHasInfo}
+          onChange={update("hasInfo")}
         />
       </Line>
       {hasInfo ? (
@@ -182,7 +218,7 @@ export const BiopsiesProstatiques = () => {
               label="Taux de PSA"
               unit="ng-per-mL"
               size="lg"
-              onChange={setPsaRate}
+              onChange={update("psaRate")}
             />
           </Line>
           <Line>
@@ -191,7 +227,7 @@ export const BiopsiesProstatiques = () => {
               options={YES_NO_OPTIONS}
               name="IRM"
               label="Avez-vous une IRM ?"
-              onChange={setHasMri}
+              onChange={update("hasMri")}
             />
           </Line>
           {hasMri ? (
@@ -202,7 +238,7 @@ export const BiopsiesProstatiques = () => {
                   options={YES_NO_OPTIONS}
                   name="Présence de cible"
                   label="Avez-vous au moins une cible ?"
-                  onChange={setHasTarget}
+                  onChange={update("hasTarget")}
                 />
               </Line>
               {hasTarget ? (
@@ -213,7 +249,7 @@ export const BiopsiesProstatiques = () => {
                       name="Nombre de cibles"
                       label="Nombre de cibles"
                       max={MAX_TARGET_COUNT}
-                      onChange={setTargetCount}
+                      onChange={update("targetCount")}
                     />
                   </Line>
                   {/* We handle the maximum number of items in all cases and simply hide according to count
@@ -243,7 +279,7 @@ export const BiopsiesProstatiques = () => {
           value={containerCount}
           label="Combien de pots avez-vous ?"
           options={CONTAINER_COUNT_OPTIONS}
-          onChange={setContainerCount}
+          onChange={update("containerCount")}
         />
       </Line>
 
@@ -252,7 +288,7 @@ export const BiopsiesProstatiques = () => {
           rows={rows}
           score={score}
           errors={errors}
-          onChange={setRows}
+          onChange={update("rows")}
         />
       </Item>
       <Item>
@@ -260,7 +296,7 @@ export const BiopsiesProstatiques = () => {
           value={comment}
           label="Remarques particulières"
           placeholder="Ajoutez vos remarques additionnelles dans ce champ."
-          onChange={setComment}
+          onChange={update("comment")}
         />
       </Item>
       <Item>
