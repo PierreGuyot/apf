@@ -1,3 +1,4 @@
+import { Fragment } from "react/jsx-runtime";
 import { InputNumber } from "../../ui/InputNumber";
 import { InputText } from "../../ui/InputText";
 import { Select } from "../../ui/Select";
@@ -35,25 +36,23 @@ export const CellNumberSum = ({
   value,
   onChange,
   inputCount,
-}: FieldProps<number[]> & { inputCount: number }) => {
-  return (
-    <div className="cell">
-      {range(inputCount).map((_, i) => (
-        <>
-          <InputNumber
-            value={value[i]}
-            onChange={(updatedNumber) => {
-              const updatedArray = [...value];
-              updatedArray[i] = updatedNumber;
-              onChange(updatedArray);
-            }}
-          />
-          {i === inputCount - 1 ? undefined : <Plus />}
-        </>
-      ))}
-    </div>
-  );
-};
+}: FieldProps<number[]> & { inputCount: number }) => (
+  <div className="cell">
+    {range(inputCount).map((_, i) => (
+      <Fragment key={i}>
+        <InputNumber
+          value={value[i]}
+          onChange={(updatedNumber) => {
+            const updatedArray = [...value];
+            updatedArray[i] = updatedNumber;
+            onChange(updatedArray);
+          }}
+        />
+        {i === inputCount - 1 ? undefined : <Plus />}
+      </Fragment>
+    ))}
+  </div>
+);
 
 const GLEASON_OPTIONS: Option<GleasonScore>[] = GLEASON_SCORES.map(toOption);
 const SelectGleason = ({ value, onChange }: FieldProps<GleasonScore>) => (
