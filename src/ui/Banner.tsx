@@ -39,7 +39,7 @@ export const Banner = ({ formId, onClear: _onClear }: BannerProps) => {
           {formatDurationInDays({ duration: daysSinceLastUpdate })})
         </div>
         <div>
-          Vous pouvez re-télécharger une version plus à jour de ce formulaire{" "}
+          Vous pouvez télécharger une version plus à jour de ce formulaire{" "}
           <a href={REPOSITORY_LINK}>ici</a>.
         </div>
       </div>
