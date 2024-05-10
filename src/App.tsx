@@ -1,5 +1,5 @@
 import { Page } from "./ui/Page";
-import { BiopsiesProstatiques } from "./pages/BiopsiesProstatiques/BiopsiesProstatiques";
+import { ProstateBiopsyForm } from "./pages/prostate-biopsy/ProstateBiopsyForm";
 import { Banner } from "./ui/Banner";
 import { FORMS } from "./ui/forms";
 
@@ -10,7 +10,7 @@ export const App = () => {
   return (
     <Page title={form.title}>
       <Banner formId={formId} />
-      <BiopsiesProstatiques />
+      <ProstateBiopsyForm />
     </Page>
   );
 };

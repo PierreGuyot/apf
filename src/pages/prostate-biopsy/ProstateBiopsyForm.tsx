@@ -9,7 +9,7 @@ import { Summary } from "../../ui/Summary";
 import { range, sum, sumArrays, toOption } from "../../ui/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import { count } from "../../ui/plural";
-import { BiopsiesProstatiquesTable } from "./BiopsiesProstatiquesTable";
+import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import { PiradsSelect } from "./PiradsSelect";
 import {
   LOCATIONS,
@@ -154,7 +154,7 @@ const getInitialState = (): State => ({
   comment: "",
 });
 
-export const BiopsiesProstatiques = () => {
+export const ProstateBiopsyForm = () => {
   // State
   const { state, setState } = useForm(getInitialState);
   const {
@@ -279,7 +279,7 @@ export const BiopsiesProstatiques = () => {
       </Line>
 
       <Item>
-        <BiopsiesProstatiquesTable
+        <ProstateBiopsyTable
           rows={rows}
           score={score}
           errors={errors}

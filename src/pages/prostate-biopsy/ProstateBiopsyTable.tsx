@@ -60,7 +60,7 @@ type Props = {
 };
 
 // TODO clean: spread in parent
-export const BiopsiesProstatiquesTable = ({
+export const ProstateBiopsyTable = ({
   rows,
   score,
   errors,
