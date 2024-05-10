@@ -1,14 +1,18 @@
 import { useMemo } from "react";
+import { Banner } from "../../ui/Banner";
 import { InputNumber } from "../../ui/InputNumber";
 import { InputTextArea } from "../../ui/InputTextArea";
 import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
+import { Page } from "../../ui/Page";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
+import { FORMS } from "../../ui/forms";
 import { range, sum, sumArrays, toOption } from "../../ui/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import { count } from "../../ui/plural";
+import { useForm } from "../../ui/use-form";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
@@ -24,14 +28,10 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-import { useForm } from "../../ui/use-form";
-import { FORMS } from "../../ui/forms";
-import { Page } from "../../ui/Page";
-import { Banner } from "../../ui/Banner";
 
 const FORM_ID = "prostate-biopsy";
 
-export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
+const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
 
 // TODO: test extensively
