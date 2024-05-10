@@ -24,6 +24,7 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+import { useForm } from "./use-form";
 
 export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
@@ -155,8 +156,7 @@ const getInitialState = (): State => ({
 
 export const BiopsiesProstatiques = () => {
   // State
-
-  const [state, _setState] = useState<State>(getInitialState());
+  const { state, setState } = useForm(getInitialState);
   const {
     hasInfo,
     hasTarget,
@@ -166,11 +166,6 @@ export const BiopsiesProstatiques = () => {
     containerCount,
     comment,
   } = state;
-
-  // TODO: extract useForm hook: const {state, setState, clearState} = useForm<State>(getInitialState)
-  function update<K extends keyof State>(key: K) {
-    return (value: State[K]) => _setState({ ...state, [key]: value });
-  }
 
   // For rows and piradsItems, we handle the maximum number of items in all
   // cases and simply hide according to count.
@@ -196,7 +191,7 @@ export const BiopsiesProstatiques = () => {
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
     const updatedArray = [...piradsItems];
     updatedArray[index] = value;
-    update("piradsItems")(updatedArray);
+    setState("piradsItems")(updatedArray);
   };
 
   return (
@@ -207,7 +202,7 @@ export const BiopsiesProstatiques = () => {
           options={YES_NO_OPTIONS}
           name="Renseignements cliniques"
           label="Avez-vous des renseignements cliniques ?"
-          onChange={update("hasInfo")}
+          onChange={setState("hasInfo")}
         />
       </Line>
       {hasInfo ? (
@@ -218,7 +213,7 @@ export const BiopsiesProstatiques = () => {
               label="Taux de PSA"
               unit="ng-per-mL"
               size="lg"
-              onChange={update("psaRate")}
+              onChange={setState("psaRate")}
             />
           </Line>
           <Line>
@@ -227,7 +222,7 @@ export const BiopsiesProstatiques = () => {
               options={YES_NO_OPTIONS}
               name="IRM"
               label="Avez-vous une IRM ?"
-              onChange={update("hasMri")}
+              onChange={setState("hasMri")}
             />
           </Line>
           {hasMri ? (
@@ -238,7 +233,7 @@ export const BiopsiesProstatiques = () => {
                   options={YES_NO_OPTIONS}
                   name="Présence de cible"
                   label="Avez-vous au moins une cible ?"
-                  onChange={update("hasTarget")}
+                  onChange={setState("hasTarget")}
                 />
               </Line>
               {hasTarget ? (
@@ -249,7 +244,7 @@ export const BiopsiesProstatiques = () => {
                       name="Nombre de cibles"
                       label="Nombre de cibles"
                       max={MAX_TARGET_COUNT}
-                      onChange={update("targetCount")}
+                      onChange={setState("targetCount")}
                     />
                   </Line>
                   {/* We handle the maximum number of items in all cases and simply hide according to count
@@ -279,7 +274,7 @@ export const BiopsiesProstatiques = () => {
           value={containerCount}
           label="Combien de pots avez-vous ?"
           options={CONTAINER_COUNT_OPTIONS}
-          onChange={update("containerCount")}
+          onChange={setState("containerCount")}
         />
       </Line>
 
@@ -288,7 +283,7 @@ export const BiopsiesProstatiques = () => {
           rows={rows}
           score={score}
           errors={errors}
-          onChange={update("rows")}
+          onChange={setState("rows")}
         />
       </Item>
       <Item>
@@ -296,7 +291,7 @@ export const BiopsiesProstatiques = () => {
           value={comment}
           label="Remarques particulières"
           placeholder="Ajoutez vos remarques additionnelles dans ce champ."
-          onChange={update("comment")}
+          onChange={setState("comment")}
         />
       </Item>
       <Item>
