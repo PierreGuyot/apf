@@ -24,7 +24,7 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-import { useForm } from "./use-form";
+import { useForm } from "../../ui/use-form";
 import { FORMS } from "../../ui/forms";
 import { Page } from "../../ui/Page";
 import { Banner } from "../../ui/Banner";
@@ -42,14 +42,14 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-      tumorGleason: getMaximumByGleasonScore(
-        rowsWithTumor.map((row) => row.tumorGleason),
-      ),
-      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-      tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
-    }
+        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+        tumorGleason: getMaximumByGleasonScore(
+          rowsWithTumor.map((row) => row.tumorGleason),
+        ),
+        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+        tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
+      }
     : {};
 
   return {

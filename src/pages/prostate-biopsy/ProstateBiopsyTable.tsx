@@ -4,7 +4,7 @@ import { YesOrNo } from "../../ui/YesOrNo";
 import { patchArray, toOption } from "../../ui/helpers";
 import { Option } from "../../ui/options";
 import { SelectLocation } from "./SelectLocation";
-import { ValidationErrors } from "./ValidationErrors";
+import { ValidationErrors } from "../../ui/ValidationErrors";
 import {
   CellChoice,
   CellGleason,

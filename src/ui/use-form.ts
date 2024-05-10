@@ -1,7 +1,5 @@
 import { useCallback, useState } from "react";
 
-// TODO: move to /ui folder
-
 export const useForm = <State>(getInitialState: () => State) => {
   const [state, _setState] = useState<State>(getInitialState());
 
