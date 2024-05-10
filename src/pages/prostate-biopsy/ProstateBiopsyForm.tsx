@@ -42,14 +42,14 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-        tumorGleason: getMaximumByGleasonScore(
-          rowsWithTumor.map((row) => row.tumorGleason),
-        ),
-        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-        tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
-      }
+      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+      tumorGleason: getMaximumByGleasonScore(
+        rowsWithTumor.map((row) => row.tumorGleason),
+      ),
+      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+      tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
+    }
     : {};
 
   return {
@@ -295,6 +295,7 @@ export const ProstateBiopsyForm = () => {
         />
       </Item>
       <Item>
+        {/* TODO: extract as AdditionalRemarks */}
         <InputTextArea
           value={comment}
           label="Remarques particulières"
