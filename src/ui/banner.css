@@ -7,10 +7,12 @@
   padding: 1rem 2rem;
   background-color: white;
   border-bottom: 1px solid grey;
-  justify-content: space-between;
   box-sizing: border-box;
   z-index: 100;
   font-size: 0.8rem;
+
+  display: flex;
+  justify-content: space-between;
 }
 
 .banner--warning {

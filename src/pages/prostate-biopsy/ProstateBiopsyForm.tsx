@@ -163,7 +163,7 @@ export const ProstateBiopsyForm = () => {
   const form = FORMS[FORM_ID];
 
   // State
-  const { state, setState } = useForm(getInitialState);
+  const { state, setState, clearState } = useForm(getInitialState);
   const {
     hasInfo,
     hasTarget,
@@ -203,7 +203,7 @@ export const ProstateBiopsyForm = () => {
 
   return (
     <Page title={form.title}>
-      <Banner formId={FORM_ID} />
+      <Banner formId={FORM_ID} onClear={clearState} />
       <Line>
         <Select
           value={hasInfo}

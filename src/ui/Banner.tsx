@@ -1,3 +1,4 @@
+import { Button } from "./Button";
 import "./banner.css";
 import { FORMS, FormId } from "./forms";
 import { join } from "./helpers";
@@ -9,25 +10,40 @@ const WARNING_DELAY_IN_DAYS = 180; // In days
 
 type BannerProps = {
   formId: FormId;
+  onClear: () => void;
 };
 
 const REPOSITORY_LINK = "https://github.com/PierreGuyot/apf";
+const CONFIRMATION_MESSAGE = [
+  "Êtes-vous certain de vouloir remettre le formulaire à zéro ?",
+  "Vos changements seront définitivement perdus.",
+].join("\n");
 
-export const Banner = ({ formId }: BannerProps) => {
+export const Banner = ({ formId, onClear: _onClear }: BannerProps) => {
   const { lastUpdate } = FORMS[formId];
   const daysSinceLastUpdate = Math.floor((Date.now() - lastUpdate) / ONE_DAY); // In days
   const isWarning = daysSinceLastUpdate > WARNING_DELAY_IN_DAYS;
 
+  const onClear = () => {
+    const confirmation = window.confirm(CONFIRMATION_MESSAGE);
+    if (confirmation) {
+      _onClear();
+    }
+  };
+
   return (
     <div className={join("banner", isWarning ? "banner--warning" : undefined)}>
       <div>
-        Dernière mise à jour le {formatDate({ timestamp: lastUpdate })} (
-        {formatDurationInDays({ duration: daysSinceLastUpdate })})
+        <div>
+          Dernière mise à jour le {formatDate({ timestamp: lastUpdate })} (
+          {formatDurationInDays({ duration: daysSinceLastUpdate })})
+        </div>
+        <div>
+          Vous pouvez re-télécharger une version plus à jour de ce formulaire{" "}
+          <a href={REPOSITORY_LINK}>ici</a>.
+        </div>
       </div>
-      <div>
-        Vous pouvez re-télécharger une version plus à jour de ce formulaire en
-        cliquant <a href={REPOSITORY_LINK}>ici</a>.
-      </div>
+      <Button label="Remettre le formulaire à zéro" onClick={onClear} />
     </div>
   );
 };
