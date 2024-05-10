@@ -28,6 +28,7 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+import { AdditionalRemarks } from "../../ui/AdditionalRemarks";
 
 const FORM_ID = "prostate-biopsy";
 
@@ -294,15 +295,9 @@ export const ProstateBiopsyForm = () => {
           onChange={setState("rows")}
         />
       </Item>
-      <Item>
-        {/* TODO: extract as AdditionalRemarks */}
-        <InputTextArea
-          value={comment}
-          label="Remarques particulières"
-          placeholder="Ajoutez vos remarques additionnelles dans ce champ."
-          onChange={setState("comment")}
-        />
-      </Item>
+
+      <AdditionalRemarks value={comment} onChange={setState("comment")} />
+
       <Item>
         {errors.length ? undefined : (
           <Summary
