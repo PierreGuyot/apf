@@ -1,6 +1,10 @@
-type InputTextProps = {
+import "./error-message.css";
+
+type Props = {
   errorMessage?: string;
 };
 
-export const ErrorMessage = ({ errorMessage }: InputTextProps) =>
-  errorMessage ? <div>{errorMessage}</div> : undefined;
+export const ErrorMessage = ({ errorMessage }: Props) =>
+  errorMessage ? (
+    <div className="error-message">{errorMessage}</div>
+  ) : undefined;
