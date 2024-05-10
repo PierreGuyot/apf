@@ -2,6 +2,7 @@ import "./validation-errors.css";
 
 type Props = { errors: string[] };
 
+// TODO: move to /ui folder
 export const ValidationErrors = ({ errors }: Props) =>
   errors.length ? (
     <div className="validation-errors">
