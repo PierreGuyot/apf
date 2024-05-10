@@ -25,6 +25,11 @@ import {
 } from "./helpers";
 import { generateReport } from "./report";
 import { useForm } from "./use-form";
+import { FORMS } from "../../ui/forms";
+import { Page } from "../../ui/Page";
+import { Banner } from "../../ui/Banner";
+
+const FORM_ID = "prostate-biopsy";
 
 export const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
@@ -155,6 +160,8 @@ const getInitialState = (): FormState => ({
 });
 
 export const ProstateBiopsyForm = () => {
+  const form = FORMS[FORM_ID];
+
   // State
   const { state, setState } = useForm(getInitialState);
   const {
@@ -195,7 +202,8 @@ export const ProstateBiopsyForm = () => {
   };
 
   return (
-    <div>
+    <Page title={form.title}>
+      <Banner formId={FORM_ID} />
       <Line>
         <Select
           value={hasInfo}
@@ -315,6 +323,6 @@ export const ProstateBiopsyForm = () => {
           />
         )}
       </Item>
-    </div>
+    </Page>
   );
 };
