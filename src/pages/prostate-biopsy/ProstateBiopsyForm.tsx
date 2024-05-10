@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { InputNumber } from "../../ui/InputNumber";
 import { InputTextArea } from "../../ui/InputTextArea";
 import { Item } from "../../ui/Item";
@@ -9,8 +9,8 @@ import { Summary } from "../../ui/Summary";
 import { range, sum, sumArrays, toOption } from "../../ui/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import { count } from "../../ui/plural";
-import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import { PiradsSelect } from "./PiradsSelect";
+import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
   LOCATIONS,
   MAX_CONTAINER_COUNT,
@@ -117,15 +117,15 @@ const getErrors = ({
   return errors;
 };
 
-type State = {
+export type FormState = {
   hasInfo: boolean;
   hasTarget: boolean;
   targetCount: number;
   hasMri: boolean;
   psaRate: number;
   containerCount: number;
-  rows: Row[];
   piradsItems: PiradsItem[];
+  rows: Row[];
   comment: string;
 };
 
@@ -142,7 +142,7 @@ const getRows = () => [
   ),
 ];
 
-const getInitialState = (): State => ({
+const getInitialState = (): FormState => ({
   hasInfo: false,
   hasTarget: false,
   targetCount: 0,
