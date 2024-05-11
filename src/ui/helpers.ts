@@ -63,3 +63,24 @@ export const toOption = <T extends number = number>(value: T) => ({
 });
 
 export const px = (value: number) => `${value}px`;
+
+export const clamp = ({
+  value: _value,
+  min,
+  max,
+}: {
+  value: number;
+  min?: number;
+  max?: number;
+}) => {
+  let value = _value;
+
+  if (min) {
+    value = Math.max(value, min);
+  }
+  if (max) {
+    value = Math.min(value, max);
+  }
+
+  return value;
+};

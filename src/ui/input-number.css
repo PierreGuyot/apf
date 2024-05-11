@@ -16,6 +16,7 @@
 
   /* Custom style */
   padding: 0.2rem 0.5rem;
+  border: 1px solid transparent;
 }
 
 .input-number--md {
@@ -24,4 +25,9 @@
 
 .input-number--lg {
   max-width: 4rem;
+}
+
+/* TODO: extract and make common with other inputs */
+.input-number--is-invalid {
+  border-color: red;
 }

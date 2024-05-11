@@ -1,7 +1,7 @@
 import { useMemo } from "react";
+import { AdditionalRemarks } from "../../ui/AdditionalRemarks";
 import { Banner } from "../../ui/Banner";
 import { InputNumber } from "../../ui/InputNumber";
-import { InputTextArea } from "../../ui/InputTextArea";
 import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
 import { Page } from "../../ui/Page";
@@ -12,6 +12,7 @@ import { FORMS } from "../../ui/forms";
 import { range, sum, sumArrays, toOption } from "../../ui/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/options";
 import { count } from "../../ui/plural";
+import { isDebug } from "../../ui/state";
 import { useForm } from "../../ui/use-form";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
@@ -28,7 +29,6 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-import { AdditionalRemarks } from "../../ui/AdditionalRemarks";
 
 const FORM_ID = "prostate-biopsy";
 
@@ -149,10 +149,10 @@ const getRows = () => [
 ];
 
 const getInitialState = (): FormState => ({
-  hasInfo: false,
-  hasTarget: false,
+  hasInfo: isDebug,
+  hasTarget: isDebug,
   targetCount: 0,
-  hasMri: false,
+  hasMri: isDebug,
   psaRate: 0,
   containerCount: MAX_CONTAINER_COUNT,
   rows: getRows(),
@@ -222,6 +222,7 @@ export const ProstateBiopsyForm = () => {
               label="Taux de PSA"
               unit="ng-per-mL"
               size="lg"
+              isDecimal
               onChange={setState("psaRate")}
             />
           </Line>

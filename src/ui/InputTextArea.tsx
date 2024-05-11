@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { InputProps, OnInput } from "./input.types";
-import "./input-text-area.css";
 import { ErrorMessage } from "./ErrorMessage";
 import { Label } from "./Label";
+import "./input-text-area.css";
+import { InputProps, OnInput } from "./input.types";
+import { useBoolean } from "./state";
 
 type InputTextAreaProps = InputProps<string> & {
   placeholder?: string;
@@ -20,7 +20,7 @@ export const InputTextArea = ({
   isSubmitted,
   onChange,
 }: InputTextAreaProps) => {
-  const [isTouched, setIsTouched] = useState<boolean>(false);
+  const [isTouched, setIsTouched] = useBoolean(false);
   const onBlur = () => setIsTouched(true);
   const onInput: OnInput<HTMLTextAreaElement> = (e) => {
     // CAUTION: this cast is type-unsafe

@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-const isDebug = true;
+export const isDebug = true;
 
 type Primitive = string | number | boolean;
 
 type Atom<T extends Primitive> = [T, (value: T) => void];
 
-export const useBoolean = (): Atom<boolean> => {
-  const [value, setValue] = useState<boolean>(isDebug);
+export const useBoolean = (defaultValue: boolean = isDebug): Atom<boolean> => {
+  const [value, setValue] = useState<boolean>(defaultValue);
   return [value, setValue];
 };
 
