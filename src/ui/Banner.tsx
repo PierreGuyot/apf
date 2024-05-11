@@ -5,7 +5,7 @@ import { join } from "./helpers";
 import { ONE_DAY, formatDate, formatDurationInDays } from "./time";
 
 // We recommend checking for updates after 180 days (around 6 months)
-// TODO: discuss with Louis
+// TODO with Louis: discuss
 const WARNING_DELAY_IN_DAYS = 180; // In days
 
 type BannerProps = {

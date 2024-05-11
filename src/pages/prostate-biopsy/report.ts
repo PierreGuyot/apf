@@ -8,11 +8,11 @@ type ReportParams = FormState & {
   language: Language;
 };
 
-// TODO: un-mock
+// TODO with Louis: un-mock
 const mockGetContent = (form: ReportParams) =>
   JSON.stringify(form.score, null, 2);
 
-// TODO: test thoroughly
+// TODO: test extensively
 export const generateReport = (form: ReportParams): string => {
   switch (form.language) {
     case "FR": {

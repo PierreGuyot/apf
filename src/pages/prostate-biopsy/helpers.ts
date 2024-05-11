@@ -1,4 +1,4 @@
-// TODO: check naming in English with Louis
+// TODO with Louis: check English naming
 import { sum } from "../../ui/helpers";
 import { Pair } from "../../ui/helpers.types";
 import { Option } from "../../ui/options";
