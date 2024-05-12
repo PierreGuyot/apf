@@ -1,6 +1,6 @@
 export const FORMS = {
   "prostate-biopsy": {
-    title: "Biopsie prostatique",
+    title: "Biopsies prostatiques transrectales",
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },
 } as const satisfies {
