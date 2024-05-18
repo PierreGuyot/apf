@@ -23,7 +23,7 @@ export const Summary = ({ getContent }: SummaryProps) => {
 
   return (
     <>
-      <Title title="Compte-rendu" marginBottom="sm" />
+      <Title title="Compte-rendu" />
       <div className="summary-buttons">
         <Select
           name="Language selection"

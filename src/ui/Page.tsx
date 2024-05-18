@@ -9,7 +9,7 @@ export const Page = ({
 }: PropsWithChildren<{ title?: string }>) => {
   return (
     <div className="page">
-      {title ? <Title title={title} /> : undefined}
+      {title ? <Title title={title} size="lg" /> : undefined}
       {children}
     </div>
   );

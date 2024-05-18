@@ -29,6 +29,7 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+import { Title } from "../../ui/Title";
 
 const FORM_ID = "prostate-biopsy";
 
@@ -205,6 +206,8 @@ export const ProstateBiopsyForm = () => {
   return (
     <Page title={form.title}>
       <Banner formId={FORM_ID} onClear={clearState} />
+
+      <Title title="Renseignements cliniques" index={1}></Title>
       <Line>
         <Select
           value={hasInfo}
@@ -273,20 +276,24 @@ export const ProstateBiopsyForm = () => {
           ) : undefined}
         </>
       ) : undefined}
-      <Line>
-        {/* CAUTION:
+
+      <Item>
+        <Title title="Biopsies" index={2}></Title>
+        <Line>
+          {/* CAUTION:
           This question is redundant with some previous questions but it is on
           done on purpose, as info given to anatomical pathologists is not
           always standardized.
         */}
-        <Select
-          name="Container count"
-          value={containerCount}
-          label="Combien de pots avez-vous ?"
-          options={CONTAINER_COUNT_OPTIONS}
-          onChange={setState("containerCount")}
-        />
-      </Line>
+          <Select
+            name="Container count"
+            value={containerCount}
+            label="Combien de pots avez-vous ?"
+            options={CONTAINER_COUNT_OPTIONS}
+            onChange={setState("containerCount")}
+          />
+        </Line>
+      </Item>
 
       <Item>
         <ProstateBiopsyTable
@@ -297,7 +304,11 @@ export const ProstateBiopsyForm = () => {
         />
       </Item>
 
-      <AdditionalRemarks value={comment} onChange={setState("comment")} />
+      <AdditionalRemarks
+        index={3}
+        value={comment}
+        onChange={setState("comment")}
+      />
 
       <Item>
         {errors.length ? undefined : (

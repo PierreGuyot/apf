@@ -1,14 +1,15 @@
 import { InputTextArea } from "./InputTextArea";
 import { Item } from "./Item";
+import { Title } from "./Title";
 import { FieldProps } from "./helpers.types";
 
-type Props = FieldProps<string>;
+type Props = { index: number } & FieldProps<string>;
 
-export const AdditionalRemarks = ({ value, onChange }: Props) => (
+export const AdditionalRemarks = ({ index, value, onChange }: Props) => (
   <Item>
+    <Title title="Remarques particulières" index={index} />
     <InputTextArea
       value={value}
-      label="Remarques particulières"
       placeholder="Ajoutez vos remarques additionnelles dans ce champ."
       onChange={onChange}
     />
