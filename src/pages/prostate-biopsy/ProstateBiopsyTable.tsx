@@ -1,10 +1,10 @@
 import { Select } from "../../ui/Select";
-import { Column, Table, ValueOf } from "../../ui/Table";
+import { Column, Table } from "../../ui/Table";
+import { ValidationErrors } from "../../ui/ValidationErrors";
 import { YesOrNo } from "../../ui/YesOrNo";
-import { patchArray, toOption } from "../../ui/helpers/helpers";
+import { toOption } from "../../ui/helpers/helpers";
 import { Option } from "../../ui/helpers/options";
 import { SelectLocation } from "./SelectLocation";
-import { ValidationErrors } from "../../ui/ValidationErrors";
 import {
   CellChoice,
   CellGleason,
@@ -64,52 +64,44 @@ export const ProstateBiopsyTable = ({
   rows,
   score,
   errors,
-  onChange,
+  onChange: _onChange,
 }: Props) => {
   // TODO clean: consider passing score directly as an object to Table
-  // TODO clean: move this wrapper down in Table
-  const getOnChange =
-    (key: keyof Row, rowIndex: number) => (value: ValueOf<Row>) => {
-      onChange(patchArray(rows, rowIndex, (row) => ({ ...row, [key]: value })));
-    };
 
   const COLUMNS: Column<Row>[] = [
     {
       label: "Index",
       key: "index",
-      render: (_value, rowIndex) => <CellNumber value={rowIndex + 1} />,
+      render: (row) => <CellNumber value={row.index + 1} />,
     },
     {
       label: "Type",
       key: "type",
-      render: (value, rowIndex) => (
+      render: (row, onChange) => (
         <CellChoice
           name="Type"
           options={CONTAINER_TYPES}
-          value={value.type}
-          onChange={getOnChange("type", rowIndex)}
+          value={row.type}
+          onChange={onChange}
         />
       ),
     },
     {
       label: "Location",
       key: "location",
-      render: (value, rowIndex) => (
-        <SelectLocation
-          value={value.location}
-          onChange={getOnChange("location", rowIndex)}
-        />
+      render: (row, onChange) => (
+        <SelectLocation value={row.location} onChange={onChange} />
       ),
     },
     {
       label: "Biopsy Count",
       key: "biopsyCount",
-      render: (row, rowIndex) => (
+      render: (row, onChange) => (
         <Select
           name="Biopsy count"
           value={row.biopsyCount}
           options={BIOPSY_COUNT_OPTIONS}
-          onChange={getOnChange("biopsyCount", rowIndex)}
+          onChange={onChange}
         />
       ),
       total: (_rows) => <span>{score.biopsyCount}</span>,
@@ -118,11 +110,11 @@ export const ProstateBiopsyTable = ({
       label: "Biopsy Size",
       key: "biopsySize",
       alignment: "left",
-      render: (row, rowIndex) => (
+      render: (row, onChange) => (
         <CellNumberSum
           value={row.biopsySize}
           inputCount={row.biopsyCount}
-          onChange={getOnChange("biopsySize", rowIndex)}
+          onChange={onChange}
         />
       ),
       total: (_rows) => <span>{score.biopsySize}</span>,
@@ -130,12 +122,12 @@ export const ProstateBiopsyTable = ({
     {
       label: "Tumor count",
       key: "tumorCount",
-      render: (row, rowIndex) => (
+      render: (row, onChange) => (
         <Select
           name="Tumor count"
           value={row.tumorCount}
           options={TUMOR_COUNT_OPTIONS}
-          onChange={getOnChange("tumorCount", rowIndex)}
+          onChange={onChange}
         />
       ),
       total: (_rows) => <span>{score.tumorCount}</span>,
@@ -145,11 +137,11 @@ export const ProstateBiopsyTable = ({
       key: "tumorSize",
       alignment: "left",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, rowIndex) => (
+      render: (row, onChange) => (
         <CellNumberSum
           value={row.tumorSize}
           inputCount={row.tumorCount}
-          onChange={getOnChange("tumorSize", rowIndex)}
+          onChange={onChange}
         />
       ),
       total: (_rows) => <span>{score.tumorSize}</span>,
@@ -158,11 +150,8 @@ export const ProstateBiopsyTable = ({
       label: "Tumor gleason",
       key: "tumorGleason",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, rowIndex) => (
-        <CellGleason
-          value={row.tumorGleason}
-          onChange={getOnChange("tumorGleason", rowIndex)}
-        />
+      render: (row, onChange) => (
+        <CellGleason value={row.tumorGleason} onChange={onChange} />
       ),
       total: (_rows) => {
         if (!score.tumorGleason) {
@@ -181,12 +170,8 @@ export const ProstateBiopsyTable = ({
       label: "Tumor EPN",
       key: "tumorEpn",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, rowIndex) => (
-        <CellYesNo
-          name="Tumor EPN"
-          value={row.tumorEpn}
-          onChange={getOnChange("tumorEpn", rowIndex)}
-        />
+      render: (row, onChange) => (
+        <CellYesNo name="Tumor EPN" value={row.tumorEpn} onChange={onChange} />
       ),
       total: (_rows) => {
         if (!score.tumorEpn) {
@@ -200,12 +185,8 @@ export const ProstateBiopsyTable = ({
       label: "Tumor TEP",
       key: "tumorTep",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, rowIndex) => (
-        <CellYesNo
-          name="Tumor TEP"
-          value={row.tumorTep}
-          onChange={getOnChange("tumorTep", rowIndex)}
-        />
+      render: (row, onChange) => (
+        <CellYesNo name="Tumor TEP" value={row.tumorTep} onChange={onChange} />
       ),
       total: (_rows) => {
         if (!score.tumorTep) {
@@ -219,12 +200,8 @@ export const ProstateBiopsyTable = ({
       label: "Tumor PIN",
       key: "tumorPin",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, rowIndex) => (
-        <CellYesNo
-          name="Tumor PIN"
-          value={row.tumorPin}
-          onChange={getOnChange("tumorPin", rowIndex)}
-        />
+      render: (row, onChange) => (
+        <CellYesNo name="Tumor PIN" value={row.tumorPin} onChange={onChange} />
       ),
       total: (_rows) => {
         if (!score.tumorPin) {
@@ -238,18 +215,21 @@ export const ProstateBiopsyTable = ({
       label: "Other lesions",
       key: "otherLesions",
       alignment: "left",
-      render: (row, rowIndex) => (
-        <CellTextField
-          value={row.otherLesions}
-          onChange={getOnChange("otherLesions", rowIndex)}
-        />
+      render: (row, onChange) => (
+        <CellTextField value={row.otherLesions} onChange={onChange} />
       ),
     },
   ];
 
   return (
     <>
-      <Table columns={COLUMNS} rows={rows} header={TableHeader} hasFooter />
+      <Table
+        columns={COLUMNS}
+        rows={rows}
+        header={TableHeader}
+        hasFooter
+        onChange={_onChange}
+      />
       <ValidationErrors errors={errors} />
     </>
   );

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import "./table.css";
-import { join } from "./helpers/helpers";
+import { join, patchArray } from "./helpers/helpers";
 
 export type ValueOf<Row> = Row[keyof Row];
 
@@ -13,7 +13,7 @@ export type Column<Row> = {
   alignment?: Alignment; // 'center' by default
 
   isDisabled?: (row: Row) => boolean;
-  render: (row: Row, rowIndex: number) => ReactNode;
+  render: (row: Row, onChange: (value: ValueOf<Row>) => void) => ReactNode;
   total?: (rows: Row[]) => ReactNode;
 };
 
@@ -22,6 +22,7 @@ type TableProps<Row> = {
   rows: Row[];
   header?: () => ReactNode;
   hasFooter?: boolean;
+  onChange: (rows: Row[]) => void;
 };
 
 export function Table<Row>({
@@ -29,6 +30,7 @@ export function Table<Row>({
   rows,
   header: Header,
   hasFooter,
+  onChange,
 }: TableProps<Row>) {
   return (
     <table>
@@ -64,7 +66,14 @@ export function Table<Row>({
                         `table-cell--alignment-${alignment}`,
                       )}
                     >
-                      {column.render(row, rowIndex)}
+                      {column.render(row, (value) =>
+                        onChange(
+                          patchArray(rows, rowIndex, (row) => ({
+                            ...row,
+                            [column.key]: value,
+                          })),
+                        ),
+                      )}
                     </div>
                   )}
                 </td>
