@@ -42,6 +42,7 @@ export const Banner = ({ formId, onClear: _onClear }: BannerProps) => {
           Vous pouvez télécharger une version plus à jour de ce formulaire{" "}
           <a href={REPOSITORY_LINK}>ici</a>.
         </div>
+        {/* TODO: add mailing address to report issues */}
       </div>
       <Button label="Remettre le formulaire à zéro" onClick={onClear} />
     </div>
