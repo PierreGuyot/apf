@@ -58,12 +58,21 @@ export const InputNumber = ({
   );
   const shouldDisplayError = isTouched || isSubmitted ? hasError : undefined;
 
-  const onBlur = () => {
-    if (hasError) {
-      _setValue(String(value));
-    }
+  const onFocus = () => {
     setIsTouched(true);
   };
+
+  const onBlur = () => {
+    if (!hasError) {
+      return;
+    }
+
+    // If the value is invalid, set the field to a valid value on blur:
+    // - If the field is empty, reset to 0
+    // - If the field is filled, reset to last valid value
+    _setValue(String(_value ? value : 0));
+  };
+
   const onInput: OnInput<HTMLInputElement> = (e) => {
     // CAUTION: this cast is type-unsafe
     const inputEvent = e.target as HTMLInputElement;
@@ -98,6 +107,7 @@ export const InputNumber = ({
         value={_value}
         min={min}
         max={max}
+        onFocus={onFocus}
         onBlur={onBlur}
         onInput={onInput}
       />
