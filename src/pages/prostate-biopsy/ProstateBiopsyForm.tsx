@@ -207,76 +207,78 @@ export const ProstateBiopsyForm = () => {
     <Page title={form.title}>
       <Banner formId={FORM_ID} onClear={clearState} />
 
-      <Title title="Renseignements cliniques" index={1}></Title>
-      <Line>
-        <Select
-          value={hasInfo}
-          options={YES_NO_OPTIONS}
-          name="Renseignements cliniques"
-          label="Avez-vous des renseignements cliniques ?"
-          onChange={setState("hasInfo")}
-        />
-      </Line>
-      {hasInfo ? (
-        <>
-          <Line>
-            <InputNumber
-              value={psaRate}
-              label="Taux de PSA"
-              unit="ng-per-mL"
-              size="lg"
-              isDecimal
-              onChange={setState("psaRate")}
-            />
-          </Line>
-          <Line>
-            <Select
-              value={hasMri}
-              options={YES_NO_OPTIONS}
-              name="IRM"
-              label="Avez-vous une IRM ?"
-              onChange={setState("hasMri")}
-            />
-          </Line>
-          {hasMri ? (
-            <>
-              <Line>
-                <Select
-                  value={hasTarget}
-                  options={YES_NO_OPTIONS}
-                  name="Présence de cible"
-                  label="Avez-vous au moins une cible ?"
-                  onChange={setState("hasTarget")}
-                />
-              </Line>
-              {hasTarget ? (
-                <>
-                  <Line>
-                    {/* TODO Louis: should these be optional cells in the table (after a container of type `target`)? */}
-                    <SelectNumber
-                      value={targetCount}
-                      name="Nombre de cibles"
-                      label="Nombre de cibles"
-                      max={MAX_TARGET_COUNT}
-                      onChange={setState("targetCount")}
-                    />
-                  </Line>
-                  {/* We handle the maximum number of items in all cases and simply hide according to count
-                  This way, changing the count doesn't erase user input */}
-                  {targetCount ? (
-                    <Item depth={1}>
-                      <PiradsSelect
-                        items={piradsItems}
-                        onChange={onUpdatePiradsItem}
+      <Item>
+        <Title title="Renseignements cliniques" index={1}></Title>
+        <Line>
+          <Select
+            value={hasInfo}
+            options={YES_NO_OPTIONS}
+            name="Renseignements cliniques"
+            label="Avez-vous des renseignements cliniques ?"
+            onChange={setState("hasInfo")}
+          />
+        </Line>
+        {hasInfo ? (
+          <>
+            <Line>
+              <InputNumber
+                value={psaRate}
+                label="Taux de PSA"
+                unit="ng-per-mL"
+                size="lg"
+                isDecimal
+                onChange={setState("psaRate")}
+              />
+            </Line>
+            <Line>
+              <Select
+                value={hasMri}
+                options={YES_NO_OPTIONS}
+                name="IRM"
+                label="Avez-vous une IRM ?"
+                onChange={setState("hasMri")}
+              />
+            </Line>
+            {hasMri ? (
+              <>
+                <Line>
+                  <Select
+                    value={hasTarget}
+                    options={YES_NO_OPTIONS}
+                    name="Présence de cible"
+                    label="Avez-vous au moins une cible ?"
+                    onChange={setState("hasTarget")}
+                  />
+                </Line>
+                {hasTarget ? (
+                  <>
+                    <Line>
+                      {/* TODO Louis: should these be optional cells in the table (after a container of type `target`)? */}
+                      <SelectNumber
+                        value={targetCount}
+                        name="Nombre de cibles"
+                        label="Nombre de cibles"
+                        max={MAX_TARGET_COUNT}
+                        onChange={setState("targetCount")}
                       />
-                    </Item>
-                  ) : undefined}
-                </>
-              ) : undefined}
-            </>
-          ) : undefined}
-        </>
-      ) : undefined}
+                    </Line>
+                    {/* We handle the maximum number of items in all cases and simply hide according to count
+                  This way, changing the count doesn't erase user input */}
+                    {targetCount ? (
+                      <Item depth={1}>
+                        <PiradsSelect
+                          items={piradsItems}
+                          onChange={onUpdatePiradsItem}
+                        />
+                      </Item>
+                    ) : undefined}
+                  </>
+                ) : undefined}
+              </>
+            ) : undefined}
+          </>
+        ) : undefined}
+      </Item>
 
       <Item>
         <Title title="Biopsies" index={2}></Title>
@@ -296,7 +298,7 @@ export const ProstateBiopsyForm = () => {
         </Line>
       </Item>
 
-      <Item>
+      <Item hasMaxWidth={false}>
         <ProstateBiopsyTable
           rows={rows}
           score={score}
@@ -311,27 +313,26 @@ export const ProstateBiopsyForm = () => {
         onChange={setState("comment")}
       />
 
-      <Item>
-        {errors.length ? undefined : (
-          <Summary
-            getContent={(language) =>
-              generateReport({
-                hasInfo,
-                hasTarget,
-                targetCount,
-                hasMri,
-                psaRate,
-                containerCount,
-                piradsItems,
-                score,
-                rows,
-                comment,
-                language,
-              })
-            }
-          />
-        )}
-      </Item>
+      {errors.length ? undefined : (
+        <Summary
+          index={4}
+          getContent={(language) =>
+            generateReport({
+              hasInfo,
+              hasTarget,
+              targetCount,
+              hasMri,
+              psaRate,
+              containerCount,
+              piradsItems,
+              score,
+              rows,
+              comment,
+              language,
+            })
+          }
+        />
+      )}
     </Page>
   );
 };

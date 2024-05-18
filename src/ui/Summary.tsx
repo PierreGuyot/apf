@@ -6,9 +6,11 @@ import "./summary.css";
 import { Language } from "./helpers/helpers.types";
 import { Option } from "./helpers/options";
 import { Select } from "./Select";
+import { Item } from "./Item";
 
 type SummaryProps = {
   getContent: (language: Language) => string;
+  index?: number;
 };
 
 const LANGUAGE_OPTIONS: Option<Language>[] = [
@@ -16,14 +18,14 @@ const LANGUAGE_OPTIONS: Option<Language>[] = [
   { value: "EN", label: "Anglais" },
 ];
 
-export const Summary = ({ getContent }: SummaryProps) => {
+export const Summary = ({ getContent, index }: SummaryProps) => {
   const [language, setLanguage] = useState<Language>("FR");
 
   const content = getContent(language);
 
   return (
-    <>
-      <Title title="Compte-rendu" />
+    <Item>
+      <Title title="Compte-rendu" index={index} />
       <div className="summary-buttons">
         <Select
           name="Language selection"
@@ -40,6 +42,6 @@ export const Summary = ({ getContent }: SummaryProps) => {
       <div className="summary">
         <pre className="summary-content">{content}</pre>
       </div>
-    </>
+    </Item>
   );
 };

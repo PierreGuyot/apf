@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.item--has-max-width {
+  max-width: 800px;
+}
+
 .item + .item {
   margin-top: 1.2rem;
 }
