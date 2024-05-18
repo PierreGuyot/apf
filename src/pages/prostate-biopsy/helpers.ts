@@ -91,12 +91,14 @@ export type Score = {
 
 // PIRADS: Prostate Imaging Reporting & Data System
 
+export type PiradsScore = 2 | 3 | 4 | 5;
+
 export type PiradsItem = {
-  score: number; // Malignancy score
+  score: PiradsScore; // Malignancy score
   location: Location;
 };
 
 export const anEmptyPiradsItem = (): PiradsItem => ({
-  score: 0,
+  score: 2,
   location: "base-right",
 });

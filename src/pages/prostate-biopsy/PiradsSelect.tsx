@@ -1,13 +1,15 @@
 import { SelectNumber } from "../../ui/SelectNumber";
 import { FieldProps } from "../../ui/helpers.types";
 import { SelectLocation } from "./SelectLocation";
-import { Location, PiradsItem } from "./helpers";
+import { Location, PiradsItem, PiradsScore } from "./helpers";
 import "./pirads-select.css";
 
 // PIRADS: Prostate Imaging Reporting & Data System
 
 const PiradsLine = ({ value, onChange }: FieldProps<PiradsItem>) => {
-  const onChangeCount = (score: number) => onChange({ ...value, score: score });
+  // CAUTION: this cast is type-unsafe
+  const onChangeCount = (score: number) =>
+    onChange({ ...value, score: score as PiradsScore });
   const onChangeLocation = (location: Location) =>
     onChange({ ...value, location });
 
