@@ -4,7 +4,7 @@ import {
   naturalJoin,
   pad,
   padSection,
-} from "../../ui/helpers/helpers";
+} from "../../ui/helpers/text";
 import { Language } from "../../ui/helpers/helpers.types";
 import { toYesNo } from "../../ui/helpers/options";
 import { pluralize } from "../../ui/helpers/plural";
