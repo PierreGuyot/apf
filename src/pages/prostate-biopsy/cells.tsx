@@ -2,9 +2,9 @@ import { Fragment } from "react/jsx-runtime";
 import { InputNumber } from "../../ui/InputNumber";
 import { InputText } from "../../ui/InputText";
 import { Select } from "../../ui/Select";
-import { range, toOption } from "../../ui/helpers";
-import { FieldProps } from "../../ui/helpers.types";
-import { Option, YES_NO_OPTIONS } from "../../ui/options";
+import { range, toOption } from "../../ui/helpers/helpers";
+import { FieldProps } from "../../ui/helpers/helpers.types";
+import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import "./cells.css";
 import { GLEASON_SCORES, GleasonPair, GleasonScore } from "./helpers";
 

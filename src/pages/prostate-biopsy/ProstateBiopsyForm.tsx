@@ -8,12 +8,12 @@ import { Page } from "../../ui/Page";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
-import { FORMS } from "../../ui/forms";
-import { range, sum, sumArrays, toOption } from "../../ui/helpers";
-import { Option, YES_NO_OPTIONS } from "../../ui/options";
-import { count } from "../../ui/plural";
-import { isDebug } from "../../ui/state";
-import { useForm } from "../../ui/use-form";
+import { FORMS } from "../../ui/helpers/forms";
+import { range, sum, sumArrays, toOption } from "../../ui/helpers/helpers";
+import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
+import { count } from "../../ui/helpers/plural";
+import { isDebug } from "../../ui/helpers/state";
+import { useForm } from "../../ui/helpers/use-form";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {

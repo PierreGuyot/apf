@@ -1,9 +1,9 @@
 import { ErrorMessage } from "./ErrorMessage";
 import { Label } from "./Label";
-import { join } from "./helpers";
+import { join } from "./helpers/helpers";
 import "./input-text.css";
 import { InputProps, OnInput } from "./input.types";
-import { useBoolean } from "./state";
+import { useBoolean } from "./helpers/state";
 
 type InputTextProps = InputProps<string> & {
   placeholder?: string;

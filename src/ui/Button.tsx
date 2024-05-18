@@ -1,5 +1,5 @@
 import "./button.css";
-import { join } from "./helpers";
+import { join } from "./helpers/helpers";
 
 type ButtonProps = { className?: string; label: string; onClick: () => void };
 

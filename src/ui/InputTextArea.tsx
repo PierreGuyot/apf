@@ -2,7 +2,7 @@ import { ErrorMessage } from "./ErrorMessage";
 import { Label } from "./Label";
 import "./input-text-area.css";
 import { InputProps, OnInput } from "./input.types";
-import { useBoolean } from "./state";
+import { useBoolean } from "./helpers/state";
 
 type InputTextAreaProps = InputProps<string> & {
   placeholder?: string;

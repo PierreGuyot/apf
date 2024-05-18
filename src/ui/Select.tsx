@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { anId } from "./helpers";
-import { FieldProps } from "./helpers.types";
-import { Option } from "./options";
+import { anId } from "./helpers/helpers";
+import { FieldProps } from "./helpers/helpers.types";
+import { Option } from "./helpers/options";
 
 import "./select.css";
 

@@ -1,4 +1,4 @@
-import { join } from "./helpers";
+import { join } from "./helpers/helpers";
 import "./label.css";
 
 type LabelProps = { label: string; placement?: "above" | "inline" };

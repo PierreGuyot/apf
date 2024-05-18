@@ -1,8 +1,8 @@
 import { Select } from "../../ui/Select";
 import { Column, Table, ValueOf } from "../../ui/Table";
 import { YesOrNo } from "../../ui/YesOrNo";
-import { patchArray, toOption } from "../../ui/helpers";
-import { Option } from "../../ui/options";
+import { patchArray, toOption } from "../../ui/helpers/helpers";
+import { Option } from "../../ui/helpers/options";
 import { SelectLocation } from "./SelectLocation";
 import { ValidationErrors } from "../../ui/ValidationErrors";
 import {

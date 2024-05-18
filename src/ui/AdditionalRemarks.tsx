@@ -1,7 +1,7 @@
 import { InputTextArea } from "./InputTextArea";
 import { Item } from "./Item";
 import { Title } from "./Title";
-import { FieldProps } from "./helpers.types";
+import { FieldProps } from "./helpers/helpers.types";
 
 type Props = { index: number } & FieldProps<string>;
 

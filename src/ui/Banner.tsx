@@ -1,7 +1,7 @@
 import { Button } from "./Button";
 import "./banner.css";
-import { FORMS, FormId } from "./forms";
-import { join, joinLines } from "./helpers";
+import { FORMS, FormId } from "./helpers/forms";
+import { join, joinLines } from "./helpers/helpers";
 import { ONE_DAY, formatDate, formatDurationInDays } from "./time";
 
 // We recommend checking for updates after 180 days (around 6 months)

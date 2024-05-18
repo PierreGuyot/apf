@@ -1,4 +1,4 @@
-import { toYesNo } from "./options";
+import { toYesNo } from "./helpers/options";
 
 type Props = {
   value: boolean;

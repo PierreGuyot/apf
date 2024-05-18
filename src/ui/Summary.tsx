@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Button } from "./Button";
 import { Title } from "./Title";
-import { copyToClipboard } from "./copy";
+import { copyToClipboard } from "./helpers/copy";
 import "./summary.css";
-import { Language } from "./helpers.types";
-import { Option } from "./options";
+import { Language } from "./helpers/helpers.types";
+import { Option } from "./helpers/options";
 import { Select } from "./Select";
 
 type SummaryProps = {

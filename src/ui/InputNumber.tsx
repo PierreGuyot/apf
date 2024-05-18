@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from "react";
 import { Code } from "./Code";
 import { Label } from "./Label";
-import { clamp, join } from "./helpers";
+import { clamp, join } from "./helpers/helpers";
 import "./input-number.css";
 import { InputProps, OnInput } from "./input.types";
-import { useBoolean, useString } from "./state";
-import { Unit, getUnitLabel } from "./units";
+import { useBoolean, useString } from "./helpers/state";
+import { Unit, getUnitLabel } from "./helpers/units";
 
 // TODO: add tooltip to display error message
 

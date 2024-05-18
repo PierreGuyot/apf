@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 
 import "./item.css";
-import { join, px } from "./helpers";
+import { join, px } from "./helpers/helpers";
 
 type ItemProps = PropsWithChildren<{
   depth?: number;

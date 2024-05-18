@@ -1,4 +1,4 @@
-import { join } from "./helpers";
+import { join } from "./helpers/helpers";
 import "./title.css";
 
 type TitleProps = {

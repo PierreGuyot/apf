@@ -1,6 +1,6 @@
 import { Select } from "./Select";
-import { range, toOption } from "./helpers";
-import { FieldProps } from "./helpers.types";
+import { range, toOption } from "./helpers/helpers";
+import { FieldProps } from "./helpers/helpers.types";
 
 type SelectNumberProps = FieldProps<number> & {
   min?: number;

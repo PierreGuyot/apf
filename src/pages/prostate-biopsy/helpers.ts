@@ -1,7 +1,7 @@
 // TODO with Louis: check English naming
-import { sum } from "../../ui/helpers";
-import { Pair } from "../../ui/helpers.types";
-import { Option } from "../../ui/options";
+import { sum } from "../../ui/helpers/helpers";
+import { Pair } from "../../ui/helpers/helpers.types";
+import { Option } from "../../ui/helpers/options";
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];

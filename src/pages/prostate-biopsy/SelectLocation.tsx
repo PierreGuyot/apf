@@ -1,4 +1,4 @@
-import { FieldProps } from "../../ui/helpers.types";
+import { FieldProps } from "../../ui/helpers/helpers.types";
 import { CellChoice } from "./cells";
 import { LOCATION_OPTIONS, Location } from "./helpers";
 

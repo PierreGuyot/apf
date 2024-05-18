@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import "./table.css";
-import { join } from "./helpers";
+import { join } from "./helpers/helpers";
 
 export type ValueOf<Row> = Row[keyof Row];
 

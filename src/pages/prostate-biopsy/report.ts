@@ -1,7 +1,12 @@
-import { joinLines, joinSections, pad, padSection } from "../../ui/helpers";
-import { Language } from "../../ui/helpers.types";
-import { toYesNo } from "../../ui/options";
-import { formatWithUnit } from "../../ui/units";
+import {
+  joinLines,
+  joinSections,
+  pad,
+  padSection,
+} from "../../ui/helpers/helpers";
+import { Language } from "../../ui/helpers/helpers.types";
+import { toYesNo } from "../../ui/helpers/options";
+import { formatWithUnit } from "../../ui/helpers/units";
 import { FormState } from "./ProstateBiopsyForm";
 import { GleasonPair, Score, getLocationLabel } from "./helpers";
 
@@ -58,13 +63,16 @@ export const generateReport = (form: ReportParams): string => {
 
       const clinicalInformationSection = joinLines([
         "Renseignements cliniques:",
-        pad(`PSA: ${formatWithUnit(form.psaRate, "ng-per-mL")}`), 
+        pad(`PSA: ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
         pad(`IRM: ${form.hasMri ? "oui" : "non"}`),
         ...(form.piradsItems.length
           ? [
               `Cibles:`,
-              ...form.piradsItems.map((item) =>
-                pad(`PIRADS ${item.score}, ${getLocationLabel(item.location)}`), // TODO: add matching targets
+              ...form.piradsItems.map(
+                (item) =>
+                  pad(
+                    `PIRADS ${item.score}, ${getLocationLabel(item.location)}`,
+                  ), // TODO: add matching targets
               ),
             ].map(pad)
           : []),
