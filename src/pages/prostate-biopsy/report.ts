@@ -1,14 +1,22 @@
 import {
   joinLines,
   joinSections,
+  naturalJoin,
   pad,
   padSection,
 } from "../../ui/helpers/helpers";
 import { Language } from "../../ui/helpers/helpers.types";
 import { toYesNo } from "../../ui/helpers/options";
+import { pluralize } from "../../ui/helpers/plural";
 import { formatWithUnit } from "../../ui/helpers/units";
 import { FormState } from "./ProstateBiopsyForm";
-import { GleasonPair, Score, getLocationLabel } from "./helpers";
+import {
+  GleasonPair,
+  PiradsItem,
+  Score,
+  getIsupScore,
+  getLocationLabel,
+} from "./helpers";
 
 type ReportParams = FormState & {
   score: Score;
@@ -35,7 +43,7 @@ export const generateReport = (form: ReportParams): string => {
       // Tumor absence
       if (score.tumorCount === 0) {
         conclusionSection = joinLines([
-          `Absence de foyer tumoral sur l'ensemble des ${score.biopsyCount} biopsies étudiées (${score.biopsySize}mm).`,
+          `Absence de foyer tumoral sur l'ensemble des ${score.biopsyCount} biopsies étudiées (${score.biopsySize} mm).`,
           "Adénomyome prostatique.",
         ]);
       }
@@ -48,11 +56,13 @@ export const generateReport = (form: ReportParams): string => {
         const sextansWithTumor = sextans.filter((row) => row.tumorCount > 0);
         const targets = rows.filter((row) => row.type === "target");
         const targetsWithTumor = targets.filter((row) => row.tumorCount > 0);
+        const isupScore = getIsupScore([a, b]);
 
         conclusionSection = joinLines([
-          `Adénocarcinome acinaire de type prostatique de score de Gleason ${a + b} (${a} + ${b}) ISUP.`,
-          `Cet adénocarcinome est localisé sur ${sextansWithTumor.length} des ${sextans.length} biopsies systématiques et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées.`,
-          `Il mesure ${score.tumorSize}mm sur ${score.biopsySize}mm examinés sur les biopsies standards.`,
+          `Adénocarcinome acinaire de type prostatique.\n`, // We add an empty line for aesthetic purposes
+          `Il présente un score de Gleason ${a + b} (${a} + ${b}), soit un score ISUP de ${isupScore}.`,
+          `Il est localisé sur ${sextansWithTumor.length} des ${sextans.length} biopsies systématiques et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées.`,
+          `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
           `Engainements périnerveux : ${toYesNo(score.tumorEpn ?? false)}`,
           `Tissu extra-prostatique : ${toYesNo(score.tumorTep ?? false)}`,
           `Envahissement tissu extra-prostatique : ${toYesNo(score.tumorPin ?? false)}`,
@@ -61,20 +71,27 @@ export const generateReport = (form: ReportParams): string => {
 
       // Clinical information
 
+      const renderPiradsItem = (item: PiradsItem) => {
+        const matches = rows
+          .filter(
+            (row) => row.type === "target" && row.location === item.location,
+          )
+          .map(({ index }) => index);
+        const containerCount = matches.length
+          ? ` (${pluralize(matches.length, "pot")} ${naturalJoin(matches)})`
+          : undefined;
+
+        return pad(
+          `PIRADS ${item.score}, ${getLocationLabel(item.location)}${containerCount}`,
+        );
+      };
+
       const clinicalInformationSection = joinLines([
         "Renseignements cliniques:",
         pad(`PSA: ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
         pad(`IRM: ${form.hasMri ? "oui" : "non"}`),
         ...(form.piradsItems.length
-          ? [
-              `Cibles:`,
-              ...form.piradsItems.map(
-                (item) =>
-                  pad(
-                    `PIRADS ${item.score}, ${getLocationLabel(item.location)}`,
-                  ), // TODO: add matching targets
-              ),
-            ].map(pad)
+          ? [`Cibles:`, ...form.piradsItems.map(renderPiradsItem)].map(pad)
           : []),
       ]);
 

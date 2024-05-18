@@ -114,3 +114,25 @@ export const anEmptyPiradsItem = (): PiradsItem => ({
   score: 2,
   location: "base-right",
 });
+
+// ISUP score: International Society of Urological Pathology score
+// See https://www.prostate.org.au/testing-and-diagnosis/grading-genetics/your-gleason-score-isup-grade
+export const getIsupScore = ([a, b]: GleasonPair): number => {
+  if (a + b === 6) {
+    return 1;
+  }
+
+  if (a + b === 7) {
+    if (a === 3) {
+      return 2;
+    }
+
+    return 4;
+  }
+
+  if (a + b === 8) {
+    return 4;
+  }
+
+  return 5;
+};
