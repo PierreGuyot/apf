@@ -1,7 +1,7 @@
 import { Button } from "./Button";
 import "./banner.css";
 import { FORMS, FormId } from "./forms";
-import { join } from "./helpers";
+import { join, joinLines } from "./helpers";
 import { ONE_DAY, formatDate, formatDurationInDays } from "./time";
 
 // We recommend checking for updates after 180 days (around 6 months)
@@ -14,10 +14,10 @@ type BannerProps = {
 };
 
 const REPOSITORY_LINK = "https://github.com/PierreGuyot/apf";
-const CONFIRMATION_MESSAGE = [
+const CONFIRMATION_MESSAGE = joinLines([
   "Êtes-vous certain de vouloir remettre le formulaire à zéro ?",
   "Vos changements seront définitivement perdus.",
-].join("\n");
+]);
 
 export const Banner = ({ formId, onClear: _onClear }: BannerProps) => {
   const { lastUpdate } = FORMS[formId];

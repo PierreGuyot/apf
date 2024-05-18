@@ -5,10 +5,9 @@ import { clamp, join } from "./helpers";
 import "./input-number.css";
 import { InputProps, OnInput } from "./input.types";
 import { useBoolean, useString } from "./state";
+import { Unit, getUnitLabel } from "./units";
 
 // TODO: add tooltip to display error message
-
-type Unit = "ng-per-mL";
 
 type InputNumberProps = InputProps<number> & {
   min?: number;
@@ -111,25 +110,7 @@ export const InputNumber = ({
         onBlur={onBlur}
         onInput={onInput}
       />
-      {unit ? (
-        <Code>
-          <UnitLabel unit={unit} />
-        </Code>
-      ) : undefined}
+      {unit ? <Code>{getUnitLabel(unit)}</Code> : undefined}
     </>
   );
-};
-
-type UnitLabelProps = { unit: Unit };
-
-const UnitLabel = ({ unit }: UnitLabelProps) => {
-  switch (unit) {
-    case "ng-per-mL": {
-      return (
-        <>
-          ng.mL<sup>-1</sup>
-        </>
-      );
-    }
-  }
 };

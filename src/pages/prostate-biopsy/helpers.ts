@@ -19,15 +19,27 @@ export const LOCATIONS = [
   "medium-left",
   "apex-left",
 ];
+
 export type Location = (typeof LOCATIONS)[number];
-export const LOCATION_OPTIONS: Option<Location>[] = [
-  { value: "base-right", label: "Base droite" },
-  { value: "medium-right", label: "Milieu droit" },
-  { value: "apex-right", label: "Apex droit" },
-  { value: "base-left", label: "Base gauche" },
-  { value: "medium-left", label: "Milieu gauche" },
-  { value: "apex-left", label: "Apex gauche" },
-];
+
+const LOCATION_LABELS: Record<Location, string> = {
+  "base-right": "Base droite",
+  "medium-right": "Milieu droit",
+  "apex-right": "Apex droit",
+  "base-left": "Base gauche",
+  "medium-left": "Milieu gauche",
+  "apex-left": "Apex gauche",
+};
+
+export const getLocationLabel = (location: Location) =>
+  LOCATION_LABELS[location];
+
+const toOption = (location: Location) => ({
+  value: location,
+  label: getLocationLabel(location),
+});
+
+export const LOCATION_OPTIONS: Option<Location>[] = LOCATIONS.map(toOption);
 
 export type ContainerType = "sextan" | "target";
 
