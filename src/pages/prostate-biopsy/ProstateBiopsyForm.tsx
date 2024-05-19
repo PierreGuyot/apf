@@ -253,7 +253,7 @@ export const ProstateBiopsyForm = () => {
                 {hasTarget ? (
                   <>
                     <Line>
-                      {/* TODO Louis: should these be optional cells in the table (after a container of type `target`)? */}
+                      {/* TODO with Louis: should these be optional cells in the table (after a container of type `target`)? */}
                       <SelectNumber
                         value={targetCount}
                         name="Nombre de cibles"

@@ -27,7 +27,7 @@
   max-width: 4rem;
 }
 
-/* TODO: extract and make common with other inputs */
+/* TODO clean: extract and make common with other inputs */
 .input-number--is-invalid {
   border-color: red;
 }

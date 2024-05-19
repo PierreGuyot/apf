@@ -12,7 +12,6 @@ export type Column<Row> = {
   label: string;
   key: keyof Row;
   alignment?: Alignment; // 'center' by default
-
   isDisabled?: (row: Row) => boolean;
   render: (
     row: Row,
