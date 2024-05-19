@@ -17,6 +17,7 @@ export const InputText = ({
   isFullWidth,
   errorMessage,
   isSubmitted,
+  isReadOnly,
   onChange,
 }: InputTextProps) => {
   const [isTouched, setIsTouched] = useBoolean(false);
@@ -30,20 +31,26 @@ export const InputText = ({
   return (
     <>
       {label ? <Label label={label} /> : undefined}
-      <input
-        className={join(
-          "input-text",
-          isFullWidth ? "input-text--is-full-width" : undefined,
-        )}
-        type="text"
-        placeholder={placeholder}
-        value={value}
-        onBlur={onBlur}
-        onInput={onInput}
-      />
-      {isTouched || isSubmitted ? (
-        <ErrorMessage errorMessage={errorMessage} />
-      ) : undefined}
+      {isReadOnly ? (
+        value
+      ) : (
+        <>
+          <input
+            className={join(
+              "input-text",
+              isFullWidth ? "input-text--is-full-width" : undefined,
+            )}
+            type="text"
+            placeholder={placeholder}
+            value={value}
+            onBlur={onBlur}
+            onInput={onInput}
+          />
+          {isTouched || isSubmitted ? (
+            <ErrorMessage errorMessage={errorMessage} />
+          ) : undefined}
+        </>
+      )}
     </>
   );
 };

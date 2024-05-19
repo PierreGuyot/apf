@@ -8,26 +8,14 @@ import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import "./cells.css";
 import { GLEASON_SCORES, GleasonPair, GleasonScore } from "./helpers";
 
-export const CellTextField = ({ value, onChange }: FieldProps<string>) => (
-  <InputText placeholder=" ..." isFullWidth value={value} onChange={onChange} />
+export const CellTextField = (props: FieldProps<string>) => (
+  <InputText placeholder=" ..." isFullWidth {...props} />
 );
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
-export const CellNumberField = InputNumber;
 export const CellChoice = Select;
 
-export const CellYesNo = ({
-  value,
-  name,
-  onChange,
-}: FieldProps<boolean> & {
-  name: string;
-}) => (
-  <Select
-    value={value}
-    name={name}
-    options={YES_NO_OPTIONS}
-    onChange={onChange}
-  />
+export const CellYesNo = (props: FieldProps<boolean> & { name: string }) => (
+  <Select options={YES_NO_OPTIONS} {...props} />
 );
 
 const Plus = () => <span className="cell-plus">+</span>;
@@ -36,12 +24,14 @@ export const CellNumberSum = ({
   value,
   onChange,
   inputCount,
+  isReadOnly,
 }: FieldProps<number[]> & { inputCount: number }) => (
   <div className="cell">
     {range(inputCount).map((_, i) => (
       <Fragment key={i}>
         <InputNumber
           value={value[i]}
+          isReadOnly={isReadOnly}
           onChange={(updatedNumber) => {
             const updatedArray = [...value];
             updatedArray[i] = updatedNumber;
@@ -55,29 +45,40 @@ export const CellNumberSum = ({
 );
 
 const GLEASON_OPTIONS: Option<GleasonScore>[] = GLEASON_SCORES.map(toOption);
-const SelectGleason = ({ value, onChange }: FieldProps<GleasonScore>) => (
-  <Select
-    name="Gleason score"
-    value={value}
-    options={GLEASON_OPTIONS}
-    onChange={onChange}
-  />
+const SelectGleason = (props: FieldProps<GleasonScore>) => (
+  <Select name="Gleason score" options={GLEASON_OPTIONS} {...props} />
 );
 
-export const CellGleason = ({ value, onChange }: FieldProps<GleasonPair>) => (
-  <div className="cell">
-    <div className="cell-sum">{value[0] + value[1]}</div>(
-    <span className="cell-parentheses">
-      <SelectGleason
-        value={value[0]}
-        onChange={(a) => onChange([a, value[1]])}
-      />
-      <Plus />
-      <SelectGleason
-        value={value[1]}
-        onChange={(b) => onChange([value[0], b])}
-      />
-    </span>
-    )
-  </div>
-);
+export const CellGleason = ({
+  value: [a, b],
+  isReadOnly,
+  onChange,
+}: FieldProps<GleasonPair>) => {
+  if (isReadOnly) {
+    return (
+      <span>
+        {a + b} ({a} + {b})
+      </span>
+    );
+  }
+
+  return (
+    <div className="cell">
+      <div className="cell-sum">{a + b}</div>(
+      <span className="cell-parentheses">
+        <SelectGleason
+          value={a}
+          isReadOnly={isReadOnly}
+          onChange={(_a) => onChange([_a, b])}
+        />
+        <Plus />
+        <SelectGleason
+          value={b}
+          isReadOnly={isReadOnly}
+          onChange={(_b) => onChange([a, _b])}
+        />
+      </span>
+      )
+    </div>
+  );
+};

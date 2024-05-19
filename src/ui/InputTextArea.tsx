@@ -18,6 +18,7 @@ export const InputTextArea = ({
   lineCount = DEFAULT_LINE_COUNT,
   errorMessage,
   isSubmitted,
+  isReadOnly,
   onChange,
 }: InputTextAreaProps) => {
   const [isTouched, setIsTouched] = useBoolean(false);
@@ -36,17 +37,23 @@ export const InputTextArea = ({
   return (
     <>
       {label ? <Label label={label} placement="above" /> : undefined}
-      <textarea
-        className="input-text-area"
-        value={value}
-        rows={lineCount}
-        placeholder={placeholder}
-        onBlur={onBlur}
-        onInput={onInput}
-      />
-      {isTouched || isSubmitted ? (
-        <ErrorMessage errorMessage={errorMessage} />
-      ) : undefined}
+      {isReadOnly ? (
+        value
+      ) : (
+        <>
+          <textarea
+            className="input-text-area"
+            value={value}
+            rows={lineCount}
+            placeholder={placeholder}
+            onBlur={onBlur}
+            onInput={onInput}
+          />
+          {isTouched || isSubmitted ? (
+            <ErrorMessage errorMessage={errorMessage} />
+          ) : undefined}
+        </>
+      )}
     </>
   );
 };

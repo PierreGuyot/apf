@@ -42,6 +42,7 @@ export const InputNumber = ({
   size = "md",
   isDecimal = false,
   isSubmitted,
+  isReadOnly,
   onChange,
 }: InputNumberProps) => {
   const [isTouched, setIsTouched] = useBoolean(false);
@@ -91,26 +92,32 @@ export const InputNumber = ({
   return (
     <>
       {label ? <Label label={label} /> : undefined}
-      <input
-        className={join(
-          "input-number",
-          `input-number--${size}`,
-          shouldDisplayError ? "input-number--is-invalid" : undefined,
-        )}
-        // CAUTION:
-        // Native type number inputs are poorly implemented so we resort to customizing a string input
-        // (See https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/)
-        // For instance, it is impossible to clear a type number input
-        type="text"
-        inputMode="numeric"
-        value={_value}
-        min={min}
-        max={max}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        onInput={onInput}
-      />
-      {unit ? <Code>{getUnitLabel(unit)}</Code> : undefined}
+      {isReadOnly ? (
+        value
+      ) : (
+        <>
+          <input
+            className={join(
+              "input-number",
+              `input-number--${size}`,
+              shouldDisplayError ? "input-number--is-invalid" : undefined,
+            )}
+            // CAUTION:
+            // Native type number inputs are poorly implemented so we resort to customizing a string input
+            // (See https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/)
+            // For instance, it is impossible to clear a type number input
+            type="text"
+            inputMode="numeric"
+            value={_value}
+            min={min}
+            max={max}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onInput={onInput}
+          />
+          {unit ? <Code>{getUnitLabel(unit)}</Code> : undefined}
+        </>
+      )}
     </>
   );
 };

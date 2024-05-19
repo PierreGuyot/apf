@@ -18,6 +18,7 @@ export function Select<T extends SelectValue>({
   options,
   name,
   label,
+  isReadOnly,
   onChange: _onChange,
 }: SelectProps<T>) {
   const id = useMemo(anId, []);
@@ -32,19 +33,26 @@ export function Select<T extends SelectValue>({
     _onChange(value);
   };
 
+  if (isReadOnly) {
+    const match = options.find((option) => option.value === value);
+    if (!match) {
+      throw new Error("Invalid value");
+    }
+
+    return match.label;
+  }
+
   return (
     <div className="select">
       {/* TODO clean: replace with Label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
       <select value={String(value)} name={name} id={id} onChange={onChange}>
         {options.map((option) => {
+          // CAUTION: this cast type is unsafe
           const value = option.value as string | number;
+
           return (
-            <option
-              key={value}
-              // CAUTION: this cast type is unsafe
-              value={value}
-            >
+            <option key={value} value={value}>
               {option.label}
             </option>
           );

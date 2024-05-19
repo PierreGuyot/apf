@@ -10,22 +10,10 @@ type SelectNumberProps = FieldProps<number> & {
 };
 
 export const SelectNumber = ({
-  value,
   min = 0,
   max,
-  name,
-  label,
-  onChange,
+  ...selectProps
 }: SelectNumberProps) => {
   const options = range(min, max).map(toOption);
-
-  return (
-    <Select
-      value={value}
-      options={options}
-      name={name}
-      label={label}
-      onChange={onChange}
-    />
-  );
+  return <Select options={options} {...selectProps} />;
 };

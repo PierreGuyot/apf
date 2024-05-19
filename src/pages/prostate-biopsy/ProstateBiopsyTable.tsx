@@ -2,7 +2,7 @@ import { Select } from "../../ui/Select";
 import { Column, Table } from "../../ui/Table";
 import { ValidationErrors } from "../../ui/ValidationErrors";
 import { YesOrNo } from "../../ui/YesOrNo";
-import { toOption } from "../../ui/helpers/helpers";
+import { noop, toOption } from "../../ui/helpers/helpers";
 import { Option } from "../../ui/helpers/options";
 import { SelectLocation } from "./SelectLocation";
 import {
@@ -59,7 +59,6 @@ type Props = {
   onChange: (rows: Row[]) => void;
 };
 
-// TODO clean: spread in parent
 export const ProstateBiopsyTable = ({
   rows,
   score,
@@ -77,11 +76,12 @@ export const ProstateBiopsyTable = ({
     {
       label: "Type",
       key: "type",
-      render: (row, onChange) => (
+      render: (row, isReadOnly, onChange) => (
         <CellChoice
           name="Type"
-          options={CONTAINER_TYPES}
           value={row.type}
+          options={CONTAINER_TYPES}
+          isReadOnly={isReadOnly}
           onChange={onChange}
         />
       ),
@@ -89,18 +89,23 @@ export const ProstateBiopsyTable = ({
     {
       label: "Location",
       key: "location",
-      render: (row, onChange) => (
-        <SelectLocation value={row.location} onChange={onChange} />
+      render: (row, isReadOnly, onChange) => (
+        <SelectLocation
+          value={row.location}
+          isReadOnly={isReadOnly}
+          onChange={onChange}
+        />
       ),
     },
     {
       label: "Biopsy Count",
       key: "biopsyCount",
-      render: (row, onChange) => (
+      render: (row, isReadOnly, onChange) => (
         <Select
           name="Biopsy count"
           value={row.biopsyCount}
           options={BIOPSY_COUNT_OPTIONS}
+          isReadOnly={isReadOnly}
           onChange={onChange}
         />
       ),
@@ -110,10 +115,11 @@ export const ProstateBiopsyTable = ({
       label: "Biopsy Size",
       key: "biopsySize",
       alignment: "left",
-      render: (row, onChange) => (
+      render: (row, isReadOnly, onChange) => (
         <CellNumberSum
           value={row.biopsySize}
           inputCount={row.biopsyCount}
+          isReadOnly={isReadOnly}
           onChange={onChange}
         />
       ),
@@ -122,11 +128,12 @@ export const ProstateBiopsyTable = ({
     {
       label: "Tumor count",
       key: "tumorCount",
-      render: (row, onChange) => (
+      render: (row, isReadOnly, onChange) => (
         <Select
           name="Tumor count"
           value={row.tumorCount}
           options={TUMOR_COUNT_OPTIONS}
+          isReadOnly={isReadOnly}
           onChange={onChange}
         />
       ),
@@ -137,10 +144,11 @@ export const ProstateBiopsyTable = ({
       key: "tumorSize",
       alignment: "left",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, onChange) => (
+      render: (row, isReadOnly, onChange) => (
         <CellNumberSum
           value={row.tumorSize}
           inputCount={row.tumorCount}
+          isReadOnly={isReadOnly}
           onChange={onChange}
         />
       ),
@@ -150,19 +158,20 @@ export const ProstateBiopsyTable = ({
       label: "Tumor gleason",
       key: "tumorGleason",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, onChange) => (
-        <CellGleason value={row.tumorGleason} onChange={onChange} />
+      render: (row, isReadOnly, onChange) => (
+        <CellGleason
+          value={row.tumorGleason}
+          isReadOnly={isReadOnly}
+          onChange={onChange}
+        />
       ),
       total: (_rows) => {
         if (!score.tumorGleason) {
           return undefined;
         }
 
-        const [a, b] = score.tumorGleason;
         return (
-          <span>
-            {a + b} ({a} + {b})
-          </span>
+          <CellGleason value={score.tumorGleason} isReadOnly onChange={noop} />
         );
       },
     },
@@ -170,8 +179,13 @@ export const ProstateBiopsyTable = ({
       label: "Tumor EPN",
       key: "tumorEpn",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, onChange) => (
-        <CellYesNo name="Tumor EPN" value={row.tumorEpn} onChange={onChange} />
+      render: (row, isReadOnly, onChange) => (
+        <CellYesNo
+          name="Tumor EPN"
+          value={row.tumorEpn}
+          isReadOnly={isReadOnly}
+          onChange={onChange}
+        />
       ),
       total: (_rows) => {
         if (!score.tumorEpn) {
@@ -185,8 +199,13 @@ export const ProstateBiopsyTable = ({
       label: "Tumor TEP",
       key: "tumorTep",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, onChange) => (
-        <CellYesNo name="Tumor TEP" value={row.tumorTep} onChange={onChange} />
+      render: (row, isReadOnly, onChange) => (
+        <CellYesNo
+          name="Tumor TEP"
+          value={row.tumorTep}
+          isReadOnly={isReadOnly}
+          onChange={onChange}
+        />
       ),
       total: (_rows) => {
         if (!score.tumorTep) {
@@ -200,8 +219,13 @@ export const ProstateBiopsyTable = ({
       label: "Tumor PIN",
       key: "tumorPin",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, onChange) => (
-        <CellYesNo name="Tumor PIN" value={row.tumorPin} onChange={onChange} />
+      render: (row, isReadOnly, onChange) => (
+        <CellYesNo
+          name="Tumor PIN"
+          value={row.tumorPin}
+          isReadOnly={isReadOnly}
+          onChange={onChange}
+        />
       ),
       total: (_rows) => {
         if (!score.tumorPin) {
@@ -215,8 +239,12 @@ export const ProstateBiopsyTable = ({
       label: "Other lesions",
       key: "otherLesions",
       alignment: "left",
-      render: (row, onChange) => (
-        <CellTextField value={row.otherLesions} onChange={onChange} />
+      render: (row, isReadOnly, onChange) => (
+        <CellTextField
+          value={row.otherLesions}
+          isReadOnly={isReadOnly}
+          onChange={onChange}
+        />
       ),
     },
   ];
@@ -230,6 +258,7 @@ export const ProstateBiopsyTable = ({
         hasFooter
         onChange={_onChange}
       />
+      {/* TODO: move inside Table using an `errors` prop */}
       <ValidationErrors errors={errors} />
     </>
   );

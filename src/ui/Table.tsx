@@ -13,7 +13,11 @@ export type Column<Row> = {
   alignment?: Alignment; // 'center' by default
 
   isDisabled?: (row: Row) => boolean;
-  render: (row: Row, onChange: (value: ValueOf<Row>) => void) => ReactNode;
+  render: (
+    row: Row,
+    isReadOnly: boolean,
+    onChange: (value: ValueOf<Row>) => void,
+  ) => ReactNode;
   total?: (rows: Row[]) => ReactNode;
 };
 
@@ -22,6 +26,7 @@ type TableProps<Row> = {
   rows: Row[];
   header?: () => ReactNode;
   hasFooter?: boolean;
+  isReadOnly?: boolean;
   onChange: (rows: Row[]) => void;
 };
 
@@ -30,10 +35,12 @@ export function Table<Row>({
   rows,
   header: Header,
   hasFooter,
+  isReadOnly = false,
   onChange,
 }: TableProps<Row>) {
   return (
     <table>
+      {/* Header */}
       <thead>
         {Header ? (
           <Header />
@@ -45,6 +52,8 @@ export function Table<Row>({
           </tr>
         )}
       </thead>
+
+      {/* Body */}
       <tbody>
         {rows.map((row, rowIndex) => (
           <tr key={`row--${rowIndex}`}>
@@ -66,7 +75,7 @@ export function Table<Row>({
                         `table-cell--alignment-${alignment}`,
                       )}
                     >
-                      {column.render(row, (value) =>
+                      {column.render(row, isReadOnly, (value) =>
                         onChange(
                           patchArray(rows, rowIndex, (row) => ({
                             ...row,
@@ -82,6 +91,8 @@ export function Table<Row>({
           </tr>
         ))}
       </tbody>
+
+      {/* Footer  */}
       {hasFooter ? (
         <tfoot>
           <tr>

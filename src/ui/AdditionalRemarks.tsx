@@ -1,9 +1,12 @@
 import { InputTextArea } from "./InputTextArea";
 import { Item } from "./Item";
 import { Title } from "./Title";
-import { FieldProps } from "./helpers/helpers.types";
 
-type Props = { index: number } & FieldProps<string>;
+type Props = {
+  index: number;
+  value: string;
+  onChange: (value: string) => void;
+};
 
 export const AdditionalRemarks = ({ index, value, onChange }: Props) => (
   <Item>
