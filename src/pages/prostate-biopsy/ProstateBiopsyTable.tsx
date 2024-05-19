@@ -1,6 +1,5 @@
 import { Select } from "../../ui/Select";
 import { Column, Table } from "../../ui/Table";
-import { ValidationErrors } from "../../ui/ValidationErrors";
 import { YesOrNo } from "../../ui/YesOrNo";
 import { noop, toOption } from "../../ui/helpers/helpers";
 import { Option } from "../../ui/helpers/options";
@@ -250,16 +249,13 @@ export const ProstateBiopsyTable = ({
   ];
 
   return (
-    <>
-      <Table
-        columns={COLUMNS}
-        rows={rows}
-        header={TableHeader}
-        hasFooter
-        onChange={_onChange}
-      />
-      {/* TODO: move inside Table using an `errors` prop */}
-      <ValidationErrors errors={errors} />
-    </>
+    <Table
+      columns={COLUMNS}
+      rows={rows}
+      header={TableHeader}
+      errors={errors}
+      hasFooter
+      onChange={_onChange}
+    />
   );
 };
