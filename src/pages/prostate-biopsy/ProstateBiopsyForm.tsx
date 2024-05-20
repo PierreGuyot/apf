@@ -8,6 +8,7 @@ import { Page } from "../../ui/Page";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
+import { Title } from "../../ui/Title";
 import { FORMS } from "../../ui/helpers/forms";
 import { range, sum, sumArrays, toOption } from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
@@ -29,7 +30,6 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-import { Title } from "../../ui/Title";
 
 const FORM_ID = "prostate-biopsy";
 

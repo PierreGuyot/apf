@@ -1,0 +1,13 @@
+.help-icon {
+  font-size: 1.1rem;
+  height: 1.5rem;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  font-weight: bold;
+  color: white;
+  background-color: rgb(28, 55, 151);
+  cursor: pointer;
+}

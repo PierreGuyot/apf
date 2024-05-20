@@ -1,0 +1,19 @@
+.tooltip {
+  position: relative;
+}
+
+.tooltip-handle {
+  display: flex;
+  width: fit-content;
+}
+
+.tooltip-content {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  transform: translateX(-10%) translateY(-110%);
+  padding: 1rem;
+  border-radius: 0.2rem;
+  background-color: rgb(198, 228, 255);
+  border: 1px solid rgb(28, 55, 151);
+}
