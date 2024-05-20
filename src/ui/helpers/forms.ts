@@ -3,6 +3,10 @@ export const FORMS = {
     title: "Biopsies prostatiques transrectales",
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },
+  dermatology: {
+    title: "Dermatologie",
+    lastUpdate: new Date(String("Mon May 20 2024")).getTime(),
+  },
 } as const satisfies {
   [id: string]: {
     title: string;
