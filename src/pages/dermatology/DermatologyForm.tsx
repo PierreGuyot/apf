@@ -159,7 +159,7 @@ export const DermatologyForm = () => {
 
         <Line>
           {/* TODO: check unit with Louis */}
-          Combien mesure le lambeau cutané?
+          Combien mesure le lambeau cutané ?
           <InputNumber
             value={skinFlapDimensions[0]}
             onChange={(value) =>
@@ -195,7 +195,7 @@ export const DermatologyForm = () => {
           cm
         </Line>
         <Line>
-          La lésion est-elle visible?{" "}
+          La lésion est-elle visible ?{" "}
           <Select
             name="Visibilité de la lésion"
             value={isLesionVisible}
@@ -205,7 +205,7 @@ export const DermatologyForm = () => {
         </Line>
 
         <Line>
-          Quel est l'aspect de la lésion?
+          Quel est l'aspect de la lésion ?
           <Select
             name="Aspect de la lésion"
             value={lesionAspectType}
@@ -215,7 +215,7 @@ export const DermatologyForm = () => {
         </Line>
 
         <Line>
-          Quelle est la limite au plus proche? Située à{" "}
+          Quelle est la limite au plus proche ? Située à{" "}
           <InputNumber
             value={limitDistance}
             onChange={setState("limitDistance")}
