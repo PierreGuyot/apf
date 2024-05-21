@@ -36,13 +36,13 @@ const FORM_ID = "dermatology";
 // TODO: break into reusable sub-forms
 export type FormState = {
   clinicalInfo: string;
-
-  // Macro biopsy
   containerCount: number;
 
-  // Macro exeresis
+  // Macro biopsy
   biopsyType: BiopsyType;
   biopsySize: number;
+
+  // Macro exeresis
   skinFlapDimensions: [number, number, number];
   isLesionVisible: boolean;
   lesionAspectType: LesionAspectType;
@@ -69,8 +69,10 @@ const DEFAULT_ANGLE = 12; // Hour-like notation
 const getInitialState = (): FormState => ({
   clinicalInfo: "",
   containerCount: 0,
+
   biopsyType: "punch",
   biopsySize: 0,
+
   skinFlapDimensions: [0, 0, 0],
   isLesionVisible: false,
   lesionAspectType: "Nodulaire",
@@ -82,6 +84,7 @@ const getInitialState = (): FormState => ({
   cassetteCount: 0,
   inclusionType: "full",
   cutType: "transverse",
+
   lesionType: "tumor",
   lesionCount: 1,
   tumorType: "basal-cell-carcinoma-superficial",
