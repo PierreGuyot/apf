@@ -4,7 +4,7 @@ import "./title.css";
 type TitleProps = {
   title: string;
   index?: number;
-  size?: "md" | "lg";
+  size?: "sm" | "md" | "lg";
 };
 
 export const Title = ({ title, index, size = "md" }: TitleProps) => (

@@ -3,6 +3,7 @@ import pluginImportOrder from "eslint-plugin-import";
 import pluginArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import pluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import pluginReactRecommended from "eslint-plugin-react/configs/recommended.js";
+import pluginReactHook from "eslint-plugin-react-hooks";
 
 import globals from "globals";
 
@@ -38,8 +39,12 @@ const config = [
     plugins: {
       "plugin-arrow-functions": pluginArrowFunctions,
       "plugin-import-order": pluginImportOrder,
+      "react-hooks": pluginReactHook,
     },
     rules: {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+
       // De-activated rules
       "no-console": "off",
       "no-extra-boolean-cast": "off",
