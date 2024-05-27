@@ -86,3 +86,20 @@ export const clamp = ({
 
   return value;
 };
+
+/** Helper to ensure a switch or a list of if is exhausted.
+ * For example:
+ * ```
+ * switch (aOrB) {
+ *   case 'a':
+ *      return ...
+ *
+ *   case 'b':
+ *      return ...
+ *
+ *  return assertUnreachable(aOrB);
+ * ```
+ */
+export const assertUnreachable = (x: never): never => {
+  throw new Error(`assertUnreachable: ${x}`);
+};

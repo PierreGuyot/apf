@@ -16,3 +16,8 @@ export const FORMS = {
 
 // List of all the forms supported in the app
 export type FormId = keyof typeof FORMS;
+
+// CAUTION: this cast os type-unsafe
+export const FORM_IDS = Object.keys(FORMS) as FormId[];
+
+export const isFormId = (value: string): value is FormId => value in FORMS;

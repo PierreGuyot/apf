@@ -3,6 +3,7 @@ import "./banner.css";
 import { FORMS, FormId } from "./helpers/forms";
 import { join } from "./helpers/helpers";
 import { joinLines } from "./helpers/text";
+import { goToIndex } from "./helpers/navigation";
 import { ONE_DAY, formatDate, formatDurationInDays } from "./time";
 
 // We recommend checking for updates after 180 days (around 6 months)
@@ -45,7 +46,13 @@ export const Banner = ({ formId, onClear: _onClear }: BannerProps) => {
         </div>
         {/* TODO: add mailing address to report issues */}
       </div>
-      <Button label="Remettre le formulaire à zéro" onClick={onClear} />
+      <div className="banner-actions">
+        <Button label="Remettre le formulaire à zéro" onClick={onClear} />
+        <Button
+          label="Retourner à la liste des formulaires"
+          onClick={goToIndex}
+        />
+      </div>
     </div>
   );
 };

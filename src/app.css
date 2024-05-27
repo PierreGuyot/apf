@@ -1,0 +1,9 @@
+.app {
+  padding: 2rem;
+}
+
+.app-routes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
