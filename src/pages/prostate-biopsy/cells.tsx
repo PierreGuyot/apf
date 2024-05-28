@@ -1,16 +1,61 @@
+import { useState } from "react";
 import { Fragment } from "react/jsx-runtime";
+import { CheckboxList } from "../../ui/CheckboxList";
 import { InputNumber } from "../../ui/InputNumber";
-import { InputText } from "../../ui/InputText";
+import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
-import { range, toOption } from "../../ui/helpers/helpers";
+import { Tooltip } from "../../ui/Tooltip";
+import { noop, range, toOption } from "../../ui/helpers/helpers";
 import { FieldProps } from "../../ui/helpers/helpers.types";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import "./cells.css";
-import { GLEASON_SCORES, GleasonPair, GleasonScore } from "./helpers";
+import {
+  GLEASON_SCORES,
+  GleasonPair,
+  GleasonScore,
+  OTHER_LESION_TYPES,
+  OtherLesionType,
+} from "./helpers";
+import { Button } from "../../ui/Button";
 
-export const CellTextField = (props: FieldProps<string>) => (
-  <InputText placeholder=" ..." isFullWidth {...props} />
-);
+// TODO clean: extract generic SelectList component
+export const CellSelectList = (props: FieldProps<OtherLesionType[]>) => {
+  const selectedItems = OTHER_LESION_TYPES.filter((item) =>
+    props.value.includes(item.value),
+  );
+
+  if (props.isReadOnly) {
+    return selectedItems.map((item) => item.label).join(" + ");
+  }
+
+  return (
+    <div>
+      <div className="cell-multi-select">
+        <Tooltip
+          mode="click"
+          content={
+            // TODO clean: clean style
+            <div style={{ width: "200px" }}>
+              <CheckboxList
+                items={OTHER_LESION_TYPES}
+                values={props.value}
+                onChange={props.onChange}
+              />
+            </div>
+          }
+        >
+          <Button label="+" onClick={noop} />
+        </Tooltip>
+        {/* TODO clean: extract Pill component */}
+        {selectedItems.map((item) => (
+          <div key={item.value} className="cell-multi-select-item">
+            {item.label}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellChoice = Select;
 

@@ -42,11 +42,17 @@ const toOption = (location: Location) => ({
 export const LOCATION_OPTIONS: Option<Location>[] = LOCATIONS.map(toOption);
 
 export type ContainerType = "sextan" | "target";
-
 export const CONTAINER_TYPES: Option<ContainerType>[] = [
   { value: "sextan", label: "Sextant" },
   { value: "target", label: "Cible" },
-] as const;
+];
+
+// TODO with Louis: complete
+export type OtherLesionType = "inflammation" | "atrophy";
+export const OTHER_LESION_TYPES: Option<OtherLesionType>[] = [
+  { value: "inflammation", label: "Inflammation" },
+  { value: "atrophy", label: "Atrophie" },
+];
 
 export type Row = {
   index: number;
@@ -60,7 +66,7 @@ export type Row = {
   tumorEpn: boolean;
   tumorTep: boolean;
   tumorPin: boolean;
-  otherLesions: string;
+  otherLesions: OtherLesionType[];
 };
 
 export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
@@ -74,7 +80,7 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   tumorEpn: false,
   tumorTep: false,
   tumorPin: false,
-  otherLesions: "",
+  otherLesions: [],
   ...partial,
 });
 

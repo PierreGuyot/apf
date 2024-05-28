@@ -9,7 +9,7 @@ import {
   CellGleason,
   CellNumber,
   CellNumberSum,
-  CellTextField,
+  CellSelectList,
   CellYesNo,
 } from "./cells";
 import { CONTAINER_TYPES, Row, Score } from "./helpers";
@@ -239,7 +239,7 @@ export const ProstateBiopsyTable = ({
       key: "otherLesions",
       alignment: "left",
       render: (row, isReadOnly, onChange) => (
-        <CellTextField
+        <CellSelectList
           value={row.otherLesions}
           isReadOnly={isReadOnly}
           onChange={onChange}

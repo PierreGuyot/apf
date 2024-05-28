@@ -18,3 +18,15 @@
   display: flex;
   align-items: center;
 }
+
+.cell-multi-select {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.cell-multi-select-item {
+  border: 1px solid gray;
+  font-size: 0.9em;
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
+}
