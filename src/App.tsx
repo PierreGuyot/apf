@@ -37,7 +37,7 @@ export const App = () => {
           {/* TODO: add context here, aligned on the README file */}
           <div className="app-routes">
             {FORM_ROUTES.map((route) => (
-              <FormRoute route={route} />
+              <FormRoute key={route} route={route} />
             ))}
           </div>
         </Page>
