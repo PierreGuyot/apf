@@ -1,4 +1,6 @@
-export type Option<T extends string | number | boolean> = {
+export type SelectValue = string | number | boolean;
+
+export type Option<T extends SelectValue> = {
   value: T;
   label: string;
 };
