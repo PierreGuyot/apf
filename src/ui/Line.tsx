@@ -6,7 +6,7 @@ import "./line.css";
 type LineProps = PropsWithChildren<{}>;
 
 export const Line = ({ children }: LineProps) => (
-  <Item>
+  <Item size="sm">
     <div className="line">{children}</div>
   </Item>
 );

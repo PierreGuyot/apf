@@ -1,27 +1,24 @@
 import { PropsWithChildren } from "react";
 
+import { join } from "./helpers/helpers";
 import "./item.css";
-import { join, px } from "./helpers/helpers";
 
 type ItemProps = PropsWithChildren<{
-  depth?: number;
+  size?: "sm" | "md";
   hasMaxWidth?: boolean;
 }>;
 
-const BASE_NESTING = 25;
-
 export const Item = ({
-  children,
-  depth = 0,
+  size = "md",
   hasMaxWidth = true,
+  children,
 }: ItemProps) => (
   <div
     className={join(
       "item",
-      depth ? "item--is-nested" : undefined,
+      `item--${size}`,
       hasMaxWidth ? "item--has-max-width" : undefined,
     )}
-    style={{ paddingLeft: px(depth * BASE_NESTING) }}
   >
     {children}
   </div>

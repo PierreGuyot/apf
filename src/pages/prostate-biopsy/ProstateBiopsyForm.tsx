@@ -30,6 +30,8 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+import { Section } from "../../ui/Section";
+import { NestedItem } from "../../ui/NestedItem";
 
 const FORM_ID = "prostate-biopsy";
 
@@ -207,7 +209,7 @@ export const ProstateBiopsyForm = () => {
     <Page title={form.title}>
       <Banner formId={FORM_ID} onClear={clearState} />
 
-      <Item>
+      <Section>
         <Title title="Renseignements cliniques" index={1}></Title>
         <Line>
           <Select
@@ -265,12 +267,12 @@ export const ProstateBiopsyForm = () => {
                     {/* We handle the maximum number of items in all cases and simply hide according to count
                   This way, changing the count doesn't erase user input */}
                     {targetCount ? (
-                      <Item depth={1}>
+                      <NestedItem depth={1}>
                         <PiradsSelect
                           items={piradsItems}
                           onChange={onUpdatePiradsItem}
                         />
-                      </Item>
+                      </NestedItem>
                     ) : undefined}
                   </>
                 ) : undefined}
@@ -278,9 +280,9 @@ export const ProstateBiopsyForm = () => {
             ) : undefined}
           </>
         ) : undefined}
-      </Item>
+      </Section>
 
-      <Item>
+      <Section>
         <Title title="Biopsies" index={2}></Title>
         <Line>
           {/* CAUTION:
@@ -296,7 +298,7 @@ export const ProstateBiopsyForm = () => {
             onChange={setState("containerCount")}
           />
         </Line>
-      </Item>
+      </Section>
 
       <Item hasMaxWidth={false}>
         <ProstateBiopsyTable

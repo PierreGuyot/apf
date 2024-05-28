@@ -1,6 +1,10 @@
+.title {
+  margin-top: initial;
+}
+
 .title--margin-sm {
   font-size: 1.1em;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.8rem;
 }
 
 .title--margin-md {

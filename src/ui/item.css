@@ -8,9 +8,9 @@
 }
 
 .item + .item {
-  margin-top: 1.2rem;
+  margin-top: 1.5rem;
 }
 
-.item--is-nested {
-  border-left: 2px solid lightgray;
+.item--sm + .item--sm {
+  margin-top: 0.6rem;
 }

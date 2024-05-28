@@ -7,6 +7,7 @@ import { Language } from "./helpers/helpers.types";
 import { Option } from "./helpers/options";
 import { Select } from "./Select";
 import { Item } from "./Item";
+import { Section } from "./Section";
 
 type SummaryProps = {
   getContent: (language: Language) => string;
@@ -24,7 +25,7 @@ export const Summary = ({ getContent, index }: SummaryProps) => {
   const content = getContent(language);
 
   return (
-    <Item>
+    <Section>
       <Title title="Compte-rendu" index={index} />
       <div className="summary-buttons">
         <Select
@@ -42,6 +43,6 @@ export const Summary = ({ getContent, index }: SummaryProps) => {
       <div className="summary">
         <pre className="summary-content">{content}</pre>
       </div>
-    </Item>
+    </Section>
   );
 };

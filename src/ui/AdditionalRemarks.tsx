@@ -1,5 +1,5 @@
 import { InputTextArea } from "./InputTextArea";
-import { Item } from "./Item";
+import { Section } from "./Section";
 import { Title } from "./Title";
 
 type Props = {
@@ -9,12 +9,12 @@ type Props = {
 };
 
 export const AdditionalRemarks = ({ index, value, onChange }: Props) => (
-  <Item>
+  <Section>
     <Title title="Remarques particulières" index={index} />
     <InputTextArea
       value={value}
       placeholder="Ajoutez vos remarques additionnelles dans ce champ."
       onChange={onChange}
     />
-  </Item>
+  </Section>
 );

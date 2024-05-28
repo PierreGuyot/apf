@@ -2,11 +2,12 @@ import { useMemo } from "react";
 import { Banner } from "../../ui/Banner";
 import { InputNumber } from "../../ui/InputNumber";
 import { InputTextArea } from "../../ui/InputTextArea";
-import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
 import { Page } from "../../ui/Page";
+import { Section } from "../../ui/Section";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
+import { SubSection } from "../../ui/SubSection";
 import { Title } from "../../ui/Title";
 import { FORMS } from "../../ui/helpers/forms";
 import { patchArray, range } from "../../ui/helpers/helpers";
@@ -114,7 +115,7 @@ const MAX_OPERATION_COUNT = 5;
 // TODO: use first value of option arrays
 const getInitialState = (): FormState => ({
   clinicalInfo: "",
-  containerCount: 0,
+  containerCount: 1,
   operations: range(MAX_OPERATION_COUNT).map(getOperation),
 });
 
@@ -127,23 +128,27 @@ export const DermatologyForm = () => {
     <Page title={form.title}>
       <Banner formId={FORM_ID} onClear={clearState} />
 
-      <Item>
+      <Section>
+        <Title title="Renseignements cliniques" />
         <InputTextArea
-          label="Renseignements cliniques"
           value={clinicalInfo}
           placeholder="TODO"
           onChange={setState("clinicalInfo")}
         />
-      </Item>
+      </Section>
 
-      <Line>
-        Combien de pots avez-vous ?{/* TODO: use SelectNumber? */}
-        <InputNumber
-          value={containerCount}
-          max={5} // TODO with Louis: confirm value
-          onChange={setState("containerCount")}
-        />
-      </Line>
+      <Section>
+        <Line>
+          Combien de pots avez-vous ?{/* TODO: use SelectNumber? */}
+          <InputNumber
+            value={containerCount}
+            // TODO with Louis: confirm values
+            min={1}
+            max={5}
+            onChange={setState("containerCount")}
+          />
+        </Line>
+      </Section>
 
       {operations.slice(0, containerCount).map((operation, index) => {
         const setOperation = (value: OperationState) =>
@@ -195,7 +200,7 @@ const OperationForm = ({
   }, [operation.type]);
 
   return (
-    <>
+    <Section>
       <Title title={title} index={index + 1} />
       <Line>
         Quel est le type d'opération ?{" "}
@@ -207,11 +212,13 @@ const OperationForm = ({
         />
       </Line>
 
-      <Title title="Macroscopie" size="sm" />
-      <Component {...operation} setState={setOperationState} />
-      <Title title="Microscopie" size="sm" />
-      <MicroscopyForm {...operation} setState={setOperationState} />
-    </>
+      <SubSection title="Macroscopie">
+        <Component {...operation} setState={setOperationState} />
+      </SubSection>
+      <SubSection title="Microscopie">
+        <MicroscopyForm {...operation} setState={setOperationState} />
+      </SubSection>
+    </Section>
   );
 };
 
@@ -221,7 +228,7 @@ const MacroBiopsyForm = ({
   setState,
 }: OperationState & { setState: SetState<OperationState> }) => {
   return (
-    <Item>
+    <>
       <Line>
         Une biopsie au{" "}
         <Select
@@ -233,7 +240,7 @@ const MacroBiopsyForm = ({
         de <InputNumber value={biopsySize} onChange={setState("biopsySize")} />
         mm a été incluse en totalité (formol tamponné)
       </Line>
-    </Item>
+    </>
   );
 };
 
@@ -252,7 +259,7 @@ const MacroExeresisForm = ({
   setState,
 }: OperationState & { setState: SetState<OperationState> }) => {
   return (
-    <Item>
+    <>
       <Line>
         {/* TODO: check unit with Louis */}
         Combien mesure le lambeau cutané ?
@@ -383,7 +390,7 @@ const MacroExeresisForm = ({
           onChange={setState("cutType")}
         />
       </Line>
-    </Item>
+    </>
   );
 };
 
@@ -392,7 +399,7 @@ const MacroShavingForm = ({
 }: {
   setState: SetState<OperationState>;
 }) => {
-  return <Item>{/* TODO: complete */}</Item>;
+  return <>TODO: MacroShavingForm</>;
 };
 
 // TODO: translate recoupe
@@ -401,7 +408,7 @@ const MacroRecoupeForm = ({
 }: {
   setState: SetState<OperationState>;
 }) => {
-  return <Item>{/* TODO: complete */}</Item>;
+  return <>TODO: MacroRecoupeForm</>;
 };
 
 const MicroscopyForm = ({
@@ -413,7 +420,7 @@ const MicroscopyForm = ({
   setState,
 }: OperationState & { setState: SetState<OperationState> }) => {
   return (
-    <Item>
+    <>
       <Line>
         Quel est le type de lésion ?{" "}
         <Select
@@ -467,8 +474,8 @@ const MicroscopyForm = ({
           </Line>
         </>
       ) : (
-        <>{/* TODO: complete */}</>
+        <>TODO: complete</>
       )}
-    </Item>
+    </>
   );
 };

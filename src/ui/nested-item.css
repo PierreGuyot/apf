@@ -1,0 +1,8 @@
+.nested-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.nested-item--is-nested {
+  border-left: 2px solid lightgray;
+}
