@@ -82,11 +82,11 @@ export const TUMOR_TYPES: Option<TumorType>[] = [
   },
 ];
 
-export type ExeresisType =
+export type ExcisionType =
   | "complete"
   | "complete-with-margins"
   | "incomplete-with-margins";
-export const EXERESIS_TYPES: Option<ExeresisType>[] = [
+export const EXCISION_TYPES: Option<ExcisionType>[] = [
   { value: "complete", label: "Exérèse complète" },
   { value: "complete-with-margins", label: "Exérèse complète avec marges" },
   { value: "incomplete-with-margins", label: "Exérèse incomplète avec marges" },

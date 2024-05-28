@@ -19,8 +19,8 @@ import {
   CUTANEOUS_DISEASE_TYPES,
   CutType,
   CutaneousDiseaseType,
-  EXERESIS_TYPES,
-  ExeresisType,
+  EXCISION_TYPES,
+  ExcisionType,
   INCLUSION_TYPES,
   InclusionType,
   LESION_ASPECT_TYPES,
@@ -38,12 +38,12 @@ const FORM_ID = "dermatology";
 
 type OperationType =
   | "biopsy"
-  | "exeresis"
+  | "excision"
   | "recoupe" // TODO: translate
   | "shaving";
 const OPERATION_TYPES: Option<OperationType>[] = [
   { value: "biopsy", label: "Biopsie" },
-  { value: "exeresis", label: "Exérèse" },
+  { value: "excision", label: "Exérèse" },
   { value: "recoupe", label: "Recoupe" },
   { value: "shaving", label: "Shaving" },
 ];
@@ -55,14 +55,14 @@ type OperationState = {
   lesionType: LesionType;
   lesionCount: number;
   tumorType: TumorType;
-  exeresisType: ExeresisType;
+  excisionType: ExcisionType;
   cutaneousDiseaseType: CutaneousDiseaseType;
 
   // Macro biopsy
   biopsyType: BiopsyType;
   biopsySize: number;
 
-  // Macro exeresis
+  // Macro excision
   skinFlapDimensions: [number, number, number];
   isLesionVisible: boolean;
   lesionAspectType: LesionAspectType;
@@ -106,7 +106,7 @@ const getOperation = (): OperationState => ({
   lesionType: "tumor",
   lesionCount: 1,
   tumorType: "basal-cell-carcinoma-superficial",
-  exeresisType: "complete",
+  excisionType: "complete",
   cutaneousDiseaseType: "eczema",
 });
 
@@ -187,8 +187,8 @@ const OperationForm = ({
       case "biopsy": {
         return MacroBiopsyForm;
       }
-      case "exeresis": {
-        return MacroExeresisForm;
+      case "excision": {
+        return MacroExcisionForm;
       }
       case "recoupe": {
         return MacroRecoupeForm;
@@ -244,7 +244,7 @@ const MacroBiopsyForm = ({
   );
 };
 
-const MacroExeresisForm = ({
+const MacroExcisionForm = ({
   skinFlapDimensions,
   isLesionVisible,
   lesionAspectType,
@@ -415,7 +415,7 @@ const MicroscopyForm = ({
   lesionType,
   lesionCount,
   tumorType,
-  exeresisType,
+  excisionType,
   cutaneousDiseaseType,
   setState,
 }: OperationState & { setState: SetState<OperationState> }) => {
@@ -455,9 +455,9 @@ const MicroscopyForm = ({
             Précisez l'exérèse de la lésion :{" "}
             <Select
               name="Type d'exérèse"
-              value={exeresisType}
-              options={EXERESIS_TYPES}
-              onChange={setState("exeresisType")}
+              value={excisionType}
+              options={EXCISION_TYPES}
+              onChange={setState("excisionType")}
             />
           </Line>
         </>
