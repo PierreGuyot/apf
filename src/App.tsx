@@ -6,6 +6,7 @@ import { assertUnreachable } from "./ui/helpers/helpers";
 import { FORM_ROUTES, useHash } from "./ui/helpers/navigation";
 
 import "./app.css";
+import { Page } from "./ui/Page";
 
 // TODO: handle link buttons?
 const FormRoute = ({ route }: { route: FormId }) => {
@@ -32,13 +33,14 @@ export const App = () => {
 
     case undefined:
       return (
-        <div className="app">
+        <Page title="Formulaires">
+          {/* TODO: add context here, aligned on the README file */}
           <div className="app-routes">
             {FORM_ROUTES.map((route) => (
               <FormRoute route={route} />
             ))}
           </div>
-        </div>
+        </Page>
       );
 
     default:
