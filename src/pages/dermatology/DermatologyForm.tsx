@@ -165,6 +165,8 @@ export const DermatologyForm = () => {
           />
         );
       })}
+
+      {/* TODO: bootstrap report */}
     </Page>
   );
 };
