@@ -1,3 +1,6 @@
+import { Language } from "../../ui/helpers/helpers.types";
+import { toYesNo } from "../../ui/helpers/options";
+import { pluralize } from "../../ui/helpers/plural";
 import {
   joinLines,
   joinSections,
@@ -5,18 +8,14 @@ import {
   pad,
   padSection,
 } from "../../ui/helpers/text";
-import { Language } from "../../ui/helpers/helpers.types";
-import { toYesNo } from "../../ui/helpers/options";
-import { pluralize } from "../../ui/helpers/plural";
 import { formatWithUnit } from "../../ui/helpers/units";
 import { FormState } from "./ProstateBiopsyForm";
 import {
   DEFAULT_GLEASON_PAIR,
-  GleasonPair,
   PiradsItem,
   Score,
   getIsupScore,
-  getLocationLabel,
+  getLocationLabel
 } from "./helpers";
 
 type ReportParams = FormState & {
