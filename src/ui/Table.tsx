@@ -7,19 +7,23 @@ export type ValueOf<Row> = Row[keyof Row];
 
 type Alignment = "left" | "center";
 
-// TODO clean: fix with a mapped type after re-reading Gabriel's Typescript course
-export type Column<Row> = {
+type BaseColumn<Key, Value, Row> = {
   label: string;
-  key: keyof Row;
+  key: Key;
   alignment?: Alignment; // 'center' by default
   isDisabled?: (row: Row) => boolean;
   render: (
     row: Row,
     isReadOnly: boolean,
-    onChange: (value: ValueOf<Row>) => void,
+    onChange: (value: Value) => void,
   ) => ReactNode;
   total?: (rows: Row[]) => ReactNode;
 };
+type DistributeColumns<Base, K extends keyof Base> = K extends any
+  ? BaseColumn<K, Base[K], Base>
+  : never;
+
+export type Column<Row> = DistributeColumns<Row, keyof Row>;
 
 type TableProps<Row> = {
   columns: Column<Row>[];
