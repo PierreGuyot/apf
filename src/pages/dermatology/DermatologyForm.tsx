@@ -115,7 +115,6 @@ const getOperation = (): OperationState => ({
 
 const MAX_OPERATION_COUNT = 5;
 
-// TODO: use first value of option arrays
 const getInitialState = (): FormState => ({
   clinicalInfo: "",
   containerCount: 1,
