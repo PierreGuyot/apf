@@ -1,33 +1,54 @@
 import { useBoolean } from "./helpers/state";
 import "./tooltip.css";
 
-import { PropsWithChildren, ReactNode, useEffect, useRef } from "react";
+import {
+  PropsWithChildren,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 
 type Props = PropsWithChildren<{
-  mode?: "click" | "hover";
   content: ReactNode;
+  mode?: "click" | "hover";
+  onClose?: () => void;
 }>;
 
-export const Tooltip = ({ mode = "hover", content, children }: Props) => {
+export const Tooltip = ({
+  content,
+  mode = "hover",
+  onClose,
+  children,
+}: Props) => {
   const [isOpen, setIsOpen] = useBoolean(false);
   const open = () => setIsOpen(true);
-  const close = () => setIsOpen(false);
+  const close = useCallback(() => {
+    setIsOpen(false);
+
+    if (onClose) {
+      onClose();
+    }
+  }, [onClose, setIsOpen]);
 
   const tooltipContent = useRef<HTMLDivElement | null>(null);
   const tooltipHandle = useRef<HTMLDivElement | null>(null);
 
   // Clear popover on click-outside
-  const onMouseDown = (event: MouseEvent) => {
-    // CAUTION: this cast is type-unsafe
-    const targetNode = event.target as Node | null;
+  const onMouseDown = useCallback(
+    (event: MouseEvent) => {
+      // CAUTION: this cast is type-unsafe
+      const targetNode = event.target as Node | null;
 
-    if (
-      tooltipContent.current &&
-      !tooltipContent.current.contains(targetNode)
-    ) {
-      close();
-    }
-  };
+      if (
+        tooltipContent.current &&
+        !tooltipContent.current.contains(targetNode)
+      ) {
+        close();
+      }
+    },
+    [close],
+  );
 
   const callbacks =
     mode === "hover"
@@ -43,7 +64,7 @@ export const Tooltip = ({ mode = "hover", content, children }: Props) => {
       document.addEventListener("mousedown", onMouseDown);
       return () => document.removeEventListener("mousedown", onMouseDown);
     }
-  }, [mode]);
+  }, [mode, close, onMouseDown]);
 
   return (
     <span className="tooltip">

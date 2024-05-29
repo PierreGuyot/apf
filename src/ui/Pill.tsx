@@ -7,6 +7,6 @@ type Props = {
 
 export const Pill = ({ label }: Props) => (
   <Tooltip content={label}>
-    <div className="pill"> {label} </div>
+    <div className="pill">{label}</div>
   </Tooltip>
 );
