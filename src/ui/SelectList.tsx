@@ -29,8 +29,7 @@ export function SelectList<T extends SelectValue>({
         <Tooltip
           mode="click"
           content={
-            // TODO clean: clean style
-            <div style={{ width: "200px" }}>
+            <div>
               <CheckboxList items={items} values={value} onChange={onChange} />
             </div>
           }

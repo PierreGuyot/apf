@@ -8,11 +8,12 @@
 }
 
 .tooltip-content {
+  font-size: 0.9em;
   position: absolute;
   z-index: 1;
   top: 0;
   transform: translateX(-10%) translateY(-110%);
-  padding: 1rem;
+  padding: 0.7rem;
   border-radius: 0.2rem;
   background-color: rgb(198, 228, 255);
   border: 1px solid rgb(28, 55, 151);

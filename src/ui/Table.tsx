@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import "./table.css";
-import { join, patchArray } from "./helpers/helpers";
 import { ValidationErrors } from "./ValidationErrors";
+import { join, patchArray } from "./helpers/helpers";
+import "./table.css";
 
 export type ValueOf<Row> = Row[keyof Row];
 

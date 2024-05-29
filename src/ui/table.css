@@ -16,6 +16,7 @@ table {
 
   .table-cell {
     display: flex;
+    max-width: 100%;
   }
 
   .table-cell--is-disabled {

@@ -11,7 +11,7 @@ export const Checkbox = ({ label, isChecked, onChange }: Props) => {
   return (
     <div className="checkbox" onClick={onChange}>
       <input type="checkbox" checked={isChecked} onChange={noop} />
-      {label}
+      <span className="checkbox-label">{label}</span>
     </div>
   );
 };

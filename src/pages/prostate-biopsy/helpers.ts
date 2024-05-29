@@ -1,4 +1,4 @@
-// TODO with Louis: check English naming
+// TODO with Louis: check naming in both French and English
 import { sum } from "../../ui/helpers/helpers";
 import { Pair } from "../../ui/helpers/helpers.types";
 import { Option } from "../../ui/helpers/options";
@@ -47,11 +47,72 @@ export const CONTAINER_TYPES: Option<ContainerType>[] = [
   { value: "target", label: "Cible" },
 ];
 
-// TODO with Louis: complete
-export type OtherLesionType = "inflammation" | "atrophy";
-export const OTHER_LESION_TYPES: Option<OtherLesionType>[] = [
-  { value: "inflammation", label: "Inflammation" },
-  { value: "atrophy", label: "Atrophie" },
+export type OtherLesionType =
+  | "adenosis"
+  | "ASAP"
+  | "atrophy"
+  | "base-cell-hyperplasia"
+  | "inflammation"
+  | "invasive-ductal-carcinoma"
+  | "partial-atrophy"
+  | "PINHG"
+  | "post-atrophic-hyperplasia"
+  | "prostate-adenomyoma";
+
+// Ordered according to label alphabetical order
+export const OTHER_LESION_TYPES: Array<
+  Option<OtherLesionType> & { shortLabel: string }
+> = [
+  {
+    value: "prostate-adenomyoma",
+    label: "Adénomyome de la prostate",
+    shortLabel: "Adénomyome de la prostate",
+  },
+  {
+    value: "adenosis",
+    label: "Adénose",
+    shortLabel: "Adénose",
+  },
+  {
+    value: "ASAP",
+    label: "Prolifération acinaire atypique",
+    shortLabel: "ASAP",
+  },
+  {
+    value: "atrophy",
+    label: "Atrophie",
+    shortLabel: "Atrophie",
+  },
+  {
+    value: "partial-atrophy",
+    label: "Atrophie partielle",
+    shortLabel: "Atrophie partielle",
+  },
+  {
+    value: "invasive-ductal-carcinoma",
+    label: "Carcinome intra-ductal",
+    shortLabel: "Carcinome intra-ductal",
+  },
+  {
+    value: "base-cell-hyperplasia",
+    label: "Hyperplasie des cellules basales",
+    shortLabel: "Hyperplasie des cellules basales",
+  },
+  {
+    value: "post-atrophic-hyperplasia",
+    label: "Hyperplasie post-atrophique",
+    shortLabel: "Hyperplasie post-atrophique",
+  },
+  {
+    value: "inflammation",
+    label: "Inflammation",
+    shortLabel: "Inflammation",
+  },
+  {
+    value: "PINHG",
+    label: "Présence de néoplasie intra-épithéliale de haut grade",
+    shortLabel: "PINHG",
+  },
 ];
 
 export type Row = {
