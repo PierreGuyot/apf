@@ -1,11 +1,11 @@
-.app-routes {
+.main-list-routes {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
 /* TODO clean: extract paragraph style */
-.app-presentation {
+.main-list-presentation {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
