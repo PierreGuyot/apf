@@ -6,7 +6,10 @@ import { assertUnreachable } from "./ui/helpers/helpers";
 import { FORM_ROUTES, useHash } from "./ui/helpers/navigation";
 
 import "./app.css";
+import { Em } from "./ui/Em";
+import { Disclaimer } from "./ui/Disclaimer";
 import { Page } from "./ui/Page";
+import { Section } from "./ui/Section";
 
 // TODO: handle link buttons?
 const FormRoute = ({ route }: { route: FormId }) => {
@@ -35,11 +38,38 @@ export const App = () => {
       return (
         <Page title="Formulaires">
           {/* TODO: add context here, aligned on the README file */}
-          <div className="app-routes">
-            {FORM_ROUTES.map((route) => (
-              <FormRoute key={route} route={route} />
-            ))}
-          </div>
+          <Section>
+            <div className="app-presentation">
+              <div>
+                <Em>APF</Em> est un formulaire de compte-rendu standardisé pour
+                l'anatomopathologie.
+              </div>
+              <div>
+                Il a été par conçu par <Em>Louis Vaquier</Em> (interne en
+                anatomopathologie) et <Em>Pierre Guyot</Em> (ingénieur en
+                informatique).
+              </div>
+              <div>
+                Le code du projet est disponible{" "}
+                <a href="https://github.com/PierreGuyot/apf">ici</a>.
+              </div>
+            </div>
+          </Section>
+
+          <Section>
+            <Disclaimer>
+              Attention ! Ce formulaire est un prototype et se trouve encore en
+              phase de test.
+            </Disclaimer>
+          </Section>
+
+          <Section title="Choisissez un type de formulaire">
+            <div className="app-routes">
+              {FORM_ROUTES.map((route) => (
+                <FormRoute key={route} route={route} />
+              ))}
+            </div>
+          </Section>
         </Page>
       );
 

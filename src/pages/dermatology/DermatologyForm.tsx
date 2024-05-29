@@ -185,8 +185,8 @@ export const DermatologyForm = () => {
 
 // TODO: un-mock
 const getTitle = (operation: OperationState): string => {
-  return 'TODO: title'
-}
+  return "TODO: title";
+};
 
 const OperationForm = ({
   index,

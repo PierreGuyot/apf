@@ -15,12 +15,13 @@
   justify-content: space-between;
 }
 
+/* TODO clean: extract warning colors */
 .banner--warning {
   --warning-color: rgb(229, 0, 0);
-
-  border-color: var(--warning-color);
+  --warning-background-color: rgb(255, 223, 223) border-color:
+    var(--warning-color);
   color: var(--warning-color);
-  background-color: rgb(255, 223, 223);
+  background-color: var(--warning-background-color);
 }
 
 .banner-actions {
