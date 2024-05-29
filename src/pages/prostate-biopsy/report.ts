@@ -11,6 +11,7 @@ import { pluralize } from "../../ui/helpers/plural";
 import { formatWithUnit } from "../../ui/helpers/units";
 import { FormState } from "./ProstateBiopsyForm";
 import {
+  DEFAULT_GLEASON_PAIR,
   GleasonPair,
   PiradsItem,
   Score,
@@ -50,8 +51,7 @@ export const generateReport = (form: ReportParams): string => {
 
       // Tumor presence
       else {
-        // CAUTION: this cast is type-unsafe
-        const [a, b] = score.tumorGleason as GleasonPair;
+        const [a, b] = score.tumorGleason ?? DEFAULT_GLEASON_PAIR;
         const sextans = rows.filter((row) => row.type === "sextan");
         const sextansWithTumor = sextans.filter((row) => row.tumorCount > 0);
         const targets = rows.filter((row) => row.type === "target");

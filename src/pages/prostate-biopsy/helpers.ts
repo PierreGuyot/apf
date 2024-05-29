@@ -151,7 +151,7 @@ const byGleasonScore = (a: GleasonPair, b: GleasonPair) =>
   // By left value in case of equality
   b[0] - a[0];
 
-const DEFAULT_GLEASON_PAIR: GleasonPair = [3, 3];
+export const DEFAULT_GLEASON_PAIR: GleasonPair = [3, 3];
 export const getMaximumByGleasonScore = (pairs: GleasonPair[]) =>
   pairs.sort(byGleasonScore)[0] ?? DEFAULT_GLEASON_PAIR;
 
