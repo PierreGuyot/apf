@@ -22,7 +22,7 @@ const FormRoute = ({ route }: { route: FormId }) => {
 
 export const MainList = () => {
   return (
-    <Page title="Formulaires">
+    <Page title="Bienvenue sur APF">
       {/* TODO: add context here, aligned on the README file */}
       <Section>
         <div className="main-list-presentation">
