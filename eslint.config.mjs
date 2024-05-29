@@ -43,7 +43,7 @@ const config = [
     },
     rules: {
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      "react-hooks/exhaustive-deps": "error",
 
       // De-activated rules
       "no-console": "off",
