@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Button } from "./Button";
+import { Section } from "./Section";
+import { Select } from "./Select";
 import { Title } from "./Title";
 import { copyToClipboard } from "./helpers/copy";
-import "./summary.css";
 import { Language } from "./helpers/helpers.types";
 import { Option } from "./helpers/options";
-import { Select } from "./Select";
-import { Item } from "./Item";
-import { Section } from "./Section";
+import "./summary.css";
 
 type SummaryProps = {
   getContent: (language: Language) => string;

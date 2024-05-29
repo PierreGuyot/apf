@@ -19,7 +19,7 @@ export const useHash = () => {
   useEffect(() => {
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
+  }, [onHashChange]);
 
   const updateHash = useCallback(goTo, [hash]);
 
