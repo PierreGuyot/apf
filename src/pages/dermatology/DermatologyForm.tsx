@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { AdditionalRemarks } from "../../ui/AdditionalRemarks";
 import { Banner } from "../../ui/Banner";
 import { InputNumber } from "../../ui/InputNumber";
 import { InputTextArea } from "../../ui/InputTextArea";
@@ -8,6 +9,7 @@ import { Section } from "../../ui/Section";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { SubSection } from "../../ui/SubSection";
+import { Summary } from "../../ui/Summary";
 import { Title } from "../../ui/Title";
 import { FORMS } from "../../ui/helpers/forms";
 import { patchArray, range } from "../../ui/helpers/helpers";
@@ -33,6 +35,7 @@ import {
   TumorType,
   getCutTypes,
 } from "./helpers";
+import { generateReport } from "./report";
 
 const FORM_ID = "dermatology";
 
@@ -76,11 +79,11 @@ type OperationState = {
   cutType: CutType;
 };
 
-// TODO: break into reusable sub-forms
-type FormState = {
+export type FormState = {
   clinicalInfo: string;
   containerCount: number;
   operations: OperationState[];
+  comment: string;
 };
 
 const DEFAULT_ANGLE = 12; // Hour-like notation
@@ -117,6 +120,7 @@ const getInitialState = (): FormState => ({
   clinicalInfo: "",
   containerCount: 1,
   operations: range(MAX_OPERATION_COUNT).map(getOperation),
+  comment: "",
 });
 
 export const DermatologyForm = () => {
@@ -166,7 +170,15 @@ export const DermatologyForm = () => {
         );
       })}
 
-      {/* TODO: bootstrap report */}
+      <AdditionalRemarks
+        index={containerCount + 1}
+        value={state.comment}
+        onChange={setState("comment")}
+      />
+
+      <Summary
+        getContent={(language) => generateReport({ ...state, language })}
+      />
     </Page>
   );
 };

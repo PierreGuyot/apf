@@ -4,7 +4,9 @@ import { Banner } from "../../ui/Banner";
 import { InputNumber } from "../../ui/InputNumber";
 import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
+import { NestedItem } from "../../ui/NestedItem";
 import { Page } from "../../ui/Page";
+import { Section } from "../../ui/Section";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
@@ -30,8 +32,6 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-import { Section } from "../../ui/Section";
-import { NestedItem } from "../../ui/NestedItem";
 
 const FORM_ID = "prostate-biopsy";
 
@@ -317,7 +317,6 @@ export const ProstateBiopsyForm = () => {
 
       {errors.length ? undefined : (
         <Summary
-          index={4}
           getContent={(language) =>
             generateReport({
               hasInfo,
@@ -326,10 +325,10 @@ export const ProstateBiopsyForm = () => {
               hasMri,
               psaRate,
               containerCount,
+              comment,
               piradsItems,
               score,
               rows,
-              comment,
               language,
             })
           }

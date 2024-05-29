@@ -10,7 +10,6 @@ import "./summary.css";
 
 type SummaryProps = {
   getContent: (language: Language) => string;
-  index?: number;
 };
 
 const LANGUAGE_OPTIONS: Option<Language>[] = [
@@ -18,14 +17,14 @@ const LANGUAGE_OPTIONS: Option<Language>[] = [
   { value: "EN", label: "Anglais" },
 ];
 
-export const Summary = ({ getContent, index }: SummaryProps) => {
+export const Summary = ({ getContent }: SummaryProps) => {
   const [language, setLanguage] = useState<Language>("FR");
 
   const content = getContent(language);
 
   return (
     <Section>
-      <Title title="Compte-rendu" index={index} />
+      <Title title="Compte-rendu" />
       <div className="summary-buttons">
         <Select
           name="Language selection"
