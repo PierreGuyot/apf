@@ -11,7 +11,7 @@ import {
 import { formatWithUnit } from "../../ui/helpers/units";
 import { FormState } from "./ProstateBiopsyForm";
 import {
-  DEFAULT_GLEASON_PAIR,
+  DEFAULT_GLEASON_TEMP,
   PiradsItem,
   Score,
   getIsupScore,
@@ -52,12 +52,12 @@ export const generateReport = (form: ReportParams): string => {
       // Tumor presence
       else {
         const { label: tumorTypeLabel } = getTumorTypeOption(tumorType);
-        const [a, b] = score.tumorGleason ?? DEFAULT_GLEASON_PAIR;
+        const { a, b } = score.tumorGleason ?? DEFAULT_GLEASON_TEMP;
         const sextans = rows.filter((row) => row.type === "sextan");
         const sextansWithTumor = sextans.filter((row) => row.tumorCount > 0);
         const targets = rows.filter((row) => row.type === "target");
         const targetsWithTumor = targets.filter((row) => row.tumorCount > 0);
-        const isupScore = getIsupScore([a, b]);
+        const isupScore = getIsupScore({ a, b });
 
         conclusionSection = joinLines([
           `${tumorTypeLabel}.\n`, // We add an empty line for aesthetic purposes

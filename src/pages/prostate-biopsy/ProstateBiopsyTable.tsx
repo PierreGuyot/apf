@@ -43,7 +43,7 @@ const TableHeader = () => (
       <th scope="col">Taille</th>
       <th scope="col">Nombre +</th>
       <th scope="col">Taille</th>
-      <th scope="col">Gleason</th>
+      <th scope="col">Score de Gleason</th>
       <th scope="col">EPN</th>
       <th scope="col">TEP</th>
     </tr>

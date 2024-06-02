@@ -1,11 +1,14 @@
 // TODO with Louis: check naming in both French and English
-import { sum } from "../../ui/helpers/helpers";
-import { Pair } from "../../ui/helpers/helpers.types";
 import { Option, SelectValue } from "../../ui/helpers/options";
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
-export type GleasonPair = Pair<GleasonScore>;
+export type GleasonItem = {
+  a: GleasonScore;
+  b: GleasonScore;
+  percentage: number;
+  cribriformPercentage: number;
+};
 
 export const SEXTAN_COUNT = 6;
 export const MAX_TARGET_COUNT = 3;
@@ -139,10 +142,17 @@ export type Row = {
   biopsySize: number[];
   tumorCount: number;
   tumorSize: number[];
-  tumorGleason: GleasonPair;
+  tumorGleason: GleasonItem;
   tumorEpn: boolean;
   tumorTep: boolean;
   otherLesions: OtherLesionType[];
+};
+
+export const DEFAULT_GLEASON_TEMP: GleasonItem = {
+  a: 3,
+  b: 3,
+  percentage: 100,
+  cribriformPercentage: 0,
 };
 
 export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
@@ -152,22 +162,23 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   biopsySize: [0, 0, 0, 0],
   tumorCount: 0,
   tumorSize: [0, 0, 0, 0],
-  tumorGleason: [3, 3],
+  tumorGleason: DEFAULT_GLEASON_TEMP,
   tumorEpn: false,
   tumorTep: false,
   otherLesions: [],
   ...partial,
 });
 
-const byGleasonScore = (a: GleasonPair, b: GleasonPair) =>
-  // By sum
-  sum(b) - sum(a) ||
-  // By left value in case of equality
-  b[0] - a[0];
+const totalScore = (item: GleasonItem) => item.a + item.b;
 
-export const DEFAULT_GLEASON_PAIR: GleasonPair = [3, 3];
-export const getMaximumByGleasonScore = (pairs: GleasonPair[]) =>
-  pairs.sort(byGleasonScore)[0] ?? DEFAULT_GLEASON_PAIR;
+const byGleasonScore = (item1: GleasonItem, item2: GleasonItem) =>
+  // By total
+  totalScore(item1) - totalScore(item2) ||
+  // By left value in case of equality
+  item1.a - item2.a;
+
+export const getMaximumByGleasonScore = (items: GleasonItem[]) =>
+  items.sort(byGleasonScore)[0] ?? DEFAULT_GLEASON_TEMP;
 
 // CAUTION: keys must match the ones in Row
 export type Score = {
@@ -176,7 +187,7 @@ export type Score = {
   tumorCount: number;
   // Only computed if tumorCount is not zero
   tumorSize?: number;
-  tumorGleason?: GleasonPair;
+  tumorGleason?: GleasonItem;
   tumorEpn?: boolean;
   tumorTep?: boolean;
 };
@@ -307,7 +318,7 @@ const flatTumorTypes = Object.fromEntries(
 export const getTumorTypeOption = (tumorType: TumorType) => {
   const match = flatTumorTypes[tumorType];
   if (!match) {
-    throw new Error(`No matching option found for tumorType ${tumorType}`);
+    throw new Error("Invalid value");
   }
 
   return match;
@@ -315,7 +326,10 @@ export const getTumorTypeOption = (tumorType: TumorType) => {
 
 // ISUP score: International Society of Urological Pathology score
 // See https://www.prostate.org.au/testing-and-diagnosis/grading-genetics/your-gleason-score-isup-grade
-export const getIsupScore = ([a, b]: GleasonPair): number => {
+export const getIsupScore = ({
+  a,
+  b,
+}: Pick<GleasonItem, "a" | "b">): number => {
   if (a + b === 6) {
     return 1;
   }

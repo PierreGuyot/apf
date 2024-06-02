@@ -50,13 +50,14 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-      tumorGleason: getMaximumByGleasonScore(
-        rowsWithTumor.map((row) => row.tumorGleason),
-      ),
-      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-    }
+        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+        // TODO NOW
+        tumorGleason: getMaximumByGleasonScore(
+          rowsWithTumor.map((row) => row.tumorGleason),
+        ),
+        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+      }
     : {};
 
   return {
@@ -131,8 +132,10 @@ const getErrors = ({
   const tumorTypeOption = getTumorTypeOption(tumorType);
   const targetScore = tumorTypeOption.score;
   if (targetScore) {
-    const matchingScore = rows.find((row) =>
-      row.tumorGleason.includes(targetScore),
+    const matchingScore = rows.find(
+      (row) =>
+        row.tumorGleason.a === targetScore ||
+        row.tumorGleason.b === targetScore,
     );
     if (!matchingScore) {
       errors.push(
