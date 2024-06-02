@@ -60,11 +60,11 @@ const SelectGleason = (props: FieldProps<GleasonScore>) => (
 
 const MAJORITY_PERCENTAGE_OPTIONS = getPercentageOptions({
   min: 50,
-  max: 100,
+  max: 95,
   step: 5,
 });
 const MINORITY_PERCENTAGE_OPTIONS = getPercentageOptions({
-  min: 0,
+  min: 5,
   max: 50,
   step: 5,
 });
