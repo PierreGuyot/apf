@@ -150,7 +150,7 @@ export type Row = {
   otherLesions: OtherLesionType[];
 };
 
-export const DEFAULT_GLEASON_TEMP: GleasonItem = {
+export const DEFAULT_GLEASON_ITEM: GleasonItem = {
   a: 3,
   b: 3,
   percentage: 95,
@@ -164,7 +164,7 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   biopsySize: [0, 0, 0, 0],
   tumorCount: 0,
   tumorSize: [0, 0, 0, 0],
-  tumorGleason: DEFAULT_GLEASON_TEMP,
+  tumorGleason: DEFAULT_GLEASON_ITEM,
   tumorEpn: false,
   tumorTep: false,
   otherLesions: [],
@@ -180,7 +180,7 @@ const byGleasonScore = (item2: GleasonItem, item1: GleasonItem) =>
   item1.a - item2.a;
 
 export const getMaximumByGleasonScore = (items: GleasonItem[]) =>
-  items.sort(byGleasonScore)[0] ?? DEFAULT_GLEASON_TEMP;
+  items.sort(byGleasonScore)[0] ?? DEFAULT_GLEASON_ITEM;
 
 // CAUTION: keys must match the ones in Row
 export type Score = {

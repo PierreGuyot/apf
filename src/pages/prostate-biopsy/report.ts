@@ -1,3 +1,4 @@
+import { sum } from "../../ui/helpers/helpers";
 import { Language } from "../../ui/helpers/helpers.types";
 import { toYesNo } from "../../ui/helpers/options";
 import { pluralize } from "../../ui/helpers/plural";
@@ -11,7 +12,7 @@ import {
 import { formatWithUnit } from "../../ui/helpers/units";
 import { FormState } from "./ProstateBiopsyForm";
 import {
-  DEFAULT_GLEASON_TEMP,
+  DEFAULT_GLEASON_ITEM,
   PiradsItem,
   Score,
   getGleasonSummary,
@@ -58,14 +59,32 @@ export const generateReport = (form: ReportParams): string => {
         const sextansWithTumor = sextans.filter((row) => row.tumorCount > 0);
         const targets = rows.filter((row) => row.type === "target");
         const targetsWithTumor = targets.filter((row) => row.tumorCount > 0);
-        const maxGleasonItem = score.tumorGleason ?? DEFAULT_GLEASON_TEMP;
+        const maxGleasonItem = score.tumorGleason ?? DEFAULT_GLEASON_ITEM;
         const isupScore = getIsupScore(maxGleasonItem);
         const gleasonSummary = getGleasonSummary(maxGleasonItem);
+        const sextanTumorSize = sum(sextans.map((item) => sum(item.tumorSize)));
+        const sextanBiopsySize = sum(
+          sextans.map((item) => sum(item.biopsySize)),
+        );
+        const targetTumorSize = sum(targets.map((item) => sum(item.tumorSize)));
+        const targetBiopsySize = sum(
+          targets.map((item) => sum(item.biopsySize)),
+        );
+
+        const formatSize = (tumorSize: number, totalSize: number) => {
+          if (!totalSize) {
+            // TODO: add an error if any size field is zero (add validation directly on the field?) and remove this case
+            return `(${tumorSize} mm examinés)`;
+          }
+
+          const ratio = Math.round((tumorSize / totalSize) * 100);
+          return `(${tumorSize} mm sur ${totalSize} mm examinés, ${ratio}%)`;
+        };
 
         conclusionSection = joinLines([
           `${tumorTypeLabel}.\n`, // We add an empty line for aesthetic purposes
           `Il présente un score de Gleason ${gleasonSummary}, soit un score ISUP de ${isupScore}.`,
-          `Il est localisé sur ${sextansWithTumor.length} des ${sextans.length} biopsies systématiques et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées.`,
+          `Il est localisé sur ${sextansWithTumor.length} des ${sextans.length} biopsies systématiques ${formatSize(sextanTumorSize, sextanBiopsySize)} et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées ${formatSize(targetTumorSize, targetBiopsySize)}.`,
           `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
           `Engainements périnerveux : ${toYesNo(score.tumorEpn ?? false)}`,
           `Tissu extra-prostatique : ${toYesNo(score.tumorTep ?? false)}`,
@@ -105,10 +124,10 @@ export const generateReport = (form: ReportParams): string => {
         : undefined;
 
       return joinSections([
-        title,
-        conclusionSection,
+        title.toLocaleUpperCase(),
         form.hasInfo ? clinicalInformationSection : undefined,
         commentSection,
+        conclusionSection,
       ]);
     }
 
