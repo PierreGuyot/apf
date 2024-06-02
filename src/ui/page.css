@@ -1,9 +1,0 @@
-.page {
-  --border: 1px solid rgb(208, 208, 208);
-
-  padding: 32px;
-  padding-top: 80px;
-  min-height: 100vh;
-  margin-left: 150px;
-  border-left: var(--border);
-}

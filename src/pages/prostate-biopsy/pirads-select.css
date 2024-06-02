@@ -1,9 +1,0 @@
-.pirads-item {
-  display: flex;
-  align-items: center;
-  gap: 0 0.4rem;
-}
-
-.pirads-item + .pirads-item {
-  margin-top: 0.4rem;
-}
