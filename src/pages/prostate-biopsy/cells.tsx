@@ -2,21 +2,19 @@ import { Fragment } from "react/jsx-runtime";
 import { InputNumber } from "../../ui/InputNumber";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
-import { range, toOption } from "../../ui/helpers/helpers";
+import { filterEmpty, range, toOption } from "../../ui/helpers/helpers";
 import { FieldProps } from "../../ui/helpers/helpers.types";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import {
-  getPercentageOptions,
-  getPercentageValues,
-  percent,
-} from "../../ui/helpers/percent";
+import { getPercentageOptions } from "../../ui/helpers/percent";
 import "./cells.css";
 import {
+  CRIBRIFORM_PERCENTAGE_OPTIONS,
   GLEASON_SCORES,
-  GleasonScore,
   GleasonItem,
+  GleasonScore,
   OTHER_LESION_GROUPS,
   OtherLesionType,
+  getGleasonSummary,
 } from "./helpers";
 
 export const CellSelectList = (props: FieldProps<OtherLesionType[]>) => (
@@ -71,14 +69,6 @@ const MINORITY_PERCENTAGE_OPTIONS = getPercentageOptions({
   step: 5,
 });
 
-const CRIBRIFORM_PERCENTAGE_OPTIONS = [
-  { value: 0, label: "non cribriforme" },
-  ...getPercentageValues({ min: 10, max: 100, step: 10 }).map((value) => ({
-    value,
-    label: `dont ${value}% cribriformes`,
-  })),
-];
-
 export const CellGleason = ({
   value,
   isReadOnly,
@@ -96,26 +86,12 @@ export const CellGleason = ({
   // If a and b are 4, we display the field for cribriform only once (after b for better readability)
 
   if (isReadOnly) {
-    const match = CRIBRIFORM_PERCENTAGE_OPTIONS.find(
-      (item) => item.value === cribriformPercentage,
-    );
-    if (!match) {
-      throw new Error("Invalid value");
-    }
-
-    // CAUTION: this should be aligned on the non-readonly case
-    return (
-      <span>
-        {a + b} ({a} {a === b ? undefined : <>à {percent(percentage)}</>}{" "}
-        {a === 4 && b !== 4 ? match.label : undefined} + grade {b}{" "}
-        {a === b ? undefined : <>à {percent(100 - percentage)}</>}
-        {b === 4 ? match.label : undefined})
-      </span>
-    );
+    return <span>{getGleasonSummary(value)}</span>;
   }
 
   const SelectCribriformPercentage = (
     <Select
+      key="cribriform-percentage"
       name="Pourcentage cribriforme"
       options={CRIBRIFORM_PERCENTAGE_OPTIONS}
       value={cribriformPercentage}
@@ -130,45 +106,50 @@ export const CellGleason = ({
   );
 
   // CAUTION: this should be aligned on the readonly case
+  const items = [
+    <SelectGleason
+      key="majority-grade"
+      value={a}
+      isReadOnly={isReadOnly}
+      onChange={(_a) => onChange({ ...value, a: _a })}
+    />,
+    a === b ? undefined : (
+      <Select
+        key="majority-percentage"
+        name="Pourcentage majoritaire"
+        options={MAJORITY_PERCENTAGE_OPTIONS}
+        value={percentage}
+        onChange={(_percentage) =>
+          onChange({ ...value, percentage: _percentage })
+        }
+      />
+    ),
+    a === 4 && b !== 4 ? SelectCribriformPercentage : undefined,
+    <Plus key="plus" />,
+    <SelectGleason
+      key="minority-grade"
+      value={b}
+      isReadOnly={isReadOnly}
+      onChange={(_b) => onChange({ ...value, b: _b })}
+    />,
+    a === b ? undefined : (
+      <Select
+        key="minority-percentage"
+        name="Pourcentage minoritaire"
+        options={MINORITY_PERCENTAGE_OPTIONS}
+        value={100 - percentage}
+        onChange={(_percentage) =>
+          onChange({ ...value, percentage: 100 - _percentage })
+        }
+      />
+    ),
+    b === 4 ? SelectCribriformPercentage : undefined,
+  ].filter(filterEmpty);
+
   return (
     <div className="cell">
       <div className="cell-sum">{a + b}</div>(
-      <span className="cell-parentheses">
-        <SelectGleason
-          value={a}
-          isReadOnly={isReadOnly}
-          onChange={(_a) => onChange({ ...value, a: _a })}
-        />
-        {a === b ? undefined : (
-          <Select
-            name="Pourcentage majoritaire"
-            options={MAJORITY_PERCENTAGE_OPTIONS}
-            value={percentage}
-            onChange={(_percentage) =>
-              onChange({ ...value, percentage: _percentage })
-            }
-          />
-        )}
-        {a === 4 && b !== 4 ? SelectCribriformPercentage : undefined}
-        <Plus />
-        <SelectGleason
-          value={b}
-          isReadOnly={isReadOnly}
-          onChange={(_b) => onChange({ ...value, b: _b })}
-        />
-        {a === b ? undefined : (
-          <Select
-            name="Pourcentage minoritaire"
-            options={MINORITY_PERCENTAGE_OPTIONS}
-            value={100 - percentage}
-            onChange={(_percentage) =>
-              onChange({ ...value, percentage: 100 - _percentage })
-            }
-          />
-        )}
-        {b === 4 ? SelectCribriformPercentage : undefined}
-      </span>
-      )
+      <span className="cell-parentheses">{items}</span>)
     </div>
   );
 };

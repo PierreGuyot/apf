@@ -1,5 +1,7 @@
 // TODO with Louis: check naming in both French and English
+import { filterEmpty } from "../../ui/helpers/helpers";
 import { Option, SelectValue } from "../../ui/helpers/options";
+import { getPercentageValues, percent } from "../../ui/helpers/percent";
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
@@ -347,4 +349,41 @@ export const getIsupScore = ({
   }
 
   return 5;
+};
+
+export const CRIBRIFORM_PERCENTAGE_OPTIONS = [
+  { value: 0, label: "non cribriforme" },
+  ...getPercentageValues({ min: 10, max: 100, step: 10 }).map((value) => ({
+    value,
+    label: `dont ${value}% cribriformes`,
+  })),
+];
+
+export const getGleasonSummary = ({
+  a,
+  b,
+  percentage,
+  cribriformPercentage,
+}: GleasonItem) => {
+  const match = CRIBRIFORM_PERCENTAGE_OPTIONS.find(
+    (item) => item.value === cribriformPercentage,
+  );
+  if (!match) {
+    throw new Error("Invalid value");
+  }
+
+  // CAUTION: this should be aligned on the non-readonly case
+  const items = [
+    a,
+    a === b ? undefined : `à ${percent(percentage)}`,
+    a === 4 && b !== 4 ? match.label : undefined,
+    "+",
+    b,
+    a === b ? undefined : `à ${percent(100 - percentage)}`,
+    b === 4 ? match.label : undefined,
+  ]
+    .filter(filterEmpty)
+    .join(" ");
+
+  return `${a + b} (${items})`;
 };
