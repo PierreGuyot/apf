@@ -40,6 +40,7 @@ export function SelectList<T extends SelectValue>({
   return (
     <div>
       <div className="select-list">
+        {/* TODO: fix display when stuck to the right of the border */}
         <Tooltip
           mode="click"
           content={

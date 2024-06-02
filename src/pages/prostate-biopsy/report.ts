@@ -16,6 +16,7 @@ import {
   Score,
   getIsupScore,
   getLocationLabel,
+  getTumorTypeOption,
 } from "./helpers";
 
 type ReportParams = FormState & {
@@ -30,7 +31,7 @@ const mockGetContent = (form: ReportParams) =>
 
 // TODO: test extensively
 export const generateReport = (form: ReportParams): string => {
-  const { language, score, rows, comment } = form;
+  const { language, score, rows, tumorType, comment } = form;
 
   switch (language) {
     case "FR": {
@@ -50,6 +51,7 @@ export const generateReport = (form: ReportParams): string => {
 
       // Tumor presence
       else {
+        const { label: tumorTypeLabel } = getTumorTypeOption(tumorType);
         const [a, b] = score.tumorGleason ?? DEFAULT_GLEASON_PAIR;
         const sextans = rows.filter((row) => row.type === "sextan");
         const sextansWithTumor = sextans.filter((row) => row.tumorCount > 0);
@@ -58,7 +60,7 @@ export const generateReport = (form: ReportParams): string => {
         const isupScore = getIsupScore([a, b]);
 
         conclusionSection = joinLines([
-          `Adénocarcinome acinaire de type prostatique.\n`, // We add an empty line for aesthetic purposes
+          `${tumorTypeLabel}.\n`, // We add an empty line for aesthetic purposes
           `Il présente un score de Gleason ${a + b} (${a} + ${b}), soit un score ISUP de ${isupScore}.`,
           `Il est localisé sur ${sextansWithTumor.length} des ${sextans.length} biopsies systématiques et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées.`,
           `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
@@ -88,6 +90,7 @@ export const generateReport = (form: ReportParams): string => {
       const clinicalInformationSection = joinLines([
         "Renseignements cliniques:",
         pad(`PSA: ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
+        // TODO: fix case
         pad(`IRM: ${form.hasMri ? "oui" : "non"}`),
         ...(form.piradsItems.length
           ? [`Cibles:`, ...form.piradsItems.map(renderPiradsItem)].map(pad)

@@ -9,6 +9,7 @@ const aFormState = (partial: Partial<FormState> = {}): FormState => ({
   psaRate: 1.23,
   containerCount: 0,
   comment: "",
+  tumorType: "acinar-adenocarcinoma-conventional",
   piradsItems: [],
   rows: [],
   ...partial,

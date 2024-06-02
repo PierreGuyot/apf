@@ -1,7 +1,7 @@
 // TODO with Louis: check naming in both French and English
 import { sum } from "../../ui/helpers/helpers";
 import { Pair } from "../../ui/helpers/helpers.types";
-import { Option, OptionGroup } from "../../ui/helpers/options";
+import { Option, SelectValue } from "../../ui/helpers/options";
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
@@ -198,7 +198,7 @@ export const anEmptyPiradsItem = (): PiradsItem => ({
   location: "base-right",
 });
 
-type HistologicTumorTypeGlandular =
+type TumorTypeGlandular =
   | "acinar-adenocarcinoma-conventional"
   | "acinar-adenocarcinoma-signet-ring-like-cell"
   | "acinar-adenocarcinoma-pleomorphic-giant-cell"
@@ -206,92 +206,115 @@ type HistologicTumorTypeGlandular =
   | "acinar-adenocarcinoma-prostatic-intraepithelial-neoplasia-like"
   | "adenocarcinoma-intraductal";
 
-const HISTOLOGIC_TUMOR_TYPES_GLANDULAR: Option<HistologicTumorTypeGlandular>[] =
-  [
-    {
-      value: "acinar-adenocarcinoma-conventional",
-      label: "Adénocarcinome acinaire de type prostatique (tout scores)",
-    },
-    {
-      value: "acinar-adenocarcinoma-signet-ring-like-cell",
-      label: "Adénocarcinome acinaire à cellules indépendantes (score 5)",
-    },
-    {
-      value: "acinar-adenocarcinoma-pleomorphic-giant-cell",
-      label: "Adénocarcinome acinaire à cellules pléomorphes (score 5)",
-    },
-    {
-      value: "acinar-adenocarcinoma-sarcomatoid",
-      label: "Adénocarcinome acinaire sarcomatoïde (score 5)",
-    },
-    {
-      value: "acinar-adenocarcinoma-prostatic-intraepithelial-neoplasia-like",
-      label:
-        "Adénocarcinome acinaire de type néoplasie intra-épithéliale (score 3)",
-    },
-    {
-      value: "adenocarcinoma-intraductal",
-      label: "Adénocarcinome ductal (score 4)",
-    },
-  ];
+type OptionWithGleasonScore<T extends SelectValue> = Option<T> & {
+  score?: GleasonScore;
+};
 
-type HistologicTumorTypeEpidermoid =
+const TUMOR_TYPES_GLANDULAR: OptionWithGleasonScore<TumorTypeGlandular>[] = [
+  {
+    value: "acinar-adenocarcinoma-conventional" as const,
+    label: "Adénocarcinome acinaire de type prostatique",
+  },
+  {
+    value: "acinar-adenocarcinoma-signet-ring-like-cell" as const,
+    label: "Adénocarcinome acinaire à cellules indépendantes",
+    score: 5 as const,
+  },
+  {
+    value: "acinar-adenocarcinoma-pleomorphic-giant-cell" as const,
+    label: "Adénocarcinome acinaire à cellules pléomorphes",
+    score: 5 as const,
+  },
+  {
+    value: "acinar-adenocarcinoma-sarcomatoid" as const,
+    label: "Adénocarcinome acinaire sarcomatoïde",
+    score: 5 as const,
+  },
+  {
+    value:
+      "acinar-adenocarcinoma-prostatic-intraepithelial-neoplasia-like" as const,
+    label: "Adénocarcinome acinaire de type néoplasie intra-épithéliale",
+    score: 3 as const,
+  },
+  {
+    value: "adenocarcinoma-intraductal" as const,
+    label: "Adénocarcinome ductal",
+    score: 4 as const,
+  },
+].map((item) =>
+  item.score ? { ...item, label: `${item.label} (score ${item.score})` } : item,
+);
+
+type TumorTypeEpidermoid =
   | "carcinoma-adenosquamous"
   | "carcinoma-squamous-cell"
   | "carcinoma-basal-cell";
 
-const HISTOLOGIC_TUMOR_TYPES_EPIDERMOID: Option<HistologicTumorTypeEpidermoid>[] =
-  [
-    {
-      value: "carcinoma-adenosquamous",
-      label: "Carcinome adénosquameux",
-    },
-    {
-      value: "carcinoma-squamous-cell",
-      label: "Carcinome épidermoïde",
-    },
-    {
-      value: "carcinoma-basal-cell",
-      label: "Carcinome adénoïde kystique de sous-type basal",
-    },
-  ];
+const TUMOR_TYPES_EPIDERMOID: Option<TumorTypeEpidermoid>[] = [
+  {
+    value: "carcinoma-adenosquamous",
+    label: "Carcinome adénosquameux",
+  },
+  {
+    value: "carcinoma-squamous-cell",
+    label: "Carcinome épidermoïde",
+  },
+  {
+    value: "carcinoma-basal-cell",
+    label: "Carcinome adénoïde kystique de sous-type basal",
+  },
+];
 
-type HistologicTumorTypeNeuroendocrine =
+type TumorTypeNeuroendocrine =
   | "adenocarcinoma-with-neuroendocrine-differentiation"
   | "well-differentiated-neuroendocrine-tumor"
   | "neuroendocrine-carcinoma-small-cell"
   | "neuroendocrine-carcinoma-large-cell";
 
-const HISTOLOGIC_TUMOR_TYPES_NEUROENDOCRINE: Option<HistologicTumorTypeNeuroendocrine>[] =
-  [
-    {
-      value: "adenocarcinoma-with-neuroendocrine-differentiation",
-      label: "Adénocarcinome avec différenciation neuroendocrine (tout scores)",
-    },
-    {
-      value: "well-differentiated-neuroendocrine-tumor",
-      label: "Tumeur neuroendocrine bien différenciée",
-    },
-    {
-      value: "neuroendocrine-carcinoma-small-cell",
-      label: "Carcinome neuroendocrine à petites cellules",
-    },
-    {
-      value: "neuroendocrine-carcinoma-large-cell",
-      label: "Carcinome neuroendocrine à grandes cellules",
-    },
-  ];
-
-export type HistologicTumorType =
-  | HistologicTumorTypeGlandular
-  | HistologicTumorTypeEpidermoid
-  | HistologicTumorTypeNeuroendocrine;
-
-export const HISTOLOGIC_TUMOR_TYPES: OptionGroup<HistologicTumorType>[] = [
-  { title: "Glandulaires", items: HISTOLOGIC_TUMOR_TYPES_GLANDULAR },
-  { title: "Épidermoïde", items: HISTOLOGIC_TUMOR_TYPES_EPIDERMOID },
-  { title: "Neuroendocrine", items: HISTOLOGIC_TUMOR_TYPES_NEUROENDOCRINE },
+const TUMOR_TYPES_NEUROENDOCRINE: Option<TumorTypeNeuroendocrine>[] = [
+  {
+    value: "adenocarcinoma-with-neuroendocrine-differentiation",
+    label: "Adénocarcinome avec différenciation neuroendocrine",
+  },
+  {
+    value: "well-differentiated-neuroendocrine-tumor",
+    label: "Tumeur neuroendocrine bien différenciée",
+  },
+  {
+    value: "neuroendocrine-carcinoma-small-cell",
+    label: "Carcinome neuroendocrine à petites cellules",
+  },
+  {
+    value: "neuroendocrine-carcinoma-large-cell",
+    label: "Carcinome neuroendocrine à grandes cellules",
+  },
 ];
+
+export type TumorType =
+  | TumorTypeGlandular
+  | TumorTypeEpidermoid
+  | TumorTypeNeuroendocrine;
+
+export const TUMOR_TYPES: Array<{
+  title: string;
+  items: OptionWithGleasonScore<TumorType>[];
+}> = [
+  { title: "Glandulaires", items: TUMOR_TYPES_GLANDULAR },
+  { title: "Épidermoïde", items: TUMOR_TYPES_EPIDERMOID },
+  { title: "Neuroendocrine", items: TUMOR_TYPES_NEUROENDOCRINE },
+];
+
+const flatTumorTypes = Object.fromEntries(
+  TUMOR_TYPES.flatMap((group) => group.items).map((item) => [item.value, item]),
+);
+export const getTumorTypeOption = (tumorType: TumorType) => {
+  const match = flatTumorTypes[tumorType];
+  if (!match) {
+    throw new Error(`No matching option found for tumorType ${tumorType}`);
+  }
+
+  return match;
+};
 
 // ISUP score: International Society of Urological Pathology score
 // See https://www.prostate.org.au/testing-and-diagnosis/grading-genetics/your-gleason-score-isup-grade

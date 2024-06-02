@@ -11,6 +11,7 @@ import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { Summary } from "../../ui/Summary";
 import { Title } from "../../ui/Title";
+import { ValidationErrors } from "../../ui/ValidationErrors";
 import { FORMS } from "../../ui/helpers/forms";
 import { range, sum, sumArrays, toOption } from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
@@ -20,6 +21,8 @@ import { useForm } from "../../ui/helpers/use-form";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
+  TUMOR_TYPES,
+  TumorType,
   LOCATIONS,
   MAX_CONTAINER_COUNT,
   MAX_TARGET_COUNT,
@@ -30,9 +33,9 @@ import {
   anEmptyPiradsItem,
   anEmptyRow,
   getMaximumByGleasonScore,
+  getTumorTypeOption,
 } from "./helpers";
 import { generateReport } from "./report";
-import { ValidationErrors } from "../../ui/ValidationErrors";
 
 const FORM_ID = "prostate-biopsy";
 
@@ -47,14 +50,14 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-        tumorGleason: getMaximumByGleasonScore(
-          rowsWithTumor.map((row) => row.tumorGleason),
-        ),
-        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-        tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
-      }
+      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+      tumorGleason: getMaximumByGleasonScore(
+        rowsWithTumor.map((row) => row.tumorGleason),
+      ),
+      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+      tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
+    }
     : {};
 
   return {
@@ -73,10 +76,12 @@ const getErrors = ({
   rows,
   containerCount,
   piradsItems,
+  tumorType,
 }: {
   rows: Row[];
   containerCount: number;
   piradsItems: PiradsItem[];
+  tumorType: TumorType;
 }) => {
   const errors: string[] = [];
 
@@ -124,6 +129,19 @@ const getErrors = ({
     }
   });
 
+  const tumorTypeOption = getTumorTypeOption(tumorType);
+  const targetScore = tumorTypeOption.score;
+  if (targetScore) {
+    const matchingScore = rows.find((row) =>
+      row.tumorGleason.includes(targetScore),
+    );
+    if (!matchingScore) {
+      errors.push(
+        `Il n'y a aucun score de Gleason dans le tableau qui corresponde à une tumeur de type histologique ${tumorTypeOption.label}.`,
+      );
+    }
+  }
+
   return errors;
 };
 
@@ -136,6 +154,7 @@ export type FormState = {
   containerCount: number;
   piradsItems: PiradsItem[];
   rows: Row[];
+  tumorType: TumorType;
   comment: string;
 };
 
@@ -160,6 +179,7 @@ const getInitialState = (): FormState => ({
   psaRate: 0,
   containerCount: MAX_CONTAINER_COUNT,
   rows: getRows(),
+  tumorType: "acinar-adenocarcinoma-conventional",
   piradsItems: getPiradsItems(),
   comment: "",
 });
@@ -176,6 +196,7 @@ export const ProstateBiopsyForm = () => {
     hasMri,
     psaRate,
     containerCount,
+    tumorType,
     comment,
   } = state;
 
@@ -198,6 +219,7 @@ export const ProstateBiopsyForm = () => {
     rows,
     containerCount: state.containerCount,
     piradsItems,
+    tumorType,
   });
 
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
@@ -310,6 +332,15 @@ export const ProstateBiopsyForm = () => {
       </Item>
 
       <Item>
+        {score.tumorCount ? (
+          <Select
+            name="Type histologique de la tumeur"
+            label="Type histologique de la tumeur"
+            options={TUMOR_TYPES}
+            value={tumorType}
+            onChange={setState("tumorType")}
+          />
+        ) : undefined}
         <ValidationErrors errors={errors} />
       </Item>
 
@@ -329,6 +360,7 @@ export const ProstateBiopsyForm = () => {
               hasMri,
               psaRate,
               containerCount,
+              tumorType,
               comment,
               piradsItems,
               score,
