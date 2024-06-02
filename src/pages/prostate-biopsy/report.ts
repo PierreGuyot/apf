@@ -14,6 +14,7 @@ import {
   DEFAULT_GLEASON_TEMP,
   PiradsItem,
   Score,
+  getGleasonSummary,
   getIsupScore,
   getLocationLabel,
   getTumorTypeOption,
@@ -52,16 +53,17 @@ export const generateReport = (form: ReportParams): string => {
       // Tumor presence
       else {
         const { label: tumorTypeLabel } = getTumorTypeOption(tumorType);
-        const { a, b } = score.tumorGleason ?? DEFAULT_GLEASON_TEMP;
         const sextans = rows.filter((row) => row.type === "sextan");
         const sextansWithTumor = sextans.filter((row) => row.tumorCount > 0);
         const targets = rows.filter((row) => row.type === "target");
         const targetsWithTumor = targets.filter((row) => row.tumorCount > 0);
-        const isupScore = getIsupScore({ a, b });
+        const maxGleasonItem = score.tumorGleason ?? DEFAULT_GLEASON_TEMP;
+        const isupScore = getIsupScore(maxGleasonItem);
+        const gleasonSummary = getGleasonSummary(maxGleasonItem);
 
         conclusionSection = joinLines([
           `${tumorTypeLabel}.\n`, // We add an empty line for aesthetic purposes
-          `Il présente un score de Gleason ${a + b} (${a} + ${b}), soit un score ISUP de ${isupScore}.`,
+          `Il présente un score de Gleason ${gleasonSummary}, soit un score ISUP de ${isupScore}.`,
           `Il est localisé sur ${sextansWithTumor.length} des ${sextans.length} biopsies systématiques et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées.`,
           `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
           `Engainements périnerveux : ${toYesNo(score.tumorEpn ?? false)}`,
