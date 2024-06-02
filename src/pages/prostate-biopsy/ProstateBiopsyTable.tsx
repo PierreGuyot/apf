@@ -54,14 +54,12 @@ const TableHeader = () => (
 type Props = {
   rows: Row[];
   score: Score;
-  errors: string[];
   onChange: (rows: Row[]) => void;
 };
 
 export const ProstateBiopsyTable = ({
   rows,
   score,
-  errors,
   onChange: _onChange,
 }: Props) => {
   // TODO clean: consider passing score directly as an object to Table
@@ -253,7 +251,6 @@ export const ProstateBiopsyTable = ({
       columns={COLUMNS}
       rows={rows}
       header={TableHeader}
-      errors={errors}
       hasFooter
       onChange={_onChange}
     />

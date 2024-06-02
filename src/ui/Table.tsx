@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { ValidationErrors } from "./ValidationErrors";
 import { join, patchArray } from "./helpers/helpers";
 import "./table.css";
 
@@ -29,7 +28,6 @@ type TableProps<Row> = {
   columns: Column<Row>[];
   rows: Row[];
   header?: () => ReactNode;
-  errors: string[];
   hasFooter?: boolean;
   isReadOnly?: boolean;
   onChange: (rows: Row[]) => void;
@@ -39,7 +37,6 @@ export function Table<Row>({
   columns,
   rows,
   header: Header,
-  errors,
   hasFooter,
   isReadOnly = false,
   onChange,
@@ -122,9 +119,6 @@ export function Table<Row>({
           </tfoot>
         ) : undefined}
       </table>
-
-      {/* Validation errors */}
-      <ValidationErrors errors={errors} />
     </>
   );
 }

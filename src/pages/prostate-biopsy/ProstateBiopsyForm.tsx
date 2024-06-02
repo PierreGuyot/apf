@@ -32,6 +32,7 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+import { ValidationErrors } from "../../ui/ValidationErrors";
 
 const FORM_ID = "prostate-biopsy";
 
@@ -304,9 +305,12 @@ export const ProstateBiopsyForm = () => {
         <ProstateBiopsyTable
           rows={rows}
           score={score}
-          errors={errors}
           onChange={setState("rows")}
         />
+      </Item>
+
+      <Item>
+        <ValidationErrors errors={errors} />
       </Item>
 
       <AdditionalRemarks
