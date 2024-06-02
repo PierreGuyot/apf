@@ -154,7 +154,7 @@ export const DEFAULT_GLEASON_TEMP: GleasonItem = {
   a: 3,
   b: 3,
   percentage: 95,
-  cribriformPercentage: 5,
+  cribriformPercentage: 0,
 };
 
 export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
@@ -173,7 +173,7 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
 
 const totalScore = (item: GleasonItem) => item.a + item.b;
 
-const byGleasonScore = (item1: GleasonItem, item2: GleasonItem) =>
+const byGleasonScore = (item2: GleasonItem, item1: GleasonItem) =>
   // By total
   totalScore(item1) - totalScore(item2) ||
   // By left value in case of equality
