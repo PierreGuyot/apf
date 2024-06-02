@@ -1,6 +1,6 @@
 export const FORMS = {
   "prostate-biopsy": {
-    title: "Biopsies prostatiques transrectales",
+    title: "Biopsies prostatiques transrectales écho-guidées",
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },
   dermatology: {

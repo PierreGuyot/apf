@@ -21,6 +21,7 @@ import {
 } from "./helpers";
 
 type ReportParams = FormState & {
+  title: string;
   score: Score;
   comment: string;
   language: Language;
@@ -32,7 +33,7 @@ const mockGetContent = (form: ReportParams) =>
 
 // TODO: test extensively
 export const generateReport = (form: ReportParams): string => {
-  const { language, score, rows, tumorType, comment } = form;
+  const { title, language, score, rows, tumorType, comment } = form;
 
   switch (language) {
     case "FR": {
@@ -104,6 +105,7 @@ export const generateReport = (form: ReportParams): string => {
         : undefined;
 
       return joinSections([
+        title,
         conclusionSection,
         form.hasInfo ? clinicalInformationSection : undefined,
         commentSection,

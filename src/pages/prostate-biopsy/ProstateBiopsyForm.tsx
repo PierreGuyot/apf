@@ -235,8 +235,10 @@ export const ProstateBiopsyForm = () => {
     setState("piradsItems")(updatedArray);
   };
 
+  const title = form.title;
+
   return (
-    <Page title={form.title}>
+    <Page title={title}>
       <Banner formId={FORM_ID} onClear={clearState} />
 
       <Section>
@@ -362,6 +364,7 @@ export const ProstateBiopsyForm = () => {
           <Summary
             getContent={(language) =>
               generateReport({
+                title,
                 hasInfo,
                 hasTarget,
                 targetCount,

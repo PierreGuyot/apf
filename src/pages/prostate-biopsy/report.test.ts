@@ -23,12 +23,15 @@ describe("generateReport", () => {
   it("should generate a clean report with a tumor (FR)", () => {
     expect(
       generateReport({
+        title: "TITLE",
         language: "FR",
         score: { biopsyCount: 1, biopsySize: 2, tumorCount: 1 },
         ...aFormState(),
       }),
     ).toEqual(
-      `Adénocarcinome acinaire de type prostatique.
+      `TITLE
+
+Adénocarcinome acinaire de type prostatique.
 
 Il présente un score de Gleason 6 (3 + 3), soit un score ISUP de 1.
 Il est localisé sur 0 des 0 biopsies systématiques et sur 0 des 0 biopsies ciblées.
@@ -36,28 +39,29 @@ Il mesure undefined mm sur 2 mm examinés sur les biopsies standards.
 
 Engainements périnerveux : Non
 Tissu extra-prostatique : Non
-Envahissement tissu extra-prostatique : Non
 
 Renseignements cliniques:
     PSA: 1.23 ng.mL⁻¹
-    IRM: oui`,
+    IRM: Oui`,
     );
   });
 
   it("should generate a clean report without a tumor (FR)", () => {
     expect(
       generateReport({
+        title: "TITLE",
         language: "FR",
         score: { biopsyCount: 1, biopsySize: 2, tumorCount: 0 },
         ...aFormState(),
       }),
-    )
-      .toEqual(`Absence de foyer tumoral sur l'ensemble des 1 biopsies étudiées (2 mm).
+    ).toEqual(`TITLE
+
+Absence de foyer tumoral sur l'ensemble des 1 biopsies étudiées (2 mm).
 Adénomyome prostatique.
 
 Renseignements cliniques:
     PSA: 1.23 ng.mL⁻¹
-    IRM: oui`);
+    IRM: Oui`);
   });
 
   it("should generate a clean report without a tumor (EN)", () => {
