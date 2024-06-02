@@ -63,15 +63,15 @@ export function Select<T extends SelectValue>({
       <select value={String(value)} name={name} id={id} onChange={onChange}>
         {isGroupedOptions(_options)
           ? _options.map((group) => (
-            <optgroup key={group.title} label={group.title}>
-              {group.items.map((option) => (
-                <OptionItem key={String(option.value)} option={option} />
-              ))}
-            </optgroup>
-          ))
+              <optgroup key={group.title} label={group.title}>
+                {group.items.map((option) => (
+                  <OptionItem key={String(option.value)} option={option} />
+                ))}
+              </optgroup>
+            ))
           : _options.map((option) => (
-            <OptionItem key={String(option.value)} option={option} />
-          ))}
+              <OptionItem key={String(option.value)} option={option} />
+            ))}
       </select>
     </div>
   );
