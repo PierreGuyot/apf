@@ -5,6 +5,11 @@ export type Option<T extends SelectValue> = {
   label: string;
 };
 
+export type OptionGroup<T extends SelectValue> = {
+  title: string;
+  items: Option<T>[];
+};
+
 export const YES_NO_OPTIONS: Option<boolean>[] = [
   { value: true, label: "Oui" },
   { value: false, label: "Non" },
