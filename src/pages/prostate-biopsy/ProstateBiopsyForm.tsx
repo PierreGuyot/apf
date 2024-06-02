@@ -56,7 +56,6 @@ const getScore = (rows: Row[]): Score => {
       ),
       tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
       tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-      tumorPin: rowsWithTumor.map((row) => row.tumorPin).some(Boolean),
     }
     : {};
 

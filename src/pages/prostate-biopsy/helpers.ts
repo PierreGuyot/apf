@@ -142,7 +142,6 @@ export type Row = {
   tumorGleason: GleasonPair;
   tumorEpn: boolean;
   tumorTep: boolean;
-  tumorPin: boolean;
   otherLesions: OtherLesionType[];
 };
 
@@ -156,7 +155,6 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   tumorGleason: [3, 3],
   tumorEpn: false,
   tumorTep: false,
-  tumorPin: false,
   otherLesions: [],
   ...partial,
 });
@@ -181,7 +179,6 @@ export type Score = {
   tumorGleason?: GleasonPair;
   tumorEpn?: boolean;
   tumorTep?: boolean;
-  tumorPin?: boolean;
 };
 
 // PIRADS: Prostate Imaging Reporting & Data System

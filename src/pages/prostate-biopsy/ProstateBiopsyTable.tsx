@@ -26,7 +26,7 @@ const TableHeader = () => (
       <th scope="col" rowSpan={1} colSpan={2}>
         Biopsies
       </th>
-      <th scope="col" rowSpan={1} colSpan={6}>
+      <th scope="col" rowSpan={1} colSpan={5}>
         Tumeur
       </th>
       <th scope="col" rowSpan={2} colSpan={2}>
@@ -46,7 +46,6 @@ const TableHeader = () => (
       <th scope="col">Gleason</th>
       <th scope="col">EPN</th>
       <th scope="col">TEP</th>
-      <th scope="col">PIN</th>
     </tr>
   </>
 );
@@ -210,26 +209,6 @@ export const ProstateBiopsyTable = ({
         }
 
         return <YesOrNo value={score.tumorTep} />;
-      },
-    },
-    {
-      label: "Tumor PIN",
-      key: "tumorPin",
-      isDisabled: (row) => row.tumorCount === 0,
-      render: (row, isReadOnly, onChange) => (
-        <CellYesNo
-          name="Tumor PIN"
-          value={row.tumorPin}
-          isReadOnly={isReadOnly}
-          onChange={onChange}
-        />
-      ),
-      total: (_rows) => {
-        if (!score.tumorPin) {
-          return undefined;
-        }
-
-        return <YesOrNo value={score.tumorPin} />;
       },
     },
     {

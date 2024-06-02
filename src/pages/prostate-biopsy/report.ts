@@ -66,7 +66,6 @@ export const generateReport = (form: ReportParams): string => {
           `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
           `Engainements périnerveux : ${toYesNo(score.tumorEpn ?? false)}`,
           `Tissu extra-prostatique : ${toYesNo(score.tumorTep ?? false)}`,
-          `Envahissement tissu extra-prostatique : ${toYesNo(score.tumorPin ?? false)}`,
         ]);
       }
 
