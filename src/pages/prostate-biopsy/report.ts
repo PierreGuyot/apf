@@ -91,7 +91,6 @@ export const generateReport = (form: ReportParams): string => {
       const clinicalInformationSection = joinLines([
         "Renseignements cliniques:",
         pad(`PSA: ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
-        // TODO: fix case
         pad(`IRM: ${toYesNo(form.hasMri)}`),
         ...(form.piradsItems.length
           ? [`Cibles:`, ...form.piradsItems.map(renderPiradsItem)].map(pad)
