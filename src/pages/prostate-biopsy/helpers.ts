@@ -59,8 +59,28 @@ export type OtherLesionType =
   | "post-atrophic-hyperplasia"
   | "prostate-adenomyoma";
 
+const OTHER_LESION_TYPES_PRECANCEROUS: Array<
+  Option<OtherLesionType> & { shortLabel: string }
+> = [
+  {
+    value: "invasive-ductal-carcinoma",
+    label: "Carcinome intra-ductal",
+    shortLabel: "Carcinome intra-ductal",
+  },
+  {
+    value: "PINHG",
+    label: "Néoplasie intra-épithéliale de haut grade",
+    shortLabel: "PINHG",
+  },
+  {
+    value: "ASAP",
+    label: "Prolifération acinaire atypique",
+    shortLabel: "ASAP",
+  },
+];
+
 // Ordered according to label alphabetical order
-export const OTHER_LESION_TYPES: Array<
+const OTHER_LESION_TYPES_BENIGN: Array<
   Option<OtherLesionType> & { shortLabel: string }
 > = [
   {
@@ -74,11 +94,6 @@ export const OTHER_LESION_TYPES: Array<
     shortLabel: "Adénose",
   },
   {
-    value: "ASAP",
-    label: "Prolifération acinaire atypique",
-    shortLabel: "ASAP",
-  },
-  {
     value: "atrophy",
     label: "Atrophie",
     shortLabel: "Atrophie",
@@ -87,11 +102,6 @@ export const OTHER_LESION_TYPES: Array<
     value: "partial-atrophy",
     label: "Atrophie partielle",
     shortLabel: "Atrophie partielle",
-  },
-  {
-    value: "invasive-ductal-carcinoma",
-    label: "Carcinome intra-ductal",
-    shortLabel: "Carcinome intra-ductal",
   },
   {
     value: "base-cell-hyperplasia",
@@ -108,10 +118,16 @@ export const OTHER_LESION_TYPES: Array<
     label: "Inflammation",
     shortLabel: "Inflammation",
   },
+];
+
+export const OTHER_LESION_GROUPS = [
   {
-    value: "PINHG",
-    label: "Présence de néoplasie intra-épithéliale de haut grade",
-    shortLabel: "PINHG",
+    title: "Lésions tumorales précancéreuses",
+    items: OTHER_LESION_TYPES_PRECANCEROUS,
+  },
+  {
+    title: "Lésions tumorales bégnines",
+    items: OTHER_LESION_TYPES_BENIGN,
   },
 ];
 

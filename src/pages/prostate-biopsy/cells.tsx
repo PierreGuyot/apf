@@ -1,21 +1,21 @@
 import { Fragment } from "react/jsx-runtime";
 import { InputNumber } from "../../ui/InputNumber";
 import { Select } from "../../ui/Select";
+import { SelectList } from "../../ui/SelectList";
 import { range, toOption } from "../../ui/helpers/helpers";
 import { FieldProps } from "../../ui/helpers/helpers.types";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import { SelectList } from "../../ui/SelectList";
 import "./cells.css";
 import {
   GLEASON_SCORES,
   GleasonPair,
   GleasonScore,
-  OTHER_LESION_TYPES,
+  OTHER_LESION_GROUPS,
   OtherLesionType,
 } from "./helpers";
 
 export const CellSelectList = (props: FieldProps<OtherLesionType[]>) => (
-  <SelectList items={OTHER_LESION_TYPES} {...props} />
+  <SelectList groups={OTHER_LESION_GROUPS} {...props} />
 );
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellChoice = Select;

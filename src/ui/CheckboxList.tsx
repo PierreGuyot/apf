@@ -1,14 +1,17 @@
 import { useMemo } from "react";
 import { Checkbox } from "./Checkbox";
+import "./checkbox-list.css";
 import { Option, SelectValue } from "./helpers/options";
 
 type Props<T extends SelectValue> = {
+  title?: string;
   values: T[];
   items: Option<T>[];
   onChange: (value: T[]) => void;
 };
 
 export function CheckboxList<T extends SelectValue>({
+  title,
   values,
   items,
   onChange: _onChange,
@@ -17,6 +20,7 @@ export function CheckboxList<T extends SelectValue>({
 
   return (
     <div>
+      <div className="checkbox-list-title">{title}</div>
       {items.map((item) => {
         const isChecked = valueSet.has(item.value);
 

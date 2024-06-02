@@ -3,3 +3,9 @@
   flex-wrap: wrap;
   gap: 0.2rem;
 }
+
+.select-list-tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}

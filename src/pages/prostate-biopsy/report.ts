@@ -15,7 +15,7 @@ import {
   PiradsItem,
   Score,
   getIsupScore,
-  getLocationLabel
+  getLocationLabel,
 } from "./helpers";
 
 type ReportParams = FormState & {

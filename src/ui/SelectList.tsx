@@ -1,24 +1,31 @@
+import { useEffect, useState } from "react";
 import { Button } from "./Button";
 import { CheckboxList } from "./CheckboxList";
+import { Pill } from "./Pill";
 import { Tooltip } from "./Tooltip";
 import { noop } from "./helpers/helpers";
 import { FieldProps } from "./helpers/helpers.types";
 import { Option, SelectValue } from "./helpers/options";
-import { Pill } from "./Pill";
 import "./select-list.css";
-import { useEffect, useState } from "react";
 
-type Props<T extends SelectValue> = FieldProps<T[]> & {
+type ItemGroup<T extends SelectValue> = {
+  title: string;
   items: Option<T>[];
 };
 
+type Props<T extends SelectValue> = FieldProps<T[]> & {
+  groups: ItemGroup<T>[];
+};
+
 export function SelectList<T extends SelectValue>({
-  items,
+  groups,
   value,
   isReadOnly,
   onChange,
 }: Props<T>) {
-  const selectedItems = items.filter((item) => value.includes(item.value));
+  const selectedItems = groups
+    .flatMap((group) => group.items)
+    .filter((item) => value.includes(item.value));
 
   // Internal state of the tooltip
   const [state, setState] = useState<T[]>(value);
@@ -36,7 +43,17 @@ export function SelectList<T extends SelectValue>({
         <Tooltip
           mode="click"
           content={
-            <CheckboxList items={items} values={state} onChange={setState} />
+            <div className="select-list-tooltip">
+              {groups.map((group) => (
+                <CheckboxList
+                  key={group.title}
+                  title={group.title}
+                  items={group.items}
+                  values={state}
+                  onChange={setState}
+                />
+              ))}
+            </div>
           }
           onClose={onCommit}
         >
