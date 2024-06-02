@@ -153,8 +153,8 @@ export type Row = {
 export const DEFAULT_GLEASON_TEMP: GleasonItem = {
   a: 3,
   b: 3,
-  percentage: 100,
-  cribriformPercentage: 0,
+  percentage: 95,
+  cribriformPercentage: 5,
 };
 
 export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({

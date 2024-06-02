@@ -13,7 +13,13 @@ import { Summary } from "../../ui/Summary";
 import { Title } from "../../ui/Title";
 import { ValidationErrors } from "../../ui/ValidationErrors";
 import { FORMS } from "../../ui/helpers/forms";
-import { range, sum, sumArrays, toOption } from "../../ui/helpers/helpers";
+import {
+  noop,
+  range,
+  sum,
+  sumArrays,
+  toOption,
+} from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { count } from "../../ui/helpers/plural";
 import { isDebug } from "../../ui/helpers/state";
@@ -51,7 +57,6 @@ const getScore = (rows: Row[]): Score => {
   const tumorScore = tumorCount
     ? {
         tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-        // TODO NOW
         tumorGleason: getMaximumByGleasonScore(
           rowsWithTumor.map((row) => row.tumorGleason),
         ),
@@ -353,24 +358,34 @@ export const ProstateBiopsyForm = () => {
       />
 
       {errors.length ? undefined : (
-        <Summary
-          getContent={(language) =>
-            generateReport({
-              hasInfo,
-              hasTarget,
-              targetCount,
-              hasMri,
-              psaRate,
-              containerCount,
-              tumorType,
-              comment,
-              piradsItems,
-              score,
-              rows,
-              language,
-            })
-          }
-        />
+        <>
+          <Summary
+            getContent={(language) =>
+              generateReport({
+                hasInfo,
+                hasTarget,
+                targetCount,
+                hasMri,
+                psaRate,
+                containerCount,
+                tumorType,
+                comment,
+                piradsItems,
+                score,
+                rows,
+                language,
+              })
+            }
+          />
+          <Item hasMaxWidth={false}>
+            <ProstateBiopsyTable
+              rows={rows}
+              score={score}
+              isReadOnly
+              onChange={noop}
+            />
+          </Item>
+        </>
       )}
     </Page>
   );
