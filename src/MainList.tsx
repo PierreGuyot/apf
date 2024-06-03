@@ -12,9 +12,11 @@ import { Section } from "./ui/Section";
 const FormRoute = ({ route }: { route: FormId }) => {
   const { updateHash } = useHash();
 
-  const { title } = FORMS[route];
+  const { title, path } = FORMS[route];
+
   return (
-    <div>
+    <div className="form-route">
+      <img className="form-route-icon" src={path} alt="" />
       <Button label={title} onClick={() => updateHash(route)} />
     </div>
   );

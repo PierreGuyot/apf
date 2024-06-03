@@ -10,3 +10,13 @@
   flex-direction: column;
   gap: 0.2rem;
 }
+
+.form-route {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.form-route-icon {
+  width: 2.5rem;
+  aspect-ratio: 1;
+}

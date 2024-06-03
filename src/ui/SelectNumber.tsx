@@ -1,7 +1,6 @@
 import { Select } from "./Select";
 import { FieldProps } from "./helpers/fields";
 import { range, toOption } from "./helpers/helpers";
-import { Language } from "./language";
 
 type Props = FieldProps<number> & {
   min?: number;

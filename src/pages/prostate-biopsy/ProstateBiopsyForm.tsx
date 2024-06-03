@@ -57,13 +57,13 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-      tumorGleason: getMaximumByGleasonScore(
-        rowsWithTumor.map((row) => row.tumorGleason),
-      ),
-      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-    }
+        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+        tumorGleason: getMaximumByGleasonScore(
+          rowsWithTumor.map((row) => row.tumorGleason),
+        ),
+        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+      }
     : {};
 
   return {
@@ -115,7 +115,6 @@ const getErrors = ({
     );
   }
 
-
   rows.forEach((row, index) => {
     // Biopsy count
     if (row.tumorCount > row.biopsyCount) {
@@ -131,7 +130,6 @@ const getErrors = ({
       );
     }
   });
-
 
   // PIRADS
 
