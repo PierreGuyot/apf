@@ -4,5 +4,3 @@ export type FieldProps<T> = {
   isReadOnly?: boolean;
   onChange: (value: T) => void;
 };
-
-export type Language = "FR" | "EN";

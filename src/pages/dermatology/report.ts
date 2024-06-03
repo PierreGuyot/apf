@@ -1,4 +1,4 @@
-import { Language } from "../../ui/helpers/helpers.types";
+import { Language } from "../../ui/language";
 import { FormState } from "./DermatologyForm";
 
 type ReportParams = FormState & {

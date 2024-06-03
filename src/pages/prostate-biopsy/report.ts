@@ -1,5 +1,4 @@
 import { sum } from "../../ui/helpers/helpers";
-import { Language } from "../../ui/helpers/helpers.types";
 import { toYesNo } from "../../ui/helpers/options";
 import { pluralize } from "../../ui/helpers/plural";
 import {
@@ -10,6 +9,7 @@ import {
   padSection,
 } from "../../ui/helpers/text";
 import { formatWithUnit } from "../../ui/helpers/units";
+import { Language } from "../../ui/language";
 import { FormState } from "./ProstateBiopsyForm";
 import {
   DEFAULT_GLEASON_ITEM,

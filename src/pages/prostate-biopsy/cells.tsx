@@ -3,7 +3,6 @@ import { InputNumber } from "../../ui/InputNumber";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
 import { filterEmpty, range, toOption } from "../../ui/helpers/helpers";
-import { FieldProps } from "../../ui/helpers/helpers.types";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { getPercentageOptions } from "../../ui/helpers/percent";
 import "./cells.css";
@@ -16,6 +15,7 @@ import {
   OtherLesionType,
   getGleasonSummary,
 } from "./helpers";
+import { FieldProps } from "../../ui/helpers/fields";
 
 export const CellSelectList = (props: FieldProps<OtherLesionType[]>) => (
   <SelectList groups={OTHER_LESION_GROUPS} {...props} />

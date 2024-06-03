@@ -4,9 +4,9 @@ import { Section } from "./Section";
 import { Select } from "./Select";
 import { Title } from "./Title";
 import { copyToClipboard } from "./helpers/copy";
-import { Language } from "./helpers/helpers.types";
 import { Option } from "./helpers/options";
 import "./summary.css";
+import { Language } from "./language";
 
 type SummaryProps = {
   getContent: (language: Language) => string;

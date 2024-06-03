@@ -4,9 +4,9 @@ import { CheckboxList } from "./CheckboxList";
 import { Pill } from "./Pill";
 import { Tooltip } from "./Tooltip";
 import { noop } from "./helpers/helpers";
-import { FieldProps } from "./helpers/helpers.types";
 import { Option, SelectValue } from "./helpers/options";
 import "./select-list.css";
+import { FieldProps } from "./helpers/fields";
 
 type ItemGroup<T extends SelectValue> = {
   title: string;
