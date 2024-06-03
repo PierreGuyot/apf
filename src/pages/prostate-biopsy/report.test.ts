@@ -15,6 +15,8 @@ const aFormState = (partial: Partial<FormState> = {}): FormState => ({
   ...partial,
 });
 
+// TODO: fix tests
+
 // TODO: test functions to compute scores
 // TODO: test functions to compute errors
 // TODO: test generateReport on real, complete example
@@ -23,13 +25,13 @@ describe("generateReport", () => {
   it("should generate a clean report with a tumor (FR)", () => {
     expect(
       generateReport({
-        title: "TITLE",
+        formId: "prostate-biopsy",
         language: "FR",
         score: { biopsyCount: 1, biopsySize: 2, tumorCount: 1 },
         ...aFormState(),
       }),
     ).toEqual(
-      `TITLE
+      `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Adénocarcinome acinaire de type prostatique.
 
@@ -49,12 +51,12 @@ Renseignements cliniques:
   it("should generate a clean report without a tumor (FR)", () => {
     expect(
       generateReport({
-        title: "TITLE",
+        formId: "prostate-biopsy",
         language: "FR",
         score: { biopsyCount: 1, biopsySize: 2, tumorCount: 0 },
         ...aFormState(),
       }),
-    ).toEqual(`TITLE
+    ).toEqual(`BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Absence de foyer tumoral sur l'ensemble des 1 biopsies étudiées (2 mm).
 Adénomyome prostatique.

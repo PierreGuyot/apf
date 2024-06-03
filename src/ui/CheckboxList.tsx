@@ -2,8 +2,10 @@ import { useMemo } from "react";
 import { Checkbox } from "./Checkbox";
 import "./checkbox-list.css";
 import { Option, SelectValue } from "./helpers/options";
+import { Language, translate } from "./language";
 
 type Props<T extends SelectValue> = {
+  language: Language;
   title?: string;
   values: T[];
   items: Option<T>[];
@@ -11,6 +13,7 @@ type Props<T extends SelectValue> = {
 };
 
 export function CheckboxList<T extends SelectValue>({
+  language,
   title,
   values,
   items,
@@ -20,7 +23,9 @@ export function CheckboxList<T extends SelectValue>({
 
   return (
     <div>
-      <div className="checkbox-list-title">{title}</div>
+      {title ? (
+        <div className="checkbox-list-title">{translate(title, language)}</div>
+      ) : undefined}
       {items.map((item) => {
         const isChecked = valueSet.has(item.value);
 
@@ -39,7 +44,7 @@ export function CheckboxList<T extends SelectValue>({
           <Checkbox
             key={String(item.value)}
             isChecked={isChecked}
-            label={item.label}
+            label={translate(item.label, language)}
             onChange={onChange}
           />
         );

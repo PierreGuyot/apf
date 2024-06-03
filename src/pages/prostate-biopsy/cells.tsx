@@ -7,7 +7,7 @@ import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { getPercentageOptions } from "../../ui/helpers/percent";
 import "./cells.css";
 import {
-  CRIBRIFORM_PERCENTAGE_OPTIONS,
+  getCribriformPercentageOptions,
   GLEASON_SCORES,
   GleasonItem,
   GleasonScore,
@@ -16,16 +16,17 @@ import {
   getGleasonSummary,
 } from "./helpers";
 import { FieldProps } from "../../ui/helpers/fields";
+import { Language } from "../../ui/language";
 
-export const CellSelectList = (props: FieldProps<OtherLesionType[]>) => (
-  <SelectList groups={OTHER_LESION_GROUPS} {...props} />
-);
+export const CellSelectList = (
+  props: FieldProps<OtherLesionType[]> & { language?: Language },
+) => <SelectList groups={OTHER_LESION_GROUPS} {...props} />;
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellChoice = Select;
 
-export const CellYesNo = (props: FieldProps<boolean> & { name: string }) => (
-  <Select options={YES_NO_OPTIONS} {...props} />
-);
+export const CellYesNo = (
+  props: FieldProps<boolean> & { name: string; language?: Language },
+) => <Select options={YES_NO_OPTIONS} {...props} />;
 
 const Plus = () => <span>+</span>;
 
@@ -70,10 +71,12 @@ const MINORITY_PERCENTAGE_OPTIONS = getPercentageOptions({
 });
 
 export const CellGleason = ({
+  language,
   value,
   isReadOnly,
   onChange,
 }: {
+  language: Language;
   value: GleasonItem;
   onChange: (value: GleasonItem) => void;
   isReadOnly?: boolean;
@@ -86,14 +89,14 @@ export const CellGleason = ({
   // If a and b are 4, we display the field for cribriform only once (after b for better readability)
 
   if (isReadOnly) {
-    return <span>{getGleasonSummary(value)}</span>;
+    return <span>{getGleasonSummary(value, language)}</span>;
   }
 
   const SelectCribriformPercentage = (
     <Select
       key="cribriform-percentage"
       name="Pourcentage cribriforme"
-      options={CRIBRIFORM_PERCENTAGE_OPTIONS}
+      options={getCribriformPercentageOptions(language)}
       value={cribriformPercentage}
       onChange={(_cribriformPercentage) =>
         onChange({

@@ -1,7 +1,9 @@
+import { FormId } from "../../ui/helpers/forms";
 import { Language } from "../../ui/language";
 import { FormState } from "./DermatologyForm";
 
 type ReportParams = FormState & {
+  formId: FormId;
   comment: string;
   language: Language;
 };

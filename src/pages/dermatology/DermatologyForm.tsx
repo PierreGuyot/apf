@@ -176,7 +176,9 @@ export const DermatologyForm = () => {
       />
 
       <Summary
-        getContent={(language) => generateReport({ ...state, language })}
+        getContent={(language) =>
+          generateReport({ ...state, formId: FORM_ID, language })
+        }
       />
     </Page>
   );

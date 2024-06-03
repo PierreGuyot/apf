@@ -2,10 +2,12 @@ import { useMemo } from "react";
 import { anId } from "./helpers/helpers";
 import { Option, OptionGroup, SelectValue } from "./helpers/options";
 
-import "./select.css";
 import { FieldProps } from "./helpers/fields";
+import { DEFAULT_LANGUAGE, Language, translate } from "./language";
+import "./select.css";
 
 type Props<T extends SelectValue> = FieldProps<T> & {
+  language?: Language;
   options: Option<T>[] | OptionGroup<T>[];
   name: string;
   label?: string; // TODO clean: consider using label as name
@@ -18,6 +20,7 @@ function isGroupedOptions<T extends SelectValue>(
 }
 
 export function Select<T extends SelectValue>({
+  language = DEFAULT_LANGUAGE,
   value,
   options: _options,
   name,
@@ -53,37 +56,55 @@ export function Select<T extends SelectValue>({
       throw new Error("Invalid value");
     }
 
-    return match.label;
+    return translate(match.label, language);
   }
 
   return (
     <div className="select">
       {/* TODO clean: replace with Label */}
+      {/* TODO: translate label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
       <select value={String(value)} name={name} id={id} onChange={onChange}>
         {isGroupedOptions(_options)
           ? _options.map((group) => (
-              <optgroup key={group.title} label={group.title}>
+              <optgroup
+                key={group.title}
+                label={translate(group.title, language)}
+              >
                 {group.items.map((option) => (
-                  <OptionItem key={String(option.value)} option={option} />
+                  <OptionItem
+                    key={String(option.value)}
+                    option={option}
+                    language={language}
+                  />
                 ))}
               </optgroup>
             ))
           : _options.map((option) => (
-              <OptionItem key={String(option.value)} option={option} />
+              <OptionItem
+                key={String(option.value)}
+                option={option}
+                language={language}
+              />
             ))}
       </select>
     </div>
   );
 }
 
-function OptionItem<T extends SelectValue>({ option }: { option: Option<T> }) {
+function OptionItem<T extends SelectValue>({
+  option,
+  language,
+}: {
+  option: Option<T>;
+  language: Language;
+}) {
   // CAUTION: this cast type is unsafe
   const value = option.value as string | number;
 
   return (
     <option key={value} value={value}>
-      {option.label}
+      {translate(option.label, language)}
     </option>
   );
 }

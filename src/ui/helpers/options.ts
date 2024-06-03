@@ -1,3 +1,5 @@
+import { DEFAULT_LANGUAGE, Language, translate } from "../language";
+
 export type SelectValue = string | number | boolean;
 
 export type Option<T extends SelectValue> = {
@@ -15,12 +17,15 @@ export const YES_NO_OPTIONS: Option<boolean>[] = [
   { value: false, label: "Non" },
 ];
 
-export const toYesNo = (value: boolean) => {
+export const toYesNo = (
+  value: boolean,
+  language: Language = DEFAULT_LANGUAGE,
+) => {
   const option = YES_NO_OPTIONS.find((item) => item.value === value);
 
   if (!option) {
     throw new Error("Invalid value");
   }
 
-  return option.label;
+  return translate(option.label, language);
 };

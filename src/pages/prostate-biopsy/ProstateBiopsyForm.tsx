@@ -27,8 +27,6 @@ import { useForm } from "../../ui/helpers/use-form";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
-  TUMOR_TYPES,
-  TumorType,
   LOCATIONS,
   MAX_CONTAINER_COUNT,
   MAX_TARGET_COUNT,
@@ -36,12 +34,15 @@ import {
   Row,
   SEXTAN_COUNT,
   Score,
+  TUMOR_TYPES,
+  TumorType,
   anEmptyPiradsItem,
   anEmptyRow,
   getMaximumByGleasonScore,
   getTumorTypeOption,
 } from "./helpers";
 import { generateReport } from "./report";
+import { DEFAULT_LANGUAGE } from "../../ui/language";
 
 const FORM_ID = "prostate-biopsy";
 
@@ -235,10 +236,8 @@ export const ProstateBiopsyForm = () => {
     setState("piradsItems")(updatedArray);
   };
 
-  const title = form.title;
-
   return (
-    <Page title={title}>
+    <Page title={form.title}>
       <Banner formId={FORM_ID} onClear={clearState} />
 
       <Section>
@@ -334,6 +333,7 @@ export const ProstateBiopsyForm = () => {
 
       <Item hasMaxWidth={false}>
         <ProstateBiopsyTable
+          language={DEFAULT_LANGUAGE}
           rows={rows}
           score={score}
           onChange={setState("rows")}
@@ -364,30 +364,24 @@ export const ProstateBiopsyForm = () => {
           <Summary
             getContent={(language) =>
               generateReport({
-                title,
-                hasInfo,
-                hasTarget,
-                targetCount,
-                hasMri,
-                psaRate,
-                containerCount,
-                tumorType,
-                comment,
+                formId: FORM_ID,
+                ...state,
                 piradsItems,
                 score,
                 rows,
                 language,
               })
             }
+            getTable={(language) => (
+              <ProstateBiopsyTable
+                language={language}
+                rows={rows}
+                score={score}
+                isReadOnly
+                onChange={noop}
+              />
+            )}
           />
-          <Item hasMaxWidth={false}>
-            <ProstateBiopsyTable
-              rows={rows}
-              score={score}
-              isReadOnly
-              onChange={noop}
-            />
-          </Item>
         </>
       )}
     </Page>

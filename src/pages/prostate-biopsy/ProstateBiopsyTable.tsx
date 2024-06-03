@@ -3,6 +3,7 @@ import { Column, Table } from "../../ui/Table";
 import { YesOrNo } from "../../ui/YesOrNo";
 import { noop, toOption } from "../../ui/helpers/helpers";
 import { Option } from "../../ui/helpers/options";
+import { Language, translate } from "../../ui/language";
 import { SelectLocation } from "./SelectLocation";
 import {
   CellChoice,
@@ -17,40 +18,39 @@ import { CONTAINER_TYPES, Row, Score } from "./helpers";
 const BIOPSY_COUNT_OPTIONS: Option<number>[] = [1, 2, 3, 4].map(toOption);
 const TUMOR_COUNT_OPTIONS: Option<number>[] = [0, 1, 2, 3, 4].map(toOption);
 
-const TableHeader = () => (
+const TableHeader = ({ language }: { language: Language }) => (
   <>
     <tr>
       <th scope="col" rowSpan={1} colSpan={3}>
-        Pots
+        {translate("Pots", language)}
       </th>
       <th scope="col" rowSpan={1} colSpan={2}>
-        Biopsies
+        {translate("Biopsies", language)}
       </th>
       <th scope="col" rowSpan={1} colSpan={5}>
-        Tumeur
+        {translate("Tumeurs", language)}
       </th>
       <th scope="col" rowSpan={2} colSpan={2}>
-        Autres lésions
+        {translate("Autres lésions", language)}
       </th>
     </tr>
     <tr>
-      <th scope="col">
-        N<sup>o</sup>
-      </th>
-      <th scope="col">Type</th>
-      <th scope="col">Localisation</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Taille</th>
-      <th scope="col">Nombre +</th>
-      <th scope="col">Taille</th>
-      <th scope="col">Score de Gleason</th>
-      <th scope="col">EPN</th>
-      <th scope="col">TEP</th>
+      <th scope="col">{translate("Numéro", language)}</th>
+      <th scope="col">{translate("Type", language)}</th>
+      <th scope="col">{translate("Localisation", language)}</th>
+      <th scope="col">{translate("Nombre", language)}</th>
+      <th scope="col">{translate("Taille", language)}</th>
+      <th scope="col">{translate("Nombre", language)} +</th>
+      <th scope="col">{translate("Taille", language)} *</th>
+      <th scope="col">{translate("Score de Gleason", language)}</th>
+      <th scope="col">{translate("EPN", language)}</th>
+      <th scope="col">{translate("TEP", language)}</th>
     </tr>
   </>
 );
 
 type Props = {
+  language: Language;
   rows: Row[];
   score: Score;
   isReadOnly?: boolean;
@@ -58,13 +58,12 @@ type Props = {
 };
 
 export const ProstateBiopsyTable = ({
+  language,
   rows,
   score,
   isReadOnly,
   onChange: _onChange,
 }: Props) => {
-  // TODO clean: consider passing score directly as an object to Table
-
   const COLUMNS: Column<Row>[] = [
     {
       label: "Index",
@@ -76,6 +75,7 @@ export const ProstateBiopsyTable = ({
       key: "type",
       render: (row, isReadOnly, onChange) => (
         <CellChoice
+          language={language}
           name="Type"
           value={row.type}
           options={CONTAINER_TYPES}
@@ -89,6 +89,7 @@ export const ProstateBiopsyTable = ({
       key: "location",
       render: (row, isReadOnly, onChange) => (
         <SelectLocation
+          language={language}
           value={row.location}
           isReadOnly={isReadOnly}
           onChange={onChange}
@@ -100,6 +101,7 @@ export const ProstateBiopsyTable = ({
       key: "biopsyCount",
       render: (row, isReadOnly, onChange) => (
         <Select
+          language={language}
           name="Biopsy count"
           value={row.biopsyCount}
           options={BIOPSY_COUNT_OPTIONS}
@@ -128,6 +130,7 @@ export const ProstateBiopsyTable = ({
       key: "tumorCount",
       render: (row, isReadOnly, onChange) => (
         <Select
+          language={language}
           name="Tumor count"
           value={row.tumorCount}
           options={TUMOR_COUNT_OPTIONS}
@@ -158,6 +161,7 @@ export const ProstateBiopsyTable = ({
       isDisabled: (row) => row.tumorCount === 0,
       render: (row, isReadOnly, onChange) => (
         <CellGleason
+          language={language}
           value={row.tumorGleason}
           isReadOnly={isReadOnly}
           onChange={onChange}
@@ -169,7 +173,12 @@ export const ProstateBiopsyTable = ({
         }
 
         return (
-          <CellGleason value={score.tumorGleason} isReadOnly onChange={noop} />
+          <CellGleason
+            language={language}
+            value={score.tumorGleason}
+            isReadOnly
+            onChange={noop}
+          />
         );
       },
     },
@@ -179,6 +188,7 @@ export const ProstateBiopsyTable = ({
       isDisabled: (row) => row.tumorCount === 0,
       render: (row, isReadOnly, onChange) => (
         <CellYesNo
+          language={language}
           name="Tumor EPN"
           value={row.tumorEpn}
           isReadOnly={isReadOnly}
@@ -190,7 +200,7 @@ export const ProstateBiopsyTable = ({
           return undefined;
         }
 
-        return <YesOrNo value={score.tumorEpn} />;
+        return <YesOrNo language={language} value={score.tumorEpn} />;
       },
     },
     {
@@ -199,6 +209,7 @@ export const ProstateBiopsyTable = ({
       isDisabled: (row) => row.tumorCount === 0,
       render: (row, isReadOnly, onChange) => (
         <CellYesNo
+          language={language}
           name="Tumor TEP"
           value={row.tumorTep}
           isReadOnly={isReadOnly}
@@ -210,7 +221,7 @@ export const ProstateBiopsyTable = ({
           return undefined;
         }
 
-        return <YesOrNo value={score.tumorTep} />;
+        return <YesOrNo language={language} value={score.tumorTep} />;
       },
     },
     {
@@ -219,6 +230,7 @@ export const ProstateBiopsyTable = ({
       alignment: "left",
       render: (row, isReadOnly, onChange) => (
         <CellSelectList
+          language={language}
           value={row.otherLesions}
           isReadOnly={isReadOnly}
           onChange={onChange}
@@ -231,7 +243,7 @@ export const ProstateBiopsyTable = ({
     <Table
       columns={COLUMNS}
       rows={rows}
-      header={TableHeader}
+      header={() => <TableHeader language={language} />}
       hasFooter
       isReadOnly={isReadOnly}
       onChange={_onChange}

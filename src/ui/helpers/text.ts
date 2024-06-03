@@ -1,3 +1,4 @@
+import { Language, translate } from "../language";
 import { filterEmpty } from "./helpers";
 
 export const EMPTY_LINE = "\n";
@@ -11,9 +12,14 @@ export const joinLines = (lines: string[]) => lines.join(EMPTY_LINE);
 export const joinSections = (paragraphs: Array<string | undefined>) =>
   paragraphs.filter(filterEmpty).join(`\n\n`);
 
-export const naturalJoin = (items: Array<string | number>) => {
+export const naturalJoin = (
+  items: Array<string | number>,
+  language: Language,
+) => {
   const start = [...items];
   const last = start.pop();
 
-  return [start.join(", "), last].filter(filterEmpty).join(" et ");
+  const linkWord = translate("et", language);
+
+  return [start.join(", "), last].filter(filterEmpty).join(` ${linkWord} `);
 };

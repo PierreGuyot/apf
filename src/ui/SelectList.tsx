@@ -7,6 +7,7 @@ import { noop } from "./helpers/helpers";
 import { Option, SelectValue } from "./helpers/options";
 import "./select-list.css";
 import { FieldProps } from "./helpers/fields";
+import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 
 type ItemGroup<T extends SelectValue> = {
   title: string;
@@ -14,10 +15,12 @@ type ItemGroup<T extends SelectValue> = {
 };
 
 type Props<T extends SelectValue> = FieldProps<T[]> & {
+  language?: Language;
   groups: ItemGroup<T>[];
 };
 
 export function SelectList<T extends SelectValue>({
+  language = DEFAULT_LANGUAGE,
   groups,
   value,
   isReadOnly,
@@ -34,9 +37,10 @@ export function SelectList<T extends SelectValue>({
   const onCommit = () => onChange(state);
 
   if (isReadOnly) {
-    return selectedItems.map((item) => item.label).join(" + ");
+    return selectedItems
+      .map((item) => translate(item.label, language))
+      .join(" + ");
   }
-
   return (
     <div>
       <div className="select-list">
@@ -47,6 +51,7 @@ export function SelectList<T extends SelectValue>({
             <div className="select-list-tooltip">
               {groups.map((group) => (
                 <CheckboxList
+                  language={language}
                   key={group.title}
                   title={group.title}
                   items={group.items}
@@ -61,7 +66,10 @@ export function SelectList<T extends SelectValue>({
           <Button label="+" onClick={noop} />
         </Tooltip>
         {selectedItems.map((item) => (
-          <Pill key={String(item.value)} label={item.label} />
+          <Pill
+            key={String(item.value)}
+            label={translate(item.label, language)}
+          />
         ))}
       </div>
     </div>

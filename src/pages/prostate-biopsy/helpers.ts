@@ -2,6 +2,7 @@
 import { filterEmpty } from "../../ui/helpers/helpers";
 import { Option, SelectValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";
+import { DEFAULT_LANGUAGE, Language, translate } from "../../ui/language";
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
@@ -36,16 +37,19 @@ const LOCATION_LABELS: Record<Location, string> = {
   "apex-left": "Apex gauche",
 };
 
-export const getLocationLabel = (location: Location) =>
-  LOCATION_LABELS[location];
+export const getLocationLabel = (location: Location, language: Language) =>
+  translate(LOCATION_LABELS[location], language);
 
-const toOption = (location: Location) => ({
+const toOption = (location: Location, language: Language) => ({
   value: location,
-  label: getLocationLabel(location),
+  label: getLocationLabel(location, language),
 });
 
-export const LOCATION_OPTIONS: Option<Location>[] = LOCATIONS.map(toOption);
+export const LOCATION_OPTIONS: Option<Location>[] = LOCATIONS.map((location) =>
+  toOption(location, DEFAULT_LANGUAGE),
+);
 
+// TODO with Louis: rename to "systematic" | "targeted"
 export type ContainerType = "sextan" | "target";
 export const CONTAINER_TYPES: Option<ContainerType>[] = [
   { value: "sextan", label: "Sextant" },
@@ -90,8 +94,8 @@ const OTHER_LESION_TYPES_BENIGN: Array<
 > = [
   {
     value: "prostate-adenomyoma",
-    label: "Adénomyome de la prostate",
-    shortLabel: "Adénomyome de la prostate",
+    label: "Adénomyome prostatique",
+    shortLabel: "Adénomyome prostatique",
   },
   {
     value: "adenosis",
@@ -309,7 +313,7 @@ export const TUMOR_TYPES: Array<{
   title: string;
   items: OptionWithGleasonScore<TumorType>[];
 }> = [
-  { title: "Glandulaires", items: TUMOR_TYPES_GLANDULAR },
+  { title: "Glandulaire", items: TUMOR_TYPES_GLANDULAR },
   { title: "Épidermoïde", items: TUMOR_TYPES_EPIDERMOID },
   { title: "Neuroendocrine", items: TUMOR_TYPES_NEUROENDOCRINE },
 ];
@@ -351,21 +355,24 @@ export const getIsupScore = ({
   return 5;
 };
 
-export const CRIBRIFORM_PERCENTAGE_OPTIONS = [
-  { value: 0, label: "non cribriforme" },
+export const getCribriformPercentageOptions = (language: Language) => [
+  { value: 0, label: translate("non cribriforme", language) },
   ...getPercentageValues({ min: 10, max: 100, step: 10 }).map((value) => ({
     value,
-    label: `dont ${value}% cribriformes`,
+
+    // Note: inline translation
+    label:
+      language === "FR"
+        ? `dont ${value}% cribriformes`
+        : `including cribriform ${value}%`,
   })),
 ];
 
-export const getGleasonSummary = ({
-  a,
-  b,
-  percentage,
-  cribriformPercentage,
-}: GleasonItem) => {
-  const match = CRIBRIFORM_PERCENTAGE_OPTIONS.find(
+export const getGleasonSummary = (
+  { a, b, percentage, cribriformPercentage }: GleasonItem,
+  language: Language,
+) => {
+  const match = getCribriformPercentageOptions(language).find(
     (item) => item.value === cribriformPercentage,
   );
   if (!match) {

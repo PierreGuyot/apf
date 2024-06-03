@@ -1,0 +1,13 @@
+.text-block {
+  font-size: 1rem;
+  padding: 1.5rem;
+  line-height: 1.5em;
+  border-radius: 0.2em;
+  background-color: lightgray;
+  border: 1px solid black;
+  position: relative;
+
+  font-family: body-font;
+  white-space: pre-wrap;
+  margin: 0;
+}
