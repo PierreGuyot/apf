@@ -57,13 +57,13 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-        tumorGleason: getMaximumByGleasonScore(
-          rowsWithTumor.map((row) => row.tumorGleason),
-        ),
-        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-      }
+      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+      tumorGleason: getMaximumByGleasonScore(
+        rowsWithTumor.map((row) => row.tumorGleason),
+      ),
+      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+    }
     : {};
 
   return {
@@ -97,6 +97,8 @@ const getErrors = ({
   const targetCount = targets.length;
   const expectedTargetCount = containerCount - SEXTAN_COUNT;
 
+  // List of locations
+
   if (targetCount !== expectedTargetCount) {
     errors.push(
       `Le tableau devrait contenir ${count(expectedTargetCount, "cible")} et non ${targetCount}.`,
@@ -113,13 +115,25 @@ const getErrors = ({
     );
   }
 
+
   rows.forEach((row, index) => {
+    // Biopsy count
     if (row.tumorCount > row.biopsyCount) {
       errors.push(
         `Le nombre de biopsies présentant une tumeur pour le pot numéro ${index + 1} est plus grand que le nombre de biopsies.`,
       );
     }
+
+    // Biopsy size
+    if (sum(row.tumorSize) > sum(row.biopsySize)) {
+      errors.push(
+        `La taille totale des biopsies présentant une tumeur pour le pot numéro ${index + 1} est plus grande que la taille totale des biopsies.`,
+      );
+    }
   });
+
+
+  // PIRADS
 
   // There can be more targets in the table than PIRADS items
   // But the PIRADS items must match the targets declared in the table
@@ -134,6 +148,8 @@ const getErrors = ({
       );
     }
   });
+
+  // Gleason score
 
   const tumorTypeOption = getTumorTypeOption(tumorType);
   const targetScore = tumorTypeOption.score;
