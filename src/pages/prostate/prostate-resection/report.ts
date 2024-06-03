@@ -40,7 +40,10 @@ const getMacroscopySection = (form: ReportParams, language: Language) => {
 
   return joinLines([
     `${translate("Poids des copeaux", language)} : ${form.chipWeight}g`,
-    `${translate(samplingTypeLabel, language)} en ${form.blockCount} (fixation : formol tamponné 4%, coloration ${form.coloration})`,
+    // NOTE: inline translation
+    language === "FR"
+      ? `${translate(samplingTypeLabel, language)} en ${form.blockCount} blocs (fixation : formol tamponné 4%, coloration ${form.coloration})`
+      : `${translate(samplingTypeLabel, language)} in ${form.blockCount} blocks (fixation : buffered formalin 4%, stain ${form.coloration})`,
   ]);
 };
 
@@ -114,10 +117,10 @@ const getOtherLesionsSection = (form: ReportParams, language: Language) => {
     groups: OTHER_LESION_GROUPS,
   });
 
-  if(!selectedItems.length) {
-    return undefined
+  if (!selectedItems.length) {
+    return undefined;
   }
-  
+
   return joinLines([
     translate("Autres lésions", language),
     ...selectedItems.map((item) =>

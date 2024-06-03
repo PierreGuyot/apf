@@ -29,6 +29,7 @@ const DICTIONARY_EN: Record<string, string> = {
     "Transrectal prostate needle biopsies",
   "Biopsies prostatiques transpérinéales écho-guidées":
     "Transperineal prostate needle biopsies",
+  "Résection transurétrale de prostate": "Transurethral Prostatic Resection",
   pot: "Container", // TODO with Louis: confirm sample versus container
   Pot: "container", // TODO with Louis: confirm sample versus container
   Sextant: "Systematic biopsy",
