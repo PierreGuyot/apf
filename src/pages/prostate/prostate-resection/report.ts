@@ -114,6 +114,10 @@ const getOtherLesionsSection = (form: ReportParams, language: Language) => {
     groups: OTHER_LESION_GROUPS,
   });
 
+  if(!selectedItems.length) {
+    return undefined
+  }
+  
   return joinLines([
     translate("Autres lésions", language),
     ...selectedItems.map((item) =>
