@@ -1,9 +1,9 @@
-import { Select } from "../../ui/Select";
-import { Column, Table } from "../../ui/Table";
-import { YesOrNo } from "../../ui/YesOrNo";
-import { noop, toOption } from "../../ui/helpers/helpers";
-import { Option } from "../../ui/helpers/options";
-import { Language, translate } from "../../ui/language";
+import { Select } from "../../../ui/Select";
+import { Column, Table } from "../../../ui/Table";
+import { YesOrNo } from "../../../ui/YesOrNo";
+import { noop, toOption } from "../../../ui/helpers/helpers";
+import { Option } from "../../../ui/helpers/options";
+import { Language, translate } from "../../../ui/language";
 import { SelectLocation } from "./SelectLocation";
 import {
   CellChoice,

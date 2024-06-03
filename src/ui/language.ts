@@ -15,6 +15,7 @@ const DICTIONARY_EN: Record<string, string> = {
   "Remarques particulières": "Other",
   "Renseignements cliniques": "Case summary",
   Taille: "Size",
+  Tumeur: "Tumor",
   Tumeurs: "Tumors",
   Type: "Type",
 
@@ -23,16 +24,13 @@ const DICTIONARY_EN: Record<string, string> = {
     "Transrectal prostate needle biopsies",
   "Biopsies prostatiques transpérinéales écho-guidées":
     "Transperineal prostate needle biopsies",
-
   pot: "Container", // TODO with Louis: confirm sample versus container
   Pot: "container", // TODO with Louis: confirm sample versus container
   Sextant: "Systematic biopsy",
   Cible: "Targeted biopsy",
   Cibles: "Targeted biopsies",
-
   "Biopsie systématique": "Systematic biopsy",
   "Biopsie ciblée": "Targeted biopsy",
-
   Pots: "Containers", // TODO with Louis: confirm sample versus container
   "Autres lésions": "Other lesions",
   "Score de Gleason": "Gleason Score",
@@ -49,16 +47,13 @@ const DICTIONARY_EN: Record<string, string> = {
   "Base gauche": "Left base",
   "Milieu gauche": "Left mid",
   "Apex gauche": "Left apex",
-
   "Zone périphérique latérale droite": "Right lateral peripheral zone",
   "Zone périphérique para-médiane droite": "Right paramedian peripheral zone",
   "Zone périphérique médiane droite": "Right median peripheral zone",
   "Zone périphérique latérale gauche": "Left lateral peripheral zone",
   "Zone périphérique para-médiane gauche": "Left paramedian peripheral zone",
   "Zone périphérique médiane gauche": "Left median peripheral zone",
-
   "Lésions tumorales précancéreuses": "Glandular neoplasms of the prostate",
-
   "Carcinome intra-ductal": "Isolated intraductal carcinoma",
   // TODO with Louis: confirm PINGH vs PIN and English vs French (seems to be PIN/HGPIN in English)
   "Néoplasie intra-épithéliale de haut grade":
@@ -66,19 +61,19 @@ const DICTIONARY_EN: Record<string, string> = {
   PINGH: "PINHG",
   "Prolifération acinaire atypique": "Atypical small acinar proliferation",
   ASAP: "ASAP",
-
   "Lésions tumorales bégnines": "Other benign lesions",
-
   "Adénomyome prostatique": "Prostate adenomyoma",
+  "Adénomyome prostatique et inflammation granulomateuse":
+    "Prostate adenomyoma and granulomatous inflammation",
+  "Adénomyome prostatique et inflammation non-spécifique":
+    "Prostate adenomyoma and nonspecific inflammation",
   Adénose: "Adenosis",
   Atrophie: "Atrophy",
   "Atrophie partielle": "Partial atrophy",
   "Hyperplasie des cellules basales": "Basal cell hyperplasia",
   "Hyperplasie post-atrophique": "Post-atrophic hyperplasia",
   Inflammation: "Inflammation",
-
   Glandulaire: "Glandular",
-
   "Adénocarcinome acinaire de type prostatique":
     "Acinar adenocarcinoma, conventional (usual)",
   "Adénocarcinome acinaire à cellules indépendantes":
@@ -89,16 +84,12 @@ const DICTIONARY_EN: Record<string, string> = {
   "Adénocarcinome acinaire de type néoplasie intra-épithéliale":
     "Acinar adenocarcinoma, prostatic intraepithelial neoplasia-like",
   "Adénocarcinome ductal": "Ductal adenocarcinoma",
-
   Épidermoïde: "Squamous",
-
   "Carcinome adénosquameux": "Adenosquamous carcinoma",
   "Carcinome épidermoïde": "Squamous cell carcinoma",
   "Carcinome adénoïde kystique de sous-type basal":
     "Basal cell (adenoid cystic) carcinoma",
-
   Neuroendocrine: "Neuroendocrine",
-
   "Adénocarcinome avec différenciation neuroendocrine":
     "Adenocarcinoma with neuroendocrine differentiation",
   "Tumeur neuroendocrine bien différenciée":
@@ -107,12 +98,23 @@ const DICTIONARY_EN: Record<string, string> = {
     "Small cell neuroendocrine carcinoma",
   "Carcinome neuroendocrine à grandes cellules":
     "Large cell neuroendocrine carcinoma",
-
   "non cribriforme": "non cribriform",
-
   // TODO with Louis: confirm PSA vs APS
   PSA: "PSA", // Prostate Specific Antigen
   IRM: "MRI",
+  "Inclusion en totalité": "Full inclusion",
+  Échantillonnage: "Sampling",
+  "Absence de traitement antérieur": "No presurgical therapy",
+  "Non applicable en raison de modifications histologiques majeures liées à un traitement antérieur (radiothérapie) ":
+    "Not applicable due to major effects linked to presurgical therapy (radiation therapy) ",
+  "Non applicable en raison de modifications histologiques majeures liées à un traitement antérieur (hormonothérapie ou chimiothérapie) ":
+    "Not applicable due to major effects linked to presurgical therapy (hormonal therapy or chemotherapy) ",
+  "Applicable en raison de modifications histologiques mineures liées à un traitement antérieur (radiothérapie) ":
+    "Applicable due to minor effects linked to presurgical therapy (radiation therapy)",
+  "Applicable en raison de modification histologiques mineures liées à un traitement antérieur (hormonothérapie ou chimiothérapie) ":
+    "Applicable due to minor effects linked to presurgical therapy (hormonal therapy or chemotherapy)",
+  HE: "HE", // Hematoxylin and eosin stain
+  HES: "HES", // Hematoxylin, eosin and saffron stain
 
   // Dermatology
   Dermatologie: "Dermatology",

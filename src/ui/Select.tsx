@@ -60,11 +60,17 @@ export function Select<T extends SelectValue>({
   }
 
   return (
-    <div className="select">
+    <div className="select-container">
       {/* TODO clean: replace with Label */}
       {/* TODO: translate label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
-      <select value={String(value)} name={name} id={id} onChange={onChange}>
+      <select
+        className="select"
+        value={String(value)}
+        name={name}
+        id={id}
+        onChange={onChange}
+      >
         {isGroupedOptions(_options)
           ? _options.map((group) => (
               <optgroup

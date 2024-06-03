@@ -9,13 +9,8 @@
   margin-right: 0.3em;
 }
 
-.cell-number-sum,
-.cell-parentheses {
+.cell-number-sum {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-}
-
-.cell-parentheses {
-  padding: 0 0.2rem;
 }

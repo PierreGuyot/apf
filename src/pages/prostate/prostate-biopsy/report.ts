@@ -1,27 +1,29 @@
-import { FORMS, FormId } from "../../ui/helpers/forms";
-import { sum } from "../../ui/helpers/helpers";
-import { toYesNo } from "../../ui/helpers/options";
-import { pluralize } from "../../ui/helpers/plural";
+import { FORMS, FormId } from "../../../ui/helpers/forms";
+import { sum } from "../../../ui/helpers/helpers";
+import { toYesNo } from "../../../ui/helpers/options";
+import { pluralize } from "../../../ui/helpers/plural";
 import {
   joinLines,
   joinSections,
   naturalJoin,
   pad,
   padSection,
-} from "../../ui/helpers/text";
-import { formatWithUnit } from "../../ui/helpers/units";
-import { Language, translate } from "../../ui/language";
-import { FormState } from "./ProstateBiopsyForm";
+} from "../../../ui/helpers/text";
+import { formatWithUnit } from "../../../ui/helpers/units";
+import { Language, translate } from "../../../ui/language";
 import {
   DEFAULT_GLEASON_ITEM,
+  getGleasonSummary,
+  getTumorTypeOption,
+} from "../helpers";
+import { FormState } from "./ProstateBiopsyForm";
+import {
   PiradsItem,
   ProstateBiopsyFormId,
   Row,
   Score,
-  getGleasonSummary,
   getIsupScore,
   getLocationLabel,
-  getTumorTypeOption,
 } from "./helpers";
 
 type ReportParams = FormState & {

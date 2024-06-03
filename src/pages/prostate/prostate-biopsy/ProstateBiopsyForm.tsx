@@ -1,30 +1,30 @@
 import { useMemo } from "react";
-import { AdditionalRemarks } from "../../ui/AdditionalRemarks";
-import { Banner } from "../../ui/Banner";
-import { InputNumber } from "../../ui/InputNumber";
-import { Item } from "../../ui/Item";
-import { Line } from "../../ui/Line";
-import { NestedItem } from "../../ui/NestedItem";
-import { Page } from "../../ui/Page";
-import { Section } from "../../ui/Section";
-import { Select } from "../../ui/Select";
-import { SelectNumber } from "../../ui/SelectNumber";
-import { Summary } from "../../ui/Summary";
-import { Title } from "../../ui/Title";
-import { ValidationErrors } from "../../ui/ValidationErrors";
-import { FORMS } from "../../ui/helpers/forms";
+import { AdditionalRemarks } from "../../../ui/AdditionalRemarks";
+import { Banner } from "../../../ui/Banner";
+import { InputNumber } from "../../../ui/InputNumber";
+import { Item } from "../../../ui/Item";
+import { Line } from "../../../ui/Line";
+import { NestedItem } from "../../../ui/NestedItem";
+import { Page } from "../../../ui/Page";
+import { Section } from "../../../ui/Section";
+import { Select } from "../../../ui/Select";
+import { SelectNumber } from "../../../ui/SelectNumber";
+import { Summary } from "../../../ui/Summary";
+import { Title } from "../../../ui/Title";
+import { ValidationErrors } from "../../../ui/ValidationErrors";
+import { FORMS } from "../../../ui/helpers/forms";
 import {
   noop,
   range,
   sum,
   sumArrays,
   toOption,
-} from "../../ui/helpers/helpers";
-import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import { count } from "../../ui/helpers/plural";
-import { isDebug } from "../../ui/helpers/state";
-import { useForm } from "../../ui/helpers/use-form";
-import { DEFAULT_LANGUAGE } from "../../ui/language";
+} from "../../../ui/helpers/helpers";
+import { Option, YES_NO_OPTIONS } from "../../../ui/helpers/options";
+import { count } from "../../../ui/helpers/plural";
+import { isDebug } from "../../../ui/helpers/state";
+import { useForm } from "../../../ui/helpers/use-form";
+import { DEFAULT_LANGUAGE } from "../../../ui/language";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
@@ -36,14 +36,12 @@ import {
   Row,
   SEXTANT_COUNT,
   Score,
-  TUMOR_TYPES,
-  TumorType,
   anEmptyPiradsItem,
   anEmptyRow,
   getMaximumByGleasonScore,
-  getTumorTypeOption,
 } from "./helpers";
 import { generateReport } from "./report";
+import { TUMOR_TYPES, TumorType, getTumorTypeOption } from "../helpers";
 
 const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
@@ -266,7 +264,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
       <Banner formId={formId} onClear={clearState} />
 
       <Section>
-        <Title title="Renseignements cliniques" index={1}></Title>
+        <Title title="Renseignements cliniques" index={1} />
         <Line>
           <Select
             value={hasInfo}
@@ -340,7 +338,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
       </Section>
 
       <Section>
-        <Title title="Biopsies" index={2}></Title>
+        <Title title="Biopsies" index={2} />
         <Line>
           {/* CAUTION:
           This question is redundant with some previous questions but it is on
@@ -387,30 +385,28 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
       />
 
       {errors.length ? undefined : (
-        <>
-          <Summary
-            getContent={(language) =>
-              generateReport({
-                formId,
-                ...state,
-                piradsItems,
-                score,
-                rows,
-                language,
-              })
-            }
-            getTable={(language) => (
-              <ProstateBiopsyTable
-                formId={formId}
-                language={language}
-                rows={rows}
-                score={score}
-                isReadOnly
-                onChange={noop}
-              />
-            )}
-          />
-        </>
+        <Summary
+          getContent={(language) =>
+            generateReport({
+              formId,
+              ...state,
+              piradsItems,
+              score,
+              rows,
+              language,
+            })
+          }
+          getTable={(language) => (
+            <ProstateBiopsyTable
+              formId={formId}
+              language={language}
+              rows={rows}
+              score={score}
+              isReadOnly
+              onChange={noop}
+            />
+          )}
+        />
       )}
     </Page>
   );

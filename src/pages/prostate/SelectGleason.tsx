@@ -1,62 +1,20 @@
-import { Fragment } from "react/jsx-runtime";
-import { InputNumber } from "../../ui/InputNumber";
 import { Select } from "../../ui/Select";
-import { SelectList } from "../../ui/SelectList";
-import { filterEmpty, range, toOption } from "../../ui/helpers/helpers";
-import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import { getPercentageOptions } from "../../ui/helpers/percent";
-import "./cells.css";
-import {
-  getCribriformPercentageOptions,
-  GLEASON_SCORES,
-  GleasonItem,
-  GleasonScore,
-  OTHER_LESION_GROUPS,
-  OtherLesionType,
-  getGleasonSummary,
-} from "./helpers";
 import { FieldProps } from "../../ui/helpers/fields";
+import { filterEmpty, toOption } from "../../ui/helpers/helpers";
+import { Option } from "../../ui/helpers/options";
+import { getPercentageOptions } from "../../ui/helpers/percent";
 import { Language } from "../../ui/language";
+import { GLEASON_SCORES, GleasonItem, GleasonScore } from "./helpers";
 
-export const CellSelectList = (
-  props: FieldProps<OtherLesionType[]> & { language?: Language },
-) => <SelectList groups={OTHER_LESION_GROUPS} {...props} />;
-export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
-export const CellChoice = Select;
-
-export const CellYesNo = (
-  props: FieldProps<boolean> & { name: string; language?: Language },
-) => <Select options={YES_NO_OPTIONS} {...props} />;
+import "./select-gleason.css";
+import { getCribriformPercentageOptions, getGleasonSummary } from "./helpers";
 
 const Plus = () => <span>+</span>;
 
-export const CellNumberSum = ({
-  value,
-  onChange,
-  inputCount,
-  isReadOnly,
-}: FieldProps<number[]> & { inputCount: number }) => (
-  <div className="cell cell-number-sum">
-    {range(inputCount).map((_, i) => (
-      <Fragment key={i}>
-        <InputNumber
-          value={value[i]}
-          isReadOnly={isReadOnly}
-          onChange={(updatedNumber) => {
-            const updatedArray = [...value];
-            updatedArray[i] = updatedNumber;
-            onChange(updatedArray);
-          }}
-        />
-        {i === inputCount - 1 ? undefined : <Plus />}
-      </Fragment>
-    ))}
-  </div>
-);
-
-const GLEASON_OPTIONS: Option<GleasonScore>[] = GLEASON_SCORES.map(toOption);
-const SelectGleason = (props: FieldProps<GleasonScore>) => (
-  <Select name="Gleason score" options={GLEASON_OPTIONS} {...props} />
+const GLEASON_SCORE_OPTIONS: Option<GleasonScore>[] =
+  GLEASON_SCORES.map(toOption);
+const SelectGleasonScore = (props: FieldProps<GleasonScore>) => (
+  <Select name="Gleason score" options={GLEASON_SCORE_OPTIONS} {...props} />
 );
 
 const MAJORITY_PERCENTAGE_OPTIONS = getPercentageOptions({
@@ -70,7 +28,7 @@ const MINORITY_PERCENTAGE_OPTIONS = getPercentageOptions({
   step: 5,
 });
 
-export const CellGleason = ({
+export const SelectGleason = ({
   language,
   value,
   isReadOnly,
@@ -110,7 +68,7 @@ export const CellGleason = ({
 
   // CAUTION: this should be aligned on the readonly case
   const items = [
-    <SelectGleason
+    <SelectGleasonScore
       key="majority-grade"
       value={a}
       isReadOnly={isReadOnly}
@@ -129,7 +87,7 @@ export const CellGleason = ({
     ),
     a === 4 && b !== 4 ? SelectCribriformPercentage : undefined,
     <Plus key="plus" />,
-    <SelectGleason
+    <SelectGleasonScore
       key="minority-grade"
       value={b}
       isReadOnly={isReadOnly}
@@ -149,10 +107,5 @@ export const CellGleason = ({
     b === 4 ? SelectCribriformPercentage : undefined,
   ].filter(filterEmpty);
 
-  return (
-    <div className="cell">
-      <div className="cell-sum">{a + b}</div>(
-      <span className="cell-parentheses">{items}</span>)
-    </div>
-  );
+  return <span className="select-gleason">{items}</span>;
 };

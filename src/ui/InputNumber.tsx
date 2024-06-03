@@ -33,6 +33,7 @@ const validate = ({
   return !regex.test(value);
 };
 
+// TODO: check behavior for negative numbers
 export const InputNumber = ({
   value,
   label,

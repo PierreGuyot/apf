@@ -1,4 +1,4 @@
-import { SelectNumber } from "../../ui/SelectNumber";
+import { SelectNumber } from "../../../ui/SelectNumber";
 import { SelectLocation } from "./SelectLocation";
 import {
   Location,

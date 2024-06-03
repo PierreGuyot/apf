@@ -12,6 +12,11 @@ export const FORMS = {
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
     imagePath: uroPath,
   },
+  "transurethral-prostatic-resection": {
+    title: "Résection transurétrale de prostate",
+    lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
+    imagePath: uroPath,
+  },
   dermatology: {
     title: "Dermatologie",
     lastUpdate: new Date(String("Mon May 20 2024")).getTime(),
