@@ -19,6 +19,10 @@ const DICTIONARY_EN: Record<string, string> = {
   Tumeurs: "Tumors",
   Type: "Type",
   copeau: "chip",
+  Macroscopie: "Macroscopy",
+  macroscopie: "macroscopy",
+  Microscopie: "Microscopy",
+  microscopie: "microscopy",
 
   // Prostate biopsy
   "Biopsies prostatiques transrectales écho-guidées":
@@ -117,6 +121,12 @@ const DICTIONARY_EN: Record<string, string> = {
   HE: "HE", // Hematoxylin and eosin stain
   HES: "HES", // Hematoxylin, eosin and saffron stain
 
+  "Conditions pré-existantes": "Pre-existing conditions",
+  "Grade histologique": "Histological grade",
+  "Estimation de la surface envahie": "Tumor quantification",
+  "Emboles vasculaires ou lymphatique": "Lympathic or vascular invasion",
+  "Engainements périnerveux": "Perineural Invasion",
+  "Poids des copeaux": "Total chip weight",
   // Dermatology
   Dermatologie: "Dermatology",
 };

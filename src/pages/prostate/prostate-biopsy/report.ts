@@ -1,4 +1,4 @@
-import { FORMS, FormId } from "../../../ui/helpers/forms";
+import { getFormTitle } from "../../../ui/helpers/forms";
 import { sum } from "../../../ui/helpers/helpers";
 import { toYesNo } from "../../../ui/helpers/options";
 import { pluralize } from "../../../ui/helpers/plural";
@@ -30,7 +30,6 @@ type ReportParams = FormState & {
   formId: ProstateBiopsyFormId;
   score: Score;
   comment: string;
-  language: Language;
 };
 
 const formatSize = (
@@ -61,9 +60,6 @@ const formatSize = (
     return `(${tumorSize} mm out of ${totalSize} mm examined, ${ratio}%)`;
   }
 };
-
-const getTitle = (formId: FormId, language: Language) =>
-  translate(FORMS[formId].title, language).toLocaleUpperCase();
 
 const renderPiradsItem = (
   formId: ProstateBiopsyFormId,
@@ -108,7 +104,7 @@ const getClinicalInformationSection = (
   ]);
 };
 
-const getCommentSection = (form: ReportParams, language: Language) => {
+const getCommentSection = (form: { comment: string }, language: Language) => {
   return form.comment
     ? joinLines([
         `${translate("Remarques particulières", language)}:`,
@@ -176,11 +172,12 @@ Prostate adenomyoma.`;
 };
 
 // TODO: test extensively
-export const generateReport = (form: ReportParams): string => {
-  const { formId, language } = form;
-
+export const generateReport = (
+  form: ReportParams,
+  language: Language,
+): string => {
   return joinSections([
-    getTitle(formId, language),
+    getFormTitle(form.formId, language),
     getClinicalInformationSection(form, language),
     getCommentSection(form, language),
     getConclusionSection(form, language),

@@ -387,14 +387,16 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
       {errors.length ? undefined : (
         <Summary
           getContent={(language) =>
-            generateReport({
-              formId,
-              ...state,
-              piradsItems,
-              score,
-              rows,
+            generateReport(
+              {
+                formId,
+                ...state,
+                piradsItems,
+                score,
+                rows,
+              },
               language,
-            })
+            )
           }
           getTable={(language) => (
             <ProstateBiopsyTable

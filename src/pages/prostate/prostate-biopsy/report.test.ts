@@ -24,12 +24,14 @@ const aFormState = (partial: Partial<FormState> = {}): FormState => ({
 describe("generateReport", () => {
   it("should generate a clean report with a tumor (FR)", () => {
     expect(
-      generateReport({
-        formId: "prostate-biopsy-transrectal",
-        language: "FR",
-        score: { biopsyCount: 1, biopsySize: 2, tumorCount: 1 },
-        ...aFormState(),
-      }),
+      generateReport(
+        {
+          formId: "prostate-biopsy-transrectal",
+          score: { biopsyCount: 1, biopsySize: 2, tumorCount: 1 },
+          ...aFormState(),
+        },
+        "FR",
+      ),
     ).toEqual(
       `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
@@ -50,12 +52,14 @@ Renseignements cliniques:
 
   it("should generate a clean report without a tumor (FR)", () => {
     expect(
-      generateReport({
-        formId: "prostate-biopsy-transrectal",
-        language: "FR",
-        score: { biopsyCount: 1, biopsySize: 2, tumorCount: 0 },
-        ...aFormState(),
-      }),
+      generateReport(
+        {
+          formId: "prostate-biopsy-transrectal",
+          score: { biopsyCount: 1, biopsySize: 2, tumorCount: 0 },
+          ...aFormState(),
+        },
+        "FR",
+      ),
     ).toEqual(`BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Absence de foyer tumoral sur l'ensemble des 1 biopsies étudiées (2 mm).

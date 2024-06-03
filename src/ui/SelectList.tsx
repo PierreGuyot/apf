@@ -19,6 +19,20 @@ type Props<T extends SelectValue> = FieldProps<T[]> & {
   groups: ItemGroup<T>[];
 };
 
+export function getSelectedItems<T extends SelectValue>({
+  language,
+  groups,
+  value,
+}: {
+  language: Language;
+  groups: ItemGroup<T>[];
+  value: T[];
+}) {
+  return groups
+    .flatMap((group) => group.items)
+    .filter((item) => value.includes(item.value));
+}
+
 export function SelectList<T extends SelectValue>({
   language = DEFAULT_LANGUAGE,
   groups,
@@ -26,9 +40,7 @@ export function SelectList<T extends SelectValue>({
   isReadOnly,
   onChange,
 }: Props<T>) {
-  const selectedItems = groups
-    .flatMap((group) => group.items)
-    .filter((item) => value.includes(item.value));
+  const selectedItems = getSelectedItems({ language, groups, value });
 
   // Internal state of the tooltip
   const [state, setState] = useState<T[]>(value);

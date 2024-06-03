@@ -26,12 +26,13 @@ import {
   ColorationType,
   MAIN_LESION_TYPES,
   MainLesionType,
-  PRIOR_CONDITIONS,
+  PRIOR_CONDITION_OPTIONS,
   PriorCondition,
   SAMPLING_TYPES,
   SamplingType,
   TUMOR_QUANTIFICATION_OPTIONS,
   TumorQuantification,
+  isApplicable,
 } from "./helpers";
 import { generateReport } from "./report";
 
@@ -43,7 +44,7 @@ export type FormState = {
   coloration: ColorationType;
   mainLesionType: MainLesionType;
   tumorType: TumorType;
-  priorCondition: PriorCondition;
+  priorConditions: PriorCondition;
   histologicalGrade: GleasonItem;
   tumorQuantification: TumorQuantification;
   hasLymphaticOrVascularInvasion: boolean;
@@ -59,7 +60,7 @@ const getInitialState = (): FormState => ({
   samplingType: "full",
   mainLesionType: "prostate-adenomyoma",
   tumorType: "acinar-adenocarcinoma-conventional",
-  priorCondition: "none",
+  priorConditions: "none",
   histologicalGrade: DEFAULT_GLEASON_ITEM,
   tumorQuantification: ">5%",
   hasLymphaticOrVascularInvasion: false,
@@ -82,15 +83,13 @@ export const ProstateResectionForm = () => {
     samplingType,
     mainLesionType,
     tumorType,
-    priorCondition,
+    priorConditions,
     histologicalGrade,
     tumorQuantification,
     hasLymphaticOrVascularInvasion,
     hasEpn,
     otherLesions,
   } = state;
-
-  // Computed
 
   return (
     <Page title={form.title}>
@@ -163,14 +162,12 @@ export const ProstateResectionForm = () => {
               <Select
                 label="Conditions pré-existantes"
                 name="Conditions pré-existantes"
-                options={PRIOR_CONDITIONS}
-                value={priorCondition}
-                onChange={setState("priorCondition")}
+                options={PRIOR_CONDITION_OPTIONS}
+                value={priorConditions}
+                onChange={setState("priorConditions")}
               />
             </Line>
-            {priorCondition === "non-applicable-radiotherapy" ||
-            priorCondition ===
-              "non-applicable-hormonotherapy-chimiotherapy" ? undefined : (
+            {isApplicable(priorConditions) ? (
               <Line>
                 Grade histologique :{" "}
                 <CellGleason
@@ -179,11 +176,11 @@ export const ProstateResectionForm = () => {
                   onChange={setState("histologicalGrade")}
                 />
               </Line>
-            )}
+            ) : undefined}
             <Line>
               <Select
-                name="Estimation de la surface envahie (% de copeaux envahis)"
-                label="Estimation de la surface envahie (% de copeaux envahis)"
+                name="Estimation de la surface envahie"
+                label="Estimation de la surface envahie"
                 options={TUMOR_QUANTIFICATION_OPTIONS}
                 value={tumorQuantification}
                 onChange={setState("tumorQuantification")}
@@ -220,7 +217,9 @@ export const ProstateResectionForm = () => {
       </Section>
 
       <Summary
-        getContent={(language) => generateReport({ ...state, language })}
+        getContent={(language) =>
+          generateReport({ formId: FORM_ID, ...state }, language)
+        }
       />
     </Page>
   );

@@ -10,7 +10,7 @@ const aFormState = (partial: Partial<FormState> = {}): FormState => ({
   samplingType: "full",
   mainLesionType: "prostate-adenomyoma",
   tumorType: "acinar-adenocarcinoma-conventional",
-  priorCondition: "none",
+  priorConditions: "none",
   histologicalGrade: DEFAULT_GLEASON_ITEM,
   tumorQuantification: ">5%",
   hasLymphaticOrVascularInvasion: false,
@@ -25,19 +25,25 @@ const aFormState = (partial: Partial<FormState> = {}): FormState => ({
 describe("generateReport", () => {
   it("should generate a clean report with a tumor (FR)", () => {
     expect(
-      generateReport({
-        language: "FR",
-        ...aFormState(),
-      }),
+      generateReport(
+        {
+          formId: "transurethral-prostatic-resection",
+          ...aFormState(),
+        },
+        "FR",
+      ),
     ).toEqual("TODO");
   });
 
   it("should generate a clean report without a tumor (FR)", () => {
     expect(
-      generateReport({
-        language: "FR",
-        ...aFormState(),
-      }),
+      generateReport(
+        {
+          formId: "transurethral-prostatic-resection",
+          ...aFormState(),
+        },
+        "FR",
+      ),
     ).toEqual("TODO");
   });
 

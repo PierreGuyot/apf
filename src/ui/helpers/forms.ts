@@ -1,3 +1,4 @@
+import { Language, translate } from "../language";
 import skinPath from "./../../images-who/skin.png";
 import uroPath from "./../../images-who/uro.png";
 
@@ -72,3 +73,8 @@ const PROPS_BY_CATEGORY: Record<
 
 export const getCategoryProps = (category: Category) =>
   PROPS_BY_CATEGORY[category];
+
+// Report helpers
+
+export const getFormTitle = (formId: FormId, language: Language) =>
+  translate(FORMS[formId].title, language).toLocaleUpperCase();

@@ -51,6 +51,7 @@ export function Select<T extends SelectValue>({
   };
 
   if (isReadOnly) {
+    // TODO: extract findOption helper
     const match = flatOptions.find((option) => option.value === value);
     if (!match) {
       throw new Error("Invalid value");

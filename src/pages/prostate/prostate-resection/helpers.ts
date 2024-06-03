@@ -6,6 +6,16 @@ export const SAMPLING_TYPES: Option<SamplingType>[] = [
   { value: "partial", label: "Échantillonnage" },
 ];
 
+// TODO: extract findOption helper
+export const getSamplingTypeOption = (value: SamplingType) => {
+  const match = SAMPLING_TYPES.find((item) => item.value === value);
+  if (!match) {
+    throw new Error("Invalid value");
+  }
+
+  return match;
+};
+
 export type ColorationType = "HES" | "HE";
 export const COLORATION_OPTIONS: Option<ColorationType>[] = [
   { value: "HES", label: "HES" },
@@ -42,7 +52,7 @@ export type PriorCondition =
   | "non-applicable-hormonotherapy-chimiotherapy"
   | "applicable-radiotherapy"
   | "hormonotherapy-chimiotherapy";
-export const PRIOR_CONDITIONS: Option<PriorCondition>[] = [
+export const PRIOR_CONDITION_OPTIONS: Option<PriorCondition>[] = [
   {
     value: "none",
     label: "Absence de traitement antérieur",
@@ -69,6 +79,20 @@ export const PRIOR_CONDITIONS: Option<PriorCondition>[] = [
   },
 ];
 
+// TODO: extract findOption helper
+export const getPriorConditionOption = (value: PriorCondition) => {
+  const match = PRIOR_CONDITION_OPTIONS.find((item) => item.value === value);
+  if (!match) {
+    throw new Error("Invalid value");
+  }
+
+  return match;
+};
+
+export const isApplicable = (value: PriorCondition) =>
+  value !== "non-applicable-radiotherapy" &&
+  value !== "non-applicable-hormonotherapy-chimiotherapy";
+
 export type TumorQuantification = "1%" | "2%" | "3%" | "4%" | "5%" | ">5%";
 export const TUMOR_QUANTIFICATION_OPTIONS: Option<TumorQuantification>[] = [
   { value: "1%", label: "1%" },
@@ -78,3 +102,15 @@ export const TUMOR_QUANTIFICATION_OPTIONS: Option<TumorQuantification>[] = [
   { value: "5%", label: "5%" },
   { value: ">5%", label: ">5%" },
 ];
+
+// TODO: extract findOption helper
+export const getTumorQuantificationOption = (value: TumorQuantification) => {
+  const match = TUMOR_QUANTIFICATION_OPTIONS.find(
+    (item) => item.value === value,
+  );
+  if (!match) {
+    throw new Error("Invalid value");
+  }
+
+  return match;
+};

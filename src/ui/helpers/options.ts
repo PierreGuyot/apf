@@ -17,6 +17,7 @@ export const YES_NO_OPTIONS: Option<boolean>[] = [
   { value: false, label: "Non" },
 ];
 
+// TODO: extract findOption helper
 export const toYesNo = (
   value: boolean,
   language: Language = DEFAULT_LANGUAGE,
