@@ -13,8 +13,11 @@ export const App = () => {
     case "dermatology":
       return <DermatologyForm />;
 
-    case "prostate-biopsy":
-      return <ProstateBiopsyForm />;
+    case "prostate-biopsy-transperineal":
+      return <ProstateBiopsyForm formId="prostate-biopsy-transperineal" />;
+
+    case "prostate-biopsy-transrectal":
+      return <ProstateBiopsyForm formId="prostate-biopsy-transrectal" />;
 
     case undefined:
       return <MainList />;

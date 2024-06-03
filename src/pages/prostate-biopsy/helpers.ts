@@ -4,6 +4,10 @@ import { Option, SelectValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";
 import { DEFAULT_LANGUAGE, Language, translate } from "../../ui/language";
 
+export type ProstateBiopsyFormId =
+  | "prostate-biopsy-transrectal"
+  | "prostate-biopsy-transperineal";
+
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];
 export type GleasonItem = {
@@ -17,6 +21,7 @@ export const SEXTANT_COUNT = 6;
 export const MAX_TARGET_COUNT = 3;
 export const MAX_CONTAINER_COUNT = 9;
 
+// TODO: rename to be agnostic from transrectal/transperineal
 export const LOCATIONS = [
   "base-right",
   "medium-right",
@@ -28,7 +33,7 @@ export const LOCATIONS = [
 
 export type Location = (typeof LOCATIONS)[number];
 
-const LOCATION_LABELS: Record<Location, string> = {
+const LOCATION_LABELS_TRANSRECTAL: Record<Location, string> = {
   "base-right": "Base droite",
   "medium-right": "Milieu droit",
   "apex-right": "Apex droit",
@@ -37,24 +42,61 @@ const LOCATION_LABELS: Record<Location, string> = {
   "apex-left": "Apex gauche",
 };
 
-export const getLocationLabel = (location: Location, language: Language) =>
-  translate(LOCATION_LABELS[location], language);
+const LOCATION_LABELS_TRANSPERINEAL: Record<Location, string> = {
+  "base-right": "Zone périphérique latérale droite",
+  "medium-right": "Zone périphérique para-médiane droite",
+  "apex-right": "Zone périphérique médiane droite",
+  "base-left": "Zone périphérique latérale gauche",
+  "medium-left": "Zone périphérique para-médiane gauche",
+  "apex-left": "Zone périphérique médiane gauche",
+};
 
-const toOption = (location: Location, language: Language) => ({
+const getLocations = (formId: ProstateBiopsyFormId) => {
+  return formId === "prostate-biopsy-transrectal"
+    ? LOCATION_LABELS_TRANSRECTAL
+    : LOCATION_LABELS_TRANSPERINEAL;
+};
+
+export const getLocationLabel = (
+  formId: ProstateBiopsyFormId,
+  location: Location,
+  language: Language,
+) => translate(getLocations(formId)[location], language);
+
+const toOption = (
+  formId: ProstateBiopsyFormId,
+  location: Location,
+  language: Language,
+) => ({
   value: location,
-  label: getLocationLabel(location, language),
+  label: getLocationLabel(formId, location, language),
 });
 
-export const LOCATION_OPTIONS: Option<Location>[] = LOCATIONS.map((location) =>
-  toOption(location, DEFAULT_LANGUAGE),
-);
+export const getLocationOptions = (
+  formId: ProstateBiopsyFormId,
+): Option<Location>[] =>
+  LOCATIONS.map((location) => toOption(formId, location, DEFAULT_LANGUAGE));
 
 // TODO with Louis: rename to "systematic" | "targeted"
 export type ContainerType = "sextant" | "target";
-export const CONTAINER_TYPES: Option<ContainerType>[] = [
-  { value: "sextant", label: "Sextant" },
-  { value: "target", label: "Cible" },
-];
+export const getContainerTypes = (
+  formId: ProstateBiopsyFormId,
+): Option<ContainerType>[] => {
+  switch (formId) {
+    case "prostate-biopsy-transrectal": {
+      return [
+        { value: "sextant", label: "Sextant" },
+        { value: "target", label: "Cible" },
+      ];
+    }
+    case "prostate-biopsy-transperineal": {
+      return [
+        { value: "sextant", label: "Biopsie systématique" },
+        { value: "target", label: "Biopsie ciblée" },
+      ];
+    }
+  }
+};
 
 export type OtherLesionType =
   | "adenosis"

@@ -25,7 +25,7 @@ describe("generateReport", () => {
   it("should generate a clean report with a tumor (FR)", () => {
     expect(
       generateReport({
-        formId: "prostate-biopsy",
+        formId: "prostate-biopsy-transrectal",
         language: "FR",
         score: { biopsyCount: 1, biopsySize: 2, tumorCount: 1 },
         ...aFormState(),
@@ -51,7 +51,7 @@ Renseignements cliniques:
   it("should generate a clean report without a tumor (FR)", () => {
     expect(
       generateReport({
-        formId: "prostate-biopsy",
+        formId: "prostate-biopsy-transrectal",
         language: "FR",
         score: { biopsyCount: 1, biopsySize: 2, tumorCount: 0 },
         ...aFormState(),

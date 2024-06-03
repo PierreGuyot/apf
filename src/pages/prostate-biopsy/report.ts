@@ -15,6 +15,7 @@ import { FormState } from "./ProstateBiopsyForm";
 import {
   DEFAULT_GLEASON_ITEM,
   PiradsItem,
+  ProstateBiopsyFormId,
   Row,
   Score,
   getGleasonSummary,
@@ -24,7 +25,7 @@ import {
 } from "./helpers";
 
 type ReportParams = FormState & {
-  formId: FormId;
+  formId: ProstateBiopsyFormId;
   score: Score;
   comment: string;
   language: Language;
@@ -63,6 +64,7 @@ const getTitle = (formId: FormId, language: Language) =>
   translate(FORMS[formId].title, language).toLocaleUpperCase();
 
 const renderPiradsItem = (
+  formId: ProstateBiopsyFormId,
   item: PiradsItem,
   rows: Row[],
   language: Language,
@@ -75,7 +77,7 @@ const renderPiradsItem = (
     : undefined;
 
   return pad(
-    `PIRADS ${item.score}, ${getLocationLabel(item.location, language).toLocaleLowerCase()}${containerCount}`,
+    `PIRADS ${item.score}, ${getLocationLabel(formId, item.location, language).toLocaleLowerCase()}${containerCount}`,
   );
 };
 
@@ -97,7 +99,7 @@ const getClinicalInformationSection = (
       ? [
           `${translate("Cibles", language)}:`,
           ...form.piradsItems.map((item) =>
-            renderPiradsItem(item, form.rows, language),
+            renderPiradsItem(form.formId, item, form.rows, language),
           ),
         ].map(pad)
       : []),

@@ -13,7 +13,7 @@ import {
   CellSelectList,
   CellYesNo,
 } from "./cells";
-import { CONTAINER_TYPES, Row, Score } from "./helpers";
+import { ProstateBiopsyFormId, Row, Score, getContainerTypes } from "./helpers";
 
 const BIOPSY_COUNT_OPTIONS: Option<number>[] = [1, 2, 3, 4].map(toOption);
 const TUMOR_COUNT_OPTIONS: Option<number>[] = [0, 1, 2, 3, 4].map(toOption);
@@ -50,6 +50,7 @@ const TableHeader = ({ language }: { language: Language }) => (
 );
 
 type Props = {
+  formId: ProstateBiopsyFormId;
   language: Language;
   rows: Row[];
   score: Score;
@@ -58,6 +59,7 @@ type Props = {
 };
 
 export const ProstateBiopsyTable = ({
+  formId,
   language,
   rows,
   score,
@@ -78,7 +80,7 @@ export const ProstateBiopsyTable = ({
           language={language}
           name="Type"
           value={row.type}
-          options={CONTAINER_TYPES}
+          options={getContainerTypes(formId)}
           isReadOnly={isReadOnly}
           onChange={onChange}
         />
@@ -89,6 +91,7 @@ export const ProstateBiopsyTable = ({
       key: "location",
       render: (row, isReadOnly, onChange) => (
         <SelectLocation
+          formId={formId}
           language={language}
           value={row.location}
           isReadOnly={isReadOnly}

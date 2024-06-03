@@ -21,12 +21,17 @@ const DICTIONARY_EN: Record<string, string> = {
   // Prostate biopsy
   "Biopsies prostatiques transrectales écho-guidées":
     "Transrectal prostate needle biopsies",
+  "Biopsies prostatiques transpérinéales écho-guidées":
+    "Transperineal prostate needle biopsies",
 
   pot: "Container", // TODO with Louis: confirm sample versus container
   Pot: "container", // TODO with Louis: confirm sample versus container
   Sextant: "Systematic biopsy",
   Cible: "Targeted biopsy",
   Cibles: "Targeted biopsies",
+
+  "Biopsie systématique": "Systematic biopsy",
+  "Biopsie ciblée": "Targeted biopsy",
 
   Pots: "Containers", // TODO with Louis: confirm sample versus container
   "Autres lésions": "Other lesions",
@@ -44,6 +49,13 @@ const DICTIONARY_EN: Record<string, string> = {
   "Base gauche": "Left base",
   "Milieu gauche": "Left mid",
   "Apex gauche": "Left apex",
+
+  "Zone périphérique latérale droite": "Right lateral peripheral zone",
+  "Zone périphérique para-médiane droite": "Right paramedian peripheral zone",
+  "Zone périphérique médiane droite": "Right median peripheral zone",
+  "Zone périphérique latérale gauche": "Left lateral peripheral zone",
+  "Zone périphérique para-médiane gauche": "Left paramedian peripheral zone",
+  "Zone périphérique médiane gauche": "Left median peripheral zone",
 
   "Lésions tumorales précancéreuses": "Glandular neoplasms of the prostate",
 

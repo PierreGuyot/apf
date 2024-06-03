@@ -1,12 +1,16 @@
+import { useMemo } from "react";
 import { FieldProps } from "../../ui/helpers/fields";
 import { Language } from "../../ui/language";
 import { CellChoice } from "./cells";
-import { LOCATION_OPTIONS, Location } from "./helpers";
+import { getLocationOptions, Location, ProstateBiopsyFormId } from "./helpers";
 
 type Props = FieldProps<Location> & {
+  formId: ProstateBiopsyFormId;
   language?: Language;
 };
 
-export const SelectLocation = (props: Props) => (
-  <CellChoice name="Location" options={LOCATION_OPTIONS} {...props} />
-);
+export const SelectLocation = ({ formId, ...props }: Props) => {
+  const options = useMemo(() => getLocationOptions(formId), [formId]);
+
+  return <CellChoice name="Location" options={options} {...props} />;
+};

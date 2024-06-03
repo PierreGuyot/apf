@@ -24,6 +24,7 @@ import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { count } from "../../ui/helpers/plural";
 import { isDebug } from "../../ui/helpers/state";
 import { useForm } from "../../ui/helpers/use-form";
+import { DEFAULT_LANGUAGE } from "../../ui/language";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
@@ -31,6 +32,7 @@ import {
   MAX_CONTAINER_COUNT,
   MAX_TARGET_COUNT,
   PiradsItem,
+  ProstateBiopsyFormId,
   Row,
   SEXTANT_COUNT,
   Score,
@@ -42,9 +44,6 @@ import {
   getTumorTypeOption,
 } from "./helpers";
 import { generateReport } from "./report";
-import { DEFAULT_LANGUAGE } from "../../ui/language";
-
-const FORM_ID = "prostate-biopsy";
 
 const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
@@ -57,13 +56,13 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-      tumorGleason: getMaximumByGleasonScore(
-        rowsWithTumor.map((row) => row.tumorGleason),
-      ),
-      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-    }
+        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+        tumorGleason: getMaximumByGleasonScore(
+          rowsWithTumor.map((row) => row.tumorGleason),
+        ),
+        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+      }
     : {};
 
   return {
@@ -79,11 +78,13 @@ const getScore = (rows: Row[]): Score => {
 
 // TODO: test extensively
 const getErrors = ({
+  sextantName,
   rows,
   containerCount,
   piradsItems,
   tumorType,
 }: {
+  sextantName: string;
   rows: Row[];
   containerCount: number;
   piradsItems: PiradsItem[];
@@ -104,7 +105,7 @@ const getErrors = ({
       `Le tableau devrait contenir ${count(expectedTargetCount, "cible")} et non ${targetCount}.`,
     );
     errors.push(
-      `Le tableau devrait contenir ${count(SEXTANT_COUNT, "sextant")} et non ${sextantCount}.`,
+      `Le tableau devrait contenir ${count(SEXTANT_COUNT, sextantName)} et non ${sextantCount}.`,
     );
   }
 
@@ -206,8 +207,17 @@ const getInitialState = (): FormState => ({
   comment: "",
 });
 
-export const ProstateBiopsyForm = () => {
-  const form = FORMS[FORM_ID];
+type Props = {
+  formId: ProstateBiopsyFormId;
+};
+
+export const ProstateBiopsyForm = ({ formId }: Props) => {
+  const form = FORMS[formId];
+
+  const sextantName =
+    formId === "prostate-biopsy-transrectal"
+      ? "sextant"
+      : "biopsie systématique";
 
   // State
   const { state, setState, clearState } = useForm(getInitialState);
@@ -238,6 +248,7 @@ export const ProstateBiopsyForm = () => {
 
   const score = getScore(rows);
   const errors = getErrors({
+    sextantName,
     rows,
     containerCount: state.containerCount,
     piradsItems,
@@ -252,7 +263,7 @@ export const ProstateBiopsyForm = () => {
 
   return (
     <Page title={form.title}>
-      <Banner formId={FORM_ID} onClear={clearState} />
+      <Banner formId={formId} onClear={clearState} />
 
       <Section>
         <Title title="Renseignements cliniques" index={1}></Title>
@@ -314,6 +325,7 @@ export const ProstateBiopsyForm = () => {
                     {targetCount ? (
                       <NestedItem depth={1}>
                         <PiradsSelect
+                          formId={formId}
                           items={piradsItems}
                           onChange={onUpdatePiradsItem}
                         />
@@ -347,6 +359,7 @@ export const ProstateBiopsyForm = () => {
 
       <Item hasMaxWidth={false}>
         <ProstateBiopsyTable
+          formId={formId}
           language={DEFAULT_LANGUAGE}
           rows={rows}
           score={score}
@@ -378,7 +391,7 @@ export const ProstateBiopsyForm = () => {
           <Summary
             getContent={(language) =>
               generateReport({
-                formId: FORM_ID,
+                formId,
                 ...state,
                 piradsItems,
                 score,
@@ -388,6 +401,7 @@ export const ProstateBiopsyForm = () => {
             }
             getTable={(language) => (
               <ProstateBiopsyTable
+                formId={formId}
                 language={language}
                 rows={rows}
                 score={score}

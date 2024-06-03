@@ -1,14 +1,21 @@
 import { SelectNumber } from "../../ui/SelectNumber";
 import { SelectLocation } from "./SelectLocation";
-import { Location, PiradsItem, PiradsScore } from "./helpers";
+import {
+  Location,
+  PiradsItem,
+  PiradsScore,
+  ProstateBiopsyFormId,
+} from "./helpers";
 import "./pirads-select.css";
 
 // PIRADS: Prostate Imaging Reporting and Data System
 
 const PiradsLine = ({
+  formId,
   value,
   onChange,
 }: {
+  formId: ProstateBiopsyFormId;
   value: PiradsItem;
   onChange: (item: PiradsItem) => void;
 }) => {
@@ -29,21 +36,27 @@ const PiradsLine = ({
         onChange={onChangeCount}
       />{" "}
       située à{" "}
-      <SelectLocation value={value.location} onChange={onChangeLocation} />
+      <SelectLocation
+        formId={formId}
+        value={value.location}
+        onChange={onChangeLocation}
+      />
     </div>
   );
 };
 
 type Props = {
   items: PiradsItem[];
+  formId: ProstateBiopsyFormId;
   onChange: (value: PiradsItem, index: number) => void;
 };
 
-export const PiradsSelect = ({ items, onChange }: Props) => (
+export const PiradsSelect = ({ items, formId, onChange }: Props) => (
   <>
     {items.map((item, i) => (
       <PiradsLine
         key={i}
+        formId={formId}
         value={item}
         onChange={(value) => onChange(value, i)}
       />
