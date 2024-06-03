@@ -28,6 +28,7 @@ import {
   MainLesionType,
   PRIOR_CONDITION_OPTIONS,
   PriorCondition,
+  ProstateResectionFormId,
   SAMPLING_TYPES,
   SamplingType,
   TUMOR_QUANTIFICATION_OPTIONS,
@@ -68,10 +69,12 @@ const getInitialState = (): FormState => ({
   otherLesions: [],
 });
 
-const FORM_ID = "transurethral-prostatic-resection";
+type Props = {
+  formId: ProstateResectionFormId;
+};
 
-export const ProstateResectionForm = () => {
-  const form = FORMS[FORM_ID];
+export const ProstateResectionForm = ({ formId }: Props) => {
+  const form = FORMS[formId];
 
   // State
   const { state, setState, clearState } = useForm(getInitialState);
@@ -93,7 +96,7 @@ export const ProstateResectionForm = () => {
 
   return (
     <Page title={form.title}>
-      <Banner formId={FORM_ID} onClear={clearState} />
+      <Banner formId={formId} onClear={clearState} />
 
       <Section>
         <Title title="Renseignements cliniques" index={1} />
@@ -218,7 +221,7 @@ export const ProstateResectionForm = () => {
 
       <Summary
         getContent={(language) =>
-          generateReport({ formId: FORM_ID, ...state }, language)
+          generateReport({ formId, ...state }, language)
         }
       />
     </Page>

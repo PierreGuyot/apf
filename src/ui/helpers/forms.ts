@@ -21,8 +21,13 @@ export const FORMS = {
     category: "prostate",
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },
-  "transurethral-prostatic-resection": {
+  "prostate-transurethral-resection": {
     title: "Résection transurétrale de prostate",
+    category: "prostate",
+    lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
+  },
+  "prostate-holmium-laser-enucleation": {
+    title: "Enucléation au laser holnium de la prostate",
     category: "prostate",
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },

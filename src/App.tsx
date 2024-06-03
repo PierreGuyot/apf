@@ -20,8 +20,15 @@ export const App = () => {
     case "prostate-biopsy-transrectal":
       return <ProstateBiopsyForm formId="prostate-biopsy-transrectal" />;
 
-    case "transurethral-prostatic-resection":
-      return <ProstateResectionForm />;
+    case "prostate-transurethral-resection":
+      return (
+        <ProstateResectionForm formId="prostate-transurethral-resection" />
+      );
+
+    case "prostate-holmium-laser-enucleation":
+      return (
+        <ProstateResectionForm formId="prostate-holmium-laser-enucleation" />
+      );
 
     case undefined:
       return <MainList />;

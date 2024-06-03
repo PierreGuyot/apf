@@ -27,7 +27,7 @@ describe("generateReport", () => {
     expect(
       generateReport(
         {
-          formId: "transurethral-prostatic-resection",
+          formId: "prostate-transurethral-resection",
           ...aFormState(),
         },
         "FR",
@@ -39,7 +39,7 @@ describe("generateReport", () => {
     expect(
       generateReport(
         {
-          formId: "transurethral-prostatic-resection",
+          formId: "prostate-transurethral-resection",
           ...aFormState(),
         },
         "FR",

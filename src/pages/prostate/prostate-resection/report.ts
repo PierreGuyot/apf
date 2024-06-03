@@ -16,6 +16,7 @@ import {
 } from "../helpers";
 import { FormState } from "./ProstateResectionForm";
 import {
+  ProstateResectionFormId,
   getPriorConditionOption,
   getSamplingTypeOption,
   getTumorQuantificationOption,
@@ -23,7 +24,7 @@ import {
 } from "./helpers";
 
 type ReportParams = FormState & {
-  formId: "transurethral-prostatic-resection";
+  formId: ProstateResectionFormId;
 };
 
 const getCaseSummarySection = (form: ReportParams, language: Language) => {

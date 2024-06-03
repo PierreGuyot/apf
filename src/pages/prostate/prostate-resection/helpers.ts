@@ -1,6 +1,10 @@
 import { findOption } from "../../../ui/helpers/helpers";
 import { Option } from "../../../ui/helpers/options";
 
+export type ProstateResectionFormId =
+  | "prostate-transurethral-resection"
+  | "prostate-holmium-laser-enucleation";
+
 export type SamplingType = "full" | "partial";
 export const SAMPLING_TYPES: Option<SamplingType>[] = [
   { value: "full", label: "Inclusion en totalité" },
