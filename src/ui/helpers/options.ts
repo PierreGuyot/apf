@@ -1,4 +1,5 @@
 import { DEFAULT_LANGUAGE, Language, translate } from "../language";
+import { findOption } from "./helpers";
 
 export type SelectValue = string | number | boolean;
 
@@ -17,16 +18,11 @@ export const YES_NO_OPTIONS: Option<boolean>[] = [
   { value: false, label: "Non" },
 ];
 
-// TODO: extract findOption helper
+const getYesNoOption = findOption(YES_NO_OPTIONS);
 export const toYesNo = (
   value: boolean,
   language: Language = DEFAULT_LANGUAGE,
 ) => {
-  const option = YES_NO_OPTIONS.find((item) => item.value === value);
-
-  if (!option) {
-    throw new Error("Invalid value");
-  }
-
-  return translate(option.label, language);
+  const { label } = getYesNoOption(value);
+  return translate(label, language);
 };

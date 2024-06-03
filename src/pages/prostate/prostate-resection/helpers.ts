@@ -1,3 +1,4 @@
+import { findOption } from "../../../ui/helpers/helpers";
 import { Option } from "../../../ui/helpers/options";
 
 export type SamplingType = "full" | "partial";
@@ -6,15 +7,7 @@ export const SAMPLING_TYPES: Option<SamplingType>[] = [
   { value: "partial", label: "Échantillonnage" },
 ];
 
-// TODO: extract findOption helper
-export const getSamplingTypeOption = (value: SamplingType) => {
-  const match = SAMPLING_TYPES.find((item) => item.value === value);
-  if (!match) {
-    throw new Error("Invalid value");
-  }
-
-  return match;
-};
+export const getSamplingTypeOption = findOption(SAMPLING_TYPES);
 
 export type ColorationType = "HES" | "HE";
 export const COLORATION_OPTIONS: Option<ColorationType>[] = [
@@ -79,15 +72,7 @@ export const PRIOR_CONDITION_OPTIONS: Option<PriorCondition>[] = [
   },
 ];
 
-// TODO: extract findOption helper
-export const getPriorConditionOption = (value: PriorCondition) => {
-  const match = PRIOR_CONDITION_OPTIONS.find((item) => item.value === value);
-  if (!match) {
-    throw new Error("Invalid value");
-  }
-
-  return match;
-};
+export const getPriorConditionOption = findOption(PRIOR_CONDITION_OPTIONS);
 
 export const isApplicable = (value: PriorCondition) =>
   value !== "non-applicable-radiotherapy" &&
@@ -103,14 +88,6 @@ export const TUMOR_QUANTIFICATION_OPTIONS: Option<TumorQuantification>[] = [
   { value: ">5%", label: ">5%" },
 ];
 
-// TODO: extract findOption helper
-export const getTumorQuantificationOption = (value: TumorQuantification) => {
-  const match = TUMOR_QUANTIFICATION_OPTIONS.find(
-    (item) => item.value === value,
-  );
-  if (!match) {
-    throw new Error("Invalid value");
-  }
-
-  return match;
-};
+export const getTumorQuantificationOption = findOption(
+  TUMOR_QUANTIFICATION_OPTIONS,
+);

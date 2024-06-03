@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { Option, SelectValue } from "./options";
 
 export const noop = () => {};
 
@@ -103,3 +104,14 @@ export const clamp = ({
 export const assertUnreachable = (x: never): never => {
   throw new Error(`assertUnreachable: ${x}`);
 };
+
+export const findOption =
+  <T extends SelectValue>(options: Option<T>[]) =>
+  (value: T) => {
+    const match = options.find((item) => item.value === value);
+    if (!match) {
+      throw new Error("Invalid value");
+    }
+
+    return match;
+  };
