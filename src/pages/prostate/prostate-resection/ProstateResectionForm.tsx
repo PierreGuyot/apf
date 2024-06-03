@@ -169,7 +169,7 @@ export const ProstateResectionForm = () => {
             </Line>
             {isApplicable(priorConditions) ? (
               <Line>
-                Grade histologique :{" "}
+                Score de Gleason :{" "}
                 <CellGleason
                   language={DEFAULT_LANGUAGE}
                   value={histologicalGrade}

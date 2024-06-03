@@ -41,7 +41,7 @@ const DICTIONARY_EN: Record<string, string> = {
   "Score de Gleason": "Gleason Score",
 
   // TODO with Louis: re-check wording for these 4 items
-  "Envahissement périneural": "Perineural Invasion",
+
   "Tissu extra-prostatique": "Periprostatic Fat Invasion",
   EPN: "Perineural Invasion",
   TEP: "Periprostatic Fat Invasion",
@@ -120,13 +120,12 @@ const DICTIONARY_EN: Record<string, string> = {
     "Applicable due to minor effects linked to presurgical therapy (hormonal therapy or chemotherapy)",
   HE: "HE", // Hematoxylin and eosin stain
   HES: "HES", // Hematoxylin, eosin and saffron stain
-
   "Conditions pré-existantes": "Pre-existing conditions",
-  "Grade histologique": "Histological grade",
   "Estimation de la surface envahie": "Tumor quantification",
   "Emboles vasculaires ou lymphatique": "Lympathic or vascular invasion",
   "Engainements périnerveux": "Perineural Invasion",
   "Poids des copeaux": "Total chip weight",
+
   // Dermatology
   Dermatologie: "Dermatology",
 };

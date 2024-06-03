@@ -154,7 +154,7 @@ Prostate adenomyoma.`;
       `Il présente un score de Gleason ${gleasonSummary}, soit un score ISUP de ${isupScore}.`,
       `Il est localisé sur ${sextantsWithTumor.length} des ${sextants.length} biopsies systématiques ${formatSize(sextantTumorSize, sextantBiopsySize, language)} et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
       `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
-      `${translate("Envahissement périneural", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
+      `${translate("Engainements périnerveux", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
     ]);
   }
@@ -165,7 +165,7 @@ Prostate adenomyoma.`;
       `It has a Gleason score of ${gleasonSummary}, i.e. an ISUP score of ${isupScore}.`,
       `It is localized on ${sextantsWithTumor.length} out of ${sextants.length} systematic biopsies ${formatSize(sextantTumorSize, sextantBiopsySize, language)} and on ${targetsWithTumor.length} out of ${targets.length} targeted biopsies ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
       `It has a size of ${score.tumorSize} mm out of ${score.biopsySize} mm examined on systematic biopsies.\n`, // We add an empty line for aesthetic purposes,
-      `${translate("Envahissement périneural", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
+      `${translate("Engainements périnerveux", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
     ]);
   }
