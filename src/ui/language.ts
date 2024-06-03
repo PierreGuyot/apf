@@ -1,6 +1,8 @@
 export type Language = "FR" | "EN";
 export const DEFAULT_LANGUAGE = "FR" satisfies Language;
 
+// TODO: have a refactoring pass on internationalization
+
 const DICTIONARY_EN: Record<string, string> = {
   // General
   Biopsies: "Biopsies",
@@ -24,7 +26,7 @@ const DICTIONARY_EN: Record<string, string> = {
   Microscopie: "Microscopy",
   microscopie: "microscopy",
 
-  // Prostate biopsy
+  // Prostate
   "Biopsies prostatiques transrectales écho-guidées":
     "Transrectal prostate needle biopsies",
   "Biopsies prostatiques transpérinéales écho-guidées":
@@ -41,8 +43,7 @@ const DICTIONARY_EN: Record<string, string> = {
   "Autres lésions": "Other lesions",
   "Score de Gleason": "Gleason Score",
 
-  // TODO with Louis: re-check wording for these 4 items
-
+  // TODO with Louis: re-check wording for these 3 items
   "Tissu extra-prostatique": "Periprostatic Fat Invasion",
   EPN: "Perineural Invasion",
   TEP: "Periprostatic Fat Invasion",
