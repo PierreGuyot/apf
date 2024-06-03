@@ -32,7 +32,7 @@ import {
   MAX_TARGET_COUNT,
   PiradsItem,
   Row,
-  SEXTAN_COUNT,
+  SEXTANT_COUNT,
   Score,
   TUMOR_TYPES,
   TumorType,
@@ -57,13 +57,13 @@ const getScore = (rows: Row[]): Score => {
   const tumorCount = sum(rows.map((row) => row.tumorCount));
   const tumorScore = tumorCount
     ? {
-        tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
-        tumorGleason: getMaximumByGleasonScore(
-          rowsWithTumor.map((row) => row.tumorGleason),
-        ),
-        tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
-        tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
-      }
+      tumorSize: sumArrays(rowsWithTumor.map((row) => row.tumorSize)),
+      tumorGleason: getMaximumByGleasonScore(
+        rowsWithTumor.map((row) => row.tumorGleason),
+      ),
+      tumorEpn: rowsWithTumor.map((row) => row.tumorEpn).some(Boolean),
+      tumorTep: rowsWithTumor.map((row) => row.tumorTep).some(Boolean),
+    }
     : {};
 
   return {
@@ -91,11 +91,11 @@ const getErrors = ({
 }) => {
   const errors: string[] = [];
 
-  const sextans = rows.filter((row) => row.type === "sextan");
-  const sextantCount = sextans.length;
+  const sextants = rows.filter((row) => row.type === "sextant");
+  const sextantCount = sextants.length;
   const targets = rows.filter((row) => row.type === "target");
   const targetCount = targets.length;
-  const expectedTargetCount = containerCount - SEXTAN_COUNT;
+  const expectedTargetCount = containerCount - SEXTANT_COUNT;
 
   // List of locations
 
@@ -104,12 +104,12 @@ const getErrors = ({
       `Le tableau devrait contenir ${count(expectedTargetCount, "cible")} et non ${targetCount}.`,
     );
     errors.push(
-      `Le tableau devrait contenir ${count(SEXTAN_COUNT, "sextan")} et non ${sextantCount}.`,
+      `Le tableau devrait contenir ${count(SEXTANT_COUNT, "sextant")} et non ${sextantCount}.`,
     );
   }
 
-  const locations = new Set(sextans.map((sextan) => sextan.location));
-  if (locations.size !== SEXTAN_COUNT) {
+  const locations = new Set(sextants.map((sextant) => sextant.location));
+  if (locations.size !== SEXTANT_COUNT) {
     errors.push(
       `Le tableau devrait contenir un et un seul sextant à chacune des six positions.`,
     );
@@ -183,9 +183,9 @@ export type FormState = {
 const getPiradsItems = () => range(MAX_TARGET_COUNT).map(anEmptyPiradsItem);
 
 const getRows = () => [
-  // 6 sextans (each for one location)
+  // 6 sextants (each for one location)
   ...LOCATIONS.map((location, index) =>
-    anEmptyRow({ index, location, type: "sextan" }),
+    anEmptyRow({ index, location, type: "sextant" }),
   ),
   // 3 targets
   ...range(MAX_TARGET_COUNT).map((_, index) =>

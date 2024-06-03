@@ -13,7 +13,7 @@ export type GleasonItem = {
   cribriformPercentage: number;
 };
 
-export const SEXTAN_COUNT = 6;
+export const SEXTANT_COUNT = 6;
 export const MAX_TARGET_COUNT = 3;
 export const MAX_CONTAINER_COUNT = 9;
 
@@ -50,9 +50,9 @@ export const LOCATION_OPTIONS: Option<Location>[] = LOCATIONS.map((location) =>
 );
 
 // TODO with Louis: rename to "systematic" | "targeted"
-export type ContainerType = "sextan" | "target";
+export type ContainerType = "sextant" | "target";
 export const CONTAINER_TYPES: Option<ContainerType>[] = [
-  { value: "sextan", label: "Sextant" },
+  { value: "sextant", label: "Sextant" },
   { value: "target", label: "Cible" },
 ];
 
@@ -162,7 +162,7 @@ export const DEFAULT_GLEASON_ITEM: GleasonItem = {
 };
 
 export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
-  type: "sextan",
+  type: "sextant",
   location: "base-right",
   biopsyCount: 2,
   biopsySize: [0, 0, 0, 0],

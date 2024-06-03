@@ -119,15 +119,15 @@ const getConclusionSection = (
 ) => {
   // Pre-compute values to insert in the template
   const { label: tumorTypeLabel } = getTumorTypeOption(tumorType);
-  const sextans = rows.filter((row) => row.type === "sextan");
-  const sextansWithTumor = sextans.filter((row) => row.tumorCount > 0);
+  const sextants = rows.filter((row) => row.type === "sextant");
+  const sextantsWithTumor = sextants.filter((row) => row.tumorCount > 0);
   const targets = rows.filter((row) => row.type === "target");
   const targetsWithTumor = targets.filter((row) => row.tumorCount > 0);
   const maxGleasonItem = score.tumorGleason ?? DEFAULT_GLEASON_ITEM;
   const isupScore = getIsupScore(maxGleasonItem);
   const gleasonSummary = getGleasonSummary(maxGleasonItem, language);
-  const sextanTumorSize = sum(sextans.map((item) => sum(item.tumorSize)));
-  const sextanBiopsySize = sum(sextans.map((item) => sum(item.biopsySize)));
+  const sextantTumorSize = sum(sextants.map((item) => sum(item.tumorSize)));
+  const sextantBiopsySize = sum(sextants.map((item) => sum(item.biopsySize)));
   const targetTumorSize = sum(targets.map((item) => sum(item.tumorSize)));
   const targetBiopsySize = sum(targets.map((item) => sum(item.biopsySize)));
 
@@ -152,7 +152,7 @@ Prostate adenomyoma.`;
     return joinLines([
       `${translate(tumorTypeLabel, language)}.\n`, // We add an empty line for aesthetic purposes
       `Il présente un score de Gleason ${gleasonSummary}, soit un score ISUP de ${isupScore}.`,
-      `Il est localisé sur ${sextansWithTumor.length} des ${sextans.length} biopsies systématiques ${formatSize(sextanTumorSize, sextanBiopsySize, language)} et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
+      `Il est localisé sur ${sextantsWithTumor.length} des ${sextants.length} biopsies systématiques ${formatSize(sextantTumorSize, sextantBiopsySize, language)} et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
       `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
       `${translate("Envahissement périneural", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
@@ -163,7 +163,7 @@ Prostate adenomyoma.`;
     return joinLines([
       `${translate(tumorTypeLabel, language)}.\n`, // We add an empty line for aesthetic purposes
       `It has a Gleason score of ${gleasonSummary}, i.e. an ISUP score of ${isupScore}.`,
-      `It is localized on ${sextansWithTumor.length} out of ${sextans.length} systematic biopsies ${formatSize(sextanTumorSize, sextanBiopsySize, language)} and on ${targetsWithTumor.length} out of ${targets.length} targeted biopsies ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
+      `It is localized on ${sextantsWithTumor.length} out of ${sextants.length} systematic biopsies ${formatSize(sextantTumorSize, sextantBiopsySize, language)} and on ${targetsWithTumor.length} out of ${targets.length} targeted biopsies ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
       `It has a size of ${score.tumorSize} mm out of ${score.biopsySize} mm examined on systematic biopsies.\n`, // We add an empty line for aesthetic purposes,
       `${translate("Envahissement périneural", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
