@@ -1,9 +1,3 @@
-.main-list-routes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
 /* TODO clean: extract paragraph style */
 .main-list-presentation {
   display: flex;
@@ -11,12 +5,31 @@
   gap: 0.2rem;
 }
 
-.form-route {
+.main-list-routes {
   display: flex;
-  gap: 0.2rem;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.form-route-icon {
+.main-list-section {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.main-list-section-icon {
   width: 2.5rem;
   aspect-ratio: 1;
+}
+
+.main-list-section-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.main-list-section-routes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
 }

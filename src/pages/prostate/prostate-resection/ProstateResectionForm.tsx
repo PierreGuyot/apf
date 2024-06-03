@@ -169,7 +169,7 @@ export const ProstateResectionForm = () => {
               />
             </Line>
             {priorCondition === "non-applicable-radiotherapy" ||
-              priorCondition ===
+            priorCondition ===
               "non-applicable-hormonotherapy-chimiotherapy" ? undefined : (
               <Line>
                 Grade histologique :{" "}

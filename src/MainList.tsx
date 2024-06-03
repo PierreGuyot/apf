@@ -1,6 +1,11 @@
 import { Button } from "./ui/Button";
-import { FORMS, FormId } from "./ui/helpers/forms";
-import { FORM_ROUTES, useHash } from "./ui/helpers/navigation";
+import {
+  FORMS,
+  FormId,
+  FORM_ROUTES,
+  getCategoryProps,
+} from "./ui/helpers/forms";
+import { useHash } from "./ui/helpers/navigation";
 
 import "./main-list.css";
 import { Disclaimer } from "./ui/Disclaimer";
@@ -12,11 +17,10 @@ import { Section } from "./ui/Section";
 const FormRoute = ({ route }: { route: FormId }) => {
   const { updateHash } = useHash();
 
-  const { title, imagePath } = FORMS[route];
+  const { title } = FORMS[route];
 
   return (
-    <div className="form-route">
-      <img className="form-route-icon" src={imagePath} alt="" />
+    <div>
       <Button label={title} onClick={() => updateHash(route)} />
     </div>
   );
@@ -53,9 +57,26 @@ export const MainList = () => {
 
       <Section title="Choisissez un type de formulaire">
         <div className="main-list-routes">
-          {FORM_ROUTES.map((route) => (
-            <FormRoute key={route} route={route} />
-          ))}
+          {FORM_ROUTES.map((item) => {
+            const { label, imagePath } = getCategoryProps(item.category);
+            return (
+              <div>
+                <div className="main-list-section">
+                  <img
+                    className="main-list-section-icon"
+                    src={imagePath}
+                    alt=""
+                  />
+                  <div className="main-list-section-label"> {label}</div>
+                </div>
+                <div className="main-list-section-routes">
+                  {item.routes.map((route) => (
+                    <FormRoute key={route} route={route} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </Section>
     </Page>

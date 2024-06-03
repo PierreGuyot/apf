@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { FORM_IDS, FormId } from "./forms";
+import { FormId } from "./forms";
 
 const getTrimmedHash = () => {
   const parts = window.location.hash.split("#");
@@ -28,7 +28,5 @@ export const useHash = () => {
 
 export const INDEX_ROUTE = "";
 export const goToIndex = () => goTo(INDEX_ROUTE);
-
-export const FORM_ROUTES = FORM_IDS;
 
 type Route = FormId | typeof INDEX_ROUTE;
