@@ -8,7 +8,7 @@ import { Option } from "./helpers/options";
 import "./summary.css";
 import { Language } from "./language";
 
-type SummaryProps = {
+type Props = {
   getContent: (language: Language) => string;
 };
 
@@ -17,7 +17,7 @@ const LANGUAGE_OPTIONS: Option<Language>[] = [
   { value: "EN", label: "Anglais" },
 ];
 
-export const Summary = ({ getContent }: SummaryProps) => {
+export const Summary = ({ getContent }: Props) => {
   const [language, setLanguage] = useState<Language>("FR");
 
   const content = getContent(language);

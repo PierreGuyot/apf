@@ -3,16 +3,12 @@ import { PropsWithChildren } from "react";
 import { join } from "./helpers/helpers";
 import "./item.css";
 
-type ItemProps = PropsWithChildren<{
+type Props = PropsWithChildren<{
   size?: "sm" | "md";
   hasMaxWidth?: boolean;
 }>;
 
-export const Item = ({
-  size = "md",
-  hasMaxWidth = true,
-  children,
-}: ItemProps) => (
+export const Item = ({ size = "md", hasMaxWidth = true, children }: Props) => (
   <div
     className={join(
       "item",

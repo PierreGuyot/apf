@@ -4,13 +4,13 @@ import { join, px } from "./helpers/helpers";
 import "./nested-item.css";
 import { Item } from "./Item";
 
-type NestedItemProps = PropsWithChildren<{
+type Props = PropsWithChildren<{
   depth?: number;
 }>;
 
 const BASE_NESTING = 25;
 
-export const NestedItem = ({ depth = 0, children }: NestedItemProps) => (
+export const NestedItem = ({ depth = 0, children }: Props) => (
   <Item size="sm">
     <div
       className={join(

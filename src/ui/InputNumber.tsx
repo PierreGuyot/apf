@@ -9,7 +9,7 @@ import { Unit, getUnitLabel } from "./helpers/units";
 
 // TODO: add tooltip to display error message
 
-type InputNumberProps = InputProps<number> & {
+type Props = InputProps<number> & {
   min?: number;
   max?: number;
   unit?: Unit;
@@ -44,7 +44,7 @@ export const InputNumber = ({
   isSubmitted,
   isReadOnly,
   onChange,
-}: InputNumberProps) => {
+}: Props) => {
   const [isTouched, setIsTouched] = useBoolean(false);
   const [_value, _setValue] = useString(String(value));
 

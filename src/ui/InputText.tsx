@@ -5,7 +5,7 @@ import "./input-text.css";
 import { InputProps, OnInput } from "./input.types";
 import { useBoolean } from "./helpers/state";
 
-type InputTextProps = InputProps<string> & {
+type Props = InputProps<string> & {
   placeholder?: string;
   isFullWidth?: boolean;
 };
@@ -19,7 +19,7 @@ export const InputText = ({
   isSubmitted,
   isReadOnly,
   onChange,
-}: InputTextProps) => {
+}: Props) => {
   const [isTouched, setIsTouched] = useBoolean(false);
   const onBlur = () => setIsTouched(true);
   const onInput: OnInput<HTMLInputElement> = (e) => {

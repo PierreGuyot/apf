@@ -10,7 +10,7 @@ import { ONE_DAY, formatDate, formatDurationInDays } from "./time";
 // TODO with Louis: discuss
 const WARNING_DELAY_IN_DAYS = 180; // In days
 
-type BannerProps = {
+type Props = {
   formId: FormId;
   onClear: () => void;
 };
@@ -21,7 +21,7 @@ const CONFIRMATION_MESSAGE = joinLines([
   "Vos changements seront définitivement perdus.",
 ]);
 
-export const Banner = ({ formId, onClear: _onClear }: BannerProps) => {
+export const Banner = ({ formId, onClear: _onClear }: Props) => {
   const { lastUpdate } = FORMS[formId];
   const daysSinceLastUpdate = Math.floor((Date.now() - lastUpdate) / ONE_DAY); // In days
   const isWarning = daysSinceLastUpdate > WARNING_DELAY_IN_DAYS;

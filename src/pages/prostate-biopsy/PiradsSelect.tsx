@@ -34,13 +34,12 @@ const PiradsLine = ({
   );
 };
 
-export const PiradsSelect = ({
-  items,
-  onChange,
-}: {
+type Props = {
   items: PiradsItem[];
   onChange: (value: PiradsItem, index: number) => void;
-}) => (
+};
+
+export const PiradsSelect = ({ items, onChange }: Props) => (
   <>
     {items.map((item, i) => (
       <PiradsLine

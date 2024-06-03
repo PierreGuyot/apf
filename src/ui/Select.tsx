@@ -5,14 +5,14 @@ import { Option, OptionGroup, SelectValue } from "./helpers/options";
 import "./select.css";
 import { FieldProps } from "./helpers/fields";
 
-type SelectProps<T extends SelectValue> = FieldProps<T> & {
+type Props<T extends SelectValue> = FieldProps<T> & {
   options: Option<T>[] | OptionGroup<T>[];
   name: string;
   label?: string; // TODO clean: consider using label as name
 };
 
 function isGroupedOptions<T extends SelectValue>(
-  options: SelectProps<T>["options"],
+  options: Props<T>["options"],
 ): options is OptionGroup<T>[] {
   return "items" in options[0];
 }
@@ -24,7 +24,7 @@ export function Select<T extends SelectValue>({
   label,
   isReadOnly,
   onChange: _onChange,
-}: SelectProps<T>) {
+}: Props<T>) {
   const id = useMemo(anId, []);
 
   const flatOptions = useMemo(

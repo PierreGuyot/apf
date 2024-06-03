@@ -4,7 +4,7 @@ import "./input-text-area.css";
 import { InputProps, OnInput } from "./input.types";
 import { useBoolean } from "./helpers/state";
 
-type InputTextAreaProps = InputProps<string> & {
+type Props = InputProps<string> & {
   placeholder?: string;
   lineCount?: number;
 };
@@ -20,7 +20,7 @@ export const InputTextArea = ({
   isSubmitted,
   isReadOnly,
   onChange,
-}: InputTextAreaProps) => {
+}: Props) => {
   const [isTouched, setIsTouched] = useBoolean(false);
   const onBlur = () => setIsTouched(true);
   const onInput: OnInput<HTMLTextAreaElement> = (e) => {

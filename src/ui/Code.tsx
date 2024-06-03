@@ -2,6 +2,8 @@ import { PropsWithChildren } from "react";
 
 import "./code.css";
 
-export const Code = ({ children }: PropsWithChildren<{}>) => (
+type Props = PropsWithChildren<{}>;
+
+export const Code = ({ children }: Props) => (
   <code className="code">{children}</code>
 );

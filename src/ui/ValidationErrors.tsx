@@ -1,6 +1,8 @@
 import "./validation-errors.css";
 
-type Props = { errors: string[] };
+type Props = {
+  errors: string[];
+};
 
 export const ValidationErrors = ({ errors }: Props) =>
   errors.length ? (

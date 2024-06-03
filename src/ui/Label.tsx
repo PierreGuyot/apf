@@ -1,9 +1,12 @@
 import { join } from "./helpers/helpers";
 import "./label.css";
 
-type LabelProps = { label: string; placement?: "above" | "inline" };
+type Props = {
+  label: string;
+  placement?: "above" | "inline";
+};
 
-export const Label = ({ label, placement = "inline" }: LabelProps) => (
+export const Label = ({ label, placement = "inline" }: Props) => (
   <label
     className={join(
       "label",

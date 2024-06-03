@@ -24,7 +24,7 @@ type DistributeColumns<Base, K extends keyof Base> = K extends any
 
 export type Column<Row> = DistributeColumns<Row, keyof Row>;
 
-type TableProps<Row> = {
+type Props<Row> = {
   columns: Column<Row>[];
   rows: Row[];
   header?: () => ReactNode;
@@ -40,7 +40,7 @@ export function Table<Row>({
   hasFooter,
   isReadOnly = false,
   onChange,
-}: TableProps<Row>) {
+}: Props<Row>) {
   return (
     <>
       <table>
