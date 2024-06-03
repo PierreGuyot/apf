@@ -18,6 +18,7 @@ const DICTIONARY_EN: Record<string, string> = {
   Tumeur: "Tumor",
   Tumeurs: "Tumors",
   Type: "Type",
+  copeau: "chip",
 
   // Prostate biopsy
   "Biopsies prostatiques transrectales écho-guidées":

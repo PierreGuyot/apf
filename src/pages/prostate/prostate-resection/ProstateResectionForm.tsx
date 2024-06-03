@@ -168,14 +168,18 @@ export const ProstateResectionForm = () => {
                 onChange={setState("priorCondition")}
               />
             </Line>
-            <Line>
-              Grade histologique :{" "}
-              <CellGleason
-                language={DEFAULT_LANGUAGE}
-                value={histologicalGrade}
-                onChange={setState("histologicalGrade")}
-              />
-            </Line>
+            {priorCondition === "non-applicable-radiotherapy" ||
+              priorCondition ===
+              "non-applicable-hormonotherapy-chimiotherapy" ? undefined : (
+              <Line>
+                Grade histologique :{" "}
+                <CellGleason
+                  language={DEFAULT_LANGUAGE}
+                  value={histologicalGrade}
+                  onChange={setState("histologicalGrade")}
+                />
+              </Line>
+            )}
             <Line>
               <Select
                 name="Estimation de la surface envahie (% de copeaux envahis)"
