@@ -51,10 +51,10 @@ export function SelectList<T extends SelectValue>({
       .map((item) => translate(item.label, language))
       .join(" + ");
   }
+
   return (
     <div>
       <div className="select-list">
-        {/* TODO: fix display when stuck to the right of the border */}
         <Tooltip
           mode="click"
           content={

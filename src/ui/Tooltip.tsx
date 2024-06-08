@@ -7,6 +7,7 @@ import {
   useCallback,
   useEffect,
   useRef,
+  useState,
 } from "react";
 
 type Props = PropsWithChildren<{
@@ -15,14 +16,60 @@ type Props = PropsWithChildren<{
   onClose?: () => void;
 }>;
 
+type translation = { x: number; y: number };
+const TRANSLATION: translation = { x: 20000, y: 20000 };
+
+// Compute translation to avoid cutting with the window's border
+// TODO clean: this is a quick fix, consider improving this later
+const computeTranslation = (
+  content: HTMLDivElement,
+  handle: HTMLDivElement,
+) => {
+  const contentRect = content.getBoundingClientRect();
+  const handleRect = handle.getBoundingClientRect();
+
+  const SECURITY_MARGIN = 200;
+  const overlap = handleRect.right + SECURITY_MARGIN - window.innerWidth;
+  const isTooCloseFromRightBorder = overlap > 0;
+
+  // For visual purposes
+  const MARGIN = 10;
+
+  const x = isTooCloseFromRightBorder
+    ? -contentRect.width + handleRect.width + MARGIN
+    : -MARGIN;
+  const y = -contentRect.height - 10;
+
+  return { x, y };
+};
+
+const getStyle = ({ x, y }: translation) => ({
+  transform: `translateX(${x}px) translateY(${y}px)`,
+});
+
 export const Tooltip = ({
   content,
   mode = "hover",
   onClose,
   children,
 }: Props) => {
+  const tooltipContent = useRef<HTMLDivElement | null>(null);
+  const tooltipHandle = useRef<HTMLDivElement | null>(null);
+
   const [isOpen, setIsOpen] = useBoolean(false);
   const open = () => setIsOpen(true);
+
+  const [translation, setTranslation] = useState<translation>(TRANSLATION);
+  useEffect(() => {
+    if (isOpen && tooltipContent.current && tooltipHandle.current) {
+      const translation = computeTranslation(
+        tooltipContent.current,
+        tooltipHandle.current,
+      );
+      setTranslation(translation);
+    }
+  }, [isOpen]);
+
   const close = useCallback(() => {
     setIsOpen(false);
 
@@ -30,9 +77,6 @@ export const Tooltip = ({
       onClose();
     }
   }, [onClose, setIsOpen]);
-
-  const tooltipContent = useRef<HTMLDivElement | null>(null);
-  const tooltipHandle = useRef<HTMLDivElement | null>(null);
 
   // Clear popover on click-outside
   const onMouseDown = useCallback(
@@ -72,7 +116,11 @@ export const Tooltip = ({
         <span>{children}</span>
       </span>
       {isOpen ? (
-        <div className="tooltip-content" ref={tooltipContent}>
+        <div
+          className="tooltip-content"
+          ref={tooltipContent}
+          style={getStyle(translation)}
+        >
           {content}
         </div>
       ) : undefined}
