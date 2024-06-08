@@ -1,6 +1,6 @@
+import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { Banner } from "../../../ui/Banner";
 import { InputNumber } from "../../../ui/InputNumber";
-import { InputTextArea } from "../../../ui/InputTextArea";
 import { Line } from "../../../ui/Line";
 import { Page } from "../../../ui/Page";
 import { Section } from "../../../ui/Section";
@@ -98,14 +98,11 @@ export const ProstateResectionForm = ({ formId }: Props) => {
     <Page title={form.title}>
       <Banner formId={formId} onClear={clearState} />
 
-      <Section>
-        <Title title="Renseignements cliniques" index={1} />
-        <InputTextArea
-          value={caseSummary}
-          placeholder="TODO"
-          onChange={setState("caseSummary")}
-        />
-      </Section>
+      <ClinicalInfo
+        index={1}
+        value={caseSummary}
+        onChange={setState("caseSummary")}
+      />
 
       <Section>
         <Title title="Macroscopie" index={2} />

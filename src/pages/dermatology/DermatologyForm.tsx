@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { AdditionalRemarks } from "../../ui/AdditionalRemarks";
+import { AdditionalRemarks } from "../../common/AdditionalRemarks";
 import { Banner } from "../../ui/Banner";
 import { InputNumber } from "../../ui/InputNumber";
 import { InputTextArea } from "../../ui/InputTextArea";
@@ -36,6 +36,7 @@ import {
   getCutTypes,
 } from "./helpers";
 import { generateReport } from "./report";
+import { ClinicalInfo } from "../../common/ClinicalInfo";
 
 const FORM_ID = "dermatology";
 
@@ -128,14 +129,7 @@ export const DermatologyForm = () => {
     <Page title={form.title}>
       <Banner formId={FORM_ID} onClear={clearState} />
 
-      <Section>
-        <Title title="Renseignements cliniques" />
-        <InputTextArea
-          value={clinicalInfo}
-          placeholder="TODO"
-          onChange={setState("clinicalInfo")}
-        />
-      </Section>
+      <ClinicalInfo value={clinicalInfo} onChange={setState("clinicalInfo")} />
 
       <Section>
         {/* TODO: use SelectNumber? */}

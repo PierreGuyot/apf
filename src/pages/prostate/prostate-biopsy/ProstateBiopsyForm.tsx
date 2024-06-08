@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { AdditionalRemarks } from "../../../ui/AdditionalRemarks";
+import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { Banner } from "../../../ui/Banner";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Item } from "../../../ui/Item";
