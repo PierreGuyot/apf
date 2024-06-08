@@ -1,4 +1,4 @@
-import { Fragment } from "react/jsx-runtime";
+import { Fragment } from "react";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Select } from "../../../ui/Select";
 import { SelectList } from "../../../ui/SelectList";

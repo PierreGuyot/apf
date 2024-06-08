@@ -7,8 +7,8 @@ import {
 } from "./ui/helpers/forms";
 import { useHash } from "./ui/helpers/navigation";
 
-import { MainDisclaimer } from "./common/MainDisclaimer";
 import "./main-list.css";
+import { Disclaimer } from "./ui/Disclaimer";
 import { Em } from "./ui/Em";
 import { Page } from "./ui/Page";
 import { Section } from "./ui/Section";
@@ -49,7 +49,10 @@ export const MainList = () => {
       </Section>
 
       <Section>
-        <MainDisclaimer />
+        <Disclaimer>
+          Attention ! Ce projet est un prototype et se trouve encore en phase de
+          test.
+        </Disclaimer>
       </Section>
 
       <Section title="Choisissez un type de formulaire">
