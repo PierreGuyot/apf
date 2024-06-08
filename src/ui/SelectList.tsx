@@ -20,11 +20,9 @@ type Props<T extends SelectValue> = FieldProps<T[]> & {
 };
 
 export function getSelectedItems<T extends SelectValue>({
-  language,
   groups,
   value,
 }: {
-  language: Language;
   groups: ItemGroup<T>[];
   value: T[];
 }) {
@@ -40,7 +38,7 @@ export function SelectList<T extends SelectValue>({
   isReadOnly,
   onChange,
 }: Props<T>) {
-  const selectedItems = getSelectedItems({ language, groups, value });
+  const selectedItems = getSelectedItems({ groups, value });
 
   // Internal state of the tooltip
   const [state, setState] = useState<T[]>(value);

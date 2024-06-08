@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { anId } from "./helpers/helpers";
 import { Option, OptionGroup, SelectValue } from "./helpers/options";
 
@@ -10,7 +10,7 @@ type Props<T extends SelectValue> = FieldProps<T> & {
   language?: Language;
   options: Option<T>[] | OptionGroup<T>[];
   name: string;
-  label?: string; // TODO clean: consider using label as name
+  label?: string; // TODO: consider using label as name
 };
 
 function isGroupedOptions<T extends SelectValue>(
@@ -42,6 +42,17 @@ export function Select<T extends SelectValue>({
     () =>
       Object.fromEntries(flatOptions.map((option) => [option.value, option])),
     [flatOptions],
+  );
+
+  const renderOption = useCallback(
+    (option: Option<T>) => (
+      <OptionItem
+        key={String(option.value)}
+        option={option}
+        language={language}
+      />
+    ),
+    [language],
   );
 
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -77,22 +88,10 @@ export function Select<T extends SelectValue>({
                 key={group.title}
                 label={translate(group.title, language)}
               >
-                {group.items.map((option) => (
-                  <OptionItem
-                    key={String(option.value)}
-                    option={option}
-                    language={language}
-                  />
-                ))}
+                {group.items.map(renderOption)}
               </optgroup>
             ))
-          : _options.map((option) => (
-              <OptionItem
-                key={String(option.value)}
-                option={option}
-                language={language}
-              />
-            ))}
+          : _options.map(renderOption)}
       </select>
     </div>
   );
