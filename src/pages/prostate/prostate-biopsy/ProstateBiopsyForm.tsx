@@ -1,18 +1,16 @@
 import { useMemo } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
-import { Banner } from "../../../ui/Banner";
+import { FormPage } from "../../../common/FormPage";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Item } from "../../../ui/Item";
 import { Line } from "../../../ui/Line";
 import { NestedItem } from "../../../ui/NestedItem";
-import { Page } from "../../../ui/Page";
 import { Section } from "../../../ui/Section";
 import { Select } from "../../../ui/Select";
 import { SelectNumber } from "../../../ui/SelectNumber";
 import { Summary } from "../../../ui/Summary";
 import { Title } from "../../../ui/Title";
 import { ValidationErrors } from "../../../ui/ValidationErrors";
-import { FORMS } from "../../../ui/helpers/forms";
 import {
   filterNullish,
   noop,
@@ -24,8 +22,10 @@ import {
 import { Option, YES_NO_OPTIONS } from "../../../ui/helpers/options";
 import { count } from "../../../ui/helpers/plural";
 import { isDebug } from "../../../ui/helpers/state";
+import { naturalJoin } from "../../../ui/helpers/text";
 import { useForm } from "../../../ui/helpers/use-form";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
+import { TUMOR_TYPES, TumorType, getTumorTypeOption } from "../helpers";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
@@ -42,8 +42,6 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-import { TUMOR_TYPES, TumorType, getTumorTypeOption } from "../helpers";
-import { naturalJoin } from "../../../ui/helpers/text";
 
 const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
@@ -224,8 +222,6 @@ type Props = {
 };
 
 export const ProstateBiopsyForm = ({ formId }: Props) => {
-  const form = FORMS[formId];
-
   const sextantName =
     formId === "prostate-biopsy-transrectal"
       ? "sextant"
@@ -274,13 +270,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
   };
 
   return (
-    <Page title={form.title} paddingTop={form.isPrototype ? "lg" : "md"}>
-      <Banner
-        formId={formId}
-        isPrototype={form.isPrototype}
-        onClear={clearState}
-      />
-
+    <FormPage formId={formId} onClear={clearState}>
       <Section>
         <Title title="Renseignements cliniques" index={1} />
         <Line>
@@ -429,6 +419,6 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
           )}
         />
       )}
-    </Page>
+    </FormPage>
   );
 };

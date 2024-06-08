@@ -1,17 +1,15 @@
 import { useMemo } from "react";
 import { AdditionalRemarks } from "../../common/AdditionalRemarks";
-import { Banner } from "../../ui/Banner";
+import { ClinicalInfo } from "../../common/ClinicalInfo";
+import { FormPage } from "../../common/FormPage";
 import { InputNumber } from "../../ui/InputNumber";
-import { InputTextArea } from "../../ui/InputTextArea";
 import { Line } from "../../ui/Line";
-import { Page } from "../../ui/Page";
 import { Section } from "../../ui/Section";
 import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { SubSection } from "../../ui/SubSection";
 import { Summary } from "../../ui/Summary";
 import { Title } from "../../ui/Title";
-import { FORMS } from "../../ui/helpers/forms";
 import { patchArray, range } from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { SetState, useForm } from "../../ui/helpers/use-form";
@@ -36,7 +34,6 @@ import {
   getCutTypes,
 } from "./helpers";
 import { generateReport } from "./report";
-import { ClinicalInfo } from "../../common/ClinicalInfo";
 
 const FORM_ID = "dermatology";
 
@@ -121,18 +118,11 @@ const getInitialState = (): FormState => ({
 });
 
 export const DermatologyForm = () => {
-  const form = FORMS[FORM_ID];
   const { state, setState, clearState } = useForm(getInitialState);
   const { clinicalInfo, containerCount, operations } = state;
 
   return (
-    <Page title={form.title} paddingTop={form.isPrototype ? "lg" : "md"}>
-      <Banner
-        formId={FORM_ID}
-        isPrototype={form.isPrototype}
-        onClear={clearState}
-      />
-
+    <FormPage formId={FORM_ID} onClear={clearState}>
       <ClinicalInfo value={clinicalInfo} onChange={setState("clinicalInfo")} />
 
       <Section>
@@ -176,7 +166,7 @@ export const DermatologyForm = () => {
           generateReport({ ...state, formId: FORM_ID, language })
         }
       />
-    </Page>
+    </FormPage>
   );
 };
 

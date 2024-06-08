@@ -1,14 +1,12 @@
 import { ClinicalInfo } from "../../../common/ClinicalInfo";
-import { Banner } from "../../../ui/Banner";
+import { FormPage } from "../../../common/FormPage";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Line } from "../../../ui/Line";
-import { Page } from "../../../ui/Page";
 import { Section } from "../../../ui/Section";
 import { Select } from "../../../ui/Select";
 import { SelectList } from "../../../ui/SelectList";
 import { Summary } from "../../../ui/Summary";
 import { Title } from "../../../ui/Title";
-import { FORMS } from "../../../ui/helpers/forms";
 import { YES_NO_OPTIONS } from "../../../ui/helpers/options";
 import { useForm } from "../../../ui/helpers/use-form";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
@@ -74,8 +72,6 @@ type Props = {
 };
 
 export const ProstateResectionForm = ({ formId }: Props) => {
-  const form = FORMS[formId];
-
   // State
   const { state, setState, clearState } = useForm(getInitialState);
   const {
@@ -95,13 +91,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
   } = state;
 
   return (
-    <Page title={form.title} paddingTop={form.isPrototype ? "lg" : "md"}>
-      <Banner
-        formId={formId}
-        isPrototype={form.isPrototype}
-        onClear={clearState}
-      />
-
+    <FormPage formId={formId} onClear={clearState}>
       <ClinicalInfo
         index={1}
         value={caseSummary}
@@ -225,6 +215,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
           generateReport({ formId, ...state }, language)
         }
       />
-    </Page>
+    </FormPage>
   );
 };
