@@ -309,7 +309,6 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
                 {hasTarget ? (
                   <>
                     <Line>
-                      {/* TODO with Louis: should these be optional cells in the table (after a container of type `target`)? */}
                       <SelectNumber
                         value={targetCount}
                         name="Nombre de cibles"
@@ -318,8 +317,10 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
                         onChange={setState("targetCount")}
                       />
                     </Line>
-                    {/* We handle the maximum number of items in all cases and simply hide according to count
-                  This way, changing the count doesn't erase user input */}
+                    {/* NOTE:
+                      We handle the maximum number of items in all cases and simply hide according to count.
+                      This way, changing the count doesn't erase user input
+                    */}
                     {targetCount ? (
                       <NestedItem depth={1}>
                         <PiradsSelect

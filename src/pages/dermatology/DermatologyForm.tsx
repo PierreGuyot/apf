@@ -39,11 +39,8 @@ import { generateReport } from "./report";
 
 const FORM_ID = "dermatology";
 
-type OperationType =
-  | "biopsy"
-  | "excision"
-  | "recoupe" // TODO: translate
-  | "shaving";
+// TODO: translate
+type OperationType = "biopsy" | "excision" | "recoupe" | "shaving";
 const OPERATION_TYPES: Option<OperationType>[] = [
   { value: "biopsy", label: "Biopsie" },
   { value: "excision", label: "Exérèse" },
@@ -141,11 +138,12 @@ export const DermatologyForm = () => {
       </Section>
 
       <Section>
+        {/* TODO: use SelectNumber? */}
+        {/* TODO with Louis: confirm min and max values */}
         <Line>
-          Combien de pots avez-vous ?{/* TODO: use SelectNumber? */}
+          Combien de pots avez-vous ?{}
           <InputNumber
             value={containerCount}
-            // TODO with Louis: confirm values
             min={1}
             max={5}
             onChange={setState("containerCount")}
@@ -281,7 +279,7 @@ const MacroExcisionForm = ({
   return (
     <>
       <Line>
-        {/* TODO: check unit with Louis */}
+        {/* TODO: check unit and translation with Louis */}
         Combien mesure le lambeau cutané ?
         <InputNumber
           value={skinFlapDimensions[0]}
