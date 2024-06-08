@@ -18,7 +18,7 @@ type BaseColumn<Key, Value, Row> = {
   ) => ReactNode;
   total?: (rows: Row[]) => ReactNode;
 };
-type DistributeColumns<Base, K extends keyof Base> = K extends any
+type DistributeColumns<Base, K extends keyof Base> = K extends unknown
   ? BaseColumn<K, Base[K], Base>
   : never;
 
