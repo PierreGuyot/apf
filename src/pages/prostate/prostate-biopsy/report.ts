@@ -26,7 +26,7 @@ import {
   getLocationLabel,
 } from "./helpers";
 
-type ReportParams = FormState & {
+export type ReportParams = FormState & {
   formId: ProstateBiopsyFormId;
   score: Score;
   comment: string;

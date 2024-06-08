@@ -23,7 +23,7 @@ import {
   isApplicable,
 } from "./helpers";
 
-type ReportParams = FormState & {
+export type ReportParams = FormState & {
   formId: ProstateResectionFormId;
 };
 

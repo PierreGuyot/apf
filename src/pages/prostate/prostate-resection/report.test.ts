@@ -1,57 +1,131 @@
-import { DEFAULT_GLEASON_ITEM } from "../helpers";
-import { FormState } from "./ProstateResectionForm";
-import { generateReport } from "./report";
+import { ReportParams, generateReport } from "./report";
 
-const aFormState = (partial: Partial<FormState> = {}): FormState => ({
-  caseSummary: "a-case-summary",
+const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
+  formId: "prostate-transurethral-resection",
+  caseSummary: "MOCK-clinical-info",
   chipWeight: 10,
-  blockCount: 10,
+  blockCount: 5,
   coloration: "HES",
   samplingType: "full",
   mainLesionType: "prostate-adenomyoma",
   tumorType: "acinar-adenocarcinoma-conventional",
   priorConditions: "none",
-  histologicalGrade: DEFAULT_GLEASON_ITEM,
+  histologicalGrade: {
+    a: 3,
+    b: 3,
+    percentage: 95,
+    cribriformPercentage: 0,
+  },
   tumorQuantification: ">5%",
   hasLymphaticOrVascularInvasion: false,
   hasEpn: false,
-  otherLesions: [],
-  ...partial,
-});
+  otherLesions: ["prostate-adenomyoma", "ASAP"],
+};
 
-// TODO: fix tests
-// TODO: test generateReport on real, complete example
+const MOCK_DATA_WITH_TUMOR: ReportParams = {
+  formId: "prostate-transurethral-resection",
+  caseSummary: "MOCK-clinical-info",
+  chipWeight: 10,
+  blockCount: 5,
+  coloration: "HES",
+  samplingType: "full",
+  mainLesionType: "tumor",
+  tumorType: "acinar-adenocarcinoma-conventional",
+  priorConditions: "none",
+  histologicalGrade: {
+    a: 4,
+    b: 4,
+    percentage: 95,
+    cribriformPercentage: 20,
+  },
+  tumorQuantification: "5%",
+  hasLymphaticOrVascularInvasion: false,
+  hasEpn: false,
+  otherLesions: ["prostate-adenomyoma", "ASAP"],
+};
 
 describe("generateReport", () => {
-  it("should generate a clean report with a tumor (FR)", () => {
-    expect(
-      generateReport(
-        {
-          formId: "prostate-transurethral-resection",
-          ...aFormState(),
-        },
-        "FR",
-      ),
-    ).toEqual("TODO");
-  });
-
   it("should generate a clean report without a tumor (FR)", () => {
-    expect(
-      generateReport(
-        {
-          formId: "prostate-transurethral-resection",
-          ...aFormState(),
-        },
-        "FR",
-      ),
-    ).toEqual("TODO");
+    expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "FR")).toEqual(
+      `RÉSECTION TRANSURÉTRALE DE PROSTATE
+
+Renseignements cliniques:
+    MOCK-clinical-info
+
+Poids des copeaux : 10g
+Inclusion en totalité en 5 blocs (fixation : formol tamponné 4%, coloration HES)
+
+On observe des glandes prostatiques nombreuses souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse. Absence de foyer carcinomateux.
+
+Autres lésions
+     - Prolifération acinaire atypique
+     - Adénomyome prostatique`,
+    );
+  });
+
+  it("should generate a clean report with a tumor (FR)", () => {
+    expect(generateReport(MOCK_DATA_WITH_TUMOR, "FR")).toEqual(
+      `RÉSECTION TRANSURÉTRALE DE PROSTATE
+
+Renseignements cliniques:
+    MOCK-clinical-info
+
+Poids des copeaux : 10g
+Inclusion en totalité en 5 blocs (fixation : formol tamponné 4%, coloration HES)
+
+Adénocarcinome acinaire de type prostatique.
+
+Conditions pré-existantes : Absence de traitement antérieur
+Score de Gleason : 8 (4 + 4 dont 20% cribriformes)
+Estimation de la surface envahie : 5%
+Emboles vasculaires ou lymphatique : Non
+Engainements périnerveux : Non
+
+Autres lésions
+     - Prolifération acinaire atypique
+     - Adénomyome prostatique`,
+    );
   });
 
   it("should generate a clean report without a tumor (EN)", () => {
-    expect("TODO").toEqual("TODO");
+    expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "EN")).toEqual(
+      `TRANSURETHRAL PROSTATIC RESECTION
+
+Case summary:
+    MOCK-clinical-info
+
+Total chip weight : 10g
+Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
+
+Numerous prostate glands, often grouped into nodules, are found within a smooth muscular prostatic stroma. No carcinomatous focus.
+
+Other lesions
+     - Atypical small acinar proliferation
+     - Prostate adenomyoma`,
+    );
   });
 
-  it("should generate a clean report without a tumor (EN)", () => {
-    expect("TODO").toEqual("TODO");
+  it.only("should generate a clean report with a tumor (EN)", () => {
+    expect(generateReport(MOCK_DATA_WITH_TUMOR, "EN")).toEqual(
+      `TRANSURETHRAL PROSTATIC RESECTION
+
+Case summary:
+    MOCK-clinical-info
+
+Total chip weight : 10g
+Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
+
+Acinar adenocarcinoma, conventional (usual).
+
+Pre-existing conditions : No presurgical therapy
+Gleason Score : 8 (4 + 4 including cribriform 20%)
+Tumor quantification : 5%
+Lympathic or vascular invasion : No
+Perineural Invasion : No
+
+Other lesions
+     - Atypical small acinar proliferation
+     - Prostate adenomyoma`,
+    );
   });
 });
