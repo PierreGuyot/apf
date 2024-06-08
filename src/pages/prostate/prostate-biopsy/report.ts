@@ -37,16 +37,10 @@ const formatSize = (
   totalSize: number,
   language: Language,
 ) => {
-  // NOTE: inline translation
-  // TODO: add an error if any size field is zero (add validation directly on the field?) and remove this case
+  // NOTE: totalSize can not be 0 due to form validations
+  // We still catch an error for this case out of caution
   if (!totalSize) {
-    if (language === "FR") {
-      return `(${tumorSize} mm examinés)`;
-    }
-
-    if (language === "EN") {
-      return `(${tumorSize} mm examined)`;
-    }
+    throw new Error(`Invalid total size: ${totalSize}`);
   }
 
   const ratio = Math.round((tumorSize / totalSize) * 100);

@@ -14,6 +14,7 @@ import { Title } from "../../../ui/Title";
 import { ValidationErrors } from "../../../ui/ValidationErrors";
 import { FORMS } from "../../../ui/helpers/forms";
 import {
+  filterNullish,
   noop,
   range,
   sum,
@@ -42,6 +43,7 @@ import {
 } from "./helpers";
 import { generateReport } from "./report";
 import { TUMOR_TYPES, TumorType, getTumorTypeOption } from "../helpers";
+import { naturalJoin } from "../../../ui/helpers/text";
 
 const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
@@ -72,6 +74,13 @@ const getScore = (rows: Row[]): Score => {
     tumorCount,
     ...tumorScore,
   };
+};
+
+// CAUTION: only count visible inputs for size (not the hidden ones)
+const hasValidSizes = (row: Row) => {
+  const biopsySizes = row.biopsySize.slice(0, row.biopsyCount);
+  const tumorSizes = row.tumorSize.slice(0, row.tumorCount);
+  return [...biopsySizes, ...tumorSizes].every((size) => size > 0);
 };
 
 // TODO: test extensively
@@ -114,21 +123,26 @@ const getErrors = ({
     );
   }
 
+  // Biopsy count
+
   rows.forEach((row, index) => {
-    // Biopsy count
     if (row.tumorCount > row.biopsyCount) {
       errors.push(
         `Le nombre de biopsies présentant une tumeur pour le pot numéro ${index + 1} est plus grand que le nombre de biopsies.`,
       );
     }
-
-    // Biopsy size
-    if (sum(row.tumorSize) > sum(row.biopsySize)) {
-      errors.push(
-        `La taille totale des biopsies présentant une tumeur pour le pot numéro ${index + 1} est plus grande que la taille totale des biopsies.`,
-      );
-    }
   });
+
+  // Sizes
+
+  const rowNumbersWithInvalidSizes = rows
+    .map((row, index) => (hasValidSizes(row) ? undefined : index + 1))
+    .filter(filterNullish);
+  if (rowNumbersWithInvalidSizes.length) {
+    errors.push(
+      `Certaines tailles sont égales à 0 (pots numéros ${naturalJoin(rowNumbersWithInvalidSizes, DEFAULT_LANGUAGE)}).`,
+    );
+  }
 
   // PIRADS
 
