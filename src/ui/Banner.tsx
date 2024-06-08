@@ -5,6 +5,7 @@ import { join } from "./helpers/helpers";
 import { joinLines } from "./helpers/text";
 import { goToIndex } from "./helpers/navigation";
 import { ONE_DAY, formatDate, formatDurationInDays } from "./time";
+import { MainDisclaimer } from "../common/MainDisclaimer";
 
 // We recommend checking for updates after 180 days (around 6 months)
 // TODO with Louis: discuss
@@ -12,6 +13,7 @@ const WARNING_DELAY_IN_DAYS = 180; // In days
 
 type Props = {
   formId: FormId;
+  isPrototype: boolean;
   onClear: () => void;
 };
 
@@ -21,7 +23,7 @@ const CONFIRMATION_MESSAGE = joinLines([
   "Vos changements seront définitivement perdus.",
 ]);
 
-export const Banner = ({ formId, onClear: _onClear }: Props) => {
+export const Banner = ({ formId, isPrototype, onClear: _onClear }: Props) => {
   const { lastUpdate } = FORMS[formId];
   const daysSinceLastUpdate = Math.floor((Date.now() - lastUpdate) / ONE_DAY); // In days
   const isWarning = daysSinceLastUpdate > WARNING_DELAY_IN_DAYS;
@@ -45,13 +47,22 @@ export const Banner = ({ formId, onClear: _onClear }: Props) => {
           <a href={REPOSITORY_LINK}>ici</a>.
         </div>
         {/* TODO: add mailing address to report issues */}
+        {isPrototype ? (
+          <div style={{ marginTop: "10px" }}>
+            <MainDisclaimer />
+          </div>
+        ) : undefined}
       </div>
       <div className="banner-actions">
-        <Button label="Remettre le formulaire à zéro" onClick={onClear} />
-        <Button
-          label="Retourner à la liste des formulaires"
-          onClick={goToIndex}
-        />
+        <div>
+          <Button label="Remettre le formulaire à zéro" onClick={onClear} />
+        </div>
+        <div>
+          <Button
+            label="Retourner à la liste des formulaires"
+            onClick={goToIndex}
+          />
+        </div>
       </div>
     </div>
   );

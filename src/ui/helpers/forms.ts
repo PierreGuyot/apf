@@ -6,34 +6,40 @@ type Category = "prostate" | "skin";
 
 type FormItem = {
   title: string;
-  lastUpdate: number; // Timestamp in milliseconds
   category: Category;
+  isPrototype: boolean;
+  lastUpdate: number; // Timestamp in milliseconds
 };
 
 export const FORMS = {
   "prostate-biopsy-transrectal": {
     title: "Biopsies prostatiques transrectales écho-guidées",
     category: "prostate",
+    isPrototype: true,
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },
   "prostate-biopsy-transperineal": {
     title: "Biopsies prostatiques transpérinéales écho-guidées",
     category: "prostate",
+    isPrototype: true,
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },
   "prostate-transurethral-resection": {
     title: "Résection transurétrale de prostate",
     category: "prostate",
+    isPrototype: true,
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },
   "prostate-holmium-laser-enucleation": {
     title: "Enucléation au laser holnium de la prostate",
     category: "prostate",
+    isPrototype: true,
     lastUpdate: new Date(String("Wed May 01 2024")).getTime(),
   },
   dermatology: {
     title: "Dermatologie",
     category: "skin",
+    isPrototype: true,
     lastUpdate: new Date(String("Mon May 20 2024")).getTime(),
   },
 } as const satisfies {

@@ -95,8 +95,12 @@ export const ProstateResectionForm = ({ formId }: Props) => {
   } = state;
 
   return (
-    <Page title={form.title}>
-      <Banner formId={formId} onClear={clearState} />
+    <Page title={form.title} paddingTop={form.isPrototype ? "lg" : "md"}>
+      <Banner
+        formId={formId}
+        isPrototype={form.isPrototype}
+        onClear={clearState}
+      />
 
       <ClinicalInfo
         index={1}

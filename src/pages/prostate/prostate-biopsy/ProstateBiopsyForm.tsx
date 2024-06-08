@@ -260,8 +260,12 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
   };
 
   return (
-    <Page title={form.title}>
-      <Banner formId={formId} onClear={clearState} />
+    <Page title={form.title} paddingTop={form.isPrototype ? "lg" : "md"}>
+      <Banner
+        formId={formId}
+        isPrototype={form.isPrototype}
+        onClear={clearState}
+      />
 
       <Section>
         <Title title="Renseignements cliniques" index={1} />

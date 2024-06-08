@@ -1,14 +1,14 @@
 import { Button } from "./ui/Button";
 import {
   FORMS,
-  FormId,
   FORM_ROUTES,
+  FormId,
   getCategoryProps,
 } from "./ui/helpers/forms";
 import { useHash } from "./ui/helpers/navigation";
 
+import { MainDisclaimer } from "./common/MainDisclaimer";
 import "./main-list.css";
-import { Disclaimer } from "./ui/Disclaimer";
 import { Em } from "./ui/Em";
 import { Page } from "./ui/Page";
 import { Section } from "./ui/Section";
@@ -49,10 +49,7 @@ export const MainList = () => {
       </Section>
 
       <Section>
-        <Disclaimer>
-          Attention ! Ce formulaire est un prototype et se trouve encore en
-          phase de test.
-        </Disclaimer>
+        <MainDisclaimer />
       </Section>
 
       <Section title="Choisissez un type de formulaire">

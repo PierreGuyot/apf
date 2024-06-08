@@ -126,8 +126,12 @@ export const DermatologyForm = () => {
   const { clinicalInfo, containerCount, operations } = state;
 
   return (
-    <Page title={form.title}>
-      <Banner formId={FORM_ID} onClear={clearState} />
+    <Page title={form.title} paddingTop={form.isPrototype ? "lg" : "md"}>
+      <Banner
+        formId={FORM_ID}
+        isPrototype={form.isPrototype}
+        onClear={clearState}
+      />
 
       <ClinicalInfo value={clinicalInfo} onChange={setState("clinicalInfo")} />
 

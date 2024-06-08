@@ -2,8 +2,15 @@
   --border: 1px solid rgb(208, 208, 208);
 
   padding: 32px;
-  padding-top: 80px;
   min-height: 100vh;
   margin-left: 150px;
   border-left: var(--border);
+}
+
+.page--padding-top-md {
+  padding-top: 80px;
+}
+
+.page--padding-top-lg {
+  padding-top: 160px;
 }
