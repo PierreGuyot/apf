@@ -1,14 +1,13 @@
 import { ReactNode, useState } from "react";
 import { Button } from "./Button";
+import { Item } from "./Item";
 import { Section } from "./Section";
 import { Select } from "./Select";
-import { Title } from "./Title";
+import { TextBlock } from "./TextBlock";
 import { copyToClipboard } from "./helpers/copy";
 import { Option } from "./helpers/options";
 import { Language } from "./language";
 import "./summary.css";
-import { TextBlock } from "./TextBlock";
-import { Item } from "./Item";
 
 type Props = {
   getContent: (language: Language) => string; // This part of the content must be a string for copy-pasting
@@ -27,8 +26,7 @@ export const Summary = ({ getContent, getTable }: Props) => {
 
   return (
     <>
-      <Section>
-        <Title title="Compte-rendu" />
+      <Section title="Compte-rendu">
         <div className="summary-buttons">
           <Select
             name="Language selection"

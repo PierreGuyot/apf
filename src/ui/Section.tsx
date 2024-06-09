@@ -1,19 +1,20 @@
 import { PropsWithChildren } from "react";
 
 import { Item } from "./Item";
-import { Title } from "./Title";
 import { NestedItem } from "./NestedItem";
+import { Title } from "./Title";
 
 type Props = PropsWithChildren<{
+  index?: number;
   title?: string;
 }>;
 
 const size = "md";
 
 // TODO clean: use role `section`
-export const Section = ({ title, children }: Props) => (
+export const Section = ({ title, index, children }: Props) => (
   <Item size={size}>
-    {title ? <Title title={title} size={size} /> : undefined}
+    {title ? <Title title={title} size={size} index={index} /> : undefined}
     <NestedItem depth={0}>{children}</NestedItem>
   </Item>
 );

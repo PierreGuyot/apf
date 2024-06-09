@@ -9,7 +9,6 @@ import { Section } from "../../../ui/Section";
 import { Select } from "../../../ui/Select";
 import { SelectNumber } from "../../../ui/SelectNumber";
 import { Summary } from "../../../ui/Summary";
-import { Title } from "../../../ui/Title";
 import { ValidationErrors } from "../../../ui/ValidationErrors";
 import {
   filterNullish,
@@ -271,8 +270,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
 
   return (
     <FormPage formId={formId} onClear={clearState}>
-      <Section>
-        <Title title="Renseignements cliniques" index={1} />
+      <Section title="Renseignements cliniques" index={1}>
         <Line>
           <Select
             value={hasInfo}
@@ -346,8 +344,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
         ) : undefined}
       </Section>
 
-      <Section>
-        <Title title="Biopsies" index={2} />
+      <Section title="Biopsies" index={2}>
         <Line>
           {/* CAUTION:
           This question is redundant with some previous questions but it is on

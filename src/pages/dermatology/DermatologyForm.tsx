@@ -9,7 +9,6 @@ import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { SubSection } from "../../ui/SubSection";
 import { Summary } from "../../ui/Summary";
-import { Title } from "../../ui/Title";
 import { patchArray, range } from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { SetState, useForm } from "../../ui/helpers/use-form";
@@ -133,7 +132,7 @@ export const DermatologyForm = () => {
           <InputNumber
             value={containerCount}
             min={1}
-            max={5}
+            max={20}
             onChange={setState("containerCount")}
           />
         </Line>
@@ -206,8 +205,7 @@ const OperationForm = ({
   }, [operation.type]);
 
   return (
-    <Section>
-      <Title title={title} index={index + 1} />
+    <Section title={title} index={index + 1}>
       <Line>
         Quel est le type d'opération ?{" "}
         <Select

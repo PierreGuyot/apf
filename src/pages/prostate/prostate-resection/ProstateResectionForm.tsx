@@ -6,7 +6,6 @@ import { Section } from "../../../ui/Section";
 import { Select } from "../../../ui/Select";
 import { SelectList } from "../../../ui/SelectList";
 import { Summary } from "../../../ui/Summary";
-import { Title } from "../../../ui/Title";
 import { YES_NO_OPTIONS } from "../../../ui/helpers/options";
 import { useForm } from "../../../ui/helpers/use-form";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
@@ -98,8 +97,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
         onChange={setState("caseSummary")}
       />
 
-      <Section>
-        <Title title="Macroscopie" index={2} />
+      <Section title="Macroscopie" index={2}>
         <Line>
           Poids des copeaux :{" "}
           <InputNumber
@@ -129,8 +127,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
         </Line>
       </Section>
 
-      <Section>
-        <Title title="Microscopie" index={3} />
+      <Section title="Microscopie" index={3}>
         <Line>
           <Select
             label="Quelle est le type de la lésion principale ?"
