@@ -25,6 +25,7 @@ import { naturalJoin } from "../../../ui/helpers/text";
 import { useForm } from "../../../ui/helpers/use-form";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
 import { TUMOR_TYPES, TumorType, getTumorTypeOption } from "../helpers";
+import { Immunohistochemistry } from "./Immunohistochemistry";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
@@ -384,8 +385,12 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
         <ValidationErrors errors={errors} />
       </Item>
 
+      <Section title="Immunohistochimie" index={3}>
+        <Immunohistochemistry />
+      </Section>
+
       <AdditionalRemarks
-        index={3}
+        index={4}
         value={comment}
         onChange={setState("comment")}
       />

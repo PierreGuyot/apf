@@ -3,11 +3,11 @@ import { Button } from "./Button";
 import { CheckboxList } from "./CheckboxList";
 import { Pill } from "./Pill";
 import { Tooltip } from "./Tooltip";
+import { FieldProps } from "./helpers/fields";
 import { noop } from "./helpers/helpers";
 import { Option, SelectValue } from "./helpers/options";
-import "./select-list.css";
-import { FieldProps } from "./helpers/fields";
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
+import "./select-list.css";
 
 type ItemGroup<T extends SelectValue> = {
   title: string;
@@ -51,6 +51,10 @@ export function SelectList<T extends SelectValue>({
       .map((item) => translate(item.label, language))
       .join(" + ");
   }
+
+  // TODO: add an emptyState: string prop
+  // TODO: add a hasList?: boolean = true prop
+  // TODO: add a label prop?
 
   return (
     <div>
