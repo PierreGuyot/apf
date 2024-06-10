@@ -81,6 +81,9 @@ const hasValidSizes = (row: Row) => {
   return [...biopsySizes, ...tumorSizes].every((size) => size > 0);
 };
 
+// TODO: add validations for IHC: 
+//  - If there is an IHC, there must be at least one antibody in the least
+//  - In an antibody block, there must be at least one selected block
 // TODO: test extensively
 const getErrors = ({
   sextantName,
