@@ -1,6 +1,10 @@
 import { useMemo } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { FormPage } from "../../../common/FormPage";
+import {
+  IhcState,
+  Immunohistochemistry,
+} from "../../../common/immunohistochemistry/Immunohistochemistry";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Item } from "../../../ui/Item";
 import { Line } from "../../../ui/Line";
@@ -24,8 +28,12 @@ import { isDebug } from "../../../ui/helpers/state";
 import { naturalJoin } from "../../../ui/helpers/text";
 import { useForm } from "../../../ui/helpers/use-form";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
-import { TUMOR_TYPES, TumorType, getTumorTypeOption } from "../helpers";
-import { Immunohistochemistry } from "./Immunohistochemistry";
+import {
+  PROSTATE_ANTIBODIES_OPTIONS,
+  TUMOR_TYPES,
+  TumorType,
+  getTumorTypeOption,
+} from "../helpers";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
@@ -191,6 +199,7 @@ export type FormState = {
   piradsItems: PiradsItem[];
   rows: Row[];
   tumorType: TumorType;
+  ihc: IhcState;
   comment: string;
 };
 
@@ -214,9 +223,13 @@ const getInitialState = (): FormState => ({
   hasMri: isDebug,
   psaRate: 0,
   containerCount: MAX_CONTAINER_COUNT,
+  piradsItems: getPiradsItems(),
   rows: getRows(),
   tumorType: "acinar-adenocarcinoma-conventional",
-  piradsItems: getPiradsItems(),
+  ihc: {
+    hasIhc: true,
+    antibodies: [],
+  },
   comment: "",
 });
 
@@ -240,6 +253,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
     psaRate,
     containerCount,
     tumorType,
+    ihc,
     comment,
   } = state;
 
@@ -389,7 +403,12 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
       </Item>
 
       <Section title="Immunohistochimie" index={3}>
-        <Immunohistochemistry />
+        <Immunohistochemistry
+          containerCount={containerCount}
+          options={PROSTATE_ANTIBODIES_OPTIONS}
+          state={ihc}
+          setState={setState("ihc")}
+        />
       </Section>
 
       <AdditionalRemarks

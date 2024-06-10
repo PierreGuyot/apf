@@ -1,5 +1,7 @@
 import { ReportParams, generateReport } from "./report";
 
+// TODO: test non-trivial values for ihc field
+
 const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
   formId: "prostate-biopsy-transrectal",
   hasInfo: true,
@@ -183,6 +185,10 @@ const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
       location: "apex-right",
     },
   ],
+  ihc: {
+    antibodies: [],
+    hasIhc: false,
+  },
   comment: "MOCK-specific-notes",
   score: {
     biopsyCount: 18,
@@ -373,6 +379,10 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
       location: "apex-right",
     },
   ],
+  ihc: {
+    antibodies: [],
+    hasIhc: false,
+  },
   comment: "MOCK-specific-notes",
   score: {
     biopsyCount: 18,

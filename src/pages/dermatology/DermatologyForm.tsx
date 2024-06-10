@@ -184,6 +184,8 @@ const OperationForm = ({
   index: number;
 }) => {
   const title = getTitle(operation);
+
+  // TODO: extract dedicated state helper
   const setOperationState: SetState<OperationState> = (key) => (value) =>
     setOperation({ ...operation, [key]: value });
 
@@ -192,12 +194,15 @@ const OperationForm = ({
       case "biopsy": {
         return MacroBiopsyForm;
       }
+
       case "excision": {
         return MacroExcisionForm;
       }
+
       case "recoupe": {
         return MacroRecoupeForm;
       }
+
       case "shaving": {
         return MacroShavingForm;
       }

@@ -1,3 +1,4 @@
+import { Antibody } from "../../common/immunohistochemistry/_helpers";
 import { filterEmpty } from "../../ui/helpers/helpers";
 import { Option, SelectValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";
@@ -260,3 +261,16 @@ export const getGleasonSummary = (
 
   return `${a + b} (${items})`;
 };
+
+export const PROSTATE_ANTIBODIES_OPTIONS: Option<Antibody>[] = [
+  { value: "P504S", label: "P504S" },
+  { value: "P63", label: "P63" },
+  { value: "BCC", label: "BCC" },
+];
+
+export const PROSTATE_ANTIBODY_GROUPS = [
+  {
+    title: "", // TODO: fix API
+    items: PROSTATE_ANTIBODIES_OPTIONS,
+  },
+];
