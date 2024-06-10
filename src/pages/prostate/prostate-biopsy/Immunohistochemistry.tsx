@@ -100,7 +100,7 @@ const ANTIBODY_GROUPS = [{ title: "", items: ANTIBODIES_OPTIONS }];
 type Result = "positive" | "negative";
 const RESULT_OPTIONS: Option<Result>[] = [
   { value: "positive", label: "Positif" },
-  { value: "negative", label: "Négative" },
+  { value: "negative", label: "Négatif" },
 ];
 type Block = {
   index: number;
@@ -128,7 +128,7 @@ const AntibodySection = ({ antibody }: { antibody: Antibody }) => {
       title: "", // TODO: fix API
       items: range(1, containerCount).map((value) => ({
         value,
-        label: String(value),
+        label: `Bloc ${value}`,
       })),
     },
   ];
@@ -151,6 +151,7 @@ const AntibodySection = ({ antibody }: { antibody: Antibody }) => {
         />
       </Line>
       <Line>
+        {/* TODO: fix wording */}
         Sur quels blocs avez-vous réalisé cet anticorps ?{" "}
         <SelectList
           groups={selectedBlockGroups}
@@ -194,7 +195,7 @@ const AntibodySection = ({ antibody }: { antibody: Antibody }) => {
         });
 
         return (
-          <SubSection title={`Bloc ${block.index}`}>
+          <SubSection key={block.index} title={`Bloc ${block.index}`}>
             <Line>
               <Select
                 label="Sur quel type de cellules ?"
@@ -265,7 +266,7 @@ export const Immunohistochemistry = (
             />
           </Line>
           {antibodies.map((antibody) => (
-            <AntibodySection antibody={antibody} />
+            <AntibodySection key={antibody} antibody={antibody} />
           ))}
         </>
       ) : undefined}

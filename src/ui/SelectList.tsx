@@ -15,6 +15,7 @@ type ItemGroup<T extends SelectValue> = {
 };
 
 type Props<T extends SelectValue> = FieldProps<T[]> & {
+  emptyState?: string;
   language?: Language;
   groups: ItemGroup<T>[];
 };
@@ -33,6 +34,7 @@ export function getSelectedItems<T extends SelectValue>({
 
 export function SelectList<T extends SelectValue>({
   language = DEFAULT_LANGUAGE,
+  emptyState,
   groups,
   value,
   isReadOnly,
@@ -52,40 +54,39 @@ export function SelectList<T extends SelectValue>({
       .join(" + ");
   }
 
-  // TODO: add an emptyState: string prop
-  // TODO: add a hasList?: boolean = true prop
   // TODO: add a label prop?
 
   return (
-    <div>
-      <div className="select-list">
-        <Tooltip
-          mode="click"
-          content={
-            <div className="select-list-tooltip">
-              {groups.map((group) => (
-                <CheckboxList
-                  language={language}
-                  key={group.title}
-                  title={group.title}
-                  items={group.items}
-                  values={state}
-                  onChange={setState}
-                />
-              ))}
-            </div>
-          }
-          onClose={onCommit}
-        >
-          <Button label="+" onClick={noop} />
-        </Tooltip>
-        {selectedItems.map((item) => (
-          <Pill
-            key={String(item.value)}
-            label={translate(item.label, language)}
-          />
-        ))}
-      </div>
+    <div className="select-list">
+      <Tooltip
+        mode="click"
+        content={
+          <div className="select-list-tooltip">
+            {groups.map((group) => (
+              <CheckboxList
+                language={language}
+                key={group.title}
+                title={group.title}
+                items={group.items}
+                values={state}
+                onChange={setState}
+              />
+            ))}
+          </div>
+        }
+        onClose={onCommit}
+      >
+        <Button label="+" onClick={noop} />
+      </Tooltip>
+      {selectedItems.map((item) => (
+        <Pill
+          key={String(item.value)}
+          label={translate(item.label, language)}
+        />
+      ))}
+      {selectedItems.length ? undefined : (
+        <div className="select-list-empty-state">{emptyState}</div>
+      )}
     </div>
   );
 }

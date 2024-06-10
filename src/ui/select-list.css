@@ -9,3 +9,10 @@
   flex-direction: column;
   gap: 0.8rem;
 }
+
+.select-list-empty-state {
+  align-self: center;
+  font-size: 0.9em;
+  font-style: italic;
+  color: gray;
+}
