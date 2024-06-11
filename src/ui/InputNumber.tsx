@@ -68,9 +68,10 @@ export const InputNumber = ({
     }
 
     // If the value is invalid, set the field to a valid value on blur:
-    // - If the field is empty, reset to 0
+    // - If the field is empty, reset to minimal value
     // - If the field is filled, reset to last valid value
-    _setValue(String(_value ? value : 0));
+    const resetValue = min ?? 0;
+    _setValue(String(_value ? value : resetValue));
   };
 
   const onInput: OnInput<HTMLInputElement> = (e) => {
