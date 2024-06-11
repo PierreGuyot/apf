@@ -32,6 +32,8 @@ export function getSelectedItems<T extends SelectValue>({
     .filter((item) => value.includes(item.value));
 }
 
+// TODO: add label prop?
+
 export function SelectList<T extends SelectValue>({
   language = DEFAULT_LANGUAGE,
   emptyState,

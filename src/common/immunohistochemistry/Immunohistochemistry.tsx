@@ -91,7 +91,7 @@ export const Immunohistochemistry = ({
       {hasIhc ? (
         <>
           <Line>
-            <div>Quels anticorps avez-vous réalisés ?</div>
+            Quels anticorps avez-vous réalisés ?
             <SelectList
               value={selectedAntibodies}
               groups={groups}

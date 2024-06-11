@@ -99,8 +99,8 @@ export const ProstateResectionForm = ({ formId }: Props) => {
 
       <Section title="Macroscopie" index={2}>
         <Line>
-          Poids des copeaux :{" "}
           <InputNumber
+            label="Poids des copeaux :"
             value={chipWeight}
             unit="g"
             isDecimal
@@ -198,7 +198,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
           </>
         ) : undefined}
         <Line>
-          <div>Autres lésions</div>
+          Autres lésions
           <SelectList
             value={otherLesions}
             groups={OTHER_LESION_GROUPS}

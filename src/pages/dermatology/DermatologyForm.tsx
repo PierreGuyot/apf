@@ -12,6 +12,7 @@ import { Summary } from "../../ui/Summary";
 import { patchArray, range } from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { SetState, useForm } from "../../ui/helpers/use-form";
+import { InkingSection, InkingState } from "./InkingSection";
 import {
   BIOPSY_TYPES,
   BiopsyType,
@@ -71,6 +72,7 @@ type OperationState = {
   cassetteCount: number;
   inclusionType: InclusionType;
   cutType: CutType;
+  inkings: InkingState;
 };
 
 export type FormState = {
@@ -105,6 +107,10 @@ const getOperation = (): OperationState => ({
   tumorType: "basal-cell-carcinoma-superficial",
   excisionType: "complete",
   cutaneousDiseaseType: "eczema",
+  inkings: {
+    hasInking: false,
+    inkings: [],
+  },
 });
 
 const MAX_OPERATION_COUNT = 5;
@@ -212,9 +218,9 @@ const OperationForm = ({
   return (
     <Section title={title} index={index + 1}>
       <Line>
-        Quel est le type d'opération ?{" "}
         <Select
           name="Type d'opération"
+          label="Quel est le type d'opération ?"
           value={operation.type}
           options={OPERATION_TYPES}
           onChange={setOperationState("type")}
@@ -265,6 +271,7 @@ const MacroExcisionForm = ({
   cassetteCount,
   inclusionType,
   cutType,
+  inkings,
   setState,
 }: OperationState & { setState: SetState<OperationState> }) => {
   return (
@@ -307,9 +314,9 @@ const MacroExcisionForm = ({
         cm
       </Line>
       <Line>
-        La lésion est-elle visible ?{" "}
         <Select
           name="Visibilité de la lésion"
+          label="La lésion est-elle visible ?"
           value={isLesionVisible}
           options={YES_NO_OPTIONS}
           onChange={setState("isLesionVisible")}
@@ -319,9 +326,9 @@ const MacroExcisionForm = ({
       {isLesionVisible ? (
         <>
           <Line>
-            Quel est l'aspect de la lésion ?
             <Select
               name="Aspect de la lésion"
+              label="Quel est l'aspect de la lésion ?"
               value={lesionAspectType}
               options={LESION_ASPECT_TYPES}
               onChange={setState("lesionAspectType")}
@@ -346,9 +353,9 @@ const MacroExcisionForm = ({
       ) : undefined}
 
       <Line>
-        Votre exérèse est-elle orientée ?
         <Select
           name="Orientation de l'exèrèse"
+          label="Votre exérèse est-elle orientée ?"
           value={isOriented}
           options={YES_NO_OPTIONS}
           onChange={setState("isOriented")}
@@ -376,32 +383,34 @@ const MacroExcisionForm = ({
       ) : undefined}
 
       <Line>
-        Combien de cassettes avez-vous réalisées sur cette pièce ?
         <SelectNumber
           name="Nombre de cassettes"
+          label="Combien de cassettes avez-vous réalisées sur cette pièce ?"
           value={cassetteCount}
           max={10}
           onChange={setState("cassetteCount")}
         />
       </Line>
       <Line>
-        La pièce a-t-elle été incluse en totalité ?{" "}
         <Select
           name="Type d'inclusion"
+          label="La pièce a-t-elle été incluse en totalité ?"
           value={inclusionType}
           options={INCLUSION_TYPES}
           onChange={setState("inclusionType")}
         />
       </Line>
       <Line>
-        Comment le prélèvement a-t-il été inclus ?
         <Select
+          label="Comment le prélèvement a-t-il été inclus ?"
           name="Type de coupe"
           value={cutType}
           options={getCutTypes(isOriented)}
           onChange={setState("cutType")}
         />
       </Line>
+
+      <InkingSection state={inkings} setState={setState("inkings")} />
     </>
   );
 };
@@ -434,9 +443,9 @@ const MicroscopyForm = ({
   return (
     <>
       <Line>
-        Quel est le type de lésion ?{" "}
         <Select
           name="Type de la lésion"
+          label="Quel est le type de lésion ?"
           value={lesionType}
           options={LESION_TYPES}
           onChange={setState("lesionType")}
@@ -446,27 +455,27 @@ const MicroscopyForm = ({
       {lesionType === "tumor" ? (
         <>
           <Line>
-            Combien de lésions sont présentes sur le prélèvement ?{" "}
             <InputNumber
+              label="Combien de lésions sont présentes sur le prélèvement ?"
               value={lesionCount}
               min={1}
-              max={5}
+              max={20} // We use an unreasonably high maximum to cover all cases
               onChange={setState("lesionCount")}
             />
           </Line>
           <Line>
-            Quel est le type de tumeur cutanée ?{" "}
             <Select
               name="Type de tumeur cutanée"
+              label="Quel est le type de tumeur cutanée ?"
               value={tumorType}
               options={TUMOR_TYPES}
               onChange={setState("tumorType")}
             />
           </Line>
           <Line>
-            Précisez l'exérèse de la lésion :{" "}
             <Select
               name="Type d'exérèse"
+              label="Précisez l'exérèse de la lésion :"
               value={excisionType}
               options={EXCISION_TYPES}
               onChange={setState("excisionType")}
@@ -476,9 +485,9 @@ const MicroscopyForm = ({
       ) : lesionType === "inflammation" ? (
         <>
           <Line>
-            Quel est le type de maladie cutanée ?{" "}
             <Select
               name="Type de maladie cutanée"
+              label="Quel est le type de maladie cutanée ?"
               value={cutaneousDiseaseType}
               options={CUTANEOUS_DISEASE_TYPES}
               onChange={setState("cutaneousDiseaseType")}

@@ -94,7 +94,7 @@ export const AntibodySection = ({
       </Line>
       <Line>
         {/* TODO: fix wording */}
-        Sur quels blocs avez-vous réalisé cet anticorps ?{" "}
+        Sur quels blocs avez-vous réalisé cet anticorps ?
         <SelectList
           groups={groups}
           value={selectedBlocks}
