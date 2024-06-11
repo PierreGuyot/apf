@@ -316,31 +316,34 @@ const MacroExcisionForm = ({
         />
       </Line>
 
-      <Line>
-        Quel est l'aspect de la lésion ?
-        <Select
-          name="Aspect de la lésion"
-          value={lesionAspectType}
-          options={LESION_ASPECT_TYPES}
-          onChange={setState("lesionAspectType")}
-        />
-      </Line>
-
-      <Line>
-        Quelle est la limite au plus proche ? Située à{" "}
-        <InputNumber
-          value={limitDistance}
-          onChange={setState("limitDistance")}
-        />
-        cm de la limite à{" "}
-        <SelectNumber
-          name="Angle à la limite"
-          value={limitAngle}
-          max={12}
-          onChange={setState("limitAngle")}
-        />
-        h
-      </Line>
+      {isLesionVisible ? (
+        <>
+          <Line>
+            Quel est l'aspect de la lésion ?
+            <Select
+              name="Aspect de la lésion"
+              value={lesionAspectType}
+              options={LESION_ASPECT_TYPES}
+              onChange={setState("lesionAspectType")}
+            />
+          </Line>
+          <Line>
+            Quelle est la limite au plus proche ? Située à{" "}
+            <InputNumber
+              value={limitDistance}
+              onChange={setState("limitDistance")}
+            />
+            cm de la limite à{" "}
+            <SelectNumber
+              name="Angle à la limite"
+              value={limitAngle}
+              max={12}
+              onChange={setState("limitAngle")}
+            />
+            h
+          </Line>
+        </>
+      ) : undefined}
 
       <Line>
         Votre exérèse est-elle orientée ?
