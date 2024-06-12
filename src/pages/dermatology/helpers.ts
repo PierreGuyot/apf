@@ -295,3 +295,15 @@ export const ANGLE_OPTIONS = [
   { value: 12, label: "à 12h" },
 ] as const;
 export type Angle = (typeof ANGLE_OPTIONS)[number]["value"];
+
+// FIXME: translate
+export type OperationType = "biopsy" | "excision" | "recoupe" | "shaving";
+export const OPERATION_TYPES: Option<OperationType>[] = [
+  { value: "biopsy", label: "Biopsie" },
+  { value: "excision", label: "Exérèse" },
+  { value: "recoupe", label: "Recoupe" },
+  { value: "shaving", label: "Shaving" },
+];
+
+export type MarginPosition = Angle | Limit;
+export const MARGIN_POSITIONS = [...LIMIT_OPTIONS, ...ANGLE_OPTIONS];

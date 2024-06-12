@@ -2,8 +2,6 @@ import { useMemo } from "react";
 import { AdditionalRemarks } from "../../common/AdditionalRemarks";
 import { ClinicalInfo } from "../../common/ClinicalInfo";
 import { FormPage } from "../../common/FormPage";
-import { SelectLymphaticOrVascularInvasion } from "../../common/SelectLymphaticOrVascularInvasion";
-import { SelectPerineuralInvasion } from "../../common/SelectPerineuralInvasion";
 import { InputNumber } from "../../ui/InputNumber";
 import { Line } from "../../ui/Line";
 import { Section } from "../../ui/Section";
@@ -13,12 +11,10 @@ import { SubSection } from "../../ui/SubSection";
 import { Summary } from "../../ui/Summary";
 import { patchState, useForm } from "../../ui/helpers/form-state";
 import { patchArray, range } from "../../ui/helpers/helpers";
-import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
+import { YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { InkingSection, InkingState } from "./InkingSection";
-import { SelectClarkInfiltrationLevel } from "./SelectClarkInfiltrationLevel";
+import { TumoralLesionSection } from "./TumoralLesionSection";
 import {
-  ANGLE_OPTIONS,
-  Angle,
   BIOPSY_TYPES,
   BiopsyType,
   CLARK_INFILTRATION_LEVELS,
@@ -26,20 +22,19 @@ import {
   ClarkInfiltrationLevel,
   CutType,
   CutaneousDiseaseType,
-  EXCISION_TYPES,
   ExcisionType,
   INCLUSION_TYPES,
   InclusionType,
   LESION_ASPECT_TYPES,
   LESION_TYPES,
-  LIMIT_OPTIONS,
   LesionAspectType,
   LesionType,
-  Limit,
+  MARGIN_POSITIONS,
+  MarginPosition,
+  OPERATION_TYPES,
   ORIENTATION_TYPES,
+  OperationType,
   OrientationType,
-  TUMOR_PROPERTIES,
-  TUMOR_TYPE_OPTIONS,
   TumorType,
   getCutTypes,
 } from "./helpers";
@@ -47,19 +42,7 @@ import { generateReport } from "./report";
 
 const FORM_ID = "dermatology";
 
-// FIXME: translate
-type OperationType = "biopsy" | "excision" | "recoupe" | "shaving";
-const OPERATION_TYPES: Option<OperationType>[] = [
-  { value: "biopsy", label: "Biopsie" },
-  { value: "excision", label: "Exérèse" },
-  { value: "recoupe", label: "Recoupe" },
-  { value: "shaving", label: "Shaving" },
-];
-
-type MarginPosition = Angle | Limit;
-const MARGIN_POSITIONS = [...LIMIT_OPTIONS, ...ANGLE_OPTIONS];
-
-type TumorData = {
+export type TumorData = {
   mainTumorType: TumorType;
   secondaryTumorType: TumorType;
   excisionType: ExcisionType;
@@ -547,134 +530,5 @@ const MicroscopyForm = ({
         <>FIXME: complete ForeignBody</>
       )}
     </>
-  );
-};
-
-// TODO clean: extract to a dedicated file
-const TumoralLesionSection = ({
-  index,
-  operationType,
-  isOriented,
-  state,
-  setState,
-}: {
-  index: number;
-  operationType: OperationType;
-  isOriented: boolean;
-  state: TumorData;
-  setState: (tumor: TumorData) => void;
-}) => {
-  const setField = patchState(state, setState);
-  const {
-    mainTumorType,
-    secondaryTumorType,
-    excisionType,
-    minDepthMargin,
-    minSideMargin,
-    marginPosition,
-    hasLymphaticOrVascularInvasion,
-    hasEpn,
-    infiltrationLevel,
-  } = state;
-
-  const {
-    hasSelectLymphaticOrVascularInvasion,
-    hasSelectPerineuralInvasion,
-    hasSelectClarkInfiltrationLevel,
-  } = TUMOR_PROPERTIES[mainTumorType];
-
-  return (
-    <SubSection>
-      {/* TODO clean: improve styling */}
-      <Line>
-        <b>Lésion {index + 1}</b>
-      </Line>
-      <Line>
-        <Select
-          name="Type de la tumeur cutanée principale"
-          label="Quel est le type de la tumeur cutanée principale ?"
-          value={mainTumorType}
-          options={TUMOR_TYPE_OPTIONS}
-          onChange={setField("mainTumorType")}
-        />
-      </Line>
-      <Line>
-        <Select
-          name="Type des tumeurs cutanées adjacentes"
-          label="Quel est le type des tumeurs cutanées adjacentes ?"
-          value={secondaryTumorType}
-          options={TUMOR_TYPE_OPTIONS}
-          onChange={setField("secondaryTumorType")}
-        />
-      </Line>
-      <Line>
-        <Select
-          name="Type d'exérèse"
-          label="Préciser l'exérèse de la lésion :"
-          value={excisionType}
-          options={EXCISION_TYPES}
-          onChange={setField("excisionType")}
-        />
-      </Line>
-
-      {/*
-        Only display this section if the:
-        - Operation type is not a biopsy
-        - Excision type has margins
-      */}
-      {operationType !== "biopsy" && excisionType !== "complete" ? (
-        <>
-          <Line>
-            <InputNumber
-              label="Taille de la marge latérale minimale"
-              value={minDepthMargin}
-              onChange={setField("minDepthMargin")}
-              unit="mm"
-            />
-            {isOriented ? (
-              <Select
-                name="Position de la marge latérale minimale"
-                options={MARGIN_POSITIONS}
-                value={marginPosition}
-                onChange={setField("marginPosition")}
-              />
-            ) : undefined}
-          </Line>
-          <Line>
-            <InputNumber
-              label="Préciser la marge profonde minimale"
-              value={minSideMargin}
-              onChange={setField("minSideMargin")}
-              unit="mm"
-            />
-          </Line>
-        </>
-      ) : undefined}
-
-      {hasSelectLymphaticOrVascularInvasion ? (
-        <Line>
-          <SelectLymphaticOrVascularInvasion
-            value={hasLymphaticOrVascularInvasion}
-            onChange={setField("hasLymphaticOrVascularInvasion")}
-          />
-        </Line>
-      ) : undefined}
-      {hasSelectPerineuralInvasion ? (
-        <Line>
-          <SelectPerineuralInvasion
-            value={hasEpn}
-            onChange={setField("hasEpn")}
-          />
-        </Line>
-      ) : undefined}
-      {hasSelectClarkInfiltrationLevel ? (
-        <Line>
-          <SelectClarkInfiltrationLevel
-            value={infiltrationLevel}
-            onChange={setField("infiltrationLevel")}
-          />
-        </Line>
-      ) : undefined}
-    </SubSection>
   );
 };
