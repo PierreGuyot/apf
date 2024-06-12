@@ -3,9 +3,9 @@ import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import { SetState } from "../../ui/helpers/use-form";
 import { AntibodySection } from "./_AntibodySection";
 import { ANTIBODIES_PROPERTIES, Antibody, AntibodyData } from "./_helpers";
+import { patchState } from "../../ui/helpers/form-state";
 
 export type IhcState = {
   hasIhc: boolean;
@@ -35,12 +35,10 @@ export const Immunohistochemistry = ({
   containerCount,
   options,
   state,
-  setState: _setState,
+  setState,
 }: Props) => {
   const { hasIhc, antibodies } = state;
-  // TODO clean: extract dedicated state helper
-  const setState: SetState<IhcState> = (key) => (value) =>
-    _setState({ ...state, [key]: value });
+  const setField = patchState(state, setState);
 
   const groups = useMemo(
     () => [
@@ -74,7 +72,7 @@ export const Immunohistochemistry = ({
       }
     }
 
-    setState("antibodies")(Array.from(updatedMap.values()));
+    setField("antibodies")(Array.from(updatedMap.values()));
   };
 
   return (
@@ -85,7 +83,7 @@ export const Immunohistochemistry = ({
           options={YES_NO_OPTIONS}
           name="Immunohistochimie"
           label="Avez-vous réalisé une immunohistochimie ?"
-          onChange={setState("hasIhc")}
+          onChange={setField("hasIhc")}
         />
       </Line>
       {hasIhc ? (
@@ -106,7 +104,7 @@ export const Immunohistochemistry = ({
               setState={(value) => {
                 const updatedAntibodies = [...antibodies];
                 updatedAntibodies[index] = value;
-                setState("antibodies")(updatedAntibodies);
+                setField("antibodies")(updatedAntibodies);
               }}
             />
           ))}

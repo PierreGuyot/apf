@@ -26,7 +26,7 @@ import { Option, YES_NO_OPTIONS } from "../../../ui/helpers/options";
 import { count } from "../../../ui/helpers/plural";
 import { isDebug } from "../../../ui/helpers/state";
 import { naturalJoin } from "../../../ui/helpers/text";
-import { useForm } from "../../../ui/helpers/use-form";
+import { useForm } from "../../../ui/helpers/form-state";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
 import {
   PROSTATE_ANTIBODIES_OPTIONS,
@@ -244,7 +244,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
       : "biopsie systématique";
 
   // State
-  const { state, setState, clearState } = useForm(getInitialState);
+  const { state, setField, clearState } = useForm(getInitialState);
   const {
     hasInfo,
     hasTarget,
@@ -283,7 +283,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
     const updatedArray = [...state.piradsItems];
     updatedArray[index] = value;
-    setState("piradsItems")(updatedArray);
+    setField("piradsItems")(updatedArray);
   };
 
   return (
@@ -295,7 +295,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
             options={YES_NO_OPTIONS}
             name="Renseignements cliniques"
             label="Avez-vous des renseignements cliniques ?"
-            onChange={setState("hasInfo")}
+            onChange={setField("hasInfo")}
           />
         </Line>
         {hasInfo ? (
@@ -307,7 +307,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
                 unit="ng-per-mL"
                 size="lg"
                 isDecimal
-                onChange={setState("psaRate")}
+                onChange={setField("psaRate")}
               />
             </Line>
             <Line>
@@ -316,7 +316,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
                 options={YES_NO_OPTIONS}
                 name="IRM"
                 label="Avez-vous une IRM ?"
-                onChange={setState("hasMri")}
+                onChange={setField("hasMri")}
               />
             </Line>
             {hasMri ? (
@@ -327,7 +327,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
                     options={YES_NO_OPTIONS}
                     name="Présence de cible"
                     label="Avez-vous au moins une cible ?"
-                    onChange={setState("hasTarget")}
+                    onChange={setField("hasTarget")}
                   />
                 </Line>
                 {hasTarget ? (
@@ -338,7 +338,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
                         name="Nombre de cibles"
                         label="Nombre de cibles"
                         max={MAX_TARGET_COUNT}
-                        onChange={setState("targetCount")}
+                        onChange={setField("targetCount")}
                       />
                     </Line>
                     {targetCount ? (
@@ -370,7 +370,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
             value={containerCount}
             label="Combien de pots avez-vous ?"
             options={CONTAINER_COUNT_OPTIONS}
-            onChange={setState("containerCount")}
+            onChange={setField("containerCount")}
           />
         </Line>
       </Section>
@@ -381,7 +381,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
           language={DEFAULT_LANGUAGE}
           rows={rows}
           score={score}
-          onChange={setState("rows")}
+          onChange={setField("rows")}
         />
       </Item>
 
@@ -392,7 +392,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
             label="Type histologique de la tumeur"
             options={TUMOR_TYPES}
             value={tumorType}
-            onChange={setState("tumorType")}
+            onChange={setField("tumorType")}
           />
         ) : undefined}
         <ValidationErrors errors={errors} />
@@ -403,14 +403,14 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
           containerCount={containerCount}
           options={PROSTATE_ANTIBODIES_OPTIONS}
           state={ihc}
-          setState={setState("ihc")}
+          setState={setField("ihc")}
         />
       </Section>
 
       <AdditionalRemarks
         index={4}
         value={comment}
-        onChange={setState("comment")}
+        onChange={setField("comment")}
       />
 
       {errors.length ? undefined : (

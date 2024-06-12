@@ -3,7 +3,7 @@ import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
 import { SubSection } from "../../ui/SubSection";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import { SetState } from "../../ui/helpers/use-form";
+import { patchState } from "../../ui/helpers/form-state";
 import {
   INKING_COLORS_OPTIONS,
   INKING_COLOR_GROUPS,
@@ -51,11 +51,9 @@ type Props = {
   setState: (state: InkingState) => void;
 };
 
-export const InkingSection = ({ state, setState: _setState }: Props) => {
+export const InkingSection = ({ state, setState }: Props) => {
   const { hasInking, inkings } = state;
-  // TODO clean: extract dedicated state helper
-  const setState: SetState<InkingState> = (key) => (value) =>
-    _setState({ ...state, [key]: value });
+  const setField = patchState(state, setState);
 
   const selectedInkings = inkings.map((inking) => inking.color);
 
@@ -77,7 +75,7 @@ export const InkingSection = ({ state, setState: _setState }: Props) => {
       }
     }
 
-    setState("inkings")(Array.from(updatedMap.values()));
+    setField("inkings")(Array.from(updatedMap.values()));
   };
 
   return (
@@ -88,7 +86,7 @@ export const InkingSection = ({ state, setState: _setState }: Props) => {
           label="Avez vous réalisé un encrage"
           value={hasInking}
           options={YES_NO_OPTIONS}
-          onChange={setState("hasInking")}
+          onChange={setField("hasInking")}
         />
       </Line>
       {hasInking ? (
@@ -119,7 +117,7 @@ export const InkingSection = ({ state, setState: _setState }: Props) => {
                           ...updatedInkings[index],
                           limit: value,
                         };
-                        setState("inkings")(updatedInkings);
+                        setField("inkings")(updatedInkings);
                       }}
                     />
                   );
@@ -136,7 +134,7 @@ export const InkingSection = ({ state, setState: _setState }: Props) => {
 export const InkingItem = ({
   label,
   state,
-  setState: _setState,
+  setState,
 }: {
   label: string;
   state: InkingLimit;
@@ -144,9 +142,7 @@ export const InkingItem = ({
 }) => {
   const { type, start, end } = state;
 
-  // TODO clean: extract dedicated state helper
-  const setState: SetState<InkingLimit> = (key) => (value) =>
-    _setState({ ...state, [key]: value });
+  const setField = patchState(state, setState);
 
   return (
     <Line>
@@ -155,7 +151,7 @@ export const InkingItem = ({
         label={label}
         options={INKING_LIMIT_TYPE_OPTIONS}
         value={type}
-        onChange={(value) => setState("type")(value)}
+        onChange={(value) => setField("type")(value)}
       />
       {/* FIXME: add validation to ensure the two values are different */}
       {state.type === "other" ? (
@@ -165,14 +161,14 @@ export const InkingItem = ({
             name="Position de départ de l'encrage"
             options={INKING_POSITIONS}
             value={start}
-            onChange={setState("start")}
+            onChange={setField("start")}
           />{" "}
           à{" "}
           <Select
             name="Position de fin de l'encrage"
             options={INKING_POSITIONS}
             value={end}
-            onChange={setState("end")}
+            onChange={setField("end")}
           />{" "}
           dans le sens horaire
         </>

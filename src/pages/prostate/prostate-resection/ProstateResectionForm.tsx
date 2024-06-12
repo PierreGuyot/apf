@@ -8,7 +8,7 @@ import { Section } from "../../../ui/Section";
 import { Select } from "../../../ui/Select";
 import { SelectList } from "../../../ui/SelectList";
 import { Summary } from "../../../ui/Summary";
-import { useForm } from "../../../ui/helpers/use-form";
+import { useForm } from "../../../ui/helpers/form-state";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
 import {
   DEFAULT_GLEASON_ITEM,
@@ -73,7 +73,7 @@ type Props = {
 
 export const ProstateResectionForm = ({ formId }: Props) => {
   // State
-  const { state, setState, clearState } = useForm(getInitialState);
+  const { state, setField, clearState } = useForm(getInitialState);
   const {
     caseSummary,
     chipWeight,
@@ -95,7 +95,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
       <ClinicalInfo
         index={1}
         value={caseSummary}
-        onChange={setState("caseSummary")}
+        onChange={setField("caseSummary")}
       />
 
       <Section title="Macroscopie" index={2}>
@@ -105,7 +105,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             value={chipWeight}
             unit="g"
             isDecimal
-            onChange={setState("chipWeight")}
+            onChange={setField("chipWeight")}
           />
         </Line>
         <Line>
@@ -113,16 +113,16 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             name="Type d'échantillonnage"
             options={SAMPLING_TYPES}
             value={samplingType}
-            onChange={setState("samplingType")}
+            onChange={setField("samplingType")}
           />{" "}
           en{" "}
-          <InputNumber value={blockCount} onChange={setState("blockCount")} />{" "}
+          <InputNumber value={blockCount} onChange={setField("blockCount")} />{" "}
           blocs (fixation : formol tamponné 4%, coloration:{" "}
           <Select
             name="Coloration de l'inclusion"
             options={COLORATION_OPTIONS}
             value={coloration}
-            onChange={setState("coloration")}
+            onChange={setField("coloration")}
           />
           )
         </Line>
@@ -135,7 +135,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             name="Type de la lésion principale"
             options={MAIN_LESION_TYPES}
             value={mainLesionType}
-            onChange={setState("mainLesionType")}
+            onChange={setField("mainLesionType")}
           />
         </Line>
 
@@ -147,7 +147,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 name="Type histologique de la tumeur"
                 options={TUMOR_TYPES}
                 value={tumorType}
-                onChange={setState("tumorType")}
+                onChange={setField("tumorType")}
               />
             </Line>
             <Line>
@@ -156,7 +156,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 name="Conditions pré-existantes"
                 options={PRIOR_CONDITION_OPTIONS}
                 value={priorConditions}
-                onChange={setState("priorConditions")}
+                onChange={setField("priorConditions")}
               />
             </Line>
             {isApplicable(priorConditions) ? (
@@ -165,7 +165,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 <CellGleason
                   language={DEFAULT_LANGUAGE}
                   value={histologicalGrade}
-                  onChange={setState("histologicalGrade")}
+                  onChange={setField("histologicalGrade")}
                 />
               </Line>
             ) : undefined}
@@ -175,16 +175,16 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 label="Estimation de la surface envahie"
                 options={TUMOR_QUANTIFICATION_OPTIONS}
                 value={tumorQuantification}
-                onChange={setState("tumorQuantification")}
+                onChange={setField("tumorQuantification")}
               />
             </Line>
             <SelectLymphaticOrVascularInvasion
               value={hasLymphaticOrVascularInvasion}
-              onChange={setState("hasLymphaticOrVascularInvasion")}
+              onChange={setField("hasLymphaticOrVascularInvasion")}
             />
             <SelectPerineuralInvasion
               value={hasEpn}
-              onChange={setState("hasEpn")}
+              onChange={setField("hasEpn")}
             />
           </>
         ) : undefined}
@@ -193,7 +193,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
           <SelectList
             value={otherLesions}
             groups={OTHER_LESION_GROUPS}
-            onChange={setState("otherLesions")}
+            onChange={setField("otherLesions")}
           />
         </Line>
       </Section>

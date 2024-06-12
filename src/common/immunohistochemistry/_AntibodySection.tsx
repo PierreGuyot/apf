@@ -4,7 +4,6 @@ import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
 import { SubSection } from "../../ui/SubSection";
 import { patchArray, range } from "../../ui/helpers/helpers";
-import { SetState } from "../../ui/helpers/use-form";
 import { BlockSection } from "./_BlockSection";
 import {
   ANTIBODIES_PROPERTIES,
@@ -12,6 +11,7 @@ import {
   AntibodyData,
   Block,
 } from "./_helpers";
+import { patchState } from "../../ui/helpers/form-state";
 
 const aNewBlock = (index: number, antibody: Antibody): Block => {
   const { targets } = ANTIBODIES_PROPERTIES[antibody];
@@ -34,15 +34,9 @@ type Props = {
   setState: (value: AntibodyData) => void;
 };
 
-export const AntibodySection = ({
-  containerCount,
-  state,
-  setState: _setData,
-}: Props) => {
+export const AntibodySection = ({ containerCount, state, setState }: Props) => {
   const { type, clone, blocks } = state;
-  // TODO clean: extract dedicated state helper
-  const setState: SetState<AntibodyData> = (key) => (value) =>
-    _setData({ ...state, [key]: value });
+  const setField = patchState(state, setState);
 
   const options = getBlockOptions(containerCount);
   const { clones } = ANTIBODIES_PROPERTIES[type];
@@ -75,7 +69,7 @@ export const AntibodySection = ({
       }
     }
 
-    setState("blocks")(Array.from(updatedMap.values()));
+    setField("blocks")(Array.from(updatedMap.values()));
   };
 
   return (
@@ -89,7 +83,7 @@ export const AntibodySection = ({
           name="Clone utilisé"
           options={clones}
           value={clone}
-          onChange={setState("clone")}
+          onChange={setField("clone")}
         />
       </Line>
       <Line>
@@ -104,7 +98,7 @@ export const AntibodySection = ({
       {blocks.map((block, index) => {
         const onChange = (updatedBlock: Block) => {
           const updatedBlocks = patchArray(blocks, index, (_) => updatedBlock);
-          setState("blocks")(updatedBlocks);
+          setField("blocks")(updatedBlocks);
         };
 
         return (

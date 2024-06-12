@@ -13,7 +13,6 @@ import { SubSection } from "../../ui/SubSection";
 import { Summary } from "../../ui/Summary";
 import { patchArray, range } from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import { SetState, useForm } from "../../ui/helpers/use-form";
 import { InkingSection, InkingState } from "./InkingSection";
 import { SelectClarkInfiltrationLevel } from "./SelectClarkInfiltrationLevel";
 import {
@@ -44,6 +43,7 @@ import {
   getCutTypes,
 } from "./helpers";
 import { generateReport } from "./report";
+import { SetState, patchState, useForm } from "../../ui/helpers/form-state";
 
 const FORM_ID = "dermatology";
 
@@ -168,12 +168,12 @@ const getInitialState = (): FormState => ({
 });
 
 export const DermatologyForm = () => {
-  const { state, setState, clearState } = useForm(getInitialState);
+  const { state, setField, clearState } = useForm(getInitialState);
   const { clinicalInfo, containerCount, operations } = state;
 
   return (
     <FormPage formId={FORM_ID} onClear={clearState}>
-      <ClinicalInfo value={clinicalInfo} onChange={setState("clinicalInfo")} />
+      <ClinicalInfo value={clinicalInfo} onChange={setField("clinicalInfo")} />
 
       <Section>
         {/* TODO clean: use SelectNumber? */}
@@ -183,14 +183,14 @@ export const DermatologyForm = () => {
             value={containerCount}
             min={1}
             max={MAX_CONTAINER_COUNT}
-            onChange={setState("containerCount")}
+            onChange={setField("containerCount")}
           />
         </Line>
       </Section>
 
       {operations.slice(0, containerCount).map((operation, index) => {
         const setOperation = (value: OperationState) =>
-          setState("operations")(
+          setField("operations")(
             patchArray(state.operations, index, () => value),
           );
 
@@ -207,7 +207,7 @@ export const DermatologyForm = () => {
       <AdditionalRemarks
         index={containerCount + 1}
         value={state.comment}
-        onChange={setState("comment")}
+        onChange={setField("comment")}
       />
 
       <Summary
@@ -234,10 +234,7 @@ const OperationForm = ({
   index: number;
 }) => {
   const title = getTitle(operation);
-
-  // TODO clean: extract dedicated state helper
-  const setOperationState: SetState<OperationState> = (key) => (value) =>
-    setOperation({ ...operation, [key]: value });
+  const setField = patchState(operation, setOperation);
 
   const Component = useMemo(() => {
     switch (operation.type) {
@@ -264,15 +261,15 @@ const OperationForm = ({
           label="Quel est le type d'opération ?"
           value={operation.type}
           options={OPERATION_TYPES}
-          onChange={setOperationState("type")}
+          onChange={setField("type")}
         />
       </Line>
 
       <SubSection title="Macroscopie">
-        <Component {...operation} setState={setOperationState} />
+        <Component {...operation} setState={setField} />
       </SubSection>
       <SubSection title="Microscopie">
-        <MicroscopyForm {...operation} setState={setOperationState} />
+        <MicroscopyForm {...operation} setState={setField} />
       </SubSection>
     </Section>
   );
@@ -539,7 +536,7 @@ const TumoralLesionSection = ({
   operationType,
   isOriented,
   state,
-  setState: _setState,
+  setState,
 }: {
   index: number;
   operationType: OperationType;
@@ -547,6 +544,7 @@ const TumoralLesionSection = ({
   state: TumorData;
   setState: (tumor: TumorData) => void;
 }) => {
+  const setField = patchState(state, setState);
   const {
     mainTumorType,
     secondaryTumorType,
@@ -558,10 +556,6 @@ const TumoralLesionSection = ({
     hasEpn,
     infiltrationLevel,
   } = state;
-
-  // TODO clean: extract dedicated state helper
-  const setState: SetState<TumorData> = (key) => (value) =>
-    _setState({ ...state, [key]: value });
 
   const {
     hasSelectLymphaticOrVascularInvasion,
@@ -581,7 +575,7 @@ const TumoralLesionSection = ({
           label="Quel est le type de la tumeur cutanée principale ?"
           value={mainTumorType}
           options={TUMOR_TYPE_OPTIONS}
-          onChange={setState("mainTumorType")}
+          onChange={setField("mainTumorType")}
         />
       </Line>
       <Line>
@@ -590,7 +584,7 @@ const TumoralLesionSection = ({
           label="Quel est le type des tumeurs cutanées adjacentes ?"
           value={secondaryTumorType}
           options={TUMOR_TYPE_OPTIONS}
-          onChange={setState("secondaryTumorType")}
+          onChange={setField("secondaryTumorType")}
         />
       </Line>
       <Line>
@@ -599,7 +593,7 @@ const TumoralLesionSection = ({
           label="Préciser l'exérèse de la lésion :"
           value={excisionType}
           options={EXCISION_TYPES}
-          onChange={setState("excisionType")}
+          onChange={setField("excisionType")}
         />
       </Line>
 
@@ -614,7 +608,7 @@ const TumoralLesionSection = ({
             <InputNumber
               label="Taille de la marge latérale minimale"
               value={minDepthMargin}
-              onChange={setState("minDepthMargin")}
+              onChange={setField("minDepthMargin")}
               unit="mm"
             />
             {isOriented ? (
@@ -622,7 +616,7 @@ const TumoralLesionSection = ({
                 name="Position de la marge latérale minimale"
                 options={MARGIN_POSITIONS}
                 value={marginPosition}
-                onChange={setState("marginPosition")}
+                onChange={setField("marginPosition")}
               />
             ) : undefined}
           </Line>
@@ -630,7 +624,7 @@ const TumoralLesionSection = ({
             <InputNumber
               label="Préciser la marge profonde minimale"
               value={minSideMargin}
-              onChange={setState("minSideMargin")}
+              onChange={setField("minSideMargin")}
               unit="mm"
             />
           </Line>
@@ -641,7 +635,7 @@ const TumoralLesionSection = ({
         <Line>
           <SelectLymphaticOrVascularInvasion
             value={hasLymphaticOrVascularInvasion}
-            onChange={setState("hasLymphaticOrVascularInvasion")}
+            onChange={setField("hasLymphaticOrVascularInvasion")}
           />
         </Line>
       ) : undefined}
@@ -649,7 +643,7 @@ const TumoralLesionSection = ({
         <Line>
           <SelectPerineuralInvasion
             value={hasEpn}
-            onChange={setState("hasEpn")}
+            onChange={setField("hasEpn")}
           />
         </Line>
       ) : undefined}
@@ -657,7 +651,7 @@ const TumoralLesionSection = ({
         <Line>
           <SelectClarkInfiltrationLevel
             value={infiltrationLevel}
-            onChange={setState("infiltrationLevel")}
+            onChange={setField("infiltrationLevel")}
           />
         </Line>
       ) : undefined}
