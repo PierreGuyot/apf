@@ -37,7 +37,7 @@ export const MainList = () => {
             l'anatomopathologie.
           </div>
           <div>
-            Il a été par conçu par <Em>Louis Vaquier</Em> (interne en
+            Il est conçu par <Em>Louis Vaquier</Em> (interne en
             anatomopathologie) et <Em>Pierre Guyot</Em> (ingénieur en
             informatique).
           </div>

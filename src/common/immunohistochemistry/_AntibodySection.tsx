@@ -40,7 +40,7 @@ export const AntibodySection = ({
   setState: _setData,
 }: Props) => {
   const { type, clone, blocks } = state;
-  // TODO: extract dedicated state helper
+  // TODO clean: extract dedicated state helper
   const setState: SetState<AntibodyData> = (key) => (value) =>
     _setData({ ...state, [key]: value });
 

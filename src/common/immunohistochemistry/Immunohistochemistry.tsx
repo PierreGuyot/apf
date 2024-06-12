@@ -38,7 +38,7 @@ export const Immunohistochemistry = ({
   setState: _setState,
 }: Props) => {
   const { hasIhc, antibodies } = state;
-  // TODO: extract dedicated state helper
+  // TODO clean: extract dedicated state helper
   const setState: SetState<IhcState> = (key) => (value) =>
     _setState({ ...state, [key]: value });
 

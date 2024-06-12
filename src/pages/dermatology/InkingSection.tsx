@@ -35,7 +35,7 @@ type Props = {
 
 export const InkingSection = ({ state, setState: _setState }: Props) => {
   const { hasInking, inkings } = state;
-  // TODO: extract dedicated state helper
+  // TODO clean: extract dedicated state helper
   const setState: SetState<InkingState> = (key) => (value) =>
     _setState({ ...state, [key]: value });
 
