@@ -1,6 +1,6 @@
 import { ReportParams, generateReport } from "./report";
 
-// TODO: test non-trivial values for ihc field
+// TODO clean: test non-trivial values for ihc field
 
 const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
   formId: "prostate-biopsy-transrectal",
@@ -400,8 +400,8 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
   },
 };
 
-// TODO: test functions to compute scores
-// TODO: test functions to compute errors
+// TODO clean: test functions to compute scores
+// TODO clean: test functions to compute errors
 
 describe("generateReport", () => {
   it("should generate a clean report without a tumor (FR)", () => {

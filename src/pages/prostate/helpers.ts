@@ -270,7 +270,7 @@ export const PROSTATE_ANTIBODIES_OPTIONS: Option<Antibody>[] = [
 
 export const PROSTATE_ANTIBODY_GROUPS = [
   {
-    title: "", // TODO: fix API
+    title: "", // TODO clean: fix API
     items: PROSTATE_ANTIBODIES_OPTIONS,
   },
 ];

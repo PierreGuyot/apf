@@ -101,7 +101,7 @@ export const InkingSection = ({ state, setState: _setState }: Props) => {
               onChange={onSelectInkings}
             />
           </Line>
-          {/* TODO: fix spacing here */}
+          {/* TODO clean: fix spacing here */}
           {inkings.length ? (
             <>
               <Line>Désignez la localisation spatiale de chaque encre :</Line>

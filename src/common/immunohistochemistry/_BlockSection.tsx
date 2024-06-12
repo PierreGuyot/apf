@@ -21,7 +21,7 @@ export const BlockSection = ({
 }) => {
   const { targets } = ANTIBODIES_PROPERTIES[antibody];
 
-  // TODO: simplify by reworking data structure
+  // TODO clean: simplify by reworking data structure
   const resultOptions = RESULT_OPTIONS.map((item) => {
     const matchingTargetOption = targets.find((t) => t.value === block.target);
     if (!matchingTargetOption) {

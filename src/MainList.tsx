@@ -13,7 +13,7 @@ import { Em } from "./ui/Em";
 import { Page } from "./ui/Page";
 import { Section } from "./ui/Section";
 
-// TODO: handle link buttons?
+// TODO clean: handle link buttons?
 const FormRoute = ({ route }: { route: FormId }) => {
   const { updateHash } = useHash();
 
@@ -29,7 +29,7 @@ const FormRoute = ({ route }: { route: FormId }) => {
 export const MainList = () => {
   return (
     <Page title="Bienvenue sur APF">
-      {/* TODO: add context here, aligned on the README file */}
+      {/* FIXME: add context here, aligned on the README file */}
       <Section>
         <div className="main-list-presentation">
           <div>

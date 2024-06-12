@@ -1,13 +1,13 @@
 import { Option } from "../../ui/helpers/options";
 
-// TODO with Louis: translate
+// FIXME: translate
 export type BiopsyType = "punch" | "fuseau";
 export const BIOPSY_TYPES: Option<BiopsyType>[] = [
   { value: "punch", label: "Punch" },
   { value: "fuseau", label: "Fuseau" },
 ] as const;
 
-// TODO with Louis: translate
+// FIXME: translate
 export type LesionAspectType =
   | "Nodulaire"
   | "Plane"
@@ -26,7 +26,7 @@ export const LESION_ASPECT_TYPES: Option<LesionAspectType>[] = [
   { value: "Mal limitée", label: "Mal limitée" },
 ];
 
-// TODO with Louis: translate
+// FIXME: translate
 export type InclusionType = "full" | "partial" | "none";
 export const INCLUSION_TYPES: Option<InclusionType>[] = [
   { value: "full", label: "Oui" },
@@ -34,7 +34,7 @@ export const INCLUSION_TYPES: Option<InclusionType>[] = [
   { value: "none", label: "Non" },
 ];
 
-// TODO with Louis: translate
+// FIXME: translate
 export type CutType = "transverse" | "longitudinal" | "cross";
 export const getCutTypes = (isOriented: boolean): Option<CutType>[] => [
   { value: "transverse", label: "Coupe transversale" },
@@ -44,7 +44,7 @@ export const getCutTypes = (isOriented: boolean): Option<CutType>[] => [
   { value: "cross", label: "Coupe en croix" },
 ];
 
-// TODO with Louis: translate
+// FIXME: translate
 export type OrientationType =
   | "thread-one"
   | "thread-long-short"
@@ -63,7 +63,7 @@ export const ORIENTATION_TYPES: Option<OrientationType>[] = [
   { value: "notch-two", label: "Deux encoches" },
 ];
 
-// TODO with Louis: translate
+// FIXME: translate
 export type LesionType = "tumor" | "inflammation" | "foreign-body";
 export const LESION_TYPES: Option<LesionType>[] = [
   { value: "tumor", label: "Tumoral" },
@@ -71,8 +71,8 @@ export const LESION_TYPES: Option<LesionType>[] = [
   { value: "foreign-body", label: "Corps étranger" },
 ];
 
-// TODO with Louis: translate
-// TODO: replace with clean values when english translation is available
+// FIXME: translate
+// FIXME: replace with clean values when english translation is available
 const TUMOR_TYPES = [
   "Angioléiomyome",
   "Botriomycome",
@@ -232,7 +232,7 @@ export const TUMOR_TYPE_OPTIONS = TUMOR_TYPES.map((value) => ({
   label: value,
 }));
 
-// TODO with Louis: translate
+// FIXME: translate
 export type ExcisionType =
   | "complete"
   | "complete-with-margins"
@@ -243,15 +243,15 @@ export const EXCISION_TYPES: Option<ExcisionType>[] = [
   { value: "incomplete-with-margins", label: "Exérèse incomplète avec marges" },
 ];
 
-// TODO: complete list
-// TODO with Louis: translate
+// FIXME: complete list
+// FIXME: translate
 export type CutaneousDiseaseType = "psoriasis" | "eczema";
 export const CUTANEOUS_DISEASE_TYPES: Option<CutaneousDiseaseType>[] = [
   { value: "psoriasis", label: "Psoriasis" },
   { value: "eczema", label: "Eczéma" },
 ];
 
-// TODO with Louis: translate
+// FIXME: translate
 export type ClarkInfiltrationLevel = 1 | 2 | 3 | 4 | 5;
 export const CLARK_INFILTRATION_LEVELS: Option<ClarkInfiltrationLevel>[] = [
   { value: 1, label: "I (épiderme)" },
@@ -261,8 +261,8 @@ export const CLARK_INFILTRATION_LEVELS: Option<ClarkInfiltrationLevel>[] = [
   { value: 5, label: "V (hypoderme)" },
 ];
 
-// TODO with Louis: check wording
-// TODO with Louis: translate
+// FIXME: check wording
+// FIXME: translate
 export type Limit =
   | "superior"
   | "inferior"

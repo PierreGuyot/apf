@@ -54,7 +54,7 @@ import { generateReport } from "./report";
 const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
 
-// TODO: test extensively
+// TODO clean: test extensively
 // CAUTION: be very cautious about counting only visible items
 const getScore = (rows: Row[]): Score => {
   // CAUTION: only count non-disabled rows (i.e. the ones with a tumorCount)
@@ -89,10 +89,10 @@ const hasValidSizes = (row: Row) => {
   return [...biopsySizes, ...tumorSizes].every((size) => size > 0);
 };
 
-// TODO: add validations for IHC:
+// FIXME: add validations for IHC:
 //  - If there is an IHC, there must be at least one antibody in the least
 //  - In an antibody block, there must be at least one selected block
-// TODO: test extensively
+// TODO clean: test extensively
 const getErrors = ({
   sextantName,
   rows,

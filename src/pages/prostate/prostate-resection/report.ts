@@ -129,7 +129,7 @@ const getOtherLesionsSection = (form: ReportParams, language: Language) => {
   ]);
 };
 
-// TODO: test extensively
+// TODO clean: test extensively
 export const generateReport = (
   form: ReportParams,
   language: Language,

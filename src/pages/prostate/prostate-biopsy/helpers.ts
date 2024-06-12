@@ -1,4 +1,4 @@
-// TODO with Louis: check naming in both French and English
+// FIXME: check naming in both French and English
 import { Option } from "../../../ui/helpers/options";
 import { DEFAULT_LANGUAGE, Language, translate } from "../../../ui/language";
 import { DEFAULT_GLEASON_ITEM, GleasonItem, OtherLesionType } from "../helpers";
@@ -11,7 +11,7 @@ export const SEXTANT_COUNT = 6;
 export const MAX_TARGET_COUNT = 3;
 export const MAX_CONTAINER_COUNT = 9;
 
-// TODO: rename to be agnostic from transrectal/transperineal
+// FIXME: rename to be agnostic from transrectal/transperineal
 export const LOCATIONS = [
   "base-right",
   "medium-right",
@@ -67,7 +67,7 @@ export const getLocationOptions = (
 ): Option<Location>[] =>
   LOCATIONS.map((location) => toOption(formId, location, DEFAULT_LANGUAGE));
 
-// TODO with Louis: rename to "systematic" | "targeted"
+// FIXME: rename to "systematic" | "targeted"
 export type ContainerType = "sextant" | "target";
 export const getContainerTypes = (
   formId: ProstateBiopsyFormId,

@@ -2,9 +2,9 @@ import { findOption } from "../../ui/helpers/helpers";
 import { Option } from "../../ui/helpers/options";
 import { LIMIT_OPTIONS, Limit } from "./helpers";
 
-// TODO with Louis: translate everything below
+// FIXME: translate everything below
 
-// TODO with Louis: translate
+// FIXME: translate
 export type InkingColor =
   | "blue"
   | "green"
@@ -22,14 +22,14 @@ export const INKING_COLORS_OPTIONS: Option<InkingColor>[] = [
 ];
 export const INKING_COLOR_GROUPS = [
   {
-    title: "", // TODO: fix API
+    title: "", // TODO clean: fix API
     items: INKING_COLORS_OPTIONS,
   },
 ];
 export const getInkingColorOption = findOption(INKING_COLORS_OPTIONS);
 
-// TODO with Louis: check wording
-// TODO with Louis: translate
+// FIXME: check wording
+// FIXME: translate
 export type InkingLimitType = "all" | "other" | Limit;
 
 export const INKING_LIMIT_TYPE_OPTIONS: Option<InkingLimitType>[] = [

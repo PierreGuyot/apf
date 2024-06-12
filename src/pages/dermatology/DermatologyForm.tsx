@@ -47,7 +47,7 @@ import { generateReport } from "./report";
 
 const FORM_ID = "dermatology";
 
-// TODO: translate
+// FIXME: translate
 type OperationType = "biopsy" | "excision" | "recoupe" | "shaving";
 const OPERATION_TYPES: Option<OperationType>[] = [
   { value: "biopsy", label: "Biopsie" },
@@ -92,11 +92,11 @@ type OperationState = {
   isLesionVisible: boolean;
   lesionAspectType: LesionAspectType;
   limitDistance: number;
-  // TODO: use Angle type
+  // TODO clean: use Angle type
   limitAngle: number; // Hour-like notation
   isOriented: boolean;
   orientationType: OrientationType;
-  // TODO: use Angle type
+  // TODO clean: use Angle type
   orientationAngle: number; // Hour-like notation
   cassetteCount: number;
   inclusionType: InclusionType;
@@ -176,8 +176,7 @@ export const DermatologyForm = () => {
       <ClinicalInfo value={clinicalInfo} onChange={setState("clinicalInfo")} />
 
       <Section>
-        {/* TODO: use SelectNumber? */}
-        {/* TODO with Louis: confirm min and max values */}
+        {/* TODO clean: use SelectNumber? */}
         <Line>
           Combien de pots avez-vous ?{}
           <InputNumber
@@ -220,9 +219,9 @@ export const DermatologyForm = () => {
   );
 };
 
-// TODO: un-mock
+// FIXME: un-mock
 const getTitle = (operation: OperationState): string => {
-  return "TODO: title";
+  return "FIXME: title";
 };
 
 const OperationForm = ({
@@ -319,7 +318,7 @@ const MacroExcisionForm = ({
   return (
     <>
       <Line>
-        {/* TODO: check unit and translation with Louis */}
+        {/* FIXME: check unit and translation with Louis */}
         Combien mesure le lambeau cutané ?
         <InputNumber
           value={skinFlapDimensions[0]}
@@ -383,7 +382,7 @@ const MacroExcisionForm = ({
               onChange={setState("limitDistance")}
             />
             cm de la limite à{" "}
-            {/* TODO: extract SelectAngle component (including `à`) */}
+            {/* TODO clean: extract SelectAngle component (including `à`) */}
             <SelectNumber
               name="Angle à la limite"
               value={limitAngle}
@@ -414,7 +413,7 @@ const MacroExcisionForm = ({
             options={ORIENTATION_TYPES}
             onChange={setState("orientationType")}
           />
-          à {/* TODO: extract SelectAngle component (including `à`) */}
+          à {/* TODO clean: extract SelectAngle component (including `à`) */}
           <SelectNumber
             name="Angle du prèlèvement limite"
             value={orientationAngle}
@@ -458,13 +457,13 @@ const MacroExcisionForm = ({
   );
 };
 
-// TODO: translate recoupe (re-cut?)
+// FIXME: translate recoupe (re-cut?)
 const MacroRecoupeForm = ({
   setState,
 }: {
   setState: SetState<OperationState>;
 }) => {
-  return <>TODO: MacroRecoupeForm</>;
+  return <>FIXME: MacroRecoupeForm</>;
 };
 
 const MicroscopyForm = ({
@@ -526,10 +525,10 @@ const MicroscopyForm = ({
               onChange={setState("cutaneousDiseaseType")}
             />
           </Line>
-          <>TODO: complete Inflammation</>
+          <>FIXME: complete Inflammation</>
         </>
       ) : (
-        <>TODO: complete ForeignBody</>
+        <>FIXME: complete ForeignBody</>
       )}
     </>
   );

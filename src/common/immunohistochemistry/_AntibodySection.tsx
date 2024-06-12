@@ -50,7 +50,7 @@ export const AntibodySection = ({
   const groups = useMemo(
     () => [
       {
-        title: "", // TODO: fix API
+        title: "", // TODO clean: fix API
         items: options,
       },
     ],
@@ -80,9 +80,9 @@ export const AntibodySection = ({
 
   return (
     <SubSection title={type}>
-      {/* TODO: style */}
-      {/* TODO: add button to clear directly from here? */}
-      {/* TODO: make section foldable? */}
+      {/* TODO clean: style */}
+      {/* TODO feature: add button to clear directly from here? */}
+      {/* TODO feature: make section foldable? */}
       <Line>
         <Select
           label="Quel est le clone utilisé ?"
@@ -93,7 +93,7 @@ export const AntibodySection = ({
         />
       </Line>
       <Line>
-        {/* TODO: fix wording */}
+        {/* FIXME: fix wording */}
         Sur quels blocs avez-vous réalisé cet anticorps ?
         <SelectList
           groups={groups}

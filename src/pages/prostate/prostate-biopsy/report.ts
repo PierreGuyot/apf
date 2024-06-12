@@ -125,7 +125,7 @@ const getConclusionSection = (
   const targetTumorSize = sum(targets.map((item) => sum(item.tumorSize)));
   const targetBiopsySize = sum(targets.map((item) => sum(item.biopsySize)));
 
-  // TODO: use templates instead of joins?
+  // TODO clean: use templates instead of joins?
 
   // Tumor absence
   if (score.tumorCount === 0) {
@@ -165,7 +165,7 @@ Prostate adenomyoma.`;
   }
 };
 
-// TODO: test extensively
+// TODO clean: test extensively
 export const generateReport = (
   form: ReportParams,
   language: Language,

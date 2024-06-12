@@ -1,7 +1,7 @@
 import { Option } from "../../ui/helpers/options";
 
-// TODO with Louis: un-mock
-// TODO with louis: translate
+// FIXME: un-mock
+// FIXME: translate
 export type Antibody = "P504S" | "P63" | "BCC";
 export type AntibodyTarget = "cible_1" | "cible_2";
 export type AntibodyClone = "P504S" | "BCC" | "ventana-0123" | "clone_1";
@@ -21,7 +21,7 @@ const MOCK_CONCLUSIONS = (
   negative: `conclusion_negative_${antibody}_${target}`,
 });
 
-// TODO: clean data structure for better search (compute options afterwards from this)
+// TODO clean: clean data structure for better search (compute options afterwards from this)
 type Targets = Array<Option<AntibodyTarget> & { conclusions: Conclusions }>;
 
 export const ANTIBODIES_PROPERTIES: Record<

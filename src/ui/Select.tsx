@@ -10,7 +10,7 @@ type Props<T extends SelectValue> = FieldProps<T> & {
   language?: Language;
   options: Option<T>[] | OptionGroup<T>[];
   name: string;
-  label?: string; // TODO: consider using label as name
+  label?: string; // TODO clean: consider using label as name
 };
 
 function isGroupedOptions<T extends SelectValue>(
@@ -73,7 +73,7 @@ export function Select<T extends SelectValue>({
   return (
     <div className="select-container">
       {/* TODO clean: replace with Label */}
-      {/* TODO: translate label */}
+      {/* TODO clean: translate label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
       <select
         className="select"

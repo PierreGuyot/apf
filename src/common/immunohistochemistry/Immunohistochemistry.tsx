@@ -45,7 +45,7 @@ export const Immunohistochemistry = ({
   const groups = useMemo(
     () => [
       {
-        title: "", // TODO: fix API
+        title: "", // TODO clean: fix API
         items: options,
       },
     ],

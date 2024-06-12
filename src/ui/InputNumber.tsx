@@ -7,7 +7,7 @@ import { InputProps, OnInput } from "./input.types";
 import { useBoolean, useString } from "./helpers/state";
 import { Unit, getUnitLabel } from "./helpers/units";
 
-// TODO: add tooltip to display error message
+// TODO feature: add tooltip to display error message
 
 type Props = InputProps<number> & {
   min?: number;

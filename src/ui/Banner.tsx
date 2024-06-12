@@ -8,7 +8,7 @@ import { joinLines } from "./helpers/text";
 import { ONE_DAY, formatDate, formatDurationInDays } from "./time";
 
 // We recommend checking for updates after 180 days (around 6 months)
-// TODO with Louis: discuss
+// FIXME: discuss
 const WARNING_DELAY_IN_DAYS = 180; // In days
 
 type Props = {
@@ -47,7 +47,7 @@ export const Banner = ({ formId, isPrototype, onClear: _onClear }: Props) => {
           Vous pouvez télécharger une version plus à jour de ce formulaire{" "}
           <a href={REPOSITORY_LINK}>ici</a>.
         </div>
-        {/* TODO: add mailing address to report issues */}
+        {/* TODO feature: add mailing address to report issues */}
         <div>
           Vous pouvez remonter un problème ou une suggestion d'amélioration{" "}
           <a href={ISSUE_LINK}>ici</a>.

@@ -1,7 +1,7 @@
 export type Language = "FR" | "EN";
 export const DEFAULT_LANGUAGE = "FR" satisfies Language;
 
-// TODO: have a refactoring pass on internationalization
+// TODO clean: have a refactoring pass on internationalization
 
 const DICTIONARY_EN: Record<string, string> = {
   // General
@@ -35,18 +35,18 @@ const DICTIONARY_EN: Record<string, string> = {
   "Enucléation au laser holnium de la prostate":
     "Holmium laser prostatic enucleation of the prostate",
 
-  pot: "Container", // TODO with Louis: confirm sample versus container
-  Pot: "container", // TODO with Louis: confirm sample versus container
+  pot: "Container", // FIXME: confirm sample versus container
+  Pot: "container", // FIXME: confirm sample versus container
   Sextant: "Systematic biopsy",
   Cible: "Targeted biopsy",
   Cibles: "Targeted biopsies",
   "Biopsie systématique": "Systematic biopsy",
   "Biopsie ciblée": "Targeted biopsy",
-  Pots: "Containers", // TODO with Louis: confirm sample versus container
+  Pots: "Containers", // FIXME: confirm sample versus container
   "Autres lésions": "Other lesions",
   "Score de Gleason": "Gleason Score",
 
-  // TODO with Louis: re-check wording for these 3 items
+  // FIXME: re-check wording for these 3 items
   "Tissu extra-prostatique": "Periprostatic Fat Invasion",
   EPN: "Perineural Invasion",
   TEP: "Periprostatic Fat Invasion",
@@ -65,7 +65,7 @@ const DICTIONARY_EN: Record<string, string> = {
   "Zone périphérique médiane gauche": "Left median peripheral zone",
   "Lésions tumorales précancéreuses": "Glandular neoplasms of the prostate",
   "Carcinome intra-ductal": "Isolated intraductal carcinoma",
-  // TODO with Louis: confirm PINGH vs PIN and English vs French (seems to be PIN/HGPIN in English)
+  // FIXME: confirm PINGH vs PIN and English vs French (seems to be PIN/HGPIN in English)
   "Néoplasie intra-épithéliale de haut grade":
     "High-grade prostatic intraepithelial neoplasia",
   PINGH: "PINHG",
@@ -109,7 +109,7 @@ const DICTIONARY_EN: Record<string, string> = {
   "Carcinome neuroendocrine à grandes cellules":
     "Large cell neuroendocrine carcinoma",
   "non cribriforme": "non cribriform",
-  // TODO with Louis: confirm PSA vs APS
+  // FIXME: confirm PSA vs APS
   PSA: "PSA", // Prostate Specific Antigen
   IRM: "MRI",
   "Inclusion en totalité": "Full inclusion",
