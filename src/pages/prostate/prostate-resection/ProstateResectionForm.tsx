@@ -1,12 +1,13 @@
 import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
+import { SelectLymphaticOrVascularInvasion } from "../../../common/SelectLymphaticOrVascularInvasion";
+import { SelectPerineuralInvasion } from "../../../common/SelectPerineuralInvasion";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Line } from "../../../ui/Line";
 import { Section } from "../../../ui/Section";
 import { Select } from "../../../ui/Select";
 import { SelectList } from "../../../ui/SelectList";
 import { Summary } from "../../../ui/Summary";
-import { YES_NO_OPTIONS } from "../../../ui/helpers/options";
 import { useForm } from "../../../ui/helpers/use-form";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
 import {
@@ -177,24 +178,14 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 onChange={setState("tumorQuantification")}
               />
             </Line>
-            <Line>
-              <Select
-                value={hasLymphaticOrVascularInvasion}
-                options={YES_NO_OPTIONS}
-                name="Emboles vasculaires ou lymphatiques"
-                label="Emboles vasculaires ou lymphatiques"
-                onChange={setState("hasLymphaticOrVascularInvasion")}
-              />
-            </Line>
-            <Line>
-              <Select
-                value={hasEpn}
-                options={YES_NO_OPTIONS}
-                name="Engainements périnerveux"
-                label="Engainements périnerveux"
-                onChange={setState("hasEpn")}
-              />
-            </Line>
+            <SelectLymphaticOrVascularInvasion
+              value={hasLymphaticOrVascularInvasion}
+              onChange={setState("hasLymphaticOrVascularInvasion")}
+            />
+            <SelectPerineuralInvasion
+              value={hasEpn}
+              onChange={setState("hasEpn")}
+            />
           </>
         ) : undefined}
         <Line>
