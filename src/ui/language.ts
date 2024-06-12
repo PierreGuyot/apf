@@ -127,7 +127,7 @@ const DICTIONARY_EN: Record<string, string> = {
   HES: "HES", // Hematoxylin, eosin and saffron stain
   "Conditions pré-existantes": "Pre-existing conditions",
   "Estimation de la surface envahie": "Tumor quantification",
-  "Emboles vasculaires ou lymphatique": "Lympathic or vascular invasion",
+  "Emboles vasculaires ou lymphatiques": "Lympathic or vascular invasion",
   "Engainements périnerveux": "Perineural Invasion",
   "Poids des copeaux": "Total chip weight",
 

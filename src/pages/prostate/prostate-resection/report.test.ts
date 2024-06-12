@@ -78,7 +78,7 @@ Adénocarcinome acinaire de type prostatique.
 Conditions pré-existantes : Absence de traitement antérieur
 Score de Gleason : 8 (4 + 4 dont 20% cribriformes)
 Estimation de la surface envahie : 5%
-Emboles vasculaires ou lymphatique : Non
+Emboles vasculaires ou lymphatiques : Non
 Engainements périnerveux : Non
 
 Autres lésions

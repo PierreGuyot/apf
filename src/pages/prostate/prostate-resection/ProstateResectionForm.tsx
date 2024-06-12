@@ -181,8 +181,8 @@ export const ProstateResectionForm = ({ formId }: Props) => {
               <Select
                 value={hasLymphaticOrVascularInvasion}
                 options={YES_NO_OPTIONS}
-                name="Emboles vasculaires ou lymphatique"
-                label="Emboles vasculaires ou lymphatique"
+                name="Emboles vasculaires ou lymphatiques"
+                label="Emboles vasculaires ou lymphatiques"
                 onChange={setState("hasLymphaticOrVascularInvasion")}
               />
             </Line>

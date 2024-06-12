@@ -67,7 +67,7 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
         ? `${translate("Score de Gleason", language)} : ${getGleasonSummary(form.histologicalGrade, language)}`
         : "",
       `${translate("Estimation de la surface envahie", language)} : ${translate(tumorQuantificationLabel, language)}`,
-      `${translate("Emboles vasculaires ou lymphatique", language)} : ${toYesNo(form.hasLymphaticOrVascularInvasion, language)}`,
+      `${translate("Emboles vasculaires ou lymphatiques", language)} : ${toYesNo(form.hasLymphaticOrVascularInvasion, language)}`,
       `${translate("Engainements périnerveux", language)} : ${toYesNo(form.hasEpn, language)}`,
     ]);
   }
