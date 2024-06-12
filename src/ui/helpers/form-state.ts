@@ -22,7 +22,7 @@ export const patchState =
   (value) =>
     setState({ ...state, [key]: value });
 
-export type SetState<State> = <K extends keyof State>(
+type SetState<State> = <K extends keyof State>(
   key: K,
 ) => (value: State[K]) => void;
 

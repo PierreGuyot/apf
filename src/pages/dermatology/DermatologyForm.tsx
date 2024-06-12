@@ -11,6 +11,7 @@ import { Select } from "../../ui/Select";
 import { SelectNumber } from "../../ui/SelectNumber";
 import { SubSection } from "../../ui/SubSection";
 import { Summary } from "../../ui/Summary";
+import { patchState, useForm } from "../../ui/helpers/form-state";
 import { patchArray, range } from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { InkingSection, InkingState } from "./InkingSection";
@@ -43,7 +44,6 @@ import {
   getCutTypes,
 } from "./helpers";
 import { generateReport } from "./report";
-import { SetState, patchState, useForm } from "../../ui/helpers/form-state";
 
 const FORM_ID = "dermatology";
 
@@ -266,20 +266,24 @@ const OperationForm = ({
       </Line>
 
       <SubSection title="Macroscopie">
-        <Component {...operation} setState={setField} />
+        <Component operation={operation} setOperation={setOperation} />
       </SubSection>
       <SubSection title="Microscopie">
-        <MicroscopyForm {...operation} setState={setField} />
+        <MicroscopyForm operation={operation} setOperation={setOperation} />
       </SubSection>
     </Section>
   );
 };
 
 const MacroBiopsyForm = ({
-  biopsyType,
-  biopsySize,
-  setState,
-}: OperationState & { setState: SetState<OperationState> }) => {
+  operation,
+  setOperation,
+}: {
+  operation: OperationState;
+  setOperation: (value: OperationState) => void;
+}) => {
+  const setField = patchState(operation, setOperation);
+  const { biopsyType, biopsySize } = operation;
   return (
     <>
       <Line>
@@ -288,9 +292,9 @@ const MacroBiopsyForm = ({
           name="Type de biopsie"
           value={biopsyType}
           options={BIOPSY_TYPES}
-          onChange={setState("biopsyType")}
+          onChange={setField("biopsyType")}
         />{" "}
-        de <InputNumber value={biopsySize} onChange={setState("biopsySize")} />
+        de <InputNumber value={biopsySize} onChange={setField("biopsySize")} />
         mm a été incluse en totalité (formol tamponné)
       </Line>
     </>
@@ -298,20 +302,28 @@ const MacroBiopsyForm = ({
 };
 
 const MacroExcisionForm = ({
-  skinFlapDimensions,
-  isLesionVisible,
-  lesionAspectType,
-  limitDistance,
-  limitAngle,
-  isOriented,
-  orientationType,
-  orientationAngle,
-  cassetteCount,
-  inclusionType,
-  cutType,
-  inkings,
-  setState,
-}: OperationState & { setState: SetState<OperationState> }) => {
+  operation,
+  setOperation,
+}: {
+  operation: OperationState;
+  setOperation: (operation: OperationState) => void;
+}) => {
+  const setField = patchState(operation, setOperation);
+  const {
+    skinFlapDimensions,
+    isLesionVisible,
+    lesionAspectType,
+    limitDistance,
+    limitAngle,
+    isOriented,
+    orientationType,
+    orientationAngle,
+    cassetteCount,
+    inclusionType,
+    cutType,
+    inkings,
+  } = operation;
+
   return (
     <>
       <Line>
@@ -320,7 +332,7 @@ const MacroExcisionForm = ({
         <InputNumber
           value={skinFlapDimensions[0]}
           onChange={(value) =>
-            setState("skinFlapDimensions")([
+            setField("skinFlapDimensions")([
               value,
               skinFlapDimensions[1],
               skinFlapDimensions[2],
@@ -331,7 +343,7 @@ const MacroExcisionForm = ({
         <InputNumber
           value={skinFlapDimensions[1]}
           onChange={(value) =>
-            setState("skinFlapDimensions")([
+            setField("skinFlapDimensions")([
               skinFlapDimensions[0],
               value,
               skinFlapDimensions[2],
@@ -342,7 +354,7 @@ const MacroExcisionForm = ({
         <InputNumber
           value={skinFlapDimensions[2]}
           onChange={(value) =>
-            setState("skinFlapDimensions")([
+            setField("skinFlapDimensions")([
               skinFlapDimensions[0],
               skinFlapDimensions[1],
               value,
@@ -357,7 +369,7 @@ const MacroExcisionForm = ({
           label="La lésion est-elle visible ?"
           value={isLesionVisible}
           options={YES_NO_OPTIONS}
-          onChange={setState("isLesionVisible")}
+          onChange={setField("isLesionVisible")}
         />
       </Line>
 
@@ -369,14 +381,14 @@ const MacroExcisionForm = ({
               label="Quel est l'aspect de la lésion ?"
               value={lesionAspectType}
               options={LESION_ASPECT_TYPES}
-              onChange={setState("lesionAspectType")}
+              onChange={setField("lesionAspectType")}
             />
           </Line>
           <Line>
             Quelle est la limite au plus proche ? Située à{" "}
             <InputNumber
               value={limitDistance}
-              onChange={setState("limitDistance")}
+              onChange={setField("limitDistance")}
             />
             cm de la limite à{" "}
             {/* TODO clean: extract SelectAngle component (including `à`) */}
@@ -384,7 +396,7 @@ const MacroExcisionForm = ({
               name="Angle à la limite"
               value={limitAngle}
               max={12}
-              onChange={setState("limitAngle")}
+              onChange={setField("limitAngle")}
             />
             h
           </Line>
@@ -397,7 +409,7 @@ const MacroExcisionForm = ({
           label="Votre exérèse est-elle orientée ?"
           value={isOriented}
           options={YES_NO_OPTIONS}
-          onChange={setState("isOriented")}
+          onChange={setField("isOriented")}
         />
       </Line>
 
@@ -408,14 +420,14 @@ const MacroExcisionForm = ({
             name="Orientation du prélèvement"
             value={orientationType}
             options={ORIENTATION_TYPES}
-            onChange={setState("orientationType")}
+            onChange={setField("orientationType")}
           />
           à {/* TODO clean: extract SelectAngle component (including `à`) */}
           <SelectNumber
             name="Angle du prèlèvement limite"
             value={orientationAngle}
             max={12}
-            onChange={setState("orientationAngle")}
+            onChange={setField("orientationAngle")}
           />
           h
         </Line>
@@ -427,7 +439,7 @@ const MacroExcisionForm = ({
           label="Combien de cassettes avez-vous réalisées sur cette pièce ?"
           value={cassetteCount}
           max={10}
-          onChange={setState("cassetteCount")}
+          onChange={setField("cassetteCount")}
         />
       </Line>
       <Line>
@@ -436,7 +448,7 @@ const MacroExcisionForm = ({
           label="La pièce a-t-elle été incluse en totalité ?"
           value={inclusionType}
           options={INCLUSION_TYPES}
-          onChange={setState("inclusionType")}
+          onChange={setField("inclusionType")}
         />
       </Line>
       <Line>
@@ -445,33 +457,40 @@ const MacroExcisionForm = ({
           name="Type de coupe"
           value={cutType}
           options={getCutTypes(isOriented)}
-          onChange={setState("cutType")}
+          onChange={setField("cutType")}
         />
       </Line>
 
-      <InkingSection state={inkings} setState={setState("inkings")} />
+      <InkingSection state={inkings} setState={setField("inkings")} />
     </>
   );
 };
 
 // FIXME: translate recoupe (re-cut?)
-const MacroRecoupeForm = ({
-  setState,
-}: {
-  setState: SetState<OperationState>;
+const MacroRecoupeForm = (props: {
+  operation: OperationState;
+  setOperation: (operation: OperationState) => void;
 }) => {
   return <>FIXME: MacroRecoupeForm</>;
 };
 
 const MicroscopyForm = ({
-  isOriented,
-  type: operationType,
-  lesionType,
-  lesionCount,
-  tumors,
-  cutaneousDiseaseType,
-  setState,
-}: OperationState & { setState: SetState<OperationState> }) => {
+  operation,
+  setOperation,
+}: {
+  operation: OperationState;
+  setOperation: (operation: OperationState) => void;
+}) => {
+  const setField = patchState(operation, setOperation);
+  const {
+    isOriented,
+    type: operationType,
+    lesionType,
+    lesionCount,
+    tumors,
+    cutaneousDiseaseType,
+  } = operation;
+
   return (
     <>
       <Line>
@@ -480,7 +499,7 @@ const MicroscopyForm = ({
           label="Quel est le type de lésion ?"
           value={lesionType}
           options={LESION_TYPES}
-          onChange={setState("lesionType")}
+          onChange={setField("lesionType")}
         />
       </Line>
 
@@ -492,7 +511,7 @@ const MicroscopyForm = ({
               value={lesionCount}
               min={1}
               max={MAX_LESION_COUNT}
-              onChange={setState("lesionCount")}
+              onChange={setField("lesionCount")}
             />
           </Line>
 
@@ -506,7 +525,7 @@ const MicroscopyForm = ({
               setState={(value) => {
                 const updatedTumors = [...tumors];
                 updatedTumors[index] = value;
-                setState("tumors")(updatedTumors);
+                setField("tumors")(updatedTumors);
               }}
             />
           ))}
@@ -519,7 +538,7 @@ const MicroscopyForm = ({
               label="Quel est le type de maladie cutanée ?"
               value={cutaneousDiseaseType}
               options={CUTANEOUS_DISEASE_TYPES}
-              onChange={setState("cutaneousDiseaseType")}
+              onChange={setField("cutaneousDiseaseType")}
             />
           </Line>
           <>FIXME: complete Inflammation</>
@@ -531,6 +550,7 @@ const MicroscopyForm = ({
   );
 };
 
+// TODO clean: extract to a dedicated file
 const TumoralLesionSection = ({
   index,
   operationType,
