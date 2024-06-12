@@ -23,6 +23,7 @@ For that:
 - Information should be filled once, and only once
 - Everything that can be computed automatically should be updated automatically (for instance, the total of a column)
 - The form should be accessible (in the a11y sense)
+- The form should be lightweight (currently under 70ko)
 
 ## Principles of design
 
