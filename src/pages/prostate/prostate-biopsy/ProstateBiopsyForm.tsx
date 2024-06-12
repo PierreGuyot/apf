@@ -281,7 +281,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
   });
 
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
-    const updatedArray = [...piradsItems];
+    const updatedArray = [...state.piradsItems];
     updatedArray[index] = value;
     setState("piradsItems")(updatedArray);
   };
@@ -341,10 +341,6 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
                         onChange={setState("targetCount")}
                       />
                     </Line>
-                    {/* NOTE:
-                      We handle the maximum number of items in all cases and simply hide according to count.
-                      This way, changing the count doesn't erase user input
-                    */}
                     {targetCount ? (
                       <NestedItem depth={1}>
                         <PiradsSelect
