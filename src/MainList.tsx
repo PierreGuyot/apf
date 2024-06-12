@@ -60,7 +60,7 @@ export const MainList = () => {
           {FORM_ROUTES.map((item) => {
             const { label, imagePath } = getCategoryProps(item.category);
             return (
-              <div>
+              <div key={item.category}>
                 <div className="main-list-section">
                   <img
                     className="main-list-section-icon"
