@@ -2,6 +2,8 @@ import { useMemo } from "react";
 import { AdditionalRemarks } from "../../common/AdditionalRemarks";
 import { ClinicalInfo } from "../../common/ClinicalInfo";
 import { FormPage } from "../../common/FormPage";
+import { SelectLymphaticOrVascularInvasion } from "../../common/SelectLymphaticOrVascularInvasion";
+import { SelectPerineuralInvasion } from "../../common/SelectPerineuralInvasion";
 import { InputNumber } from "../../ui/InputNumber";
 import { Line } from "../../ui/Line";
 import { Section } from "../../ui/Section";
@@ -13,10 +15,15 @@ import { patchArray, range } from "../../ui/helpers/helpers";
 import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { SetState, useForm } from "../../ui/helpers/use-form";
 import { InkingSection, InkingState } from "./InkingSection";
+import { SelectClarkInfiltrationLevel } from "./SelectClarkInfiltrationLevel";
 import {
+  ANGLE_OPTIONS,
+  Angle,
   BIOPSY_TYPES,
   BiopsyType,
+  CLARK_INFILTRATION_LEVELS,
   CUTANEOUS_DISEASE_TYPES,
+  ClarkInfiltrationLevel,
   CutType,
   CutaneousDiseaseType,
   EXCISION_TYPES,
@@ -25,11 +32,14 @@ import {
   InclusionType,
   LESION_ASPECT_TYPES,
   LESION_TYPES,
+  LIMIT_OPTIONS,
   LesionAspectType,
   LesionType,
+  Limit,
   ORIENTATION_TYPES,
   OrientationType,
-  TUMOR_TYPES,
+  TUMOR_PROPERTIES,
+  TUMOR_TYPE_OPTIONS,
   TumorType,
   getCutTypes,
 } from "./helpers";
@@ -46,15 +56,32 @@ const OPERATION_TYPES: Option<OperationType>[] = [
   { value: "shaving", label: "Shaving" },
 ];
 
+type MarginPosition = Angle | Limit;
+const MARGIN_POSITIONS = [...LIMIT_OPTIONS, ...ANGLE_OPTIONS];
+
+type TumorData = {
+  mainTumorType: TumorType;
+  secondaryTumorType: TumorType;
+  excisionType: ExcisionType;
+
+  minDepthMargin: number;
+  minSideMargin: number;
+  marginPosition: MarginPosition;
+
+  // Dynamic fields
+  hasLymphaticOrVascularInvasion: boolean;
+  hasEpn: boolean;
+  infiltrationLevel: ClarkInfiltrationLevel;
+};
+
 type OperationState = {
   type: OperationType;
 
   // Micro biopsy
   lesionType: LesionType;
   lesionCount: number;
-  tumorType: TumorType;
-  excisionType: ExcisionType;
   cutaneousDiseaseType: CutaneousDiseaseType;
+  tumors: TumorData[];
 
   // Macro biopsy
   biopsyType: BiopsyType;
@@ -65,9 +92,11 @@ type OperationState = {
   isLesionVisible: boolean;
   lesionAspectType: LesionAspectType;
   limitDistance: number;
+  // TODO: use Angle type
   limitAngle: number; // Hour-like notation
   isOriented: boolean;
   orientationType: OrientationType;
+  // TODO: use Angle type
   orientationAngle: number; // Hour-like notation
   cassetteCount: number;
   inclusionType: InclusionType;
@@ -82,7 +111,26 @@ export type FormState = {
   comment: string;
 };
 
+const anEmptyTumor = (): TumorData => ({
+  mainTumorType: "Angioléiomyome",
+  secondaryTumorType: "Angioléiomyome",
+  excisionType: "complete",
+  minDepthMargin: 0,
+  minSideMargin: 0,
+  marginPosition: MARGIN_POSITIONS[0].value,
+
+  // Dynamic fields
+  hasLymphaticOrVascularInvasion: false,
+  hasEpn: false,
+  infiltrationLevel: CLARK_INFILTRATION_LEVELS[0].value,
+});
+
 const DEFAULT_ANGLE = 12; // Hour-like notation
+
+// We use unreasonably high maximums to cover all cases
+const MAX_OPERATION_COUNT = 20;
+const MAX_CONTAINER_COUNT = 20;
+const MAX_LESION_COUNT = 20;
 
 const getOperation = (): OperationState => ({
   type: "biopsy",
@@ -104,16 +152,13 @@ const getOperation = (): OperationState => ({
 
   lesionType: "tumor",
   lesionCount: 1,
-  tumorType: "basal-cell-carcinoma-superficial",
-  excisionType: "complete",
   cutaneousDiseaseType: "eczema",
+  tumors: range(MAX_LESION_COUNT).map(anEmptyTumor),
   inkings: {
     hasInking: false,
     inkings: [],
   },
 });
-
-const MAX_OPERATION_COUNT = 5;
 
 const getInitialState = (): FormState => ({
   clinicalInfo: "",
@@ -138,7 +183,7 @@ export const DermatologyForm = () => {
           <InputNumber
             value={containerCount}
             min={1}
-            max={20}
+            max={MAX_CONTAINER_COUNT}
             onChange={setState("containerCount")}
           />
         </Line>
@@ -191,7 +236,7 @@ const OperationForm = ({
 }) => {
   const title = getTitle(operation);
 
-  // TODO: extract dedicated state helper
+  // TODO clean: extract dedicated state helper
   const setOperationState: SetState<OperationState> = (key) => (value) =>
     setOperation({ ...operation, [key]: value });
 
@@ -201,16 +246,13 @@ const OperationForm = ({
         return MacroBiopsyForm;
       }
 
-      case "excision": {
+      case "excision":
+      case "shaving": {
         return MacroExcisionForm;
       }
 
       case "recoupe": {
         return MacroRecoupeForm;
-      }
-
-      case "shaving": {
-        return MacroShavingForm;
       }
     }
   }, [operation.type]);
@@ -341,6 +383,7 @@ const MacroExcisionForm = ({
               onChange={setState("limitDistance")}
             />
             cm de la limite à{" "}
+            {/* TODO: extract SelectAngle component (including `à`) */}
             <SelectNumber
               name="Angle à la limite"
               value={limitAngle}
@@ -371,7 +414,7 @@ const MacroExcisionForm = ({
             options={ORIENTATION_TYPES}
             onChange={setState("orientationType")}
           />
-          à{" "}
+          à {/* TODO: extract SelectAngle component (including `à`) */}
           <SelectNumber
             name="Angle du prèlèvement limite"
             value={orientationAngle}
@@ -415,15 +458,7 @@ const MacroExcisionForm = ({
   );
 };
 
-const MacroShavingForm = ({
-  setState,
-}: {
-  setState: SetState<OperationState>;
-}) => {
-  return <>TODO: MacroShavingForm</>;
-};
-
-// TODO: translate recoupe
+// TODO: translate recoupe (re-cut?)
 const MacroRecoupeForm = ({
   setState,
 }: {
@@ -433,10 +468,11 @@ const MacroRecoupeForm = ({
 };
 
 const MicroscopyForm = ({
+  isOriented,
+  type: operationType,
   lesionType,
   lesionCount,
-  tumorType,
-  excisionType,
+  tumors,
   cutaneousDiseaseType,
   setState,
 }: OperationState & { setState: SetState<OperationState> }) => {
@@ -459,28 +495,25 @@ const MicroscopyForm = ({
               label="Combien de lésions sont présentes sur le prélèvement ?"
               value={lesionCount}
               min={1}
-              max={20} // We use an unreasonably high maximum to cover all cases
+              max={MAX_LESION_COUNT}
               onChange={setState("lesionCount")}
             />
           </Line>
-          <Line>
-            <Select
-              name="Type de tumeur cutanée"
-              label="Quel est le type de tumeur cutanée ?"
-              value={tumorType}
-              options={TUMOR_TYPES}
-              onChange={setState("tumorType")}
+
+          {tumors.slice(0, lesionCount).map((tumor, index) => (
+            <TumoralLesionSection
+              key={index}
+              index={index}
+              isOriented={isOriented}
+              operationType={operationType}
+              state={tumor}
+              setState={(value) => {
+                const updatedTumors = [...tumors];
+                updatedTumors[index] = value;
+                setState("tumors")(updatedTumors);
+              }}
             />
-          </Line>
-          <Line>
-            <Select
-              name="Type d'exérèse"
-              label="Précisez l'exérèse de la lésion :"
-              value={excisionType}
-              options={EXCISION_TYPES}
-              onChange={setState("excisionType")}
-            />
-          </Line>
+          ))}
         </>
       ) : lesionType === "inflammation" ? (
         <>
@@ -493,10 +526,142 @@ const MicroscopyForm = ({
               onChange={setState("cutaneousDiseaseType")}
             />
           </Line>
+          <>TODO: complete Inflammation</>
         </>
       ) : (
-        <>TODO: complete</>
+        <>TODO: complete ForeignBody</>
       )}
     </>
+  );
+};
+
+const TumoralLesionSection = ({
+  index,
+  operationType,
+  isOriented,
+  state,
+  setState: _setState,
+}: {
+  index: number;
+  operationType: OperationType;
+  isOriented: boolean;
+  state: TumorData;
+  setState: (tumor: TumorData) => void;
+}) => {
+  const {
+    mainTumorType,
+    secondaryTumorType,
+    excisionType,
+    minDepthMargin,
+    minSideMargin,
+    marginPosition,
+    hasLymphaticOrVascularInvasion,
+    hasEpn,
+    infiltrationLevel,
+  } = state;
+
+  // TODO clean: extract dedicated state helper
+  const setState: SetState<TumorData> = (key) => (value) =>
+    _setState({ ...state, [key]: value });
+
+  const {
+    hasSelectLymphaticOrVascularInvasion,
+    hasSelectPerineuralInvasion,
+    hasSelectClarkInfiltrationLevel,
+  } = TUMOR_PROPERTIES[mainTumorType];
+
+  return (
+    <SubSection>
+      {/* TODO clean: improve styling */}
+      <Line>
+        <b>Lésion {index + 1}</b>
+      </Line>
+      <Line>
+        <Select
+          name="Type de la tumeur cutanée principale"
+          label="Quel est le type de la tumeur cutanée principale ?"
+          value={mainTumorType}
+          options={TUMOR_TYPE_OPTIONS}
+          onChange={setState("mainTumorType")}
+        />
+      </Line>
+      <Line>
+        <Select
+          name="Type des tumeurs cutanées adjacentes"
+          label="Quel est le type des tumeurs cutanées adjacentes ?"
+          value={secondaryTumorType}
+          options={TUMOR_TYPE_OPTIONS}
+          onChange={setState("secondaryTumorType")}
+        />
+      </Line>
+      <Line>
+        <Select
+          name="Type d'exérèse"
+          label="Préciser l'exérèse de la lésion :"
+          value={excisionType}
+          options={EXCISION_TYPES}
+          onChange={setState("excisionType")}
+        />
+      </Line>
+
+      {/*
+        Only display this section if the:
+        - Operation type is not a biopsy
+        - Excision type has margins
+      */}
+      {operationType !== "biopsy" && excisionType !== "complete" ? (
+        <>
+          <Line>
+            <InputNumber
+              label="Taille de la marge latérale minimale"
+              value={minDepthMargin}
+              onChange={setState("minDepthMargin")}
+              unit="mm"
+            />
+            {isOriented ? (
+              <Select
+                name="Position de la marge latérale minimale"
+                options={MARGIN_POSITIONS}
+                value={marginPosition}
+                onChange={setState("marginPosition")}
+              />
+            ) : undefined}
+          </Line>
+          <Line>
+            <InputNumber
+              label="Préciser la marge profonde minimale"
+              value={minSideMargin}
+              onChange={setState("minSideMargin")}
+              unit="mm"
+            />
+          </Line>
+        </>
+      ) : undefined}
+
+      {hasSelectLymphaticOrVascularInvasion ? (
+        <Line>
+          <SelectLymphaticOrVascularInvasion
+            value={hasLymphaticOrVascularInvasion}
+            onChange={setState("hasLymphaticOrVascularInvasion")}
+          />
+        </Line>
+      ) : undefined}
+      {hasSelectPerineuralInvasion ? (
+        <Line>
+          <SelectPerineuralInvasion
+            value={hasEpn}
+            onChange={setState("hasEpn")}
+          />
+        </Line>
+      ) : undefined}
+      {hasSelectClarkInfiltrationLevel ? (
+        <Line>
+          <SelectClarkInfiltrationLevel
+            value={infiltrationLevel}
+            onChange={setState("infiltrationLevel")}
+          />
+        </Line>
+      ) : undefined}
+    </SubSection>
   );
 };

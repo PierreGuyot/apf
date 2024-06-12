@@ -1,8 +1,10 @@
 import { findOption } from "../../ui/helpers/helpers";
 import { Option } from "../../ui/helpers/options";
+import { LIMIT_OPTIONS, Limit } from "./helpers";
 
 // TODO with Louis: translate everything below
 
+// TODO with Louis: translate
 export type InkingColor =
   | "blue"
   | "green"
@@ -27,20 +29,11 @@ export const INKING_COLOR_GROUPS = [
 export const getInkingColorOption = findOption(INKING_COLORS_OPTIONS);
 
 // TODO with Louis: check wording
-export type InkingLimit =
-  | "all"
-  | "superior"
-  | "inferior"
-  | "median"
-  | "lateral"
-  | "anterior"
-  | "posterior";
-export const LIMIT_OPTIONS: Option<InkingLimit>[] = [
+// TODO with Louis: translate
+export type InkingLimitType = "all" | "other" | Limit;
+
+export const INKING_LIMIT_TYPE_OPTIONS: Option<InkingLimitType>[] = [
   { value: "all", label: "Toutes les limites" },
-  { value: "superior", label: "Supérieure" },
-  { value: "inferior", label: "Inférieure" },
-  { value: "median", label: "Médiane" },
-  { value: "lateral", label: "Latérale" },
-  { value: "anterior", label: "Antérieure" },
-  { value: "posterior", label: "Postérieure" },
+  ...LIMIT_OPTIONS,
+  { value: "other", label: "Autre (description en heures)" },
 ];

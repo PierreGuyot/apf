@@ -2,20 +2,34 @@ import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
 import { SubSection } from "../../ui/SubSection";
-import { YES_NO_OPTIONS } from "../../ui/helpers/options";
+import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
 import { SetState } from "../../ui/helpers/use-form";
 import {
   INKING_COLORS_OPTIONS,
   INKING_COLOR_GROUPS,
+  INKING_LIMIT_TYPE_OPTIONS,
   InkingColor,
-  InkingLimit,
-  LIMIT_OPTIONS,
+  InkingLimitType,
   getInkingColorOption,
 } from "./inking.helpers";
+
+type InkingPosition = 3 | 6 | 9 | 12;
+const INKING_POSITIONS: Option<InkingPosition>[] = [
+  { value: 3, label: "3h" },
+  { value: 6, label: "6h" },
+  { value: 9, label: "9h" },
+  { value: 12, label: "12h" },
+];
 
 type Inking = {
   color: InkingColor;
   limit: InkingLimit;
+};
+
+type InkingLimit = {
+  type: InkingLimitType;
+  start: InkingPosition;
+  end: InkingPosition;
 };
 
 export type InkingState = {
@@ -25,7 +39,11 @@ export type InkingState = {
 
 const anEmptyInking = (color: InkingColor) => ({
   color,
-  limit: LIMIT_OPTIONS[0].value,
+  limit: {
+    type: INKING_LIMIT_TYPE_OPTIONS[0].value,
+    start: INKING_POSITIONS[0].value,
+    end: INKING_POSITIONS[1].value,
+  },
 });
 
 type Props = {
@@ -85,33 +103,80 @@ export const InkingSection = ({ state, setState: _setState }: Props) => {
           </Line>
           {/* TODO: fix spacing here */}
           {inkings.length ? (
-            <Line>Désignez la localisation spatiale de chaque encre :</Line>
+            <>
+              <Line>Désignez la localisation spatiale de chaque encre :</Line>
+              <SubSection>
+                {inkings.map((inking, index) => {
+                  const { label } = getInkingColorOption(inking.color);
+                  return (
+                    <InkingItem
+                      key={inking.color}
+                      label={`Encre ${label}`}
+                      state={inking.limit}
+                      setState={(value) => {
+                        const updatedInkings = [...inkings];
+                        updatedInkings[index] = {
+                          ...updatedInkings[index],
+                          limit: value,
+                        };
+                        setState("inkings")(updatedInkings);
+                      }}
+                    />
+                  );
+                })}
+              </SubSection>
+            </>
           ) : undefined}
-          <SubSection>
-            {inkings.map((inking, index) => {
-              const { label } = getInkingColorOption(inking.color);
-              return (
-                <Line key={inking.color}>
-                  <Select
-                    name="Localisation de l'encre"
-                    label={`Encre ${label}`}
-                    options={LIMIT_OPTIONS}
-                    value={inking.limit}
-                    onChange={(value) => {
-                      const updatedInkings = [...inkings];
-                      updatedInkings[index] = {
-                        ...updatedInkings[index],
-                        limit: value,
-                      };
-                      setState("inkings")(updatedInkings);
-                    }}
-                  />
-                </Line>
-              );
-            })}
-          </SubSection>
         </>
       ) : undefined}
     </>
+  );
+};
+
+export const InkingItem = ({
+  label,
+  state,
+  setState: _setState,
+}: {
+  label: string;
+  state: InkingLimit;
+  setState: (value: InkingLimit) => void;
+}) => {
+  const { type, start, end } = state;
+
+  // TODO clean: extract dedicated state helper
+  const setState: SetState<InkingLimit> = (key) => (value) =>
+    _setState({ ...state, [key]: value });
+
+  return (
+    <Line>
+      <Select
+        name="Localisation de l'encre"
+        label={label}
+        options={INKING_LIMIT_TYPE_OPTIONS}
+        value={type}
+        onChange={(value) => setState("type")(value)}
+      />
+      {/* FIXME: add validation to ensure the two values are different */}
+      {state.type === "other" ? (
+        <>
+          de{" "}
+          <Select
+            name="Position de départ de l'encrage"
+            options={INKING_POSITIONS}
+            value={start}
+            onChange={setState("start")}
+          />{" "}
+          à{" "}
+          <Select
+            name="Position de fin de l'encrage"
+            options={INKING_POSITIONS}
+            value={end}
+            onChange={setState("end")}
+          />{" "}
+          dans le sens horaire
+        </>
+      ) : undefined}
+    </Line>
   );
 };
