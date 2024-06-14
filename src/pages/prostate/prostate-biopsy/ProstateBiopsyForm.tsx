@@ -289,8 +289,15 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
   });
   const getReportContent = (language: Language) =>
     generateReport(
-      { formId, ...state, score, piradsItems: visiblePiradsItems, rows: visibleRows },
+      {
+        formId,
+        ...state,
+        score,
+        piradsItems: visiblePiradsItems,
+        rows: visibleRows,
+      },
       language,
+      isExpertMode,
     );
 
   return (

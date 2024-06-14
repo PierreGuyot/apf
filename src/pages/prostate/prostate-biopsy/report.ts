@@ -37,21 +37,19 @@ const formatSize = (
   totalSize: number,
   language: Language,
 ) => {
-  // NOTE: totalSize can not be 0 due to form validations
-  // We still catch an error for this case out of caution
   if (!totalSize) {
-    throw new Error(`Invalid total size: ${totalSize}`);
+    return "";
   }
 
   const ratio = Math.round((tumorSize / totalSize) * 100);
 
   // NOTE: inline translation
   if (language === "FR") {
-    return `(${tumorSize} mm sur ${totalSize} mm examinés, ${ratio}%)`;
+    return ` (${tumorSize} mm sur ${totalSize} mm examinés, ${ratio}%)`;
   }
 
   if (language === "EN") {
-    return `(${tumorSize} mm out of ${totalSize} mm examined, ${ratio}%)`;
+    return ` (${tumorSize} mm out of ${totalSize} mm examined, ${ratio}%)`;
   }
 };
 
@@ -110,6 +108,7 @@ const getCommentSection = (form: { comment: string }, language: Language) => {
 const getConclusionSection = (
   { rows, score, tumorType }: ReportParams,
   language: Language,
+  isExpertMode: boolean
 ) => {
   // Pre-compute values to insert in the template
   const { label: tumorTypeLabel } = getTumorTypeOption(tumorType);
@@ -148,22 +147,40 @@ Prostate adenomyoma.`;
 
   // NOTE: inline translation
   if (language === "FR") {
+    const detailsSextants = isExpertMode
+      ? formatSize(sextantTumorSize, sextantBiopsySize, language)
+      : "";
+    const detailsTargets = isExpertMode
+      ? formatSize(targetTumorSize, targetBiopsySize, language)
+      : "";
+
     return joinLines([
       `${translate(tumorTypeLabel, language)}.\n`, // We add an empty line for aesthetic purposes
       `Il présente un score de Gleason ${gleasonSummary}, soit un score ISUP de ${isupScore}.`,
-      `Il est localisé sur ${totalTumorCountStandard} des ${totalBiopsyCountStandard} biopsies systématiques ${formatSize(sextantTumorSize, sextantBiopsySize, language)} et sur ${totalTumorCountTargeted} des ${totalBiopsyCountTargeted} biopsies ciblées ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
-      `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur la totalité des biopsies examinés.\n`, // We add an empty line for aesthetic purposes,
+      `Il est localisé sur ${totalTumorCountStandard} des ${totalBiopsyCountStandard} biopsies systématiques${detailsSextants} et sur ${totalTumorCountTargeted} des ${totalBiopsyCountTargeted} biopsies ciblées${detailsTargets}.`,
+      isExpertMode
+        ? `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur la totalité des biopsies examinés.\n` // We add an empty line for aesthetic purposes,
+        : "",
       `${translate("Engainements périnerveux", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
     ]);
   }
 
   if (language === "EN") {
+    const detailsSextants = isExpertMode
+      ? formatSize(sextantTumorSize, sextantBiopsySize, language)
+      : "";
+    const detailsTargets = isExpertMode
+      ? formatSize(targetTumorSize, targetBiopsySize, language)
+      : "";
+
     return joinLines([
       `${translate(tumorTypeLabel, language)}.\n`, // We add an empty line for aesthetic purposes
       `It has a Gleason score of ${gleasonSummary}, i.e. an ISUP score of ${isupScore}.`,
-      `It is localized on ${sextantsWithTumor.length} out of ${sextants.length} systematic biopsies ${formatSize(sextantTumorSize, sextantBiopsySize, language)} and on ${targetsWithTumor.length} out of ${targets.length} targeted biopsies ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
-      `It has a size of ${score.tumorSize} mm out of ${score.biopsySize} mm examined on systematic biopsies.\n`, // We add an empty line for aesthetic purposes,
+      `It is localized on ${sextantsWithTumor.length} out of ${sextants.length} systematic biopsies${detailsSextants} and on ${targetsWithTumor.length} out of ${targets.length} targeted biopsies ${detailsTargets}.`,
+      isExpertMode
+        ? `It has a size of ${score.tumorSize} mm out of ${score.biopsySize} mm examined on all biopsies.\n` // We add an empty line for aesthetic purposes
+        : "",
       `${translate("Engainements périnerveux", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
     ]);
@@ -174,11 +191,12 @@ Prostate adenomyoma.`;
 export const generateReport = (
   form: ReportParams,
   language: Language,
+  isExpertMode: boolean,
 ): string => {
   return joinSections([
     getFormTitle(form.formId, language),
     getClinicalInformationSection(form, language),
     getCommentSection(form, language),
-    getConclusionSection(form, language),
+    getConclusionSection(form, language, isExpertMode),
   ]);
 };

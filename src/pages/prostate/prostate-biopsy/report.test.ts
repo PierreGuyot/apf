@@ -402,10 +402,11 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
 
 // TODO clean: test functions to compute scores
 // TODO clean: test functions to compute errors
+// TODO clean: add test cases for standard mode
 
 describe("generateReport", () => {
   it("should generate a clean report without a tumor (FR)", () => {
-    expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "FR")).toEqual(
+    expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "FR", true)).toEqual(
       `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques:
@@ -424,7 +425,7 @@ Adénomyome prostatique.`,
   });
 
   it.only("should generate a clean report with a tumor (FR)", () => {
-    expect(generateReport(MOCK_DATA_WITH_TUMOR, "FR"))
+    expect(generateReport(MOCK_DATA_WITH_TUMOR, "FR", true))
       .toEqual(`BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques:
@@ -448,7 +449,7 @@ Tissu extra-prostatique : Non`);
   });
 
   it("should generate a clean report without a tumor (EN)", () => {
-    expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "EN")).toEqual(
+    expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "EN", true)).toEqual(
       `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
 Case summary:
@@ -467,7 +468,7 @@ Prostate adenomyoma.`,
   });
 
   it("should generate a clean report with a tumor (EN)", () => {
-    expect(generateReport(MOCK_DATA_WITH_TUMOR, "EN")).toEqual(
+    expect(generateReport(MOCK_DATA_WITH_TUMOR, "EN", true)).toEqual(
       `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
 Case summary:
