@@ -14,7 +14,7 @@ import { Select } from "../../../ui/Select";
 import { SelectNumber } from "../../../ui/SelectNumber";
 import { Summary } from "../../../ui/Summary";
 import { ValidationErrors } from "../../../ui/ValidationErrors";
-import { useForm } from "../../../ui/helpers/form-state";
+import { patchState, useForm } from "../../../ui/helpers/form-state";
 import {
   filterNullish,
   noop,
@@ -245,29 +245,15 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
       : "biopsie systématique";
 
   // State
-  const { state, setField, clearState } = useForm(getInitialState);
-  const {
-    hasInfo,
-    hasTarget,
-    targetCount,
-    hasMri,
-    psaRate,
-    containerCount,
-    tumorType,
-    ihc,
-    comment,
-  } = state;
+  const { state, setState, setField, clearState } = useForm(getInitialState);
+  const { piradsItems, containerCount, tumorType, ihc, comment } = state;
 
-  // For rows and piradsItems, we handle the maximum number of items in all
+  // For rows, we handle the maximum number of items in all
   // cases and simply hide according to count.
   // This way, changing the count doesn't erase previous user input.
   const rows = useMemo(
     () => state.rows.slice(0, state.containerCount),
     [state.rows, state.containerCount],
-  );
-  const piradsItems = useMemo(
-    () => state.piradsItems.slice(0, state.targetCount),
-    [state.piradsItems, state.targetCount],
   );
 
   // Computed
@@ -281,83 +267,14 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
     tumorType,
   });
 
-  const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
-    const updatedArray = [...state.piradsItems];
-    updatedArray[index] = value;
-    setField("piradsItems")(updatedArray);
-  };
-
   return (
     <FormPage formId={formId} onClear={clearState}>
-      <Section title="Renseignements cliniques" index={1}>
-        <Line>
-          <Select
-            value={hasInfo}
-            options={YES_NO_OPTIONS}
-            name="Renseignements cliniques"
-            label="Avez-vous des renseignements cliniques ?"
-            onChange={setField("hasInfo")}
-          />
-        </Line>
-        {hasInfo ? (
-          <>
-            <Line>
-              <InputNumber
-                value={psaRate}
-                label="Taux de PSA"
-                unit="ng-per-mL"
-                size="lg"
-                isDecimal
-                onChange={setField("psaRate")}
-              />
-            </Line>
-            <Line>
-              <Select
-                value={hasMri}
-                options={YES_NO_OPTIONS}
-                name="IRM"
-                label="Avez-vous une IRM ?"
-                onChange={setField("hasMri")}
-              />
-            </Line>
-            {hasMri ? (
-              <>
-                <Line>
-                  <Select
-                    value={hasTarget}
-                    options={YES_NO_OPTIONS}
-                    name="Présence de cible"
-                    label="Avez-vous au moins une cible ?"
-                    onChange={setField("hasTarget")}
-                  />
-                </Line>
-                {hasTarget ? (
-                  <>
-                    <Line>
-                      <SelectNumber
-                        value={targetCount}
-                        name="Nombre de cibles"
-                        label="Nombre de cibles"
-                        max={MAX_TARGET_COUNT}
-                        onChange={setField("targetCount")}
-                      />
-                    </Line>
-                    {targetCount ? (
-                      <NestedItem depth={1}>
-                        <PiradsSelect
-                          formId={formId}
-                          items={piradsItems}
-                          onChange={onUpdatePiradsItem}
-                        />
-                      </NestedItem>
-                    ) : undefined}
-                  </>
-                ) : undefined}
-              </>
-            ) : undefined}
-          </>
-        ) : undefined}
-      </Section>
+      <ClinicalInfoExpert
+        index={1}
+        formId={formId}
+        state={state}
+        setState={(value) => setState({ ...state, ...value })}
+      />
 
       <Section title="Biopsies" index={2}>
         <Line>
@@ -442,5 +359,111 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
         />
       )}
     </FormPage>
+  );
+};
+
+type ClinicalInfoState = Pick<
+  FormState,
+  "hasInfo" | "hasTarget" | "targetCount" | "hasMri" | "psaRate" | "piradsItems"
+>;
+
+const ClinicalInfoExpert = ({
+  index,
+  formId,
+  state,
+  setState,
+}: {
+  index?: number;
+  formId: ProstateBiopsyFormId;
+  state: ClinicalInfoState;
+  setState: (state: ClinicalInfoState) => void;
+}) => {
+  const setField = patchState(state, setState);
+  const { hasInfo, hasTarget, targetCount, hasMri, psaRate } = state;
+
+  // For piradsItems, we handle the maximum number of items in all
+  // cases and simply hide according to count.
+  // This way, changing the count doesn't erase previous user input.
+  const piradsItems = useMemo(
+    () => state.piradsItems.slice(0, state.targetCount),
+    [state.piradsItems, state.targetCount],
+  );
+
+  const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
+    const updatedArray = [...state.piradsItems];
+    updatedArray[index] = value;
+    setField("piradsItems")(updatedArray);
+  };
+
+  return (
+    <Section title="Renseignements cliniques" index={index}>
+      <Line>
+        <Select
+          value={hasInfo}
+          options={YES_NO_OPTIONS}
+          name="Renseignements cliniques"
+          label="Avez-vous des renseignements cliniques ?"
+          onChange={setField("hasInfo")}
+        />
+      </Line>
+      {hasInfo ? (
+        <>
+          <Line>
+            <InputNumber
+              value={psaRate}
+              label="Taux de PSA"
+              unit="ng-per-mL"
+              size="lg"
+              isDecimal
+              onChange={setField("psaRate")}
+            />
+          </Line>
+          <Line>
+            <Select
+              value={hasMri}
+              options={YES_NO_OPTIONS}
+              name="IRM"
+              label="Avez-vous une IRM ?"
+              onChange={setField("hasMri")}
+            />
+          </Line>
+          {hasMri ? (
+            <>
+              <Line>
+                <Select
+                  value={hasTarget}
+                  options={YES_NO_OPTIONS}
+                  name="Présence de cible"
+                  label="Avez-vous au moins une cible ?"
+                  onChange={setField("hasTarget")}
+                />
+              </Line>
+              {hasTarget ? (
+                <>
+                  <Line>
+                    <SelectNumber
+                      value={targetCount}
+                      name="Nombre de cibles"
+                      label="Nombre de cibles"
+                      max={MAX_TARGET_COUNT}
+                      onChange={setField("targetCount")}
+                    />
+                  </Line>
+                  {targetCount ? (
+                    <NestedItem depth={1}>
+                      <PiradsSelect
+                        formId={formId}
+                        items={piradsItems}
+                        onChange={onUpdatePiradsItem}
+                      />
+                    </NestedItem>
+                  ) : undefined}
+                </>
+              ) : undefined}
+            </>
+          ) : undefined}
+        </>
+      ) : undefined}
+    </Section>
   );
 };

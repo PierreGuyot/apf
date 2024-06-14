@@ -36,5 +36,5 @@ export const useForm = <State>(getInitialState: () => State) => {
     [getInitialState],
   );
 
-  return { state, setField, clearState };
+  return { state, setState, setField, clearState };
 };
