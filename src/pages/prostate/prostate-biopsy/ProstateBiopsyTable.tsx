@@ -57,7 +57,7 @@ const TableHeader = ({ language }: { language: Language }) => (
 type Props = {
   formId: ProstateBiopsyFormId;
   language: Language;
-  visibleRowCount: number,
+  visibleRowCount: number;
   rows: RowWithMetadata[];
   score: Score;
   isReadOnly?: boolean;

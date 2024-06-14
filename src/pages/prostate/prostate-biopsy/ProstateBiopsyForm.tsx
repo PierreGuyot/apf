@@ -27,7 +27,7 @@ import { Option, YES_NO_OPTIONS } from "../../../ui/helpers/options";
 import { count } from "../../../ui/helpers/plural";
 import { isDebug } from "../../../ui/helpers/state";
 import { naturalJoin } from "../../../ui/helpers/text";
-import { DEFAULT_LANGUAGE } from "../../../ui/language";
+import { DEFAULT_LANGUAGE, Language } from "../../../ui/language";
 import {
   PROSTATE_ANTIBODY_GROUPS,
   PROSTATE_ANTIBODY_PROPERTIES,
@@ -249,7 +249,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
 
   // State
   const { state, setState, setField, clearState } = useForm(getInitialState);
-  const { piradsItems, containerCount, tumorType, ihc, comment } = state;
+  const { piradsItems, containerCount, targetCount, tumorType, ihc, comment } = state;
 
   const rows: RowWithMetadata[] = useMemo(
     () =>
@@ -267,24 +267,30 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
     [isExpertMode, state.rows],
   );
 
-  // For rows, we handle the maximum number of items in all
-  // cases and simply hide according to count.
-  // This way, changing the count doesn't erase previous user input.
-  const visibleRows = useMemo(
-    () => rows.slice(0, state.containerCount),
-    [rows, state.containerCount],
-  );
-
   // Computed
+  // TODO clean: consider extracting this as one function
 
+  const visibleRows = useMemo(
+    () => rows.slice(0, containerCount),
+    [rows, containerCount],
+  );
+  const visiblePiradsItems = useMemo(
+    () => piradsItems.slice(0, targetCount),
+    [piradsItems, targetCount],
+  );
   const score = getScore(visibleRows);
   const errors = getErrors({
     sextantName,
-    rows: visibleRows,
-    containerCount: state.containerCount,
-    piradsItems,
+    containerCount,
     tumorType,
+    rows: visibleRows,
+    piradsItems: visiblePiradsItems,
   });
+  const getReportContent = (language: Language) =>
+    generateReport(
+      { formId, ...state, score, piradsItems: visiblePiradsItems, rows: visibleRows },
+      language,
+    );
 
   return (
     <FormPage formId={formId} onClear={clearState}>
@@ -354,18 +360,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
 
       {errors.length ? undefined : (
         <Summary
-          getContent={(language) =>
-            generateReport(
-              {
-                formId,
-                ...state,
-                piradsItems,
-                score,
-                rows: visibleRows,
-              },
-              language,
-            )
-          }
+          getContent={getReportContent}
           getTable={(language) => (
             <ProstateBiopsyTable
               formId={formId}
@@ -400,18 +395,19 @@ const ClinicalInfoExpert = ({
   setState: (state: ClinicalInfoState) => void;
 }) => {
   const setField = patchState(state, setState);
-  const { hasInfo, hasTarget, targetCount, hasMri, psaRate } = state;
+  const { hasInfo, hasTarget, targetCount, hasMri, psaRate, piradsItems } =
+    state;
 
   // For piradsItems, we handle the maximum number of items in all
   // cases and simply hide according to count.
   // This way, changing the count doesn't erase previous user input.
-  const piradsItems = useMemo(
-    () => state.piradsItems.slice(0, state.targetCount),
-    [state.piradsItems, state.targetCount],
+  const visiblePiradsItems = useMemo(
+    () => piradsItems.slice(0, targetCount),
+    [piradsItems, targetCount],
   );
 
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
-    const updatedArray = [...state.piradsItems];
+    const updatedArray = [...piradsItems];
     updatedArray[index] = value;
     setField("piradsItems")(updatedArray);
   };
@@ -473,8 +469,9 @@ const ClinicalInfoExpert = ({
                   {targetCount ? (
                     <NestedItem depth={1}>
                       <PiradsSelect
+                        // TODO clean: take a visibleRowCount prop on the model of ProstateBiopsyTable
                         formId={formId}
-                        items={piradsItems}
+                        items={visiblePiradsItems}
                         onChange={onUpdatePiradsItem}
                       />
                     </NestedItem>
