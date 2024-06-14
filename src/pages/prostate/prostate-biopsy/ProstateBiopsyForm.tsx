@@ -251,12 +251,9 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
   const { state, setState, setField, clearState } = useForm(getInitialState);
   const { piradsItems, containerCount, tumorType, ihc, comment } = state;
 
-  // For rows, we handle the maximum number of items in all
-  // cases and simply hide according to count.
-  // This way, changing the count doesn't erase previous user input.
   const rows: RowWithMetadata[] = useMemo(
     () =>
-      state.rows.slice(0, state.containerCount).map((row): RowWithMetadata => {
+      state.rows.map((row) => {
         return {
           ...row,
           biopsySizeInputCount: isExpertMode
@@ -267,15 +264,23 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
             : Math.min(row.tumorCount, 1),
         };
       }),
-    [state.rows, state.containerCount, isExpertMode],
+    [isExpertMode, state.rows],
+  );
+
+  // For rows, we handle the maximum number of items in all
+  // cases and simply hide according to count.
+  // This way, changing the count doesn't erase previous user input.
+  const visibleRows = useMemo(
+    () => rows.slice(0, state.containerCount),
+    [rows, state.containerCount],
   );
 
   // Computed
 
-  const score = getScore(rows);
+  const score = getScore(visibleRows);
   const errors = getErrors({
     sextantName,
-    rows,
+    rows: visibleRows,
     containerCount: state.containerCount,
     piradsItems,
     tumorType,
@@ -312,6 +317,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
           formId={formId}
           language={DEFAULT_LANGUAGE}
           rows={rows}
+          visibleRowCount={containerCount}
           score={score}
           onChange={setField("rows")}
         />
@@ -355,7 +361,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
                 ...state,
                 piradsItems,
                 score,
-                rows,
+                rows: visibleRows,
               },
               language,
             )
@@ -364,6 +370,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
             <ProstateBiopsyTable
               formId={formId}
               language={language}
+              visibleRowCount={containerCount}
               rows={rows}
               score={score}
               isReadOnly

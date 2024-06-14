@@ -26,6 +26,7 @@ export type Column<Row> = DistributeColumns<Row, keyof Row>;
 
 type Props<Row> = {
   columns: Column<Row>[];
+  visibleRowCount: number;
   rows: Row[];
   header?: () => ReactNode;
   hasFooter?: boolean;
@@ -35,6 +36,7 @@ type Props<Row> = {
 
 export function Table<Row>({
   columns,
+  visibleRowCount,
   rows,
   header: Header,
   hasFooter,
@@ -59,7 +61,7 @@ export function Table<Row>({
 
         {/* Body */}
         <tbody>
-          {rows.map((row, rowIndex) => (
+          {rows.slice(0, visibleRowCount).map((row, rowIndex) => (
             <tr key={`row--${rowIndex}`}>
               {columns.map((column) => {
                 const isDisabled = column.isDisabled && column.isDisabled(row);
