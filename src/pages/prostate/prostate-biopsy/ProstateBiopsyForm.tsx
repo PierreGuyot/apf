@@ -249,7 +249,8 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
 
   // State
   const { state, setState, setField, clearState } = useForm(getInitialState);
-  const { piradsItems, containerCount, targetCount, tumorType, ihc, comment } = state;
+  const { piradsItems, containerCount, targetCount, tumorType, ihc, comment } =
+    state;
 
   const rows: RowWithMetadata[] = useMemo(
     () =>
@@ -398,14 +399,6 @@ const ClinicalInfoExpert = ({
   const { hasInfo, hasTarget, targetCount, hasMri, psaRate, piradsItems } =
     state;
 
-  // For piradsItems, we handle the maximum number of items in all
-  // cases and simply hide according to count.
-  // This way, changing the count doesn't erase previous user input.
-  const visiblePiradsItems = useMemo(
-    () => piradsItems.slice(0, targetCount),
-    [piradsItems, targetCount],
-  );
-
   const onUpdatePiradsItem = (value: PiradsItem, index: number) => {
     const updatedArray = [...piradsItems];
     updatedArray[index] = value;
@@ -469,9 +462,9 @@ const ClinicalInfoExpert = ({
                   {targetCount ? (
                     <NestedItem depth={1}>
                       <PiradsSelect
-                        // TODO clean: take a visibleRowCount prop on the model of ProstateBiopsyTable
                         formId={formId}
-                        items={visiblePiradsItems}
+                        visibleRowCount={targetCount}
+                        items={piradsItems}
                         onChange={onUpdatePiradsItem}
                       />
                     </NestedItem>

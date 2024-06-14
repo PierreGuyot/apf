@@ -152,7 +152,7 @@ Prostate adenomyoma.`;
       `${translate(tumorTypeLabel, language)}.\n`, // We add an empty line for aesthetic purposes
       `Il présente un score de Gleason ${gleasonSummary}, soit un score ISUP de ${isupScore}.`,
       `Il est localisé sur ${totalTumorCountStandard} des ${totalBiopsyCountStandard} biopsies systématiques ${formatSize(sextantTumorSize, sextantBiopsySize, language)} et sur ${totalTumorCountTargeted} des ${totalBiopsyCountTargeted} biopsies ciblées ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
-      `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
+      `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur la totalité des biopsies examinés.\n`, // We add an empty line for aesthetic purposes,
       `${translate("Engainements périnerveux", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
     ]);

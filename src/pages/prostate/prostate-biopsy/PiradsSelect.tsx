@@ -47,13 +47,19 @@ const PiradsLine = ({
 
 type Props = {
   items: PiradsItem[];
+  visibleRowCount: number;
   formId: ProstateBiopsyFormId;
   onChange: (value: PiradsItem, index: number) => void;
 };
 
-export const PiradsSelect = ({ items, formId, onChange }: Props) => (
+export const PiradsSelect = ({
+  items,
+  visibleRowCount,
+  formId,
+  onChange,
+}: Props) => (
   <>
-    {items.map((item, i) => (
+    {items.slice(0, visibleRowCount).map((item, i) => (
       <PiradsLine
         key={i}
         formId={formId}
