@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { InputText } from "../../ui/InputText";
 import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
@@ -10,8 +11,9 @@ import {
   ANTIBODIES_PROPERTIES,
   AntibodyData,
   Block,
+  OTHER_RESULT_OPTIONS,
+  PropertiesByAntibody,
   ResultOptions,
-  AntibodyProperties,
 } from "./_helpers";
 
 const aNewBlock = (index: number, options: ResultOptions): Block => ({
@@ -27,7 +29,7 @@ const getBlockOptions = (count: number) =>
 
 type Props = {
   containerCount: number;
-  properties: AntibodyProperties;
+  properties: PropertiesByAntibody;
   state: AntibodyData;
   setState: (value: AntibodyData) => void;
 };
@@ -38,12 +40,7 @@ export const AntibodySection = ({
   state,
   setState,
 }: Props) => {
-  const { type, clone, blocks } = state;
-  const setField = patchState(state, setState);
-
   const blockOptions = getBlockOptions(containerCount);
-  const { clones } = ANTIBODIES_PROPERTIES[type];
-  const selectedBlocks = blocks.map((block) => block.index);
   const groups = useMemo(
     () => [
       {
@@ -54,8 +51,25 @@ export const AntibodySection = ({
     [blockOptions],
   );
 
-  const { resultOptions } = properties;
+  const { type, blocks } = state;
 
+  const resultOptions: ResultOptions = useMemo(() => {
+    if (type === "other") {
+      return OTHER_RESULT_OPTIONS;
+    }
+
+    // TODO clean: consider activating noUncheckedIndexedAccess in tsconfig.json
+    // TODO clean: consider using ErrorBoundary
+    const antibodyProperties = properties[state.type];
+    if (!antibodyProperties) {
+      throw new Error("Missing antibody properties");
+    }
+
+    return antibodyProperties.resultOptions;
+  }, [properties, state.type, type]);
+
+  const setField = patchState(state, setState);
+  const selectedBlocks = blocks.map((block) => block.index);
   const onSelectBlocks = (newSelection: number[]) => {
     const updatedMap = new Map(blocks.map((block) => [block.index, block]));
 
@@ -77,20 +91,19 @@ export const AntibodySection = ({
     setField("blocks")(Array.from(updatedMap.values()));
   };
 
+  const title =
+    type === "other"
+      ? state.name
+        ? `Autre (${state.name})`
+        : "Autre"
+      : ANTIBODIES_PROPERTIES[type].label;
+
   return (
-    <SubSection title={type}>
+    <SubSection title={title}>
       {/* TODO clean: style */}
       {/* TODO feature: add button to clear directly from here? */}
       {/* TODO feature: make section foldable? */}
-      <Line>
-        <Select
-          label="Quel est le clone utilisé ?"
-          name="Clone utilisé"
-          options={clones}
-          value={clone}
-          onChange={setField("clone")}
-        />
-      </Line>
+      <AntibodyForm state={state} setState={setState} />
       <Line>
         {/* FIXME: fix wording */}
         Sur quels blocs avez-vous réalisé cet anticorps ?
@@ -100,6 +113,7 @@ export const AntibodySection = ({
           onChange={onSelectBlocks}
         />
       </Line>
+      {/* FIXME: restyle for simplicity (one line per block) */}
       {blocks.map((block, index) => {
         const onChange = (updatedBlock: Block) => {
           const updatedBlocks = patchArray(blocks, index, (_) => updatedBlock);
@@ -116,5 +130,53 @@ export const AntibodySection = ({
         );
       })}
     </SubSection>
+  );
+};
+
+const AntibodyForm = ({
+  state,
+  setState,
+}: {
+  state: AntibodyData;
+  setState: (value: AntibodyData) => void;
+}) => {
+  const setField = patchState(state, setState);
+
+  if (state.type === "other") {
+    const { name, clone } = state;
+
+    return (
+      <>
+        <Line>
+          <InputText
+            label="Nom de l'anticorps"
+            value={name}
+            onChange={(value) => setState({ ...state, name: value })}
+          />
+        </Line>
+        <Line>
+          <InputText
+            label="Nom du clone utilisé"
+            value={clone}
+            onChange={setField("clone")}
+          />
+        </Line>
+      </>
+    );
+  }
+
+  const { type, clone } = state;
+  const { clones } = ANTIBODIES_PROPERTIES[type];
+
+  return (
+    <Line>
+      <Select
+        label="Nom du clone utilisé ?"
+        name="Clone utilisé"
+        options={clones}
+        value={clone}
+        onChange={setField("clone")}
+      />
+    </Line>
   );
 };

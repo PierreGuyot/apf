@@ -25,6 +25,18 @@ const DICTIONARY_EN: Record<string, string> = {
   macroscopie: "macroscopy",
   Microscopie: "Microscopy",
   microscopie: "microscopy",
+  Autre: "Other",
+  Autres: "Others",
+  autre: "other",
+  autres: "others",
+  Positive: "Positive",
+  positive: "positive",
+  Positif: "Positive",
+  positif: "positive",
+  Négative: "Negative",
+  négative: "negative",
+  Négatif: "Negative",
+  négatif: "negative",
 
   // Prostate
   "Biopsies prostatiques transrectales écho-guidées":

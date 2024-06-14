@@ -23,18 +23,24 @@ export type Antibody =
   | "GATA3"
   // Prognostic
   | "ERG";
-// Others
-// FIXME: handle the special case for others
-// | "other";
 
 // FIXME: un-mock
 export type AntibodyClone = "clone_1" | "clone_2";
 
-export type AntibodyData = {
-  type: Antibody;
-  clone: AntibodyClone;
+export type OtherAntibody = {
+  type: "other";
+  name: string;
+  clone: string;
   blocks: Block[];
 };
+
+export type AntibodyData =
+  | {
+      type: Antibody;
+      clone: AntibodyClone;
+      blocks: Block[];
+    }
+  | OtherAntibody;
 
 // FIXME: un-mock
 const MOCK_CLONES: Option<AntibodyClone>[] = [
@@ -79,3 +85,8 @@ export type AntibodyProperties = { resultOptions: ResultOptions };
 export type PropertiesByAntibody = Partial<
   Record<Antibody, AntibodyProperties>
 >;
+
+export const OTHER_RESULT_OPTIONS: ResultOptions = [
+  { value: "positive", label: "Positive" },
+  { value: "negative", label: "Négative" },
+];

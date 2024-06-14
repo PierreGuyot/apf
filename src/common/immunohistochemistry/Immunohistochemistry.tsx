@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
@@ -9,6 +10,7 @@ import {
   Antibody,
   AntibodyData,
   AntibodyGroup,
+  OtherAntibody,
   PropertiesByAntibody,
 } from "./_helpers";
 
@@ -25,7 +27,16 @@ type Props = {
   setState: (state: IhcState) => void;
 };
 
-const anEmptyAntibodyData = (type: Antibody): AntibodyData => {
+const anEmptyAntibodyData = (type: Antibody | "other"): AntibodyData => {
+  if (type === "other") {
+    return {
+      type,
+      name: "", // FIXME: add validation (field should not be empty)
+      clone: "",
+      blocks: [],
+    } satisfies OtherAntibody;
+  }
+
   const { clones } = ANTIBODIES_PROPERTIES[type];
   const defaultClone = clones[0].value;
 
@@ -38,7 +49,7 @@ const anEmptyAntibodyData = (type: Antibody): AntibodyData => {
 
 export const Immunohistochemistry = ({
   containerCount,
-  groups,
+  groups: _groups,
   properties,
   state,
   setState,
@@ -48,7 +59,19 @@ export const Immunohistochemistry = ({
 
   const selectedAntibodies = antibodies.map((antibody) => antibody.type);
 
-  const onSelectAntibodies = (newSelection: Antibody[]) => {
+  // Patched groups with fallback option `other`
+  const groups = useMemo(
+    () => [
+      ..._groups,
+      {
+        title: "OTHER",
+        items: [{ value: "other" as const, label: "Autre" }],
+      },
+    ],
+    [_groups],
+  );
+
+  const onSelectAntibodies = (newSelection: Array<Antibody | "other">) => {
     const updatedMap = new Map(
       antibodies.map((antibody) => [antibody.type, antibody]),
     );
@@ -95,17 +118,11 @@ export const Immunohistochemistry = ({
             />
           </Line>
           {antibodies.map((antibody, index) => {
-            // TODO clean: consider activating noUncheckedIndexedAccess in tsconfig.json
-            const antibodyProperties = properties[antibody.type];
-            if (!antibodyProperties) {
-              throw new Error("Missing antibody properties");
-            }
-
             return (
               <AntibodySection
                 key={antibody.type}
                 containerCount={containerCount}
-                properties={antibodyProperties}
+                properties={properties}
                 state={antibody}
                 setState={(value) => {
                   const updatedAntibodies = [...antibodies];
