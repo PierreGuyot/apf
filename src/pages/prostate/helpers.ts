@@ -147,9 +147,7 @@ const TUMOR_TYPES_GLANDULAR: OptionWithGleasonScore<TumorTypeGlandular>[] = [
     label: "Adénocarcinome ductal",
     score: 4 as const,
   },
-].map((item) =>
-  item.score ? { ...item, label: `${item.label} (score ${item.score})` } : item,
-);
+];
 
 type TumorTypeEpidermoid =
   | "carcinoma-adenosquamous"
