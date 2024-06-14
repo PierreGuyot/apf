@@ -6,13 +6,13 @@ import { SelectList } from "../../ui/SelectList";
 import { SubSection } from "../../ui/SubSection";
 import { patchState } from "../../ui/helpers/form-state";
 import { patchArray, range } from "../../ui/helpers/helpers";
-import { BlockSection } from "./_BlockSection";
 import {
   ANTIBODIES_PROPERTIES,
   AntibodyData,
   Block,
   OTHER_RESULT_OPTIONS,
   PropertiesByAntibody,
+  Result,
   ResultOptions,
 } from "./_helpers";
 
@@ -113,20 +113,25 @@ export const AntibodySection = ({
           onChange={onSelectBlocks}
         />
       </Line>
-      {/* FIXME: restyle for simplicity (one line per block) */}
       {blocks.map((block, index) => {
         const onChange = (updatedBlock: Block) => {
           const updatedBlocks = patchArray(blocks, index, (_) => updatedBlock);
           setField("blocks")(updatedBlocks);
         };
 
+        const setResult = (updatedResult: Result) =>
+          onChange({ ...block, result: updatedResult });
+
         return (
-          <BlockSection
-            key={index}
-            block={block}
-            options={resultOptions}
-            onChange={onChange}
-          />
+          <Line key={block.index}>
+            Bloc {block.index} :
+            <Select
+              name="Résultat immunohistochimie"
+              options={resultOptions}
+              value={block.result}
+              onChange={setResult}
+            />
+          </Line>
         );
       })}
     </SubSection>

@@ -87,6 +87,6 @@ export type PropertiesByAntibody = Partial<
 >;
 
 export const OTHER_RESULT_OPTIONS: ResultOptions = [
-  { value: "positive", label: "Positive" },
-  { value: "negative", label: "Négative" },
+  { value: "positive", label: "Positif" },
+  { value: "negative", label: "Négatif" },
 ];
