@@ -122,7 +122,7 @@ const getOtherLesionsSection = (form: ReportParams, language: Language) => {
   }
 
   return joinLines([
-    translate("Autres lésions", language),
+    `${translate("Autres lésions", language)} :`,
     ...selectedItems.map((item) =>
       pad(` - ${translate(item.label, language)}`),
     ),
