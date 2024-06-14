@@ -9,11 +9,16 @@ import {
   CellChoice,
   CellGleason,
   CellNumber,
-  CellNumberSum,
+  CellSize,
   CellSelectList,
   CellYesNo,
 } from "./cells";
-import { ProstateBiopsyFormId, Row, Score, getContainerTypes } from "./helpers";
+import {
+  ProstateBiopsyFormId,
+  RowWithMetadata,
+  Score,
+  getContainerTypes,
+} from "./helpers";
 
 const BIOPSY_COUNT_OPTIONS: Option<number>[] = [1, 2, 3, 4].map(toOption);
 const TUMOR_COUNT_OPTIONS: Option<number>[] = [0, 1, 2, 3, 4].map(toOption);
@@ -52,10 +57,10 @@ const TableHeader = ({ language }: { language: Language }) => (
 type Props = {
   formId: ProstateBiopsyFormId;
   language: Language;
-  rows: Row[];
+  rows: RowWithMetadata[];
   score: Score;
   isReadOnly?: boolean;
-  onChange: (rows: Row[]) => void;
+  onChange: (rows: RowWithMetadata[]) => void;
 };
 
 export const ProstateBiopsyTable = ({
@@ -66,7 +71,7 @@ export const ProstateBiopsyTable = ({
   isReadOnly,
   onChange: _onChange,
 }: Props) => {
-  const COLUMNS: Column<Row>[] = [
+  const COLUMNS: Column<RowWithMetadata>[] = [
     {
       label: "Index",
       key: "index",
@@ -119,9 +124,9 @@ export const ProstateBiopsyTable = ({
       key: "biopsySize",
       alignment: "left",
       render: (row, isReadOnly, onChange) => (
-        <CellNumberSum
+        <CellSize
           value={row.biopsySize}
-          inputCount={row.biopsyCount}
+          inputCount={row.biopsySizeInputCount}
           isReadOnly={isReadOnly}
           onChange={onChange}
         />
@@ -149,9 +154,9 @@ export const ProstateBiopsyTable = ({
       alignment: "left",
       isDisabled: (row) => row.tumorCount === 0,
       render: (row, isReadOnly, onChange) => (
-        <CellNumberSum
+        <CellSize
           value={row.tumorSize}
-          inputCount={row.tumorCount}
+          inputCount={row.tumorSizeInputCount}
           isReadOnly={isReadOnly}
           onChange={onChange}
         />

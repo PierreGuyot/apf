@@ -44,6 +44,7 @@ import {
   PiradsItem,
   ProstateBiopsyFormId,
   Row,
+  RowWithMetadata,
   SEXTANT_COUNT,
   Score,
   anEmptyPiradsItem,
@@ -84,9 +85,9 @@ const getScore = (rows: Row[]): Score => {
 };
 
 // CAUTION: only count visible inputs for size (not the hidden ones)
-const hasValidSizes = (row: Row) => {
-  const biopsySizes = row.biopsySize.slice(0, row.biopsyCount);
-  const tumorSizes = row.tumorSize.slice(0, row.tumorCount);
+const hasValidSizes = (row: RowWithMetadata) => {
+  const biopsySizes = row.biopsySize.slice(0, row.biopsySizeInputCount);
+  const tumorSizes = row.tumorSize.slice(0, row.tumorSizeInputCount);
   return [...biopsySizes, ...tumorSizes].every((size) => size > 0);
 };
 
@@ -102,7 +103,7 @@ const getErrors = ({
   tumorType,
 }: {
   sextantName: string;
-  rows: Row[];
+  rows: RowWithMetadata[];
   containerCount: number;
   piradsItems: PiradsItem[];
   tumorType: TumorType;
@@ -239,6 +240,9 @@ type Props = {
 };
 
 export const ProstateBiopsyForm = ({ formId }: Props) => {
+  // FIXME: un-mock
+  const isExpertMode = true;
+
   const sextantName =
     formId === "prostate-biopsy-transrectal"
       ? "sextant"
@@ -251,9 +255,20 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
   // For rows, we handle the maximum number of items in all
   // cases and simply hide according to count.
   // This way, changing the count doesn't erase previous user input.
-  const rows = useMemo(
-    () => state.rows.slice(0, state.containerCount),
-    [state.rows, state.containerCount],
+  const rows: RowWithMetadata[] = useMemo(
+    () =>
+      state.rows.slice(0, state.containerCount).map((row): RowWithMetadata => {
+        return {
+          ...row,
+          biopsySizeInputCount: isExpertMode
+            ? row.biopsyCount
+            : Math.min(row.biopsyCount, 1),
+          tumorSizeInputCount: isExpertMode
+            ? row.tumorCount
+            : Math.min(row.tumorCount, 1),
+        };
+      }),
+    [state.rows, state.containerCount, isExpertMode],
   );
 
   // Computed

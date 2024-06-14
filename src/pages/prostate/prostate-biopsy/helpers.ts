@@ -102,6 +102,11 @@ export type Row = {
   otherLesions: OtherLesionType[];
 };
 
+export type RowWithMetadata = Row & {
+  biopsySizeInputCount: number;
+  tumorSizeInputCount: number;
+};
+
 export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   type: "sextant",
   location: "base-right",

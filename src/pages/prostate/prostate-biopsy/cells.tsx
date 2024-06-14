@@ -22,13 +22,13 @@ export const CellYesNo = (
 
 const Plus = () => <span>+</span>;
 
-export const CellNumberSum = ({
+export const CellSize = ({
   value,
   onChange,
   inputCount,
   isReadOnly,
 }: FieldProps<number[]> & { inputCount: number }) => (
-  <div className="cell cell-number-sum">
+  <div className="cell cell-size">
     {range(inputCount).map((_, i) => (
       <Fragment key={i}>
         <InputNumber
