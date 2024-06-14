@@ -39,7 +39,6 @@ import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
   LOCATIONS,
-  MAX_CONTAINER_COUNT,
   MAX_TARGET_COUNT,
   PiradsItem,
   ProstateBiopsyFormId,
@@ -224,7 +223,7 @@ const getInitialState = (): FormState => ({
   targetCount: 0,
   hasMri: isDebug,
   psaRate: 0,
-  containerCount: MAX_CONTAINER_COUNT,
+  containerCount: 6, // Minimum value
   piradsItems: getPiradsItems(),
   rows: getRows(),
   tumorType: "acinar-adenocarcinoma-conventional",

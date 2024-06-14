@@ -9,7 +9,6 @@ export type ProstateBiopsyFormId =
 
 export const SEXTANT_COUNT = 6;
 export const MAX_TARGET_COUNT = 3;
-export const MAX_CONTAINER_COUNT = 9;
 
 // FIXME: rename to be agnostic from transrectal/transperineal
 export const LOCATIONS = [
