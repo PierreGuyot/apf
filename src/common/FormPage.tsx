@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { Banner } from "../ui/Banner";
+import { FormBanner } from "./FormBanner";
 import { Page } from "../ui/Page";
 import { FORMS, FormId } from "../ui/helpers/forms";
 
@@ -13,7 +13,7 @@ export const FormPage = ({ formId, onClear, children }: Props) => {
 
   return (
     <Page title={form.title} paddingTop={form.isPrototype ? "lg" : "md"}>
-      <Banner
+      <FormBanner
         formId={formId}
         isPrototype={form.isPrototype}
         onClear={onClear}
