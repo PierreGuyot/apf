@@ -10,7 +10,7 @@ import {
   padSection,
 } from "../../../ui/helpers/text";
 import { formatWithUnit } from "../../../ui/helpers/units";
-import { Language, translate } from "../../../ui/language";
+import { COLON_CHARACTER, Language, translate } from "../../../ui/language";
 import {
   DEFAULT_GLEASON_ITEM,
   getGleasonSummary,
@@ -80,14 +80,14 @@ const getClinicalInformationSection = (
   }
 
   return joinLines([
-    `${translate("Renseignements cliniques", language)}:`,
+    `${translate("Renseignements cliniques", language)}${translate(COLON_CHARACTER, language)}`,
     pad(
       `${translate("PSA", language)}: ${formatWithUnit(form.psaRate, "ng-per-mL")}`,
     ),
     pad(`${translate("IRM", language)}: ${toYesNo(form.hasMri, language)}`),
     ...(form.piradsItems.length
       ? [
-          `${translate("Cibles", language)}:`,
+          `${translate("Cibles", language)}${translate(COLON_CHARACTER, language)}`,
           ...form.piradsItems.map((item) =>
             renderPiradsItem(form.formId, item, form.rows, language),
           ),
@@ -99,7 +99,7 @@ const getClinicalInformationSection = (
 const getCommentSection = (form: { comment: string }, language: Language) => {
   return form.comment
     ? joinLines([
-        `${translate("Remarques particulières", language)}:`,
+        `${translate("Remarques particulières", language)}${translate(COLON_CHARACTER, language)}`,
         padSection(form.comment),
       ])
     : undefined;
@@ -108,7 +108,7 @@ const getCommentSection = (form: { comment: string }, language: Language) => {
 const getConclusionSection = (
   { rows, score, tumorType }: ReportParams,
   language: Language,
-  isExpertMode: boolean
+  isExpertMode: boolean,
 ) => {
   // Pre-compute values to insert in the template
   const { label: tumorTypeLabel } = getTumorTypeOption(tumorType);

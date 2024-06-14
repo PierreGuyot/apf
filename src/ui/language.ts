@@ -3,7 +3,12 @@ export const DEFAULT_LANGUAGE = "FR" satisfies Language;
 
 // TODO clean: have a refactoring pass on internationalization
 
+export const COLON_CHARACTER = " :";
+
 const DICTIONARY_EN: Record<string, string> = {
+  // Special characters
+  [COLON_CHARACTER]: ":",
+
   // General
   Biopsies: "Biopsies",
   et: "and",

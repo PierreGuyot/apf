@@ -8,7 +8,7 @@ import {
   pad,
   padSection,
 } from "../../../ui/helpers/text";
-import { Language, translate } from "../../../ui/language";
+import { COLON_CHARACTER, Language, translate } from "../../../ui/language";
 import {
   OTHER_LESION_GROUPS,
   getGleasonSummary,
@@ -30,7 +30,7 @@ export type ReportParams = FormState & {
 const getCaseSummarySection = (form: ReportParams, language: Language) => {
   return form.caseSummary
     ? joinLines([
-        `${translate("Renseignements cliniques", language)}:`,
+        `${translate("Renseignements cliniques", language)}${translate(COLON_CHARACTER, language)}`,
         padSection(form.caseSummary),
       ])
     : undefined;
@@ -122,7 +122,7 @@ const getOtherLesionsSection = (form: ReportParams, language: Language) => {
   }
 
   return joinLines([
-    `${translate("Autres lésions", language)} :`,
+    `${translate("Autres lésions", language)}${translate(COLON_CHARACTER, language)}`,
     ...selectedItems.map((item) =>
       pad(` - ${translate(item.label, language)}`),
     ),
