@@ -115,3 +115,8 @@ export const findOption =
 
     return match;
   };
+
+export const sumOnField = <K extends string>(
+  key: K,
+  items: Array<Record<K, number>>,
+): number => sum(items.map((item) => item[key]));

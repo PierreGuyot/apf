@@ -1,5 +1,5 @@
 import { getFormTitle } from "../../../ui/helpers/forms";
-import { sum } from "../../../ui/helpers/helpers";
+import { sum, sumOnField } from "../../../ui/helpers/helpers";
 import { toYesNo } from "../../../ui/helpers/options";
 import { pluralize } from "../../../ui/helpers/plural";
 import {
@@ -141,12 +141,17 @@ Prostate adenomyoma.`;
     }
   }
 
+  const totalTumorCountStandard = sumOnField("tumorCount", sextants);
+  const totalBiopsyCountStandard = sumOnField("biopsyCount", sextants);
+  const totalTumorCountTargeted = sumOnField("tumorCount", targets);
+  const totalBiopsyCountTargeted = sumOnField("biopsyCount", targets);
+
   // NOTE: inline translation
   if (language === "FR") {
     return joinLines([
       `${translate(tumorTypeLabel, language)}.\n`, // We add an empty line for aesthetic purposes
       `Il présente un score de Gleason ${gleasonSummary}, soit un score ISUP de ${isupScore}.`,
-      `Il est localisé sur ${sextantsWithTumor.length} des ${sextants.length} biopsies systématiques ${formatSize(sextantTumorSize, sextantBiopsySize, language)} et sur ${targetsWithTumor.length} des ${targets.length} biopsies ciblées ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
+      `Il est localisé sur ${totalTumorCountStandard} des ${totalBiopsyCountStandard} biopsies systématiques ${formatSize(sextantTumorSize, sextantBiopsySize, language)} et sur ${totalTumorCountTargeted} des ${totalBiopsyCountTargeted} biopsies ciblées ${formatSize(targetTumorSize, targetBiopsySize, language)}.`,
       `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur les biopsies standards.\n`, // We add an empty line for aesthetic purposes,
       `${translate("Engainements périnerveux", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
