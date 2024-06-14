@@ -159,7 +159,7 @@ Prostate adenomyoma.`;
       `Il présente un score de Gleason ${gleasonSummary}, soit un score ISUP de ${isupScore}.`,
       `Il est localisé sur ${totalTumorCountStandard} des ${totalBiopsyCountStandard} biopsies systématiques${detailsSextants} et sur ${totalTumorCountTargeted} des ${totalBiopsyCountTargeted} biopsies ciblées${detailsTargets}.`,
       isExpertMode
-        ? `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur la totalité des biopsies examinés.\n` // We add an empty line for aesthetic purposes,
+        ? `Il mesure ${score.tumorSize} mm sur ${score.biopsySize} mm examinés sur la totalité des biopsies examinées.\n` // We add an empty line for aesthetic purposes,
         : "",
       `${translate("Engainements périnerveux", language)} : ${toYesNo(score.tumorEpn ?? false, language)}`,
       `${translate("Tissu extra-prostatique", language)} : ${toYesNo(score.tumorTep ?? false, language)}`,
@@ -177,7 +177,7 @@ Prostate adenomyoma.`;
     return joinLines([
       `${translate(tumorTypeLabel, language)}.\n`, // We add an empty line for aesthetic purposes
       `It has a Gleason score of ${gleasonSummary}, i.e. an ISUP score of ${isupScore}.`,
-      `It is localized on ${sextantsWithTumor.length} out of ${sextants.length} systematic biopsies${detailsSextants} and on ${targetsWithTumor.length} out of ${targets.length} targeted biopsies ${detailsTargets}.`,
+      `It is localized on ${sextantsWithTumor.length} out of ${sextants.length} systematic biopsies${detailsSextants} and on ${targetsWithTumor.length} out of ${targets.length} targeted biopsies${detailsTargets}.`,
       isExpertMode
         ? `It has a size of ${score.tumorSize} mm out of ${score.biopsySize} mm examined on all biopsies.\n` // We add an empty line for aesthetic purposes
         : "",

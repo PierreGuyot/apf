@@ -49,7 +49,7 @@ describe("generateReport", () => {
     expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "FR")).toEqual(
       `RÉSECTION TRANSURÉTRALE DE PROSTATE
 
-Renseignements cliniques:
+Renseignements cliniques :
     MOCK-clinical-info
 
 Poids des copeaux : 10g
@@ -57,7 +57,7 @@ Inclusion en totalité en 5 blocs (fixation : formol tamponné 4%, coloration HE
 
 On observe des glandes prostatiques nombreuses souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse. Absence de foyer carcinomateux.
 
-Autres lésions
+Autres lésions :
      - Prolifération acinaire atypique
      - Adénomyome prostatique`,
     );
@@ -67,7 +67,7 @@ Autres lésions
     expect(generateReport(MOCK_DATA_WITH_TUMOR, "FR")).toEqual(
       `RÉSECTION TRANSURÉTRALE DE PROSTATE
 
-Renseignements cliniques:
+Renseignements cliniques :
     MOCK-clinical-info
 
 Poids des copeaux : 10g
@@ -81,7 +81,7 @@ Estimation de la surface envahie : 5%
 Emboles vasculaires ou lymphatiques : Non
 Engainements périnerveux : Non
 
-Autres lésions
+Autres lésions :
      - Prolifération acinaire atypique
      - Adénomyome prostatique`,
     );
@@ -99,13 +99,13 @@ Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
 
 Numerous prostate glands, often grouped into nodules, are found within a smooth muscular prostatic stroma. No carcinomatous focus.
 
-Other lesions
+Other lesions:
      - Atypical small acinar proliferation
      - Prostate adenomyoma`,
     );
   });
 
-  it.only("should generate a clean report with a tumor (EN)", () => {
+  it("should generate a clean report with a tumor (EN)", () => {
     expect(generateReport(MOCK_DATA_WITH_TUMOR, "EN")).toEqual(
       `TRANSURETHRAL PROSTATIC RESECTION
 
@@ -123,7 +123,7 @@ Tumor quantification : 5%
 Lympathic or vascular invasion : No
 Perineural Invasion : No
 
-Other lesions
+Other lesions:
      - Atypical small acinar proliferation
      - Prostate adenomyoma`,
     );

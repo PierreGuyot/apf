@@ -409,14 +409,14 @@ describe("generateReport", () => {
     expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "FR", true)).toEqual(
       `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
-Renseignements cliniques:
+Renseignements cliniques :
     PSA: 10 ng.mL⁻¹
     IRM: Oui
-    Cibles:
+    Cibles :
         PIRADS 2, base droite (pots 6 et 7)
         PIRADS 3, apex droit (pot 8)
 
-Remarques particulières:
+Remarques particulières :
     MOCK-specific-notes
 
 Absence de foyer tumoral sur l'ensemble des 18 biopsies étudiées (36 mm).
@@ -424,25 +424,25 @@ Adénomyome prostatique.`,
     );
   });
 
-  it.only("should generate a clean report with a tumor (FR)", () => {
+  it("should generate a clean report with a tumor (FR)", () => {
     expect(generateReport(MOCK_DATA_WITH_TUMOR, "FR", true))
       .toEqual(`BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
-Renseignements cliniques:
+Renseignements cliniques :
     PSA: 10 ng.mL⁻¹
     IRM: Oui
-    Cibles:
+    Cibles :
         PIRADS 2, base droite (pots 6 et 7)
         PIRADS 3, apex droit (pot 8)
 
-Remarques particulières:
+Remarques particulières :
     MOCK-specific-notes
 
 Adénocarcinome acinaire de type prostatique.
 
 Il présente un score de Gleason 9 (4 à 95% dont 10% cribriformes + 5 à 5%), soit un score ISUP de 5.
-Il est localisé sur 2 des 6 biopsies systématiques (5 mm sur 24 mm examinés, 21%) et sur 0 des 3 biopsies ciblées (0 mm sur 12 mm examinés, 0%).
-Il mesure 5 mm sur 36 mm examinés sur les biopsies standards.
+Il est localisé sur 2 des 12 biopsies systématiques (5 mm sur 24 mm examinés, 21%) et sur 0 des 6 biopsies ciblées (0 mm sur 12 mm examinés, 0%).
+Il mesure 5 mm sur 36 mm examinés sur la totalité des biopsies examinées.
 
 Engainements périnerveux : Non
 Tissu extra-prostatique : Non`);
@@ -485,7 +485,7 @@ Acinar adenocarcinoma, conventional (usual).
 
 It has a Gleason score of 9 (4 à 95% including cribriform 10% + 5 à 5%), i.e. an ISUP score of 5.
 It is localized on 2 out of 6 systematic biopsies (5 mm out of 24 mm examined, 21%) and on 0 out of 3 targeted biopsies (0 mm out of 12 mm examined, 0%).
-It has a size of 5 mm out of 36 mm examined on systematic biopsies.
+It has a size of 5 mm out of 36 mm examined on all biopsies.
 
 Perineural Invasion : No
 Periprostatic Fat Invasion : No`,
