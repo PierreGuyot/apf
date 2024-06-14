@@ -3,6 +3,8 @@ import { findOption } from "./helpers";
 
 export type SelectValue = string | number | boolean;
 
+// TODO clean: make option types readonly
+
 export type Option<T extends SelectValue> = {
   value: T;
   label: string;

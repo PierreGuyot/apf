@@ -1,11 +1,16 @@
-import { useMemo } from "react";
 import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
-import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import { AntibodySection } from "./_AntibodySection";
-import { ANTIBODIES_PROPERTIES, Antibody, AntibodyData } from "./_helpers";
 import { patchState } from "../../ui/helpers/form-state";
+import { YES_NO_OPTIONS } from "../../ui/helpers/options";
+import { AntibodySection } from "./_AntibodySection";
+import {
+  ANTIBODIES_PROPERTIES,
+  Antibody,
+  AntibodyData,
+  AntibodyGroup,
+  PropertiesByAntibody,
+} from "./_helpers";
 
 export type IhcState = {
   hasIhc: boolean;
@@ -14,18 +19,18 @@ export type IhcState = {
 
 type Props = {
   containerCount: number;
-  options: Option<Antibody>[];
+  groups: AntibodyGroup[];
+  properties: PropertiesByAntibody;
   state: IhcState;
   setState: (state: IhcState) => void;
 };
 
-const anEmptyAntibodyData = (options: Option<Antibody>[]): AntibodyData => {
-  const defaultType = options[0].value;
-  const { clones } = ANTIBODIES_PROPERTIES[defaultType];
+const anEmptyAntibodyData = (type: Antibody): AntibodyData => {
+  const { clones } = ANTIBODIES_PROPERTIES[type];
   const defaultClone = clones[0].value;
 
   return {
-    type: defaultType,
+    type: type,
     clone: defaultClone,
     blocks: [],
   };
@@ -33,22 +38,13 @@ const anEmptyAntibodyData = (options: Option<Antibody>[]): AntibodyData => {
 
 export const Immunohistochemistry = ({
   containerCount,
-  options,
+  groups,
+  properties,
   state,
   setState,
 }: Props) => {
   const { hasIhc, antibodies } = state;
   const setField = patchState(state, setState);
-
-  const groups = useMemo(
-    () => [
-      {
-        title: "", // TODO clean: fix API
-        items: options,
-      },
-    ],
-    [options],
-  );
 
   const selectedAntibodies = antibodies.map((antibody) => antibody.type);
 
@@ -60,15 +56,17 @@ export const Immunohistochemistry = ({
     const oldSet = new Set(selectedAntibodies);
     const newSet = new Set(newSelection);
 
-    for (const { value } of options) {
-      // Value has been added
-      if (!oldSet.has(value) && newSet.has(value)) {
-        updatedMap.set(value, anEmptyAntibodyData(options));
-      }
+    for (const { items } of groups) {
+      for (const { value } of items) {
+        // Value has been added
+        if (!oldSet.has(value) && newSet.has(value)) {
+          updatedMap.set(value, anEmptyAntibodyData(value));
+        }
 
-      // Value has been deleted
-      if (oldSet.has(value) && !newSet.has(value)) {
-        updatedMap.delete(value);
+        // Value has been deleted
+        if (oldSet.has(value) && !newSet.has(value)) {
+          updatedMap.delete(value);
+        }
       }
     }
 
@@ -96,18 +94,27 @@ export const Immunohistochemistry = ({
               onChange={onSelectAntibodies}
             />
           </Line>
-          {antibodies.map((antibody, index) => (
-            <AntibodySection
-              key={antibody.type}
-              containerCount={containerCount}
-              state={antibody}
-              setState={(value) => {
-                const updatedAntibodies = [...antibodies];
-                updatedAntibodies[index] = value;
-                setField("antibodies")(updatedAntibodies);
-              }}
-            />
-          ))}
+          {antibodies.map((antibody, index) => {
+            // TODO clean: consider activating noUncheckedIndexedAccess in tsconfig.json
+            const antibodyProperties = properties[antibody.type];
+            if (!antibodyProperties) {
+              throw new Error("Missing antibody properties");
+            }
+
+            return (
+              <AntibodySection
+                key={antibody.type}
+                containerCount={containerCount}
+                properties={antibodyProperties}
+                state={antibody}
+                setState={(value) => {
+                  const updatedAntibodies = [...antibodies];
+                  updatedAntibodies[index] = value;
+                  setField("antibodies")(updatedAntibodies);
+                }}
+              />
+            );
+          })}
         </>
       ) : undefined}
     </>

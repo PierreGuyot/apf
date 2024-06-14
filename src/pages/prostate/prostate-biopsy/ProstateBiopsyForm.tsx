@@ -14,6 +14,7 @@ import { Select } from "../../../ui/Select";
 import { SelectNumber } from "../../../ui/SelectNumber";
 import { Summary } from "../../../ui/Summary";
 import { ValidationErrors } from "../../../ui/ValidationErrors";
+import { useForm } from "../../../ui/helpers/form-state";
 import {
   filterNullish,
   noop,
@@ -26,10 +27,10 @@ import { Option, YES_NO_OPTIONS } from "../../../ui/helpers/options";
 import { count } from "../../../ui/helpers/plural";
 import { isDebug } from "../../../ui/helpers/state";
 import { naturalJoin } from "../../../ui/helpers/text";
-import { useForm } from "../../../ui/helpers/form-state";
 import { DEFAULT_LANGUAGE } from "../../../ui/language";
 import {
-  PROSTATE_ANTIBODIES_OPTIONS,
+  PROSTATE_ANTIBODY_GROUPS,
+  PROSTATE_ANTIBODY_PROPERTIES,
   TUMOR_TYPES,
   TumorType,
   getTumorTypeOption,
@@ -401,7 +402,8 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
       <Section title="Immunohistochimie" index={3}>
         <Immunohistochemistry
           containerCount={containerCount}
-          options={PROSTATE_ANTIBODIES_OPTIONS}
+          groups={PROSTATE_ANTIBODY_GROUPS}
+          properties={PROSTATE_ANTIBODY_PROPERTIES}
           state={ihc}
           setState={setField("ihc")}
         />

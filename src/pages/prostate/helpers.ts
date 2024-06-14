@@ -1,4 +1,4 @@
-import { Antibody } from "../../common/immunohistochemistry/_helpers";
+import { PropertiesByAntibody } from "../../common/immunohistochemistry/_helpers";
 import { filterEmpty } from "../../ui/helpers/helpers";
 import { Option, SelectValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";
@@ -262,15 +262,40 @@ export const getGleasonSummary = (
   return `${a + b} (${items})`;
 };
 
-export const PROSTATE_ANTIBODIES_OPTIONS: Option<Antibody>[] = [
-  { value: "P504S", label: "P504S" },
-  { value: "P63", label: "P63" },
-  { value: "BCC", label: "BCC" },
+// FIXME: un-mock
+const CONCLUSIONS_SEVERITY = [
+  { value: "conclusion_severity_1", label: "conclusion_severity_1" },
+  { value: "conclusion_severity_2", label: "conclusion_severity_2" },
+  { value: "conclusion_severity_3", label: "conclusion_severity_3" },
 ];
-
+const CONCLUSIONS_ORIGIN = [
+  { value: "conclusion_origin_1", label: "conclusion_origin_1" },
+  { value: "conclusion_origin_2", label: "conclusion_origin_2" },
+];
 export const PROSTATE_ANTIBODY_GROUPS = [
   {
-    title: "", // TODO clean: fix API
-    items: PROSTATE_ANTIBODIES_OPTIONS,
+    title: "CATEGORY_1",
+    items: [
+      { value: "P504S" as const, label: "P504S" },
+      { value: "P63" as const, label: "P63" },
+      { value: "BCC" as const, label: "BCC" },
+    ],
+  },
+  {
+    title: "CATEGORY_2",
+    items: [
+      { value: "CK7" as const, label: "CK7" },
+      { value: "CK20" as const, label: "CK20" },
+      { value: "GATA3" as const, label: "GATA3" },
+    ],
   },
 ];
+
+export const PROSTATE_ANTIBODY_PROPERTIES: PropertiesByAntibody = {
+  P504S: { resultOptions: CONCLUSIONS_ORIGIN },
+  P63: { resultOptions: CONCLUSIONS_SEVERITY },
+  BCC: { resultOptions: CONCLUSIONS_ORIGIN },
+  CK7: { resultOptions: CONCLUSIONS_SEVERITY },
+  CK20: { resultOptions: CONCLUSIONS_ORIGIN },
+  GATA3: { resultOptions: CONCLUSIONS_SEVERITY },
+};

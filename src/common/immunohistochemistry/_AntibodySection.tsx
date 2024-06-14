@@ -3,24 +3,21 @@ import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
 import { SubSection } from "../../ui/SubSection";
+import { patchState } from "../../ui/helpers/form-state";
 import { patchArray, range } from "../../ui/helpers/helpers";
 import { BlockSection } from "./_BlockSection";
 import {
   ANTIBODIES_PROPERTIES,
-  Antibody,
   AntibodyData,
   Block,
+  ResultOptions,
+  AntibodyProperties,
 } from "./_helpers";
-import { patchState } from "../../ui/helpers/form-state";
 
-const aNewBlock = (index: number, antibody: Antibody): Block => {
-  const { targets } = ANTIBODIES_PROPERTIES[antibody];
-  return {
-    index,
-    target: targets[0].value,
-    result: "negative",
-  };
-};
+const aNewBlock = (index: number, options: ResultOptions): Block => ({
+  index,
+  result: options[0].value,
+});
 
 const getBlockOptions = (count: number) =>
   range(1, count).map((value) => ({
@@ -30,26 +27,34 @@ const getBlockOptions = (count: number) =>
 
 type Props = {
   containerCount: number;
+  properties: AntibodyProperties;
   state: AntibodyData;
   setState: (value: AntibodyData) => void;
 };
 
-export const AntibodySection = ({ containerCount, state, setState }: Props) => {
+export const AntibodySection = ({
+  containerCount,
+  properties,
+  state,
+  setState,
+}: Props) => {
   const { type, clone, blocks } = state;
   const setField = patchState(state, setState);
 
-  const options = getBlockOptions(containerCount);
+  const blockOptions = getBlockOptions(containerCount);
   const { clones } = ANTIBODIES_PROPERTIES[type];
   const selectedBlocks = blocks.map((block) => block.index);
   const groups = useMemo(
     () => [
       {
         title: "", // TODO clean: fix API
-        items: options,
+        items: blockOptions,
       },
     ],
-    [options],
+    [blockOptions],
   );
+
+  const { resultOptions } = properties;
 
   const onSelectBlocks = (newSelection: number[]) => {
     const updatedMap = new Map(blocks.map((block) => [block.index, block]));
@@ -57,10 +62,10 @@ export const AntibodySection = ({ containerCount, state, setState }: Props) => {
     const oldSet = new Set(selectedBlocks);
     const newSet = new Set(newSelection);
 
-    for (const { value } of options) {
+    for (const { value } of blockOptions) {
       // Value has been added
       if (!oldSet.has(value) && newSet.has(value)) {
-        updatedMap.set(value, aNewBlock(value, type));
+        updatedMap.set(value, aNewBlock(value, resultOptions));
       }
 
       // Value has been deleted
@@ -105,7 +110,7 @@ export const AntibodySection = ({ containerCount, state, setState }: Props) => {
           <BlockSection
             key={index}
             block={block}
-            antibody={type}
+            options={resultOptions}
             onChange={onChange}
           />
         );

@@ -1,10 +1,34 @@
-import { Option } from "../../ui/helpers/options";
+import { Option, OptionGroup } from "../../ui/helpers/options";
+
+// FIXME: translate
+export type Antibody =
+  // Composed
+  | "P504S/P63"
+  // Base cells
+  | "P63"
+  | "BCC"
+  | "CK5/6"
+  | "CK903"
+  | "CK14/CK15"
+  // Prostate neoplasia cells
+  | "P504S"
+  // Prostatic
+  | "PSA"
+  | "PSAP"
+  | "NKX3.1"
+  | "RA"
+  // Vesicular
+  | "CK7"
+  | "CK20"
+  | "GATA3"
+  // Prognostic
+  | "ERG";
+// Others
+// FIXME: handle the special case for others
+// | "other";
 
 // FIXME: un-mock
-// FIXME: translate
-export type Antibody = "P504S" | "P63" | "BCC";
-export type AntibodyTarget = "cible_1" | "cible_2";
-export type AntibodyClone = "P504S" | "BCC" | "ventana-0123" | "clone_1";
+export type AntibodyClone = "clone_1" | "clone_2";
 
 export type AntibodyData = {
   type: Antibody;
@@ -12,89 +36,46 @@ export type AntibodyData = {
   blocks: Block[];
 };
 
-type Conclusions = Record<Result, string>;
-const MOCK_CONCLUSIONS = (
-  antibody: Antibody,
-  target: AntibodyTarget,
-): Conclusions => ({
-  positive: `conclusion_positive_${antibody}_${target}`,
-  negative: `conclusion_negative_${antibody}_${target}`,
-});
-
-// TODO clean: clean data structure for better search (compute options afterwards from this)
-type Targets = Array<Option<AntibodyTarget> & { conclusions: Conclusions }>;
+// FIXME: un-mock
+const MOCK_CLONES: Option<AntibodyClone>[] = [
+  { value: "clone_1", label: "Clone 1" },
+  { value: "clone_2", label: "Clone 2" },
+];
 
 export const ANTIBODIES_PROPERTIES: Record<
   Antibody,
   {
+    label: string;
     clones: Option<AntibodyClone>[];
-    targets: Targets;
   }
 > = {
-  P504S: {
-    clones: [
-      { value: "P504S", label: "P504S" },
-      { value: "clone_1", label: "MOCK" },
-    ],
-    targets: [
-      {
-        value: "cible_1",
-        label: "MOCK 1",
-        conclusions: MOCK_CONCLUSIONS("P504S", "cible_1"),
-      },
-      {
-        value: "cible_2",
-        label: "MOCK 2",
-        conclusions: MOCK_CONCLUSIONS("P504S", "cible_2"),
-      },
-    ],
-  },
-  P63: {
-    clones: [
-      { value: "ventana-0123", label: "P63 (clone Ventana 0123)" },
-      { value: "clone_1", label: "MOCK" },
-    ],
-    targets: [
-      {
-        value: "cible_1",
-        label: "MOCK 1",
-        conclusions: MOCK_CONCLUSIONS("P63", "cible_1"),
-      },
-      {
-        value: "cible_2",
-        label: "MOCK 2",
-        conclusions: MOCK_CONCLUSIONS("P63", "cible_2"),
-      },
-    ],
-  },
-  BCC: {
-    clones: [
-      { value: "BCC", label: "BCC" },
-      { value: "clone_1", label: "MOCK" },
-    ],
-    targets: [
-      {
-        value: "cible_1",
-        label: "MOCK 1",
-        conclusions: MOCK_CONCLUSIONS("BCC", "cible_1"),
-      },
-      {
-        value: "cible_2",
-        label: "MOCK 2",
-        conclusions: MOCK_CONCLUSIONS("BCC", "cible_2"),
-      },
-    ],
-  },
+  "P504S/P63": { label: "P504S/P63", clones: MOCK_CLONES },
+  P63: { label: "P63", clones: MOCK_CLONES },
+  BCC: { label: "BCC", clones: MOCK_CLONES },
+  "CK5/6": { label: "CK5/6", clones: MOCK_CLONES },
+  CK903: { label: "CK903", clones: MOCK_CLONES },
+  "CK14/CK15": { label: "CK14/CK15", clones: MOCK_CLONES },
+  P504S: { label: "P504S", clones: MOCK_CLONES },
+  PSA: { label: "PSA", clones: MOCK_CLONES },
+  PSAP: { label: "PSAP", clones: MOCK_CLONES },
+  "NKX3.1": { label: "NKX3.1", clones: MOCK_CLONES },
+  RA: { label: "RA", clones: MOCK_CLONES },
+  CK7: { label: "CK7", clones: MOCK_CLONES },
+  CK20: { label: "CK20", clones: MOCK_CLONES },
+  GATA3: { label: "GATA3", clones: MOCK_CLONES },
+  ERG: { label: "ERG", clones: MOCK_CLONES },
 };
 
-export type Result = "positive" | "negative";
-export const RESULT_OPTIONS: Option<Result>[] = [
-  { value: "positive", label: "Positif" },
-  { value: "negative", label: "Négatif" },
-];
+export type Result = string;
 
 export type Block = {
   index: number;
-  target: AntibodyTarget;
   result: Result;
 };
+
+export type ResultOptions = Option<Result>[];
+export type AntibodyGroup = OptionGroup<Antibody>;
+export type AntibodyProperties = { resultOptions: ResultOptions };
+export type PropertiesByAntibody = Partial<
+  Record<Antibody, AntibodyProperties>
+>;
