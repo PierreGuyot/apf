@@ -12,6 +12,7 @@ import { Disclaimer } from "./ui/Disclaimer";
 import { Em } from "./ui/Em";
 import { Page } from "./ui/Page";
 import { Section } from "./ui/Section";
+import { Stack } from "./ui/Stack";
 
 // TODO clean: handle link buttons?
 const FormRoute = ({ route }: { route: FormId }) => {
@@ -69,11 +70,11 @@ export const MainList = () => {
                   />
                   <div className="main-list-section-label"> {label}</div>
                 </div>
-                <div className="main-list-section-routes">
+                <Stack>
                   {item.routes.map((route) => (
                     <FormRoute key={route} route={route} />
                   ))}
-                </div>
+                </Stack>
               </div>
             );
           })}

@@ -15,6 +15,7 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .main-list-section-icon {
@@ -25,11 +26,4 @@
 .main-list-section-label {
   font-size: 1.2rem;
   font-weight: bold;
-}
-
-.main-list-section-routes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  margin-top: 0.5rem;
 }
