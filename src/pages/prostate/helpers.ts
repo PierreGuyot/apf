@@ -263,15 +263,15 @@ export const getGleasonSummary = (
   return `${a + b} (${items})`;
 };
 
-// FIXME: un-mock
+// FIXME: translate
 const CONCLUSIONS_SEVERITY = [
-  { value: "conclusion_severity_1", label: "conclusion_severity_1" },
-  { value: "conclusion_severity_2", label: "conclusion_severity_2" },
-  { value: "conclusion_severity_3", label: "conclusion_severity_3" },
+  { value: "begning", label: "Bénin" },
+  { value: "intraepithelial-lesion", label: "Lésion intra-épithéliale" },
+  { value: "invasive-carcinoma", label: "Carcinome invasif" },
 ];
 const CONCLUSIONS_ORIGIN = [
-  { value: "conclusion_origin_1", label: "conclusion_origin_1" },
-  { value: "conclusion_origin_2", label: "conclusion_origin_2" },
+  { value: "origin-prostate", label: "Origine prostatique" },
+  { value: "origin-vesicle", label: "Origine vésiculaire" },
 ];
 
 // FIXME: translate
