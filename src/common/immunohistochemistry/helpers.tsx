@@ -1,5 +1,10 @@
 import { Option, OptionGroup } from "../../ui/helpers/options";
 
+export type IhcState = {
+  hasIhc: boolean;
+  antibodies: AntibodyData[];
+};
+
 // FIXME: translate
 export type Antibody =
   // Composed
@@ -100,3 +105,40 @@ export const OTHER_RESULT_OPTIONS: ResultOptions = [
   { value: "positive", label: "Positif" },
   { value: "negative", label: "Négatif" },
 ];
+
+// TODO clean: test extensively
+export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
+  const errors: string[] = [];
+
+  if (ihc.hasIhc && ihc.antibodies.length === 0) {
+    errors.push(`Aucun anticorps n'est sélectionné pour l'immunohistochimie.`);
+  }
+
+  ihc.antibodies.forEach((antibody) => {
+    const label = getAntibodyLabel(antibody.type);
+
+    if (antibody.blocks.length === 0) {
+      errors.push(`Aucun bloc n'est sélectionné pour l'anticorps ${label}.`);
+    }
+
+    if (antibody.type === "other") {
+      if (!antibody.name) {
+        errors.push(
+          `Le champ Nom pour l'anticorps ${label} doit être rempli.`,
+        );
+      }
+      if (!antibody.clone) {
+        errors.push(
+          `Le champ Clone pour l'anticorps ${label} doit être rempli.`,
+        );
+      }
+      if (!antibody.conclusion) {
+        errors.push(
+          `Le champ Conclusions pour l'anticorps ${label} doit être rempli.`,
+        );
+      }
+    }
+  });
+
+  return errors;
+};

@@ -10,14 +10,10 @@ import {
   Antibody,
   AntibodyData,
   AntibodyGroup,
+  IhcState,
   OtherAntibody,
   PropertiesByAntibody,
-} from "./_helpers";
-
-export type IhcState = {
-  hasIhc: boolean;
-  antibodies: AntibodyData[];
-};
+} from "./helpers";
 
 type Props = {
   containerCount: number;

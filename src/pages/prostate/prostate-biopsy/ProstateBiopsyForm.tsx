@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { FormPage } from "../../../common/FormPage";
+import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
 import {
   IhcState,
-  Immunohistochemistry,
-} from "../../../common/immunohistochemistry/Immunohistochemistry";
-import { getAntibodyLabel } from "../../../common/immunohistochemistry/_helpers";
+  validateIhc,
+} from "../../../common/immunohistochemistry/helpers";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Item } from "../../../ui/Item";
 import { Line } from "../../../ui/Line";
@@ -184,38 +184,6 @@ const validateBiopsyTable = ({
       );
     }
   }
-
-  return errors;
-};
-
-// TODO clean: test extensively
-const validateIhc = ({ ihc }: { ihc: IhcState }) => {
-  const errors: string[] = [];
-
-  if (ihc.hasIhc && ihc.antibodies.length === 0) {
-    errors.push(`Aucun anticorps n'est sélectionné pour l'immunohistochimie.`);
-  }
-
-  ihc.antibodies.forEach((antibody) => {
-    const label = getAntibodyLabel(antibody.type);
-
-    if (antibody.blocks.length === 0) {
-      errors.push(`Aucun bloc n'est sélectionné pour l'anticorps ${label}.`);
-    }
-
-    if (antibody.type === 'other') {
-      if (!antibody.name) {
-        errors.push(`Le champ TODO pour l'anticorps ${label} doit être rempli.`)
-      }
-      if (!antibody.clone) {
-        errors.push(`Le champ TODO pour l'anticorps ${label} doit être rempli.`)
-      }
-      if (!antibody.conclusion) {
-        errors.push(`Le champ TODO pour l'anticorps ${label} doit être rempli.`)
-      }
-    }
-  });
-
 
   return errors;
 };

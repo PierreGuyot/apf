@@ -1,7 +1,7 @@
 import {
   AntibodyGroup,
   PropertiesByAntibody,
-} from "../../common/immunohistochemistry/_helpers";
+} from "../../common/immunohistochemistry/helpers";
 import { filterEmpty } from "../../ui/helpers/helpers";
 import { Option, SelectValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";

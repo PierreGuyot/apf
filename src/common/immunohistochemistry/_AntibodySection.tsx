@@ -16,7 +16,7 @@ import {
   PropertiesByAntibody,
   Result,
   ResultOptions,
-} from "./_helpers";
+} from "./helpers";
 
 const aNewBlock = (index: number, options: ResultOptions): Block => ({
   index,
