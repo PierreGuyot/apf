@@ -254,17 +254,15 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
 
   const rows: RowWithMetadata[] = useMemo(
     () =>
-      state.rows.map((row) => {
-        return {
-          ...row,
-          biopsySizeInputCount: isExpertMode
-            ? row.biopsyCount
-            : Math.min(row.biopsyCount, 1),
-          tumorSizeInputCount: isExpertMode
-            ? row.tumorCount
-            : Math.min(row.tumorCount, 1),
-        };
-      }),
+      state.rows.map((row) => ({
+        ...row,
+        biopsySizeInputCount: isExpertMode
+          ? row.biopsyCount
+          : Math.min(row.biopsyCount, 1),
+        tumorSizeInputCount: isExpertMode
+          ? row.tumorCount
+          : Math.min(row.tumorCount, 1),
+      })),
     [isExpertMode, state.rows],
   );
 

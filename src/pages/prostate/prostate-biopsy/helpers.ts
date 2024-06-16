@@ -110,9 +110,9 @@ export const anEmptyRow = (partial: Partial<Row> & { index: number }): Row => ({
   type: "sextant",
   location: "base-right",
   biopsyCount: 2,
-  biopsySize: [1, 1, 0, 0], // TODO NOW: revert
+  biopsySize: [0, 0, 0, 0],
   tumorCount: 0,
-  tumorSize: [1, 0, 0, 0], // TODO NOW: revert
+  tumorSize: [0, 0, 0, 0],
   tumorGleason: DEFAULT_GLEASON_ITEM,
   tumorEpn: false,
   tumorTep: false,
