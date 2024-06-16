@@ -10,8 +10,8 @@
 .tooltip-content {
   /* Position */
   position: absolute;
-  z-index: 1;
   top: 0;
+  z-index: 20;
 
   /* Style */
   font-size: 0.9em;

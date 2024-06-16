@@ -1,15 +1,19 @@
+import { Item } from "./Item";
 import "./validation-errors.css";
 
 type Props = {
+  header: string;
   errors: string[];
 };
 
-export const ValidationErrors = ({ errors }: Props) =>
+export const ValidationErrors = ({ header, errors }: Props) =>
   errors.length ? (
-    <div className="validation-errors">
-      <div>Le tableau comporte les erreurs suivantes :</div>
-      {errors.map((error, index) => (
-        <li key={index}>{error}</li>
-      ))}
-    </div>
+    <Item>
+      <div className="validation-errors">
+        <div>{header}</div>
+        {errors.map((error, index) => (
+          <li key={index}>{error}</li>
+        ))}
+      </div>
+    </Item>
   ) : undefined;

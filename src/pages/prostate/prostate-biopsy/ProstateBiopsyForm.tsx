@@ -5,6 +5,7 @@ import {
   IhcState,
   Immunohistochemistry,
 } from "../../../common/immunohistochemistry/Immunohistochemistry";
+import { getAntibodyLabel } from "../../../common/immunohistochemistry/_helpers";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Item } from "../../../ui/Item";
 import { Line } from "../../../ui/Line";
@@ -90,11 +91,8 @@ const hasValidSizes = (row: RowWithMetadata) => {
   return [...biopsySizes, ...tumorSizes].every((size) => size > 0);
 };
 
-// FIXME: add validations for IHC:
-//  - If there is an IHC, there must be at least one antibody in the least
-//  - In an antibody block, there must be at least one selected block
 // TODO clean: test extensively
-const getErrors = ({
+const validateBiopsyTable = ({
   sextantName,
   rows,
   containerCount,
@@ -190,6 +188,24 @@ const getErrors = ({
   return errors;
 };
 
+// TODO clean: test extensively
+const validateIhc = ({ ihc }: { ihc: IhcState }) => {
+  const errors: string[] = [];
+
+  if (ihc.hasIhc && ihc.antibodies.length === 0) {
+    errors.push(`Aucun anticorps n'est sélectionné pour l'immunohistochimie.`);
+  }
+
+  ihc.antibodies.forEach((antibody) => {
+    if (antibody.blocks.length === 0) {
+      const label = getAntibodyLabel(antibody.type);
+      errors.push(`Aucun bloc n'est sélectionné pour l'anticorps ${label}.`);
+    }
+  });
+
+  return errors;
+};
+
 export type FormState = {
   hasInfo: boolean;
   hasTarget: boolean;
@@ -278,13 +294,17 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
     [piradsItems, targetCount],
   );
   const score = getScore(visibleRows);
-  const errors = getErrors({
+  const biopsyTableErrors = validateBiopsyTable({
     sextantName,
     containerCount,
     tumorType,
     rows: visibleRows,
     piradsItems: visiblePiradsItems,
   });
+  const ihcErrors = validateIhc({ ihc });
+
+  const hasErrors = !!biopsyTableErrors.length || !!ihcErrors.length;
+
   const getReportContent = (language: Language) =>
     generateReport(
       {
@@ -335,8 +355,8 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
         />
       </Item>
 
-      <Item>
-        {score.tumorCount ? (
+      {score.tumorCount ? (
+        <Item>
           <Select
             name="Type histologique de la tumeur"
             label="Type histologique de la tumeur"
@@ -344,9 +364,13 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
             value={tumorType}
             onChange={setField("tumorType")}
           />
-        ) : undefined}
-        <ValidationErrors errors={errors} />
-      </Item>
+        </Item>
+      ) : undefined}
+
+      <ValidationErrors
+        header="Le tableau comporte les erreurs suivantes :"
+        errors={biopsyTableErrors}
+      />
 
       <Section title="Immunohistochimie" index={3}>
         <Immunohistochemistry
@@ -356,6 +380,11 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
           state={ihc}
           setState={setField("ihc")}
         />
+
+        <ValidationErrors
+          header="La section Immunohistochimie comporte les erreurs suivantes :"
+          errors={ihcErrors}
+        />
       </Section>
 
       <AdditionalRemarks
@@ -364,7 +393,7 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
         onChange={setField("comment")}
       />
 
-      {errors.length ? undefined : (
+      {hasErrors ? undefined : (
         <Summary
           getContent={getReportContent}
           getTable={(language) => (

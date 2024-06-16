@@ -72,6 +72,15 @@ export const ANTIBODIES_PROPERTIES: Record<
   ERG: { label: "ERG", clones: MOCK_CLONES },
 };
 
+export const getAntibodyLabel = (type: Antibody | "other") => {
+  if (type === "other") {
+    return "Autre";
+  }
+
+  const properties = ANTIBODIES_PROPERTIES[type];
+  return properties.label;
+};
+
 export type Result = string;
 
 export type Block = {

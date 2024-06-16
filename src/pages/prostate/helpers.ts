@@ -1,4 +1,7 @@
-import { PropertiesByAntibody } from "../../common/immunohistochemistry/_helpers";
+import {
+  AntibodyGroup,
+  PropertiesByAntibody,
+} from "../../common/immunohistochemistry/_helpers";
 import { filterEmpty } from "../../ui/helpers/helpers";
 import { Option, SelectValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";
@@ -270,30 +273,66 @@ const CONCLUSIONS_ORIGIN = [
   { value: "conclusion_origin_1", label: "conclusion_origin_1" },
   { value: "conclusion_origin_2", label: "conclusion_origin_2" },
 ];
+
+// FIXME: translate
 export const PROSTATE_ANTIBODY_GROUPS = [
   {
-    title: "CATEGORY_1",
+    title: "Anticorps composés",
+    items: [{ value: "P504S/P63" as const, label: "P504S/P63" }],
+  },
+  {
+    title: "Anticorps des cellules basales",
     items: [
-      { value: "P504S" as const, label: "P504S" },
       { value: "P63" as const, label: "P63" },
-      { value: "BCC" as const, label: "BCC" },
+      { value: "CK5/6" as const, label: "CK5/6" },
+      { value: "CK903" as const, label: "CK903" },
+      { value: "CK14/CK15" as const, label: "CK14/CK15" },
     ],
   },
   {
-    title: "CATEGORY_2",
+    title: "Anticorps des cellules néoplasiques prostatiques",
+    items: [{ value: "P504S" as const, label: "P504S" }],
+  },
+  {
+    title: "Anticorps d'origine prostatique",
+    items: [
+      { value: "PSA" as const, label: "PSA" },
+      { value: "PSAP" as const, label: "PSAP" },
+      { value: "NKX3.1" as const, label: "NKX3.1" },
+      { value: "RA" as const, label: "RA" },
+    ],
+  },
+  {
+    title: "Anticorps d'origine vésicale",
     items: [
       { value: "CK7" as const, label: "CK7" },
       { value: "CK20" as const, label: "CK20" },
       { value: "GATA3" as const, label: "GATA3" },
     ],
   },
-];
+  {
+    title: "Anticorps pronostiques",
+    items: [{ value: "ERG" as const, label: "ERG" }],
+  },
+] satisfies AntibodyGroup[];
 
 export const PROSTATE_ANTIBODY_PROPERTIES: PropertiesByAntibody = {
-  P504S: { resultOptions: CONCLUSIONS_ORIGIN },
+  "P504S/P63": { resultOptions: CONCLUSIONS_SEVERITY },
   P63: { resultOptions: CONCLUSIONS_SEVERITY },
-  BCC: { resultOptions: CONCLUSIONS_ORIGIN },
-  CK7: { resultOptions: CONCLUSIONS_SEVERITY },
+  "CK5/6": { resultOptions: CONCLUSIONS_SEVERITY },
+  CK903: { resultOptions: CONCLUSIONS_SEVERITY },
+  "CK14/CK15": { resultOptions: CONCLUSIONS_SEVERITY },
+  P504S: { resultOptions: CONCLUSIONS_SEVERITY },
+  PSA: { resultOptions: CONCLUSIONS_ORIGIN },
+  PSAP: { resultOptions: CONCLUSIONS_ORIGIN },
+  "NKX3.1": { resultOptions: CONCLUSIONS_ORIGIN },
+  RA: { resultOptions: CONCLUSIONS_ORIGIN },
+  CK7: { resultOptions: CONCLUSIONS_ORIGIN },
   CK20: { resultOptions: CONCLUSIONS_ORIGIN },
-  GATA3: { resultOptions: CONCLUSIONS_SEVERITY },
+  GATA3: { resultOptions: CONCLUSIONS_ORIGIN },
+  ERG: {
+    resultOptions: [
+      // FIX ME: complete missing value
+    ],
+  },
 };
