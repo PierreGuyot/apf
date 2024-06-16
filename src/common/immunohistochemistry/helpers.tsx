@@ -123,9 +123,7 @@ export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
 
     if (antibody.type === "other") {
       if (!antibody.name) {
-        errors.push(
-          `Le champ Nom pour l'anticorps ${label} doit être rempli.`,
-        );
+        errors.push(`Le champ Nom pour l'anticorps ${label} doit être rempli.`);
       }
       if (!antibody.clone) {
         errors.push(

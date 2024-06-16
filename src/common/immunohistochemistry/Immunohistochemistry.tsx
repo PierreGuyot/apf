@@ -27,7 +27,7 @@ const anEmptyAntibodyData = (type: Antibody | "other"): AntibodyData => {
   if (type === "other") {
     return {
       type,
-      name: "", 
+      name: "",
       clone: "",
       conclusion: "",
       blocks: [],
