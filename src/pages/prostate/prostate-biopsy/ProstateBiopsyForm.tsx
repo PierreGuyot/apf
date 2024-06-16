@@ -1,6 +1,8 @@
-import { useMemo } from "react";
+import { Mode } from "fs";
+import { useMemo, useState } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { FormPage } from "../../../common/FormPage";
+import { ModePicker } from "../../../common/ModePicker";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
 import {
   IhcState,
@@ -52,6 +54,7 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+import { ClinicalInfo } from "../../../common/ClinicalInfo";
 
 const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
@@ -189,6 +192,11 @@ const validateBiopsyTable = ({
 };
 
 export type FormState = {
+  // Clinical info
+  // Standard mode
+  clinicalInfo: string;
+
+  // Expert mode
   hasInfo: boolean;
   hasTarget: boolean;
   targetCount: number;
@@ -196,9 +204,15 @@ export type FormState = {
   psaRate: number;
   containerCount: number;
   piradsItems: PiradsItem[];
+
+  // Biopsy table
   rows: Row[];
   tumorType: TumorType;
+
+  // Immunohistochemistry
   ihc: IhcState;
+
+  // Additional comments
   comment: string;
 };
 
@@ -216,6 +230,7 @@ const getRows = () => [
 ];
 
 const getInitialState = (): FormState => ({
+  clinicalInfo: "",
   hasInfo: isDebug,
   hasTarget: isDebug,
   targetCount: 0,
@@ -237,7 +252,27 @@ type Props = {
 };
 
 export const ProstateBiopsyForm = ({ formId }: Props) => {
-  const isExpertMode = true;
+  const [mode, setMode] = useState<Mode>();
+
+  if (typeof mode === "undefined") {
+    return (
+      <FormPage formId={formId} isPickingMode onClear={noop}>
+        <ModePicker onPick={setMode} />
+      </FormPage>
+    );
+  }
+
+  return <ProstateBiopsyFormContent formId={formId} mode={mode} />;
+};
+
+const ProstateBiopsyFormContent = ({
+  formId,
+  mode,
+}: {
+  formId: ProstateBiopsyFormId;
+  mode: Mode;
+}) => {
+  const isExpertMode = mode === "expert";
 
   const sextantName =
     formId === "prostate-biopsy-transrectal"
@@ -246,8 +281,15 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
 
   // State
   const { state, setState, setField, clearState } = useForm(getInitialState);
-  const { piradsItems, containerCount, targetCount, tumorType, ihc, comment } =
-    state;
+  const {
+    clinicalInfo,
+    piradsItems,
+    containerCount,
+    targetCount,
+    tumorType,
+    ihc,
+    comment,
+  } = state;
 
   const rows: RowWithMetadata[] = useMemo(
     () =>
@@ -301,12 +343,20 @@ export const ProstateBiopsyForm = ({ formId }: Props) => {
 
   return (
     <FormPage formId={formId} onClear={clearState}>
-      <ClinicalInfoExpert
-        index={1}
-        formId={formId}
-        state={state}
-        setState={(value) => setState({ ...state, ...value })}
-      />
+      {isExpertMode ? (
+        <ClinicalInfoExpert
+          index={1}
+          formId={formId}
+          state={state}
+          setState={(value) => setState({ ...state, ...value })}
+        />
+      ) : (
+        <ClinicalInfo
+          index={1}
+          value={clinicalInfo}
+          onChange={setField("clinicalInfo")}
+        />
+      )}
 
       <Section title="Biopsies" index={2}>
         <Line>

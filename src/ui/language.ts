@@ -42,6 +42,10 @@ const DICTIONARY_EN: Record<string, string> = {
   négative: "negative",
   Négatif: "Negative",
   négatif: "negative",
+  standard: "standard",
+  Standard: "Standard",
+  expert: "expert",
+  Expert: "Expert",
 
   // Prostate
   "Biopsies prostatiques transrectales écho-guidées":

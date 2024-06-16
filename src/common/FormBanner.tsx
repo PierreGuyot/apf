@@ -12,6 +12,7 @@ const WARNING_DELAY_IN_DAYS = 180; // In days
 
 type Props = {
   formId: FormId;
+  isPickingMode: boolean;
   isPrototype: boolean;
   onClear: () => void;
 };
@@ -25,6 +26,7 @@ const CONFIRMATION_MESSAGE = joinLines([
 
 export const FormBanner = ({
   formId,
+  isPickingMode,
   isPrototype,
   onClear: _onClear,
 }: Props) => {
@@ -64,9 +66,11 @@ export const FormBanner = ({
 
   const right = (
     <>
-      <div>
-        <Button label="Remettre le formulaire à zéro" onClick={onClear} />
-      </div>
+      {isPickingMode ? undefined : (
+        <div>
+          <Button label="Remettre le formulaire à zéro" onClick={onClear} />
+        </div>
+      )}
       <div>
         <Button
           label="Retourner à la liste des formulaires"
