@@ -255,7 +255,6 @@ type Props = {
 };
 
 export const ProstateBiopsyForm = ({ formId }: Props) => {
-  // FIXME: un-mock
   const isExpertMode = true;
 
   const sextantName =

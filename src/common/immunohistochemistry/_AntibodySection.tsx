@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import { InputText } from "../../ui/InputText";
+import { InputTextArea } from "../../ui/InputTextArea";
+import { Item } from "../../ui/Item";
 import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
 import { SelectList } from "../../ui/SelectList";
@@ -148,7 +150,7 @@ const AntibodyForm = ({
   const setField = patchState(state, setState);
 
   if (state.type === "other") {
-    const { name, clone } = state;
+    const { name, clone, conclusion } = state;
 
     return (
       <>
@@ -166,6 +168,14 @@ const AntibodyForm = ({
             onChange={setField("clone")}
           />
         </Line>
+        <Item>
+          <InputTextArea
+            lineCount={2}
+            label="Conclusions"
+            value={conclusion}
+            onChange={(value) => setState({ ...state, conclusion: value })}
+          />
+        </Item>
       </>
     );
   }

@@ -31,6 +31,7 @@ export type OtherAntibody = {
   type: "other";
   name: string;
   clone: string;
+  conclusion: string;
   blocks: Block[];
 };
 
