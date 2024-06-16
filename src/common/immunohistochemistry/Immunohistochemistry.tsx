@@ -31,9 +31,9 @@ const anEmptyAntibodyData = (type: Antibody | "other"): AntibodyData => {
   if (type === "other") {
     return {
       type,
-      name: "", // FIXME: add validation (field should not be empty)
-      clone: "", // FIXME: add validation (field should not be empty)
-      conclusion: "", // FIXME: add validation (field should not be empty)
+      name: "", 
+      clone: "",
+      conclusion: "",
       blocks: [],
     } satisfies OtherAntibody;
   }

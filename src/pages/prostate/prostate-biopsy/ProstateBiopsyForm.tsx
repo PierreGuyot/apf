@@ -197,11 +197,25 @@ const validateIhc = ({ ihc }: { ihc: IhcState }) => {
   }
 
   ihc.antibodies.forEach((antibody) => {
+    const label = getAntibodyLabel(antibody.type);
+
     if (antibody.blocks.length === 0) {
-      const label = getAntibodyLabel(antibody.type);
       errors.push(`Aucun bloc n'est sélectionné pour l'anticorps ${label}.`);
     }
+
+    if (antibody.type === 'other') {
+      if (!antibody.name) {
+        errors.push(`Le champ TODO pour l'anticorps ${label} doit être rempli.`)
+      }
+      if (!antibody.clone) {
+        errors.push(`Le champ TODO pour l'anticorps ${label} doit être rempli.`)
+      }
+      if (!antibody.conclusion) {
+        errors.push(`Le champ TODO pour l'anticorps ${label} doit être rempli.`)
+      }
+    }
   });
+
 
   return errors;
 };
