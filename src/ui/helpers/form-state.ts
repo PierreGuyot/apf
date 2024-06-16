@@ -26,6 +26,10 @@ type SetState<State> = <K extends keyof State>(
   key: K,
 ) => (value: State[K]) => void;
 
+// TODO clean: consider creating a `useValue` helper ({value: T, errors: string[], set: (value: T) => void })
+// to facilitate adding in-line validations
+// This would mean passing a validation function to useForm
+
 export const useForm = <State>(getInitialState: () => State) => {
   const [state, setState] = useState<State>(getInitialState());
 
