@@ -108,9 +108,13 @@ export const OTHER_RESULT_OPTIONS: ResultOptions = [
 
 // TODO clean: test extensively
 export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
+  if (!ihc.hasIhc) {
+    return [];
+  }
+
   const errors: string[] = [];
 
-  if (ihc.hasIhc && ihc.antibodies.length === 0) {
+  if (ihc.antibodies.length === 0) {
     errors.push(`Aucun anticorps n'est sélectionné pour l'immunohistochimie.`);
   }
 
