@@ -8,4 +8,10 @@
 
 .select {
   max-width: 300px !important;
+
+  /* Common interaction style */
+  --background-color: rgb(223, 243, 255);
+  --border: 1px solid rgb(114, 176, 214);
+  background-color: var(--background-color);
+  border: var(--border);
 }

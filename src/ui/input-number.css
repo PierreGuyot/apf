@@ -6,17 +6,23 @@
   outline: none;
   border: none;
 
-  /* Common style */
-  font-family: "body-font";
-  font-size: 1rem;
-  --background-color: rgb(236, 236, 236);
-  --border: 1px solid lightgrey;
-  background-color: var(--background-color);
-  border-bottom: var(--border);
-
   /* Custom style */
   padding: 0.2rem 0.5rem;
   border: 1px solid transparent;
+
+  /* Common interaction style */
+  font-family: "body-font";
+  font-size: 1rem;
+  --background-color: rgb(223, 243, 255);
+  --border: 1px solid rgb(114, 176, 214);
+  background-color: var(--background-color);
+  border-bottom: var(--border);
+
+  &::placeholder {
+    /* Same as border */
+    --placeholder-color: rgb(114, 176, 214);
+    color: var(--placeholder-color);
+  }
 }
 
 .input-number--md {
