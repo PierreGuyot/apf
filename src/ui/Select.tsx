@@ -1,25 +1,25 @@
 import { useCallback, useMemo } from "react";
 import { anId } from "./helpers/helpers";
-import { Option, OptionGroup, SelectValue } from "./helpers/options";
+import { Option, OptionGroup, OptionValue } from "./helpers/options";
 
 import { FieldProps } from "./helpers/fields";
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import "./select.css";
 
-type Props<T extends SelectValue> = FieldProps<T> & {
+type Props<T extends OptionValue> = FieldProps<T> & {
   language?: Language;
   options: Option<T>[] | OptionGroup<T>[];
   name: string;
   label?: string; // TODO clean: consider using label as name
 };
 
-function isGroupedOptions<T extends SelectValue>(
+function isGroupedOptions<T extends OptionValue>(
   options: Props<T>["options"],
 ): options is OptionGroup<T>[] {
   return "items" in options[0];
 }
 
-export function Select<T extends SelectValue>({
+export function Select<T extends OptionValue>({
   language = DEFAULT_LANGUAGE,
   value,
   options: _options,
@@ -97,7 +97,7 @@ export function Select<T extends SelectValue>({
   );
 }
 
-function OptionItem<T extends SelectValue>({
+function OptionItem<T extends OptionValue>({
   option,
   language,
 }: {

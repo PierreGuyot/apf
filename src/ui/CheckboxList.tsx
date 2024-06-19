@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { Checkbox } from "./Checkbox";
 import "./checkbox-list.css";
-import { Option, SelectValue } from "./helpers/options";
+import { Option, OptionValue } from "./helpers/options";
 import { Language, translate } from "./language";
 
-type Props<T extends SelectValue> = {
+type Props<T extends OptionValue> = {
   language: Language;
   title?: string;
   values: T[];
@@ -12,7 +12,7 @@ type Props<T extends SelectValue> = {
   onChange: (value: T[]) => void;
 };
 
-export function CheckboxList<T extends SelectValue>({
+export function CheckboxList<T extends OptionValue>({
   language,
   title,
   values,

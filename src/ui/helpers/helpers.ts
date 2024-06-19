@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { Option, SelectValue } from "./options";
+import { Option, OptionValue } from "./options";
 
 export const noop = () => {};
 
@@ -13,7 +13,7 @@ export const sumArrays = (items: number[][]): number => sum(items.map(sum));
 /** Remove the nullish (i.e. null or undefined) items in an array and properly narrow the result's type.
  *
  * For instance:
- *   `[0, 1, undefined, false, {}, [], '', null].filter(filterNullish)` should return `[0, 1, false, {}, [], '']`
+ *   `[0, 1, undefined, false, {}, [], '', null].filter(filterEmpty)` should return `[1, {}, []]`
  */
 export const filterNullish = <T>(item: T | null | undefined): item is T =>
   item != null;
@@ -21,7 +21,7 @@ export const filterNullish = <T>(item: T | null | undefined): item is T =>
 /** Remove the empty (i.e. falsy) items in an array and properly narrow the result's type.
  *
  * For instance:
- *   `[0, 1, undefined, false, {}, [], '', null].filter(filterNullish)` should return `[0, 1, false, {}, [], '']`
+ *   `[0, 1, undefined, false, {}, [], '', null].filter(filterEmpty)` should return `[1, {}, []]`
  */
 export const filterEmpty = <T>(item: T | null | undefined): item is T => !!item;
 
@@ -106,7 +106,7 @@ export const assertUnreachable = (x: never): never => {
 };
 
 export const findOption =
-  <T extends SelectValue>(options: Option<T>[]) =>
+  <T extends OptionValue>(options: Option<T>[]) =>
   (value: T) => {
     const match = options.find((item) => item.value === value);
     if (!match) {

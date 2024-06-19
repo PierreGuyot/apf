@@ -1,16 +1,16 @@
 import { DEFAULT_LANGUAGE, Language, translate } from "../language";
 import { findOption } from "./helpers";
 
-export type SelectValue = string | number | boolean;
+export type OptionValue = string | number | boolean;
 
 // TODO clean: make option types readonly
 
-export type Option<T extends SelectValue> = {
+export type Option<T extends OptionValue> = {
   value: T;
   label: string;
 };
 
-export type OptionGroup<T extends SelectValue> = {
+export type OptionGroup<T extends OptionValue> = {
   title: string;
   items: Option<T>[];
 };

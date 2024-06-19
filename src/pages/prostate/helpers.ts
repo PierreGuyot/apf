@@ -3,7 +3,7 @@ import {
   PropertiesByAntibody,
 } from "../../common/immunohistochemistry/helpers";
 import { filterEmpty } from "../../ui/helpers/helpers";
-import { Option, SelectValue } from "../../ui/helpers/options";
+import { Option, OptionValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";
 import { Language, translate } from "../../ui/language";
 
@@ -115,7 +115,7 @@ type TumorTypeGlandular =
   | "acinar-adenocarcinoma-prostatic-intraepithelial-neoplasia-like"
   | "adenocarcinoma-intraductal";
 
-type OptionWithGleasonScore<T extends SelectValue> = Option<T> & {
+type OptionWithGleasonScore<T extends OptionValue> = Option<T> & {
   score?: GleasonScore;
 };
 

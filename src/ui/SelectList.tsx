@@ -5,22 +5,22 @@ import { Pill } from "./Pill";
 import { Tooltip } from "./Tooltip";
 import { FieldProps } from "./helpers/fields";
 import { noop } from "./helpers/helpers";
-import { Option, SelectValue } from "./helpers/options";
+import { Option, OptionValue } from "./helpers/options";
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import "./select-list.css";
 
-type ItemGroup<T extends SelectValue> = {
+type ItemGroup<T extends OptionValue> = {
   title: string;
   items: Option<T>[];
 };
 
-type Props<T extends SelectValue> = FieldProps<T[]> & {
+type Props<T extends OptionValue> = FieldProps<T[]> & {
   emptyState?: string;
   language?: Language;
   groups: ItemGroup<T>[];
 };
 
-export function getSelectedItems<T extends SelectValue>({
+export function getSelectedItems<T extends OptionValue>({
   groups,
   value,
 }: {
@@ -34,7 +34,7 @@ export function getSelectedItems<T extends SelectValue>({
 
 // TODO clean: add label prop?
 
-export function SelectList<T extends SelectValue>({
+export function SelectList<T extends OptionValue>({
   language = DEFAULT_LANGUAGE,
   emptyState,
   groups,
