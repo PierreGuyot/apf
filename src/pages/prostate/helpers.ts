@@ -265,7 +265,7 @@ export const getGleasonSummary = (
 
 // FIXME: translate
 const CONCLUSIONS_SEVERITY = [
-  { value: "begning", label: "Bénin" },
+  { value: "begnin", label: "Bénin" },
   { value: "intraepithelial-lesion", label: "Lésion intra-épithéliale" },
   { value: "invasive-carcinoma", label: "Carcinome invasif" },
 ];
