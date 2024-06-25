@@ -3,16 +3,14 @@ import { findOption } from "./helpers";
 
 export type OptionValue = string | number | boolean;
 
-// TODO clean: make option types readonly
-
 export type Option<T extends OptionValue> = {
-  value: T;
-  label: string;
+  readonly value: T;
+  readonly label: string;
 };
 
 export type OptionGroup<T extends OptionValue> = {
-  title: string;
-  items: Option<T>[];
+  readonly title: string;
+  readonly items: Option<T>[];
 };
 
 export const YES_NO_OPTIONS: Option<boolean>[] = [
