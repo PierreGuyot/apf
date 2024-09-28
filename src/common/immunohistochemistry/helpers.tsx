@@ -115,29 +115,29 @@ export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
   ihc.blocks.forEach((block) => {
     if (block.antibodies.length === 0) {
       errors.push(
-        `Aucun anticorps n'est sélectionné pour l'immunohistochimie.`,
+        `Aucun anticorps n'est sélectionné pour le bloc ${block.index}.`,
       );
     }
 
     block.antibodies.forEach((antibody) => {
-      const label = getAntibodyLabel(antibody.type);
-
       if (antibody.type === "other") {
+        const label = getAntibodyLabel(antibody.type);
+
         if (!antibody.name) {
           errors.push(
-            `Le champ Nom pour l'anticorps ${label} doit être rempli.`,
+            `Dans le bloc ${block.index}, le champ Nom pour l'anticorps ${label} doit être rempli.`,
           );
         }
 
         if (!antibody.clone) {
           errors.push(
-            `Le champ Clone pour l'anticorps ${label} doit être rempli.`,
+            `Dans le bloc ${block.index}, le champ Clone pour l'anticorps ${label} doit être rempli.`,
           );
         }
 
         if (!antibody.result) {
           errors.push(
-            `Le champ Résultats immunohistochimies pour l'anticorps ${label} doit être rempli.`,
+            `Dans le bloc ${block.index}, le champ Résultats immunohistochimies pour l'anticorps ${label} doit être rempli.`,
           );
         }
       }
