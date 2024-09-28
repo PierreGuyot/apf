@@ -185,7 +185,7 @@ const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
     },
   ],
   ihc: {
-    antibodies: [],
+    blocks: [],
     hasIhc: false,
   },
   comment: "MOCK-specific-notes",
@@ -380,7 +380,7 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
     },
   ],
   ihc: {
-    antibodies: [],
+    blocks: [],
     hasIhc: false,
   },
   comment: "MOCK-specific-notes",

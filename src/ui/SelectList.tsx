@@ -8,6 +8,7 @@ import { noop } from "./helpers/helpers";
 import { Option, OptionValue } from "./helpers/options";
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import "./select-list.css";
+import { Label } from "./Label";
 
 type ItemGroup<T extends OptionValue> = {
   title: string;
@@ -15,7 +16,9 @@ type ItemGroup<T extends OptionValue> = {
 };
 
 type Props<T extends OptionValue> = FieldProps<T[]> & {
+  label?: string;
   emptyState?: string;
+  hasList?: boolean;
   language?: Language;
   groups: ItemGroup<T>[];
 };
@@ -32,11 +35,11 @@ export function getSelectedItems<T extends OptionValue>({
     .filter((item) => value.includes(item.value));
 }
 
-// TODO clean: add label prop?
-
 export function SelectList<T extends OptionValue>({
   language = DEFAULT_LANGUAGE,
+  label,
   emptyState,
+  hasList = true,
   groups,
   value,
   isReadOnly,
@@ -60,6 +63,7 @@ export function SelectList<T extends OptionValue>({
 
   return (
     <div className="select-list">
+      {label ? <Label label={label} /> : undefined}
       <Tooltip
         mode="click"
         content={
@@ -80,15 +84,19 @@ export function SelectList<T extends OptionValue>({
       >
         <Button label="+" onClick={noop} />
       </Tooltip>
-      {selectedItems.map((item) => (
-        <Pill
-          key={String(item.value)}
-          label={translate(item.label, language)}
-        />
-      ))}
-      {selectedItems.length ? undefined : (
-        <div className="select-list-empty-state">{emptyState}</div>
-      )}
+      {hasList ? (
+        <>
+          {selectedItems.map((item) => (
+            <Pill
+              key={String(item.value)}
+              label={translate(item.label, language)}
+            />
+          ))}
+          {selectedItems.length ? undefined : (
+            <div className="select-list-empty-state">{emptyState}</div>
+          )}
+        </>
+      ) : undefined}
     </div>
   );
 }

@@ -332,7 +332,8 @@ export const PROSTATE_ANTIBODY_PROPERTIES: PropertiesByAntibody = {
   GATA3: { resultOptions: CONCLUSIONS_ORIGIN },
   ERG: {
     resultOptions: [
-      // FIX ME: complete missing value
+      // FIX ME: complete missing value (we fill it to avoid runtime crash)
+      { value: "FIXME", label: "FIXME" },
     ],
   },
 };

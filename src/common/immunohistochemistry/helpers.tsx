@@ -2,8 +2,21 @@ import { Option, OptionGroup } from "../../ui/helpers/options";
 
 export type IhcState = {
   hasIhc: boolean;
+  blocks: Block[];
+};
+
+export type Block = {
+  index: number;
   antibodies: AntibodyData[];
 };
+
+export type AntibodyData =
+  | {
+      type: Antibody;
+      clone: AntibodyClone;
+      result: string;
+    }
+  | OtherAntibody;
 
 // FIXME: translate
 export type Antibody =
@@ -36,17 +49,8 @@ export type OtherAntibody = {
   type: "other";
   name: string;
   clone: string;
-  conclusion: string;
-  blocks: Block[];
+  result: string;
 };
-
-export type AntibodyData =
-  | {
-      type: Antibody;
-      clone: AntibodyClone;
-      blocks: Block[];
-    }
-  | OtherAntibody;
 
 // FIXME: un-mock
 const MOCK_CLONES: Option<AntibodyClone>[] = [
@@ -89,22 +93,12 @@ export const getAntibodyLabel = (type: Antibody | "other") => {
 
 export type Result = string;
 
-export type Block = {
-  index: number;
-  result: Result;
-};
-
 export type ResultOptions = Option<Result>[];
 export type AntibodyGroup = OptionGroup<Antibody>;
-export type AntibodyProperties = { resultOptions: ResultOptions };
+type AntibodyProperties = { resultOptions: ResultOptions };
 export type PropertiesByAntibody = Partial<
   Record<Antibody, AntibodyProperties>
 >;
-
-export const OTHER_RESULT_OPTIONS: ResultOptions = [
-  { value: "positive", label: "Positif" },
-  { value: "negative", label: "Négatif" },
-];
 
 // TODO clean: test extensively
 export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
@@ -114,34 +108,40 @@ export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
 
   const errors: string[] = [];
 
-  if (ihc.antibodies.length === 0) {
-    errors.push(`Aucun anticorps n'est sélectionné pour l'immunohistochimie.`);
+  if (ihc.blocks.length === 0) {
+    errors.push(`Aucun bloc n'est sélectionné pour l'immunohistochimie.`);
   }
 
-  ihc.antibodies.forEach((antibody) => {
-    const label = getAntibodyLabel(antibody.type);
-
-    if (antibody.blocks.length === 0) {
-      errors.push(`Aucun bloc n'est sélectionné pour l'anticorps ${label}.`);
+  ihc.blocks.forEach((block) => {
+    if (block.antibodies.length === 0) {
+      errors.push(
+        `Aucun anticorps n'est sélectionné pour l'immunohistochimie.`,
+      );
     }
 
-    if (antibody.type === "other") {
-      if (!antibody.name) {
-        errors.push(`Le champ Nom pour l'anticorps ${label} doit être rempli.`);
-      }
+    block.antibodies.forEach((antibody) => {
+      const label = getAntibodyLabel(antibody.type);
 
-      if (!antibody.clone) {
-        errors.push(
-          `Le champ Clone pour l'anticorps ${label} doit être rempli.`,
-        );
-      }
+      if (antibody.type === "other") {
+        if (!antibody.name) {
+          errors.push(
+            `Le champ Nom pour l'anticorps ${label} doit être rempli.`,
+          );
+        }
 
-      if (!antibody.conclusion) {
-        errors.push(
-          `Le champ Conclusions pour l'anticorps ${label} doit être rempli.`,
-        );
+        if (!antibody.clone) {
+          errors.push(
+            `Le champ Clone pour l'anticorps ${label} doit être rempli.`,
+          );
+        }
+
+        if (!antibody.result) {
+          errors.push(
+            `Le champ Résultats immunohistochimies pour l'anticorps ${label} doit être rempli.`,
+          );
+        }
       }
-    }
+    });
   });
 
   return errors;

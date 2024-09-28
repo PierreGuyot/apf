@@ -29,7 +29,7 @@ export const InputText = ({
   };
 
   return (
-    <>
+    <div className="input-text-container">
       {label ? <Label label={label} /> : undefined}
       {isReadOnly ? (
         value
@@ -51,6 +51,6 @@ export const InputText = ({
           ) : undefined}
         </>
       )}
-    </>
+    </div>
   );
 };

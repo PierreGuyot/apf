@@ -242,7 +242,7 @@ const getInitialState = (): FormState => ({
   tumorType: "acinar-adenocarcinoma-conventional",
   ihc: {
     hasIhc: true,
-    antibodies: [],
+    blocks: [],
   },
   comment: "",
 });
