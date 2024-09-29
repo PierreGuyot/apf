@@ -43,7 +43,22 @@ export type Antibody =
   | "ERG";
 
 // FIXME: un-mock
-export type AntibodyClone = "clone_1" | "clone_2";
+export type AntibodyClone =
+  | "M-13H4"
+  | "M-4A4"
+  | "M-4A4"
+  | "M-D5/16B4"
+  | "SP53"
+  | "M-13H4"
+  | "polyclonal-ventana"
+  | "EP356"
+  | "M-SP52"
+  | "M-SP33"
+  | "M-L50-823"
+  | "M-EP111"
+
+  // Mocks
+  | "TODO"
 
 export type OtherAntibody = {
   type: "other";
@@ -54,8 +69,7 @@ export type OtherAntibody = {
 
 // FIXME: un-mock
 const MOCK_CLONES: Option<AntibodyClone>[] = [
-  { value: "clone_1", label: "Clone 1" },
-  { value: "clone_2", label: "Clone 2" },
+  { value: "TODO", label: "TODO" },
 ];
 
 export const ANTIBODIES_PROPERTIES: Record<
@@ -65,21 +79,123 @@ export const ANTIBODIES_PROPERTIES: Record<
     clones: Option<AntibodyClone>[];
   }
 > = {
-  "P504S/P63": { label: "P504S/P63", clones: MOCK_CLONES },
-  P63: { label: "P63", clones: MOCK_CLONES },
-  BCC: { label: "BCC", clones: MOCK_CLONES },
-  "CK5/6": { label: "CK5/6", clones: MOCK_CLONES },
-  CK903: { label: "CK903", clones: MOCK_CLONES },
-  "CK14/CK15": { label: "CK14/CK15", clones: MOCK_CLONES },
-  P504S: { label: "P504S", clones: MOCK_CLONES },
-  PSA: { label: "PSA", clones: MOCK_CLONES },
+  "P504S/P63": {
+    label: "P504S/P63",
+    clones: [
+      {
+        value: "M-13H4",
+        label: "M-13H4",
+      },
+      {
+        value: "M-4A4",
+        label: "M-4A4",
+      },
+    ],
+  },
+  P63: {
+    label: "P63",
+    clones: [
+      {
+        value: "M-4A4",
+        label: "M-4A4",
+      },
+    ],
+  },
+  // FIXME: un-mock (missing in the spec)
+  BCC: {
+    label: "BCC",
+    clones: MOCK_CLONES,
+  },
+  "CK5/6": {
+    label: "CK5/6",
+    clones: [
+      {
+        value: "M-D5/16B4",
+        label: "M-D5/16B4",
+      },
+    ],
+  },
+  // FIXME: un-mock (missing in the spec)
+  CK903: {
+    label: "CK903",
+    clones: MOCK_CLONES,
+  },
+  "CK14/CK15": {
+    label: "CK14/CK15",
+    clones: [
+      {
+        value: "SP53",
+        label: "SP53",
+      },
+    ],
+  },
+  P504S: {
+    label: "P504S",
+    clones: [
+      {
+        value: "M-13H4",
+        label: "M-13H4",
+      },
+    ],
+  },
+  PSA: {
+    label: "PSA",
+    clones: [
+      {
+        value: "polyclonal-ventana",
+        label: "Polyclonal (Ventana)",
+      },
+    ],
+  },
+  // FIXME: un-mock (missing in the spec)
   PSAP: { label: "PSAP", clones: MOCK_CLONES },
-  "NKX3.1": { label: "NKX3.1", clones: MOCK_CLONES },
+  "NKX3.1": {
+    label: "NKX3.1",
+    clones: [
+      {
+        value: "EP356",
+        label: "EP356",
+      },
+    ],
+  },
+  // FIXME: un-mock (missing in the spec)
   RA: { label: "RA", clones: MOCK_CLONES },
-  CK7: { label: "CK7", clones: MOCK_CLONES },
-  CK20: { label: "CK20", clones: MOCK_CLONES },
-  GATA3: { label: "GATA3", clones: MOCK_CLONES },
-  ERG: { label: "ERG", clones: MOCK_CLONES },
+  CK7: {
+    label: "CK7",
+    clones: [
+      {
+        value: "M-SP52",
+        label: "M-SP52",
+      },
+    ],
+  },
+  CK20: {
+    label: "CK20",
+    clones: [
+      {
+        value: "M-SP33",
+        label: "M-SP33",
+      },
+    ],
+  },
+  GATA3: {
+    label: "GATA3",
+    clones: [
+      {
+        value: "M-L50-823",
+        label: "M-L50-823",
+      },
+    ],
+  },
+  ERG: {
+    label: "ERG",
+    clones: [
+      {
+        value: "M-EP111",
+        label: "M-EP111",
+      },
+    ],
+  },
 };
 
 export const getAntibodyLabel = (type: Antibody | "other") => {
