@@ -72,8 +72,6 @@ export type FormId = keyof typeof FORMS;
 // CAUTION: this cast os type-unsafe
 export const FORM_IDS = Object.keys(FORMS) as FormId[];
 
-export const isFormId = (value: string): value is FormId => value in FORMS;
-
 const PROPS_BY_CATEGORY: Record<
   Category,
   { label: string; imagePath: string }

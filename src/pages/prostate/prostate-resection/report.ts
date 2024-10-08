@@ -1,4 +1,4 @@
-import { getSelectedItems } from "../../../ui/SelectList";
+import { getSelectedOptions } from "../../../ui/SelectList";
 import { getFormTitle } from "../../../ui/helpers/forms";
 import { assertUnreachable } from "../../../ui/helpers/helpers";
 import { toYesNo } from "../../../ui/helpers/options";
@@ -112,7 +112,7 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
 };
 
 const getOtherLesionsSection = (form: ReportParams, language: Language) => {
-  const selectedItems = getSelectedItems({
+  const selectedItems = getSelectedOptions({
     value: form.otherLesions,
     groups: OTHER_LESION_GROUPS,
   });

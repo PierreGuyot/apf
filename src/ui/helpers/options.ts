@@ -10,7 +10,7 @@ export type Option<T extends OptionValue> = {
 
 export type OptionGroup<T extends OptionValue> = {
   readonly title: string;
-  readonly items: Option<T>[];
+  readonly options: Option<T>[];
 };
 
 export const YES_NO_OPTIONS: Option<boolean>[] = [

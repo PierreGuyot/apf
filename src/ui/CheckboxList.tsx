@@ -7,16 +7,16 @@ import { Language, translate } from "./language";
 type Props<T extends OptionValue> = {
   language: Language;
   title?: string;
+  options: Option<T>[];
   values: T[];
-  items: Option<T>[];
-  onChange: (value: T[]) => void;
+  onChange: (values: T[]) => void;
 };
 
 export function CheckboxList<T extends OptionValue>({
   language,
   title,
   values,
-  items,
+  options,
   onChange: _onChange,
 }: Props<T>) {
   const valueSet = useMemo(() => new Set(values), [values]);
@@ -26,7 +26,7 @@ export function CheckboxList<T extends OptionValue>({
       {title ? (
         <div className="checkbox-list-title">{translate(title, language)}</div>
       ) : undefined}
-      {items.map((item) => {
+      {options.map((item) => {
         const isChecked = valueSet.has(item.value);
 
         const onChange = () => {

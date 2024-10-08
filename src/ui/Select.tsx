@@ -17,7 +17,7 @@ type Props<T extends OptionValue> = FieldProps<T> & {
 function isGroupedOptions<T extends OptionValue>(
   options: Props<T>["options"],
 ): options is OptionGroup<T>[] {
-  return "items" in options[0];
+  return "options" in options[0];
 }
 
 export function Select<T extends OptionValue>({
@@ -35,7 +35,7 @@ export function Select<T extends OptionValue>({
   const flatOptions = useMemo(
     (): Option<T>[] =>
       isGroupedOptions(_options)
-        ? _options.flatMap((group) => group.items)
+        ? _options.flatMap((group) => group.options)
         : _options,
     [_options],
   );
@@ -91,7 +91,7 @@ export function Select<T extends OptionValue>({
                 key={group.title}
                 label={translate(group.title, language)}
               >
-                {group.items.map(renderOption)}
+                {group.options.map(renderOption)}
               </optgroup>
             ))
           : _options.map(renderOption)}

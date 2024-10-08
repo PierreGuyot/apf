@@ -10,9 +10,9 @@ import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import "./select-list.css";
 import { Label } from "./Label";
 
-type ItemGroup<T extends OptionValue> = {
+export type ItemGroup<T extends OptionValue> = {
   title: string;
-  items: Option<T>[];
+  options: Option<T>[];
 };
 
 type Props<T extends OptionValue> = FieldProps<T[]> & {
@@ -23,7 +23,7 @@ type Props<T extends OptionValue> = FieldProps<T[]> & {
   groups: ItemGroup<T>[];
 };
 
-export function getSelectedItems<T extends OptionValue>({
+export function getSelectedOptions<T extends OptionValue>({
   groups,
   value,
 }: {
@@ -31,7 +31,7 @@ export function getSelectedItems<T extends OptionValue>({
   value: T[];
 }) {
   return groups
-    .flatMap((group) => group.items)
+    .flatMap((group) => group.options)
     .filter((item) => value.includes(item.value));
 }
 
@@ -45,7 +45,7 @@ export function SelectList<T extends OptionValue>({
   isReadOnly,
   onChange,
 }: Props<T>) {
-  const selectedItems = getSelectedItems({ groups, value });
+  const selectedOptions = getSelectedOptions({ groups, value });
 
   // Internal state of the tooltip
   const [state, setState] = useState<T[]>(value);
@@ -54,8 +54,8 @@ export function SelectList<T extends OptionValue>({
   const onCommit = () => onChange(state);
 
   if (isReadOnly) {
-    return selectedItems
-      .map((item) => translate(item.label, language))
+    return selectedOptions
+      .map((option) => translate(option.label, language))
       .join(" + ");
   }
 
@@ -73,7 +73,7 @@ export function SelectList<T extends OptionValue>({
                 language={language}
                 key={group.title}
                 title={group.title}
-                items={group.items}
+                options={group.options}
                 values={state}
                 onChange={setState}
               />
@@ -86,13 +86,13 @@ export function SelectList<T extends OptionValue>({
       </Tooltip>
       {hasList ? (
         <>
-          {selectedItems.map((item) => (
+          {selectedOptions.map((item) => (
             <Pill
               key={String(item.value)}
               label={translate(item.label, language)}
             />
           ))}
-          {selectedItems.length ? undefined : (
+          {selectedOptions.length ? undefined : (
             <div className="select-list-empty-state">{emptyState}</div>
           )}
         </>

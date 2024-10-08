@@ -1,4 +1,5 @@
-.code {
+.inline-code {
   font-size: 0.9rem;
   font-weight: bold;
+  display: inline-block;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Code } from "./Code";
+import { InlineCode } from "./InlineCode";
 import { Label } from "./Label";
 import { clamp, join } from "./helpers/helpers";
 import "./input-number.css";
@@ -116,7 +116,7 @@ export const InputNumber = ({
             onBlur={onBlur}
             onInput={onInput}
           />
-          {unit ? <Code>{getUnitLabel(unit)}</Code> : undefined}
+          {unit ? <InlineCode>{getUnitLabel(unit)}</InlineCode> : undefined}
         </>
       )}
     </>

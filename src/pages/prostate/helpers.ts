@@ -99,11 +99,11 @@ const OTHER_LESION_TYPES_BENIGN: Array<
 export const OTHER_LESION_GROUPS = [
   {
     title: "Lésions tumorales précancéreuses",
-    items: OTHER_LESION_TYPES_PRECANCEROUS,
+    options: OTHER_LESION_TYPES_PRECANCEROUS,
   },
   {
     title: "Lésions tumorales bégnines",
-    items: OTHER_LESION_TYPES_BENIGN,
+    options: OTHER_LESION_TYPES_BENIGN,
   },
 ];
 
@@ -204,15 +204,18 @@ export type TumorType =
 
 export const TUMOR_TYPES: Array<{
   title: string;
-  items: OptionWithGleasonScore<TumorType>[];
+  options: OptionWithGleasonScore<TumorType>[];
 }> = [
-  { title: "Glandulaire", items: TUMOR_TYPES_GLANDULAR },
-  { title: "Épidermoïde", items: TUMOR_TYPES_EPIDERMOID },
-  { title: "Neuroendocrine", items: TUMOR_TYPES_NEUROENDOCRINE },
+  { title: "Glandulaire", options: TUMOR_TYPES_GLANDULAR },
+  { title: "Épidermoïde", options: TUMOR_TYPES_EPIDERMOID },
+  { title: "Neuroendocrine", options: TUMOR_TYPES_NEUROENDOCRINE },
 ];
 
 const flatTumorTypes = Object.fromEntries(
-  TUMOR_TYPES.flatMap((group) => group.items).map((item) => [item.value, item]),
+  TUMOR_TYPES.flatMap((group) => group.options).map((option) => [
+    option.value,
+    option,
+  ]),
 );
 export const getTumorTypeOption = (tumorType: TumorType) => {
   const match = flatTumorTypes[tumorType];
@@ -278,11 +281,11 @@ const CONCLUSIONS_ORIGIN = [
 export const PROSTATE_ANTIBODY_GROUPS = [
   {
     title: "Anticorps composés",
-    items: [{ value: "P504S/P63" as const, label: "P504S/P63" }],
+    options: [{ value: "P504S/P63" as const, label: "P504S/P63" }],
   },
   {
     title: "Anticorps des cellules basales",
-    items: [
+    options: [
       { value: "P63" as const, label: "P63" },
       { value: "CK5/6" as const, label: "CK5/6" },
       { value: "CK903" as const, label: "CK903" },
@@ -291,11 +294,11 @@ export const PROSTATE_ANTIBODY_GROUPS = [
   },
   {
     title: "Anticorps des cellules néoplasiques prostatiques",
-    items: [{ value: "P504S" as const, label: "P504S" }],
+    options: [{ value: "P504S" as const, label: "P504S" }],
   },
   {
     title: "Anticorps d'origine prostatique",
-    items: [
+    options: [
       { value: "PSA" as const, label: "PSA" },
       { value: "PSAP" as const, label: "PSAP" },
       { value: "NKX3.1" as const, label: "NKX3.1" },
@@ -304,7 +307,7 @@ export const PROSTATE_ANTIBODY_GROUPS = [
   },
   {
     title: "Anticorps d'origine vésicale",
-    items: [
+    options: [
       { value: "CK7" as const, label: "CK7" },
       { value: "CK20" as const, label: "CK20" },
       { value: "GATA3" as const, label: "GATA3" },
@@ -312,7 +315,7 @@ export const PROSTATE_ANTIBODY_GROUPS = [
   },
   {
     title: "Anticorps pronostiques",
-    items: [{ value: "ERG" as const, label: "ERG" }],
+    options: [{ value: "ERG" as const, label: "ERG" }],
   },
 ] satisfies AntibodyGroup[];
 

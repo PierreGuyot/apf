@@ -23,7 +23,7 @@ export const INKING_COLORS_OPTIONS: Option<InkingColor>[] = [
 export const INKING_COLOR_GROUPS = [
   {
     title: "", // TODO clean: fix API
-    items: INKING_COLORS_OPTIONS,
+    options: INKING_COLORS_OPTIONS,
   },
 ];
 export const getInkingColorOption = findOption(INKING_COLORS_OPTIONS);

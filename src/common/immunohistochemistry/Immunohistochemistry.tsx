@@ -112,7 +112,7 @@ export const Immunohistochemistry = ({
     () => [
       {
         title: "", // TODO clean: fix API
-        items: blockOptions,
+        options: blockOptions,
       },
     ],
     [blockOptions],
@@ -186,8 +186,8 @@ const BlockSection = ({
     const oldSet = new Set(selectedAntibodies);
     const newSet = new Set(newSelection);
 
-    for (const { items } of groups) {
-      for (const { value } of items) {
+    for (const { options } of groups) {
+      for (const { value } of options) {
         // Value has been added
         if (!oldSet.has(value) && newSet.has(value)) {
           updatedMap.set(
@@ -212,7 +212,7 @@ const BlockSection = ({
       ...antibodyGroups,
       {
         title: "Autre",
-        items: [{ value: "other" as const, label: "Autre" }],
+        options: [{ value: "other" as const, label: "Autre" }],
       },
     ],
     [antibodyGroups],

@@ -2,14 +2,13 @@ import "./button.css";
 import { join } from "./helpers/helpers";
 
 type Props = {
-  className?: string;
   label: string;
   onClick: () => void;
 };
 
-export const Button = ({ className, label, onClick }: Props) => {
+export const Button = ({ label, onClick }: Props) => {
   return (
-    <button className={join("button", className)} onClick={onClick}>
+    <button className={join("button")} onClick={onClick}>
       {label}
     </button>
   );

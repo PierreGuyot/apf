@@ -1,16 +1,18 @@
 import { MainList } from "./MainList";
+import { DesignPage } from "./pages/_PageDesign";
 import { DermatologyForm } from "./pages/dermatology/DermatologyForm";
 import { ProstateBiopsyForm } from "./pages/prostate/prostate-biopsy/ProstateBiopsyForm";
 import { ProstateResectionForm } from "./pages/prostate/prostate-resection/ProstateResectionForm";
-import { isFormId } from "./ui/helpers/forms";
 import { assertUnreachable } from "./ui/helpers/helpers";
-import { useHash } from "./ui/helpers/navigation";
+import { INDEX_ROUTE, isRoute, useHash } from "./ui/helpers/navigation";
 
 export const App = () => {
   const { hash: rawHash } = useHash();
-  const hash = isFormId(rawHash) ? rawHash : undefined;
+  const hash = isRoute(rawHash) ? rawHash : INDEX_ROUTE;
 
   switch (hash) {
+    // Forms
+
     case "dermatology":
       return <DermatologyForm />;
 
@@ -30,8 +32,13 @@ export const App = () => {
         <ProstateResectionForm formId="prostate-holmium-laser-enucleation" />
       );
 
-    case undefined:
+    // Home page
+    case "":
       return <MainList />;
+
+    // Internal pages
+    case "_design":
+      return <DesignPage />;
 
     default:
       return assertUnreachable(hash);
