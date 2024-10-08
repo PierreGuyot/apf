@@ -10,13 +10,20 @@ export type Block = {
   antibodies: AntibodyData[];
 };
 
-export type AntibodyData =
-  | {
-      type: Antibody;
-      clone: AntibodyClone;
-      result: string;
-    }
-  | OtherAntibody;
+export type StandardAntibody = {
+  type: Antibody;
+  clone: AntibodyClone;
+  result: string;
+};
+
+export type OtherAntibody = {
+  type: "other";
+  name: string;
+  clone: string;
+  result: string;
+};
+
+export type AntibodyData = StandardAntibody | OtherAntibody;
 
 // FIXME: translate
 export type Antibody =
@@ -59,13 +66,6 @@ export type AntibodyClone =
 
   // Mocks
   | "TODO";
-
-export type OtherAntibody = {
-  type: "other";
-  name: string;
-  clone: string;
-  result: string;
-};
 
 // FIXME: un-mock
 const MOCK_CLONES: Option<AntibodyClone>[] = [{ value: "TODO", label: "TODO" }];
