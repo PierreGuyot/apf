@@ -82,7 +82,7 @@ export function SelectList<T extends OptionValue>({
         }
         onClose={onCommit}
       >
-        <Button label="+" onClick={noop} />
+        <Button _className={"select-list-button"} label="+" onClick={noop} />
       </Tooltip>
       {hasList ? (
         <>
