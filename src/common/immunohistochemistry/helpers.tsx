@@ -58,7 +58,7 @@ export type AntibodyClone =
   | "M-EP111"
 
   // Mocks
-  | "TODO"
+  | "TODO";
 
 export type OtherAntibody = {
   type: "other";
@@ -68,9 +68,7 @@ export type OtherAntibody = {
 };
 
 // FIXME: un-mock
-const MOCK_CLONES: Option<AntibodyClone>[] = [
-  { value: "TODO", label: "TODO" },
-];
+const MOCK_CLONES: Option<AntibodyClone>[] = [{ value: "TODO", label: "TODO" }];
 
 export const ANTIBODIES_PROPERTIES: Record<
   Antibody,

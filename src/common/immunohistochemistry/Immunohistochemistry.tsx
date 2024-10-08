@@ -221,34 +221,37 @@ const BlockSection = ({
   return (
     <>
       <SubSection title={`Bloc ${block.index}`}>
-        <Line>
-          Quels sont les anticorps utilisés ?
-          <SelectList
-            groups={groups}
-            value={selectedAntibodies}
-            hasList={false}
-            onChange={onSelectAntibodies}
-          />
-        </Line>
-        {antibodies.map((antibody, index) => {
-          const setAntibody = (value: AntibodyData) => {
-            const updatedAntibodies = patchArray(
-              antibodies,
-              index,
-              () => value,
-            );
-            setField("antibodies")(updatedAntibodies);
-          };
-
-          return (
-            <AntibodySection
-              key={index}
-              properties={properties}
-              state={antibody}
-              setState={setAntibody}
+        {/* TODO clean: extract clean `Spacing` component with t-shirt sizes (`sm`, `md`, etc.) */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <Line>
+            Quels sont les anticorps utilisés ?
+            <SelectList
+              groups={groups}
+              value={selectedAntibodies}
+              hasList={false}
+              onChange={onSelectAntibodies}
             />
-          );
-        })}
+          </Line>
+          {antibodies.map((antibody, index) => {
+            const setAntibody = (value: AntibodyData) => {
+              const updatedAntibodies = patchArray(
+                antibodies,
+                index,
+                () => value,
+              );
+              setField("antibodies")(updatedAntibodies);
+            };
+
+            return (
+              <AntibodySection
+                key={index}
+                properties={properties}
+                state={antibody}
+                setState={setAntibody}
+              />
+            );
+          })}
+        </div>
       </SubSection>
     </>
   );

@@ -7,12 +7,14 @@ import { useBoolean } from "./helpers/state";
 
 type Props = InputProps<string> & {
   placeholder?: string;
+  labelSize?: "sm" | "md";
   isFullWidth?: boolean;
 };
 
 export const InputText = ({
   value,
   label,
+  labelSize = "md",
   placeholder,
   isFullWidth,
   errorMessage,
@@ -29,7 +31,13 @@ export const InputText = ({
   };
 
   return (
-    <div className="input-text-container">
+    /* TODO clean: extract label style */
+    <div
+      className={join(
+        "input-text-container",
+        `input-text-container--${labelSize}`,
+      )}
+    >
       {label ? <Label label={label} /> : undefined}
       {isReadOnly ? (
         value

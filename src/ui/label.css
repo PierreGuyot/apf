@@ -2,3 +2,8 @@
   margin-bottom: 0.4em;
   font-weight: bold;
 }
+
+.label {
+  /* Extract this to a `Text` component (as a `shouldWrap` prop) */
+  white-space: nowrap;
+}

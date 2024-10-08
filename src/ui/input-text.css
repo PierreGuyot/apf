@@ -4,6 +4,11 @@
   gap: 0.5rem;
 }
 
+/* TODO clean: extract label style */
+.input-text-container--sm {
+  font-size: 0.9rem;
+}
+
 .input-text {
   /* Reset style */
   padding: 0;

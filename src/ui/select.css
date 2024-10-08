@@ -2,8 +2,11 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  height: 1rem;
-  line-height: 1rem;
+}
+
+/* TODO clean: extract label style */
+.select-container--sm {
+  font-size: 0.9rem;
 }
 
 .select {

@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { anId } from "./helpers/helpers";
+import { anId, join } from "./helpers/helpers";
 import { Option, OptionGroup, OptionValue } from "./helpers/options";
 
 import { FieldProps } from "./helpers/fields";
@@ -11,6 +11,7 @@ type Props<T extends OptionValue> = FieldProps<T> & {
   options: Option<T>[] | OptionGroup<T>[];
   name: string;
   label?: string; // TODO clean: consider using label as name
+  labelSize?: "sm" | "md";
 };
 
 function isGroupedOptions<T extends OptionValue>(
@@ -25,6 +26,7 @@ export function Select<T extends OptionValue>({
   options: _options,
   name,
   label,
+  labelSize = "md",
   isReadOnly,
   onChange: _onChange,
 }: Props<T>) {
@@ -71,7 +73,8 @@ export function Select<T extends OptionValue>({
   }
 
   return (
-    <div className="select-container">
+    // TODO clean: extract label style
+    <div className={join("select-container", `select-container--${labelSize}`)}>
       {/* TODO clean: replace with Label */}
       {/* TODO clean: translate label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
