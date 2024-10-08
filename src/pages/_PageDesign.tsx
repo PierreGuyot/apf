@@ -13,6 +13,7 @@ import { InputNumber } from "../ui/InputNumber";
 import { InputText } from "../ui/InputText";
 import { InputTextArea } from "../ui/InputTextArea";
 import { Label } from "../ui/Label";
+import { DICTIONARY_EN, Language } from "../ui/language";
 import { Page } from "../ui/Page";
 import { Pill } from "../ui/Pill";
 import { Select } from "../ui/Select";
@@ -117,7 +118,7 @@ export const DesignPage = () => {
          *   - SubSection
          */}
 
-        {/* TODO design-system: add translation section */}
+        <EntryTranslation />
       </div>
     </Page>
   );
@@ -560,6 +561,36 @@ const EntryYesOrNo = () => {
       <div>
         EN: <YesOrNo value={true} language="EN" />{" "}
         <YesOrNo value={false} language="EN" />
+      </div>
+    </DocumentationEntry>
+  );
+};
+
+const EntryTranslation = () => {
+  type Row = Record<Language, string>;
+  const rows: Row[] = Object.keys(DICTIONARY_EN)
+    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+    .map((key) => ({ FR: key, EN: DICTIONARY_EN[key] }));
+
+  const COLUMNS: Column<Row>[] = [
+    {
+      label: "FR",
+      key: "FR",
+      alignment: "left",
+      render: (row) => <div>{row.FR}</div>,
+    },
+    {
+      label: "EN",
+      key: "EN",
+      alignment: "left",
+      render: (row) => <div>{row.EN}</div>,
+    },
+  ];
+
+  return (
+    <DocumentationEntry name="Translation">
+      <div>
+        <Table columns={COLUMNS} rows={rows} onChange={noop} />
       </div>
     </DocumentationEntry>
   );

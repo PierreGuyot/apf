@@ -1,11 +1,13 @@
-export type Language = "FR" | "EN";
+export const LANGUAGES = ["FR", "EN"] as const;
+
+export type Language = (typeof LANGUAGES)[number];
 export const DEFAULT_LANGUAGE = "FR" satisfies Language;
 
 // TODO clean: have a refactoring pass on internationalization
 
 export const COLON_CHARACTER = " :";
 
-const DICTIONARY_EN: Record<string, string> = {
+export const DICTIONARY_EN: Record<string, string> = {
   // Special characters
   [COLON_CHARACTER]: ":",
 

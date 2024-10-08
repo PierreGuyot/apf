@@ -26,7 +26,7 @@ export type Column<Row> = DistributeColumns<Row, keyof Row>;
 
 type Props<Row> = {
   columns: Column<Row>[];
-  visibleRowCount: number;
+  visibleRowCount?: number;
   rows: Row[];
   header?: () => ReactNode;
   hasFooter?: boolean;
