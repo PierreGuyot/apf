@@ -5,6 +5,7 @@ type Props = {
   label: string;
   isChecked: boolean;
   onChange: () => void;
+  // TODO clean: handle isReadOnly prop
 };
 
 export const Checkbox = ({ label, isChecked, onChange }: Props) => {

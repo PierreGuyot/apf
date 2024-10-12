@@ -2,6 +2,13 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  width: fit-content;
+
+  input {
+    margin: initial;
+    /* TODO clean: mutualize style with InputText */
+    margin-right: 0.5rem;
+  }
 }
 
 /* TODO clean: extract as label style  */

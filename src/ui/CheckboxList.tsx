@@ -10,6 +10,7 @@ type Props<T extends OptionValue> = {
   options: Option<T>[];
   values: T[];
   onChange: (values: T[]) => void;
+  // TODO clean: handle isReadOnly prop
 };
 
 export function CheckboxList<T extends OptionValue>({
@@ -24,6 +25,7 @@ export function CheckboxList<T extends OptionValue>({
   return (
     <div>
       {title ? (
+        // TODO clean: use Label component
         <div className="checkbox-list-title">{translate(title, language)}</div>
       ) : undefined}
       {options.map((item) => {

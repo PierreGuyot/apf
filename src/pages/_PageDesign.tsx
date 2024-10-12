@@ -26,11 +26,11 @@ import { Title } from "../ui/Title";
 import { Tooltip } from "../ui/Tooltip";
 import { ValidationErrors } from "../ui/ValidationErrors";
 import { YesOrNo } from "../ui/YesOrNo";
+import { aMessage } from "../ui/helpers/mock";
 
-// TODO design-system: test readonly cases for inputs
-// TODO design-system: handle max width
-// TODO design-system: make SelectList button blue
-// TODO design-system: use CSS modules for all components
+// TODO clean: test readonly cases for inputs
+// TODO clean: make SelectList button blue
+// TODO clean: use CSS modules for all components
 
 // Fixtures
 
@@ -80,6 +80,7 @@ export const DesignPage = () => {
           display: "flex",
           flexDirection: "column",
           gap: px(32),
+          maxWidth: "850px",
         }}
       >
         {/* Inputs */}
@@ -108,10 +109,10 @@ export const DesignPage = () => {
         <EntryTooltip />
         <EntryValidationErrors />
         <EntryYesOrNo />
-        {/* TODO design-system: add Spacing component */}
-        {/* TODO design-system: add Text component */}
+        {/* TODO clean: add Spacing component */}
+        {/* TODO clean: add Text component */}
 
-        {/* TODO design-system: add a layout section using:
+        {/* TODO clean: add a layout section using:
          *   - Item
          *   - Line
          *   - NestedItem
@@ -163,7 +164,20 @@ const EntryInputText = () => {
   return (
     <DocumentationEntry name="InputText">
       <Todo />
-      <InputText label="An optional label" value={value} onChange={setValue} />
+      <InputText label="An example input" value={value} onChange={setValue} />
+      <InputText
+        isFullWidth
+        label="A full-width input"
+        value={value}
+        onChange={setValue}
+      />
+      {/* TODO clean: fix style */}
+      <InputText
+        isReadOnly
+        label="A read-only input"
+        value={"A read-only value"}
+        onChange={setValue}
+      />
     </DocumentationEntry>
   );
 };
@@ -174,10 +188,12 @@ const EntryInputNumber = () => {
   return (
     <DocumentationEntry name="InputNumber">
       <Todo />
+      <InputNumber label="An example input" value={value} onChange={setValue} />
       <InputNumber
-        label="An optional label"
-        value={value}
-        onChange={setValue}
+        label="A read-only input"
+        isReadOnly
+        value={0}
+        onChange={noop}
       />
     </DocumentationEntry>
   );
@@ -187,76 +203,91 @@ const EntryInputTextArea = () => {
   const [value, setValue] = useState<string>("");
 
   return (
-    <DocumentationEntry name="InputText">
+    <DocumentationEntry name="InputTextArea">
       <Todo />
       <InputTextArea
-        label="An optional label"
+        label="An example text area"
         value={value}
         onChange={setValue}
+      />
+      <InputTextArea
+        label="A read-only text area"
+        isReadOnly
+        value={aMessage()}
+        onChange={noop}
       />
     </DocumentationEntry>
   );
 };
 
 const EntrySelect = () => {
-  const [value, setValue] = useState<Value>("option-a");
+  const [value1, setValue1] = useState<Value>("option-a");
+  const [value2, setValue2] = useState<Value>("option-a");
 
   return (
     <DocumentationEntry name="Select">
       <Todo />
       <Select
         name="Name of the label"
-        label="On optional label"
+        label="An example dropdown menu"
         options={MOCK_OPTIONS}
-        value={value}
-        onChange={setValue}
+        value={value1}
+        onChange={setValue1}
       />
-      <div>
-        The <InlineCode>Select</InlineCode> component can also take grouped
-        options:
-      </div>
       <Select
         name="Name of the label"
-        label="On optional label"
+        label="A dropdown menu with grouped options"
         options={MOCK_GROUPS}
-        value={value}
-        onChange={setValue}
+        value={value2}
+        onChange={setValue2}
+      />
+      <Select
+        name="Name of the label"
+        label="A read-only dropdown menu"
+        options={MOCK_OPTIONS}
+        isReadOnly
+        value={"option-a"}
+        onChange={noop}
       />
     </DocumentationEntry>
   );
 };
 
 const EntrySelectList = () => {
-  const [values, setValues] = useState<Value[]>([]);
+  const [values1, setValues1] = useState<Value[]>([]);
+  const [values2, setValues2] = useState<Value[]>([]);
 
   return (
     <DocumentationEntry name="SelectList">
       <Todo />
       <SelectList
-        label="An optional label"
+        label="An example list selection"
         groups={MOCK_GROUPS}
-        value={values}
-        onChange={setValues}
-      />
-
-      <div>The list of selected items can be hidden for customization.</div>
-      <SelectList
-        label="An optional label"
-        hasList={false}
-        groups={MOCK_GROUPS}
-        value={values}
-        onChange={setValues}
+        value={values1}
+        onChange={setValues1}
       />
 
       <div>
-        The read-only version (controlled by the{" "}
-        <InlineCode>isReadOnly</InlineCode> prop) doesn't display its label:
+        <SelectList
+          label="A list selection with custom items"
+          hasList={false}
+          groups={MOCK_GROUPS}
+          value={values2}
+          onChange={setValues2}
+        />
+        <ul>
+          {values2.map((value) => (
+            <li>{value}</li>
+          ))}
+        </ul>
       </div>
+
       <SelectList
         groups={MOCK_GROUPS}
+        label="A read-only list selection"
         isReadOnly
-        value={values}
-        onChange={setValues}
+        value={["option-e", "option-d", "option-a"]}
+        onChange={noop}
       />
     </DocumentationEntry>
   );
@@ -268,14 +299,22 @@ const EntrySelectNumber = () => {
   return (
     <DocumentationEntry name="SelectNumber">
       <Todo />
-
       <div>
         The <InlineCode>max</InlineCode> prop is mandatory by design.
       </div>
       <SelectNumber
         name="Name of the label"
+        label="An example number selection"
         max={5}
         value={value}
+        onChange={onChange}
+      />
+      <SelectNumber
+        isReadOnly
+        name="Name of the label"
+        label="A read-only number selection"
+        max={5}
+        value={3}
         onChange={onChange}
       />
     </DocumentationEntry>
@@ -381,7 +420,34 @@ const EntryLabel = () => {
   return (
     <DocumentationEntry name="Label">
       <Todo />
-      <Label label="A label" />
+      {/* TODO clean: extract these styles (see InputText) */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+        }}
+      >
+        <Label label="An inline label" />
+        <div
+          style={{
+            backgroundColor: "palegoldenrod",
+            height: "40px",
+            width: "200px",
+          }}
+        />
+      </div>
+
+      <div>
+        <Label label="A label" placement="above" />
+        <div
+          style={{
+            backgroundColor: "palegoldenrod",
+            height: "40px",
+            width: "200px",
+          }}
+        />
+      </div>
     </DocumentationEntry>
   );
 };

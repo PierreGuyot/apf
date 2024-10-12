@@ -28,7 +28,7 @@ export const Summary = ({ getContent, getTable }: Props) => {
     <>
       <Section title="Compte-rendu">
         <div className="summary-buttons">
-          {/* TODO design-system: have a grey variant here */}
+          {/* TODO clean: have a grey variant here */}
           <Select
             name="Language selection"
             label="Langue :"

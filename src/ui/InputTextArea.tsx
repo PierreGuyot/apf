@@ -35,7 +35,7 @@ export const InputTextArea = ({
   };
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       {label ? <Label label={label} placement="above" /> : undefined}
       {isReadOnly ? (
         value
@@ -54,6 +54,6 @@ export const InputTextArea = ({
           ) : undefined}
         </>
       )}
-    </>
+    </div>
   );
 };

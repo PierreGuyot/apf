@@ -2,16 +2,18 @@ import { useCallback, useMemo } from "react";
 import { anId, join } from "./helpers/helpers";
 import { Option, OptionGroup, OptionValue } from "./helpers/options";
 
-import { FieldProps } from "./helpers/fields";
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import "./select.css";
 
-type Props<T extends OptionValue> = FieldProps<T> & {
+type Props<T extends OptionValue> = {
   language?: Language;
   options: Option<T>[] | OptionGroup<T>[];
   name: string;
   label?: string; // TODO clean: consider using label as name
   labelSize?: "sm" | "md";
+  value: T;
+  onChange: (value: T) => void;
+  isReadOnly?: boolean;
 };
 
 function isGroupedOptions<T extends OptionValue>(
@@ -57,27 +59,23 @@ export function Select<T extends OptionValue>({
     [language],
   );
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const rawValue = e.target.value;
-    const { value } = optionsByValue[String(rawValue)];
-    _onChange(value);
-  };
+  const content = useMemo(() => {
+    if (isReadOnly) {
+      const match = flatOptions.find((option) => option.value === value);
+      if (!match) {
+        throw new Error("Invalid value");
+      }
 
-  if (isReadOnly) {
-    const match = flatOptions.find((option) => option.value === value);
-    if (!match) {
-      throw new Error("Invalid value");
+      return translate(match.label, language);
     }
 
-    return translate(match.label, language);
-  }
+    const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const rawValue = e.target.value;
+      const { value } = optionsByValue[String(rawValue)];
+      _onChange(value);
+    };
 
-  return (
-    // TODO clean: extract label style
-    <div className={join("select-container", `select-container--${labelSize}`)}>
-      {/* TODO clean: replace with Label */}
-      {/* TODO clean: translate label */}
-      {label ? <label htmlFor={id}>{label}</label> : undefined}
+    return (
       <select
         className="select"
         value={String(value)}
@@ -96,6 +94,27 @@ export function Select<T extends OptionValue>({
             ))
           : _options.map(renderOption)}
       </select>
+    );
+  }, [
+    _onChange,
+    optionsByValue,
+    _options,
+    flatOptions,
+    id,
+    isReadOnly,
+    language,
+    name,
+    renderOption,
+    value,
+  ]);
+
+  return (
+    // TODO clean: mutualize style with InputText
+    <div className={join("select-container", `select-container--${labelSize}`)}>
+      {/* TODO clean: replace with Label */}
+      {/* TODO clean: translate label */}
+      {label ? <label htmlFor={id}>{label}</label> : undefined}
+      {content}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "./Button";
 import { CheckboxList } from "./CheckboxList";
 import { Pill } from "./Pill";
@@ -45,58 +45,74 @@ export function SelectList<T extends OptionValue>({
   isReadOnly,
   onChange,
 }: Props<T>) {
-  const selectedOptions = getSelectedOptions({ groups, value });
-
   // Internal state of the tooltip
   const [state, setState] = useState<T[]>(value);
   useEffect(() => setState(value), [value]);
 
-  const onCommit = () => onChange(state);
+  const content = useMemo(() => {
+    const selectedOptions = getSelectedOptions({ groups, value });
 
-  if (isReadOnly) {
-    return selectedOptions
-      .map((option) => translate(option.label, language))
-      .join(" + ");
-  }
+    if (isReadOnly) {
+      return selectedOptions
+        .map((option) => translate(option.label, language))
+        .join(" + ");
+    }
 
-  // TODO clean: add a label prop?
+    const onCommit = () => onChange(state);
 
-  return (
-    <div className="select-list">
-      {label ? <Label label={label} /> : undefined}
-      <Tooltip
-        mode="click"
-        content={
-          <div className="select-list-tooltip">
-            {groups.map((group) => (
-              <CheckboxList
-                language={language}
-                key={group.title}
-                title={group.title}
-                options={group.options}
-                values={state}
-                onChange={setState}
+    return (
+      <>
+        <Tooltip
+          mode="click"
+          content={
+            <div className="select-list-tooltip">
+              {groups.map((group) => (
+                <CheckboxList
+                  language={language}
+                  key={group.title}
+                  title={group.title}
+                  options={group.options}
+                  values={state}
+                  onChange={setState}
+                />
+              ))}
+            </div>
+          }
+          onClose={onCommit}
+        >
+          <Button _className={"select-list-button"} label="+" onClick={noop} />
+        </Tooltip>
+        {hasList ? (
+          <>
+            {selectedOptions.map((item) => (
+              <Pill
+                key={String(item.value)}
+                label={translate(item.label, language)}
               />
             ))}
-          </div>
-        }
-        onClose={onCommit}
-      >
-        <Button _className={"select-list-button"} label="+" onClick={noop} />
-      </Tooltip>
-      {hasList ? (
-        <>
-          {selectedOptions.map((item) => (
-            <Pill
-              key={String(item.value)}
-              label={translate(item.label, language)}
-            />
-          ))}
-          {selectedOptions.length ? undefined : (
-            <div className="select-list-empty-state">{emptyState}</div>
-          )}
-        </>
-      ) : undefined}
+            {selectedOptions.length ? undefined : (
+              <div className="select-list-empty-state">{emptyState}</div>
+            )}
+          </>
+        ) : undefined}
+      </>
+    );
+  }, [
+    emptyState,
+    groups,
+    hasList,
+    isReadOnly,
+    language,
+    onChange,
+    state,
+    value,
+  ]);
+
+  return (
+    /* TODO clean: mutualize style with InputText */
+    <div className="select-list">
+      {label ? <Label label={label} /> : undefined}
+      {content}
     </div>
   );
 }
