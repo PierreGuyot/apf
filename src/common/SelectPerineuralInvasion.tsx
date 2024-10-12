@@ -1,9 +1,12 @@
 import { Line } from "../ui/Line";
 import { Select } from "../ui/Select";
-import { FieldProps } from "../ui/helpers/fields";
 import { YES_NO_OPTIONS } from "../ui/helpers/options";
 
-type Props = FieldProps<boolean>;
+type Props = {
+  value: boolean;
+  isReadOnly?: boolean; // TODO clean: implement
+  onChange: (value: boolean) => void;
+};
 
 export const SelectPerineuralInvasion = ({ value, onChange }: Props) => (
   <Line>

@@ -127,7 +127,7 @@ export const ProstateBiopsyTable = ({
       alignment: "left",
       render: (row, isReadOnly, onChange) => (
         <CellSize
-          value={row.biopsySize}
+          values={row.biopsySize}
           inputCount={row.biopsySizeInputCount}
           isReadOnly={isReadOnly}
           onChange={onChange}
@@ -157,7 +157,7 @@ export const ProstateBiopsyTable = ({
       isDisabled: (row) => row.tumorCount === 0,
       render: (row, isReadOnly, onChange) => (
         <CellSize
-          value={row.tumorSize}
+          values={row.tumorSize}
           inputCount={row.tumorSizeInputCount}
           isReadOnly={isReadOnly}
           onChange={onChange}

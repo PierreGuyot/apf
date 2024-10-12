@@ -1,19 +1,22 @@
 import { Select } from "../../ui/Select";
-import { FieldProps } from "../../ui/helpers/fields";
 import { filterEmpty, toOption } from "../../ui/helpers/helpers";
 import { Option } from "../../ui/helpers/options";
 import { getPercentageOptions } from "../../ui/helpers/percent";
 import { Language } from "../../ui/language";
 import { GLEASON_SCORES, GleasonItem, GleasonScore } from "./helpers";
 
-import css from "./select-gleason.module.css";
 import { getCribriformPercentageOptions, getGleasonSummary } from "./helpers";
+import css from "./select-gleason.module.css";
 
 const Plus = () => <span>+</span>;
 
 const GLEASON_SCORE_OPTIONS: Option<GleasonScore>[] =
   GLEASON_SCORES.map(toOption);
-const SelectGleasonScore = (props: FieldProps<GleasonScore>) => (
+const SelectGleasonScore = (props: {
+  value: GleasonScore;
+  isReadOnly?: boolean; // TODO clean: implement
+  onChange: (value: GleasonScore) => void;
+}) => (
   <Select name="Gleason score" options={GLEASON_SCORE_OPTIONS} {...props} />
 );
 

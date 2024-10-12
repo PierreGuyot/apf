@@ -1,12 +1,14 @@
 import { Select } from "./Select";
-import { FieldProps } from "./helpers/fields";
 import { range, toOption } from "./helpers/helpers";
 
-type Props = FieldProps<number> & {
+type Props = {
   min?: number;
   max: number;
   name: string;
   label?: string;
+  value: number;
+  isReadOnly?: boolean;
+  onChange: (value: number) => void;
 };
 
 export const SelectNumber = ({ min = 0, max, ...selectProps }: Props) => {

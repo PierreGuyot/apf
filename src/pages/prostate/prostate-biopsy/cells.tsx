@@ -2,7 +2,6 @@ import { Fragment } from "react";
 import { InputNumber } from "../../../ui/InputNumber";
 import { Select } from "../../../ui/Select";
 import { SelectList } from "../../../ui/SelectList";
-import { FieldProps } from "../../../ui/helpers/fields";
 import { join, range } from "../../../ui/helpers/helpers";
 import { YES_NO_OPTIONS } from "../../../ui/helpers/options";
 import { Language } from "../../../ui/language";
@@ -19,26 +18,35 @@ export const CellSelectList = (props: {
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellChoice = Select;
 
-export const CellYesNo = (
-  props: FieldProps<boolean> & { name: string; language?: Language },
-) => <Select options={YES_NO_OPTIONS} {...props} />;
+export const CellYesNo = (props: {
+  name: string;
+  language?: Language;
+  value: boolean;
+  isReadOnly?: boolean;
+  onChange: (value: boolean) => void;
+}) => <Select options={YES_NO_OPTIONS} {...props} />;
 
 const Plus = () => <span>+</span>;
 
 export const CellSize = ({
-  value,
+  values,
   onChange,
   inputCount,
   isReadOnly,
-}: FieldProps<number[]> & { inputCount: number }) => (
+}: {
+  values: number[];
+  isReadOnly?: boolean;
+  onChange: (value: number[]) => void;
+  inputCount: number;
+}) => (
   <div className={join(css.main, css.size)}>
     {range(inputCount).map((_, i) => (
       <Fragment key={i}>
         <InputNumber
-          value={value[i]}
+          value={values[i]}
           isReadOnly={isReadOnly}
           onChange={(updatedNumber) => {
-            const updatedArray = [...value];
+            const updatedArray = [...values];
             updatedArray[i] = updatedNumber;
             onChange(updatedArray);
           }}

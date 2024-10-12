@@ -1,9 +1,11 @@
 import { InputTextArea } from "../ui/InputTextArea";
 import { Section } from "../ui/Section";
-import { FieldProps } from "../ui/helpers/fields";
 
-type Props = FieldProps<string> & {
+type Props = {
   index?: number;
+  value: string;
+  isReadOnly?: boolean; // TODO clean: implement
+  onChange: (value: string) => void;
 };
 
 export const ClinicalInfo = ({ index, value, onChange }: Props) => (

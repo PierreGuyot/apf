@@ -1,12 +1,14 @@
 import { useMemo } from "react";
-import { FieldProps } from "../../../ui/helpers/fields";
 import { Language } from "../../../ui/language";
 import { CellChoice } from "./cells";
 import { getLocationOptions, Location, ProstateBiopsyFormId } from "./helpers";
 
-type Props = FieldProps<Location> & {
+type Props = {
   formId: ProstateBiopsyFormId;
   language?: Language;
+  value: Location;
+  isReadOnly?: boolean;
+  onChange: (value: Location) => void;
 };
 
 export const SelectLocation = ({ formId, ...props }: Props) => {

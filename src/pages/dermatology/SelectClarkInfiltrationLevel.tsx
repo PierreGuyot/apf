@@ -1,9 +1,12 @@
 import { Line } from "../../ui/Line";
 import { Select } from "../../ui/Select";
-import { FieldProps } from "../../ui/helpers/fields";
 import { CLARK_INFILTRATION_LEVELS, ClarkInfiltrationLevel } from "./helpers";
 
-type Props = FieldProps<ClarkInfiltrationLevel>;
+type Props = {
+  value: ClarkInfiltrationLevel;
+  isReadOnly?: boolean; // TODO clean: implement
+  onChange: (value: ClarkInfiltrationLevel) => void;
+};
 
 export const SelectClarkInfiltrationLevel = ({ value, onChange }: Props) => (
   <Line>
