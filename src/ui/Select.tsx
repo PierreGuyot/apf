@@ -14,6 +14,7 @@ type Props<T extends OptionValue> = {
   value: T;
   onChange: (value: T) => void;
   isReadOnly?: boolean;
+  width?: string; // Free string
 };
 
 function isGroupedOptions<T extends OptionValue>(
@@ -31,6 +32,7 @@ export function Select<T extends OptionValue>({
   labelSize = "md",
   isReadOnly,
   onChange: _onChange,
+  width,
 }: Props<T>) {
   const id = useMemo(anId, []);
 
@@ -78,6 +80,7 @@ export function Select<T extends OptionValue>({
     return (
       <select
         className={css.select}
+        style={{ width }}
         value={String(value)}
         name={name}
         id={id}
@@ -106,6 +109,7 @@ export function Select<T extends OptionValue>({
     name,
     renderOption,
     value,
+    width,
   ]);
 
   return (

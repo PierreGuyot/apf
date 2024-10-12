@@ -33,6 +33,8 @@ export const AntibodySection = ({ properties, state, setState }: Props) => {
   return <>{content}</>;
 };
 
+const ANTIBODY_TYPE_WIDTH = "90px";
+
 const AntibodyForm = ({
   properties,
   state,
@@ -63,10 +65,12 @@ const AntibodyForm = ({
         alignItems: "center",
       }}
     >
-      {/* TODO clean: fix width */}
       {/* TODO clean: extract `Text` component */}
-      <div style={{ fontWeight: "bold" }}>{label}</div>
+      <div style={{ fontWeight: "bold", width: ANTIBODY_TYPE_WIDTH }}>
+        {label}
+      </div>
       <Select
+        width="150px"
         name="Clone utilisé"
         label="Clone utilisé"
         labelSize="sm"
@@ -104,9 +108,10 @@ const OtherAntibodyForm = ({
         gap: "8px",
       }}
     >
-      {/* TODO clean: fix width */}
       {/* TODO clean: extract `Text` component */}
-      <div style={{ fontWeight: "bold" }}>Autre</div>
+      <div style={{ fontWeight: "bold", width: ANTIBODY_TYPE_WIDTH }}>
+        Autre
+      </div>
       <SubSection>
         {/* TODO clean: use `Stack` component */}
         <div
