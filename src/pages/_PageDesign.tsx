@@ -132,7 +132,6 @@ const EntryCheckbox = () => {
 
   return (
     <DocumentationEntry name="Checkbox">
-      <Todo />
       <Checkbox
         label="An example checkbox"
         isChecked={isChecked}
@@ -147,7 +146,6 @@ const EntryCheckboxList = () => {
 
   return (
     <DocumentationEntry name="CheckboxList">
-      <Todo />
       <CheckboxList
         language="FR"
         title="An optional title for the list"
@@ -164,7 +162,6 @@ const EntryInputText = () => {
 
   return (
     <DocumentationEntry name="InputText">
-      <Todo />
       <InputText label="An example input" value={value} onChange={setValue} />
       <InputText
         isFullWidth
@@ -188,7 +185,6 @@ const EntryInputNumber = () => {
 
   return (
     <DocumentationEntry name="InputNumber">
-      <Todo />
       <InputNumber label="An example input" value={value} onChange={setValue} />
       <InputNumber
         label="A read-only input"
@@ -205,7 +201,6 @@ const EntryInputTextArea = () => {
 
   return (
     <DocumentationEntry name="InputTextArea">
-      <Todo />
       <InputTextArea
         label="An example text area"
         value={value}
@@ -227,7 +222,6 @@ const EntrySelect = () => {
 
   return (
     <DocumentationEntry name="Select">
-      <Todo />
       <Select
         name="Name of the label"
         label="An example dropdown menu"
@@ -269,7 +263,6 @@ const EntrySelectList = () => {
 
   return (
     <DocumentationEntry name="SelectList">
-      <Todo />
       <SelectList
         label="An example list selection"
         groups={MOCK_GROUPS}
@@ -313,7 +306,6 @@ const EntrySelectNumber = () => {
 
   return (
     <DocumentationEntry name="SelectNumber">
-      <Todo />
       <div>
         The <InlineCode>max</InlineCode> prop is mandatory by design.
       </div>
@@ -341,7 +333,6 @@ const EntryBanner = () => {
 
   return (
     <DocumentationEntry name="Banner">
-      <Todo />
       <Button label="Toggle banner" onClick={() => setIsVisible(!isVisible)} />
       {isVisible ? (
         <Banner
@@ -374,7 +365,6 @@ const EntryBanner = () => {
 const EntryButton = () => {
   return (
     <DocumentationEntry name="Button">
-      <Todo />
       <Button label="An example button" onClick={noop} />
     </DocumentationEntry>
   );
@@ -383,7 +373,6 @@ const EntryButton = () => {
 const EntryCode = () => {
   return (
     <DocumentationEntry name="Code">
-      <Todo />
       <div>
         <InlineCode>Some inline code</InlineCode> (useful for formatting units,
         for example).
@@ -395,7 +384,6 @@ const EntryCode = () => {
 const EntryDisclaimer = () => {
   return (
     <DocumentationEntry name="Disclaimer">
-      <Todo />
       <Disclaimer>
         Content goes here. It can be <b>formatted</b>.
       </Disclaimer>
@@ -406,7 +394,6 @@ const EntryDisclaimer = () => {
 const EntryErrorMessage = () => {
   return (
     <DocumentationEntry name="ErrorMessage">
-      <Todo />
       <ErrorMessage errorMessage="An example error message" />
     </DocumentationEntry>
   );
@@ -415,7 +402,6 @@ const EntryErrorMessage = () => {
 const EntryHelpIcon = () => {
   return (
     <DocumentationEntry name="HelpIcon">
-      <Todo />
       <HelpIcon
         content={
           <>
@@ -434,7 +420,6 @@ const EntryHelpIcon = () => {
 const EntryLabel = () => {
   return (
     <DocumentationEntry name="Label">
-      <Todo />
       {/* TODO clean: extract these styles (see InputText) */}
       <div
         style={{
@@ -468,17 +453,12 @@ const EntryLabel = () => {
 };
 
 const EntryPage = () => {
-  return (
-    <DocumentationEntry name="Page">
-      <Todo />
-    </DocumentationEntry>
-  );
+  return <DocumentationEntry name="Page"></DocumentationEntry>;
 };
 
 const EntryPill = () => {
   return (
     <DocumentationEntry name="Pill">
-      <Todo />
       <Pill label="An example pill" />
       <Pill label="An example pill with a long text" />
     </DocumentationEntry>
@@ -488,7 +468,6 @@ const EntryPill = () => {
 const EntrySummary = () => {
   return (
     <DocumentationEntry name="Summary">
-      <Todo />
       <Summary
         getContent={(language) => {
           if (language === "EN") {
@@ -562,8 +541,6 @@ const EntryTable = () => {
 
   return (
     <DocumentationEntry name="Table">
-      <Todo />
-
       <Table
         columns={COLUMNS}
         visibleRowCount={visibleRowCount}
@@ -580,7 +557,6 @@ const EntryTable = () => {
 const EntryTextBlock = () => {
   return (
     <DocumentationEntry name="TextBlock">
-      <Todo />
       <TextBlock>{MOCK_PARAGRAPH}</TextBlock>
     </DocumentationEntry>
   );
@@ -589,7 +565,6 @@ const EntryTextBlock = () => {
 const EntryTitle = () => {
   return (
     <DocumentationEntry name="Title">
-      <Todo />
       <Title title="An example title (sm)" size="sm" />
       <Title title="An example title (md)" size="md" />
       <Title title="An example title (lg)" size="lg" />
@@ -609,7 +584,6 @@ const EntryTitle = () => {
 const EntryTooltip = () => {
   return (
     <DocumentationEntry name="Tooltip">
-      <Todo />
       <Tooltip content="Content goes here" mode="hover">
         <Target>Hover to display tooltip</Target>
       </Tooltip>
@@ -623,7 +597,6 @@ const EntryTooltip = () => {
 const EntryValidationErrors = () => {
   return (
     <DocumentationEntry name="ValidationErrors">
-      <Todo />
       <ValidationErrors
         header="The input data is invalid:"
         errors={["An error.", "Another error.", "Yet another error."]}
@@ -635,7 +608,6 @@ const EntryValidationErrors = () => {
 const EntryYesOrNo = () => {
   return (
     <DocumentationEntry name="YesOrNo">
-      <Todo />
       <div>
         FR: <YesOrNo value={true} language="FR" />{" "}
         <YesOrNo value={false} language="FR" />
@@ -708,10 +680,6 @@ const DocumentationEntry = ({
       </div>
     </div>
   );
-};
-
-const Todo = () => {
-  return <div style={{ color: "grey" }}>TODO: add documentation</div>;
 };
 
 const Target = ({ children }: PropsWithChildren<{}>) => {
