@@ -7,7 +7,7 @@ import {
 } from "./ui/helpers/forms";
 import { useHash } from "./ui/helpers/navigation";
 
-import "./main-list.css";
+import css from "./main-list.module.css";
 import { Disclaimer } from "./ui/Disclaimer";
 import { Em } from "./ui/Em";
 import { Page } from "./ui/Page";
@@ -32,7 +32,7 @@ export const MainList = () => {
     <Page title="Bienvenue sur APF">
       {/* FIXME: add context here, aligned on the README file */}
       <Section>
-        <div className="main-list-presentation">
+        <div className={css.presentation}>
           <div>
             <Em>APF</Em> est un formulaire de compte-rendu standardisé pour
             l'anatomopathologie.
@@ -57,18 +57,14 @@ export const MainList = () => {
       </Section>
 
       <Section title="Choisissez un type de formulaire">
-        <div className="main-list-routes">
+        <div className={css.routes}>
           {FORM_ROUTES.map((item) => {
             const { label, imagePath } = getCategoryProps(item.category);
             return (
               <div key={item.category}>
-                <div className="main-list-section">
-                  <img
-                    className="main-list-section-icon"
-                    src={imagePath}
-                    alt=""
-                  />
-                  <div className="main-list-section-label"> {label}</div>
+                <div className={css.section}>
+                  <img className={css.icon} src={imagePath} alt="" />
+                  <div className={css.label}> {label}</div>
                 </div>
                 <Stack>
                   {item.routes.map((route) => (

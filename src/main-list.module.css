@@ -1,29 +1,29 @@
 /* TODO clean: extract paragraph style */
-.main-list-presentation {
+.presentation {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
 
-.main-list-routes {
+.routes {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.main-list-section {
+.section {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   margin-bottom: 0.5rem;
 }
 
-.main-list-section-icon {
+.icon {
   width: 2.5rem;
   aspect-ratio: 1;
 }
 
-.main-list-section-label {
+.label {
   font-size: 1.2rem;
   font-weight: bold;
 }
