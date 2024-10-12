@@ -1,16 +1,21 @@
-import { Select } from "../../../ui/Select";
-import { Column, Table } from "../../../ui/Table";
-import { YesOrNo } from "../../../ui/YesOrNo";
-import { noop, toOption } from "../../../ui/helpers/helpers";
-import { Option } from "../../../ui/helpers/options";
-import { Language, translate } from "../../../ui/language";
+import {
+  Column,
+  Language,
+  Option,
+  Select,
+  Table,
+  YesOrNo,
+  noop,
+  toOption,
+  translate,
+} from "../../../ui";
 import { SelectLocation } from "./SelectLocation";
 import {
   CellChoice,
   CellGleason,
   CellNumber,
-  CellSize,
   CellSelectList,
+  CellSize,
   CellYesNo,
 } from "./cells";
 import {

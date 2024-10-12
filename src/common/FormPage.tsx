@@ -1,7 +1,6 @@
 import { PropsWithChildren } from "react";
+import { FORMS, FormId, Page } from "../ui";
 import { FormBanner } from "./FormBanner";
-import { Page } from "../ui/Page";
-import { FORMS, FormId } from "../ui/helpers/forms";
 
 type Props = PropsWithChildren<{
   formId: FormId;

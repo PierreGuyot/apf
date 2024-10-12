@@ -1,9 +1,12 @@
-import { Line } from "../../ui/Line";
-import { Select } from "../../ui/Select";
-import { SelectList } from "../../ui/SelectList";
-import { SubSection } from "../../ui/SubSection";
-import { Option, YES_NO_OPTIONS } from "../../ui/helpers/options";
-import { patchState } from "../../ui/helpers/form-state";
+import {
+  Line,
+  Option,
+  Select,
+  SelectList,
+  SubSection,
+  YES_NO_OPTIONS,
+  patchState,
+} from "../../ui";
 import {
   INKING_COLORS_OPTIONS,
   INKING_COLOR_GROUPS,

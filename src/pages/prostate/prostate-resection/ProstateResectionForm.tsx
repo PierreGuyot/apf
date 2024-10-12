@@ -2,14 +2,16 @@ import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
 import { SelectLymphaticOrVascularInvasion } from "../../../common/SelectLymphaticOrVascularInvasion";
 import { SelectPerineuralInvasion } from "../../../common/SelectPerineuralInvasion";
-import { InputNumber } from "../../../ui/InputNumber";
-import { Line } from "../../../ui/Line";
-import { Section } from "../../../ui/Section";
-import { Select } from "../../../ui/Select";
-import { SelectList } from "../../../ui/SelectList";
-import { Summary } from "../../../ui/Summary";
-import { useForm } from "../../../ui/helpers/form-state";
-import { DEFAULT_LANGUAGE } from "../../../ui/language";
+import {
+  DEFAULT_LANGUAGE,
+  InputNumber,
+  Line,
+  Section,
+  Select,
+  SelectList,
+  Summary,
+  useForm,
+} from "../../../ui";
 import {
   DEFAULT_GLEASON_ITEM,
   GleasonItem,

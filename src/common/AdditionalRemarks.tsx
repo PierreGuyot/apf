@@ -1,5 +1,4 @@
-import { InputTextArea } from "../ui/InputTextArea";
-import { Section } from "../ui/Section";
+import { InputTextArea, Section } from "../ui";
 
 type Props = {
   value: string;

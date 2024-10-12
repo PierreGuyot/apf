@@ -1,6 +1,4 @@
-import { Line } from "../ui/Line";
-import { Select } from "../ui/Select";
-import { YES_NO_OPTIONS } from "../ui/helpers/options";
+import { Line, Select, YES_NO_OPTIONS } from "../ui";
 
 type Props = {
   value: boolean;

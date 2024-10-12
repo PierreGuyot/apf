@@ -1,10 +1,13 @@
 import { Fragment } from "react";
-import { InputNumber } from "../../../ui/InputNumber";
-import { Select } from "../../../ui/Select";
-import { SelectList } from "../../../ui/SelectList";
-import { join, range } from "../../../ui/helpers/helpers";
-import { YES_NO_OPTIONS } from "../../../ui/helpers/options";
-import { Language } from "../../../ui/language";
+import {
+  InputNumber,
+  join,
+  Language,
+  range,
+  Select,
+  SelectList,
+  YES_NO_OPTIONS,
+} from "../../../ui";
 import { SelectGleason } from "../SelectGleason";
 import { GleasonItem, OTHER_LESION_GROUPS, OtherLesionType } from "../helpers";
 import css from "./cells.module.css";

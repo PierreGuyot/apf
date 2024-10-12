@@ -1,4 +1,4 @@
-import { Disclaimer } from "../ui/Disclaimer";
+import { Disclaimer } from "../ui";
 
 export const FormDisclaimer = () => (
   <Disclaimer>

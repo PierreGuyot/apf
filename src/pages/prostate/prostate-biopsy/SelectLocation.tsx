@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Language } from "../../../ui/language";
+import { Language } from "../../../ui";
 import { CellChoice } from "./cells";
 import { getLocationOptions, Location, ProstateBiopsyFormId } from "./helpers";
 

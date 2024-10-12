@@ -1,4 +1,4 @@
-import { Option, OptionGroup } from "../../ui/helpers/options";
+import { Option, OptionGroup } from "../../ui";
 
 export type IhcState = {
   hasIhc: boolean;

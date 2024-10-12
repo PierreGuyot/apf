@@ -3,8 +3,7 @@ import { DesignPage } from "./pages/_PageDesign";
 import { DermatologyForm } from "./pages/dermatology/DermatologyForm";
 import { ProstateBiopsyForm } from "./pages/prostate/prostate-biopsy/ProstateBiopsyForm";
 import { ProstateResectionForm } from "./pages/prostate/prostate-resection/ProstateResectionForm";
-import { assertUnreachable } from "./ui/helpers/helpers";
-import { INDEX_ROUTE, isRoute, useHash } from "./ui/helpers/navigation";
+import { assertUnreachable, INDEX_ROUTE, isRoute, useHash } from "./ui";
 
 export const App = () => {
   const { hash: rawHash } = useHash();

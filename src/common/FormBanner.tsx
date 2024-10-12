@@ -1,9 +1,14 @@
-import { Banner } from "../ui/Banner";
-import { Button } from "../ui/Button";
-import { FORMS, FormId } from "../ui/helpers/forms";
-import { goToIndex } from "../ui/helpers/navigation";
-import { joinLines } from "../ui/helpers/text";
-import { ONE_DAY, formatDate, formatDurationInDays } from "../ui/time";
+import {
+  Banner,
+  Button,
+  FORMS,
+  FormId,
+  ONE_DAY,
+  formatDate,
+  formatDurationInDays,
+  goToIndex,
+  joinLines,
+} from "../ui";
 import { FormDisclaimer } from "./FormDisclaimer";
 
 // We recommend checking for updates after 180 days (around 6 months)

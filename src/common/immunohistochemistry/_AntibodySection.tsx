@@ -1,10 +1,12 @@
 import { useMemo } from "react";
-import { InputText } from "../../ui/InputText";
-import { InputTextArea } from "../../ui/InputTextArea";
-import { Item } from "../../ui/Item";
-import { Select } from "../../ui/Select";
-import { SubSection } from "../../ui/SubSection";
-import { patchState } from "../../ui/helpers/form-state";
+import {
+  InputText,
+  InputTextArea,
+  Item,
+  patchState,
+  Select,
+  SubSection,
+} from "../../ui";
 import {
   ANTIBODIES_PROPERTIES,
   AntibodyData,

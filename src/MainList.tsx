@@ -1,20 +1,19 @@
-import { Button } from "./ui/Button";
 import {
+  Button,
+  Disclaimer,
+  Em,
   FORMS,
   FORM_ROUTES,
   FormId,
+  Page,
+  Section,
+  Stack,
+  Title,
   getCategoryProps,
-} from "./ui/helpers/forms";
-import { useHash } from "./ui/helpers/navigation";
+  useHash,
+} from "./ui";
 
 import css from "./main-list.module.css";
-import { Disclaimer } from "./ui/Disclaimer";
-import { Em } from "./ui/Em";
-import { Page } from "./ui/Page";
-import { Section } from "./ui/Section";
-import { Stack } from "./ui/Stack";
-import { Title } from "./ui/Title";
-
 // TODO clean: handle link buttons?
 const FormRoute = ({ route }: { route: FormId }) => {
   const { updateHash } = useHash();

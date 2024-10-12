@@ -1,8 +1,11 @@
-import { Select } from "../../ui/Select";
-import { filterEmpty, toOption } from "../../ui/helpers/helpers";
-import { Option } from "../../ui/helpers/options";
-import { getPercentageOptions } from "../../ui/helpers/percent";
-import { Language } from "../../ui/language";
+import {
+  filterEmpty,
+  getPercentageOptions,
+  Language,
+  Option,
+  Select,
+  toOption,
+} from "../../ui";
 import { GLEASON_SCORES, GleasonItem, GleasonScore } from "./helpers";
 
 import { getCribriformPercentageOptions, getGleasonSummary } from "./helpers";

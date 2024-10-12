@@ -1,6 +1,7 @@
 import { Mode } from "fs";
 import { useMemo, useState } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
+import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
 import { ModePicker } from "../../../common/ModePicker";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
@@ -8,29 +9,32 @@ import {
   IhcState,
   validateIhc,
 } from "../../../common/immunohistochemistry/helpers";
-import { InputNumber } from "../../../ui/InputNumber";
-import { Item } from "../../../ui/Item";
-import { Line } from "../../../ui/Line";
-import { NestedItem } from "../../../ui/NestedItem";
-import { Section } from "../../../ui/Section";
-import { Select } from "../../../ui/Select";
-import { SelectNumber } from "../../../ui/SelectNumber";
-import { Summary } from "../../../ui/Summary";
-import { ValidationErrors } from "../../../ui/ValidationErrors";
-import { patchState, useForm } from "../../../ui/helpers/form-state";
 import {
+  DEFAULT_LANGUAGE,
+  InputNumber,
+  Item,
+  Language,
+  Line,
+  NestedItem,
+  Option,
+  Section,
+  Select,
+  SelectNumber,
+  Summary,
+  ValidationErrors,
+  YES_NO_OPTIONS,
+  count,
   filterNullish,
+  isDebug,
+  naturalJoin,
   noop,
+  patchState,
   range,
   sum,
   sumArrays,
   toOption,
-} from "../../../ui/helpers/helpers";
-import { Option, YES_NO_OPTIONS } from "../../../ui/helpers/options";
-import { count } from "../../../ui/helpers/plural";
-import { isDebug } from "../../../ui/helpers/state";
-import { naturalJoin } from "../../../ui/helpers/text";
-import { DEFAULT_LANGUAGE, Language } from "../../../ui/language";
+  useForm,
+} from "../../../ui";
 import {
   PROSTATE_ANTIBODY_GROUPS,
   PROSTATE_ANTIBODY_PROPERTIES,
@@ -54,7 +58,6 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-import { ClinicalInfo } from "../../../common/ClinicalInfo";
 
 const CONTAINER_COUNT = [6, 7, 8, 9] as const;
 const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);

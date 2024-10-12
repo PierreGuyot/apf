@@ -2,16 +2,20 @@ import { useMemo } from "react";
 import { AdditionalRemarks } from "../../common/AdditionalRemarks";
 import { ClinicalInfo } from "../../common/ClinicalInfo";
 import { FormPage } from "../../common/FormPage";
-import { InputNumber } from "../../ui/InputNumber";
-import { Line } from "../../ui/Line";
-import { Section } from "../../ui/Section";
-import { Select } from "../../ui/Select";
-import { SelectNumber } from "../../ui/SelectNumber";
-import { SubSection } from "../../ui/SubSection";
-import { Summary } from "../../ui/Summary";
-import { patchState, useForm } from "../../ui/helpers/form-state";
-import { patchArray, range } from "../../ui/helpers/helpers";
-import { YES_NO_OPTIONS } from "../../ui/helpers/options";
+import {
+  InputNumber,
+  Line,
+  Section,
+  Select,
+  SelectNumber,
+  SubSection,
+  Summary,
+  YES_NO_OPTIONS,
+  patchArray,
+  patchState,
+  range,
+  useForm,
+} from "../../ui";
 import { InkingSection, InkingState } from "./InkingSection";
 import { TumoralLesionSection } from "./TumoralLesionSection";
 import {

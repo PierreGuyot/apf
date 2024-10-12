@@ -1,11 +1,14 @@
 import { useMemo } from "react";
-import { Line } from "../../ui/Line";
-import { Select } from "../../ui/Select";
-import { SelectList } from "../../ui/SelectList";
-import { SubSection } from "../../ui/SubSection";
-import { patchState } from "../../ui/helpers/form-state";
-import { patchArray, range } from "../../ui/helpers/helpers";
-import { YES_NO_OPTIONS } from "../../ui/helpers/options";
+import {
+  Line,
+  patchArray,
+  patchState,
+  range,
+  Select,
+  SelectList,
+  SubSection,
+  YES_NO_OPTIONS,
+} from "../../ui";
 import { AntibodySection } from "./_AntibodySection";
 import {
   ANTIBODIES_PROPERTIES,

@@ -1,6 +1,4 @@
-import { Button } from "../ui/Button";
-import { Line } from "../ui/Line";
-import { Stack } from "../ui/Stack";
+import { Button, Line, Stack } from "../ui";
 
 type Mode = "standard" | "expert";
 

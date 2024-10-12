@@ -1,5 +1,4 @@
-import { Line } from "../../ui/Line";
-import { Select } from "../../ui/Select";
+import { Line, Select } from "../../ui";
 import { CLARK_INFILTRATION_LEVELS, ClarkInfiltrationLevel } from "./helpers";
 
 type Props = {

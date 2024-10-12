@@ -1,10 +1,6 @@
 import { SelectLymphaticOrVascularInvasion } from "../../common/SelectLymphaticOrVascularInvasion";
 import { SelectPerineuralInvasion } from "../../common/SelectPerineuralInvasion";
-import { InputNumber } from "../../ui/InputNumber";
-import { Line } from "../../ui/Line";
-import { Select } from "../../ui/Select";
-import { SubSection } from "../../ui/SubSection";
-import { patchState } from "../../ui/helpers/form-state";
+import { InputNumber, Line, patchState, Select, SubSection } from "../../ui";
 import { TumorData } from "./DermatologyForm";
 import { SelectClarkInfiltrationLevel } from "./SelectClarkInfiltrationLevel";
 import {
