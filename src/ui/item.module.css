@@ -1,16 +1,16 @@
-.item {
+.main {
   display: flex;
   flex-direction: column;
 }
 
-.item--has-max-width {
+.hasMaxWidth {
   max-width: 800px;
 }
 
-.item + .item {
+.main + .main {
   margin-top: 1.5rem;
 }
 
-.item--sm + .item--sm {
+.sm + .sm {
   margin-top: 0.6rem;
 }

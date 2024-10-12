@@ -6,7 +6,7 @@ import {
   PiradsScore,
   ProstateBiopsyFormId,
 } from "./helpers";
-import "./pirads-select.css";
+import css from "./pirads-select.module.css";
 
 // PIRADS: Prostate Imaging Reporting and Data System
 
@@ -26,7 +26,7 @@ const PiradsLine = ({
     onChange({ ...value, location });
 
   return (
-    <div className="pirads-item">
+    <div className={css.main}>
       <SelectNumber
         name="PIRADS score"
         label="PIRADS"

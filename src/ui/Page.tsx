@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 
-import "./page.css";
+import css from "./page.module.css";
 import { Title } from "./Title";
 import { join } from "./helpers/helpers";
 
@@ -11,7 +11,7 @@ type Props = PropsWithChildren<{
 
 export const Page = ({ title, paddingTop = "md", children }: Props) => {
   return (
-    <div className={join("page", `page--padding-top-${paddingTop}`)}>
+    <div className={join(css.main, css[paddingTop])}>
       {title ? <Title title={title} size="lg" /> : undefined}
       {children}
     </div>

@@ -1,5 +1,5 @@
 import { Tooltip } from "./Tooltip";
-import "./pill.css";
+import css from "./pill.module.css";
 
 type Props = {
   label: string;
@@ -7,6 +7,6 @@ type Props = {
 
 export const Pill = ({ label }: Props) => (
   <Tooltip content={label}>
-    <div className="pill">{label}</div>
+    <div className={css.main}>{label}</div>
   </Tooltip>
 );

@@ -1,23 +1,23 @@
-.title {
+.main {
   margin-top: initial;
   letter-spacing: 0.03rem;
 }
 
-.title--margin-sm {
+.sm {
   font-size: 1.1em;
   margin-bottom: 0.8rem;
 }
 
-.title--margin-md {
+.md {
   font-size: 1.5em;
   margin-bottom: 1.4rem;
 }
 
-.title--margin-lg {
+.lg {
   font-size: 2.5em;
   margin-bottom: 3rem;
 }
 
-.title--no-margin-bottom {
+.noMarginBottom {
   margin-bottom: 0;
 }

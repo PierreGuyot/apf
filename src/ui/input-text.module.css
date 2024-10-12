@@ -1,4 +1,16 @@
-.input-text-area {
+/* TODO clean: extract this style */
+.main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* TODO clean: extract label style */
+.sm {
+  font-size: 0.9rem;
+}
+
+.input {
   /* Reset style */
   padding: 0;
   margin: 0;
@@ -7,8 +19,7 @@
   border: none;
 
   /** Custom style */
-  padding: 1rem 1.4em;
-  resize: vertical;
+  padding: 0.2rem;
 
   /* Common interaction style */
   font-family: "body-font";
@@ -23,4 +34,8 @@
     --placeholder-color: rgb(114, 176, 214);
     color: var(--placeholder-color);
   }
+}
+
+.isFullWidth {
+  width: 100%;
 }

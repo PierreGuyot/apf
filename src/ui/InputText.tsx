@@ -1,7 +1,7 @@
 import { ErrorMessage } from "./ErrorMessage";
 import { Label } from "./Label";
 import { join } from "./helpers/helpers";
-import "./input-text.css";
+import css from "./input-text.module.css";
 import { InputProps, OnInput } from "./input.types";
 import { useBoolean } from "./helpers/state";
 
@@ -32,12 +32,7 @@ export const InputText = ({
 
   return (
     /* TODO clean: extract label style */
-    <div
-      className={join(
-        "input-text-container",
-        `input-text-container--${labelSize}`,
-      )}
-    >
+    <div className={join(css.main, css[labelSize])}>
       {label ? <Label label={label} /> : undefined}
       {isReadOnly ? (
         value
@@ -45,8 +40,8 @@ export const InputText = ({
         <>
           <input
             className={join(
-              "input-text",
-              isFullWidth ? "input-text--is-full-width" : undefined,
+              css.input,
+              isFullWidth ? css.isFullWidth : undefined,
             )}
             type="text"
             placeholder={placeholder}

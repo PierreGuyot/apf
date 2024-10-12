@@ -1,4 +1,4 @@
-.banner {
+.main {
   position: fixed;
   top: 0;
   left: 0;
@@ -16,7 +16,7 @@
 }
 
 /* TODO clean: extract warning colors */
-.banner--warning {
+.warning {
   --warning-color: rgb(229, 0, 0);
   --warning-background-color: rgb(255, 223, 223) border-color:
     var(--warning-color);
@@ -24,7 +24,7 @@
   background-color: var(--warning-background-color);
 }
 
-.banner-actions {
+.actions {
   display: flex;
   gap: 0.4rem;
 }

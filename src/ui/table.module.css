@@ -1,0 +1,42 @@
+.main {
+  --border: 1px solid rgb(0, 0, 0);
+
+  border-spacing: 0;
+  border-top: var(--border);
+  border-left: var(--border);
+
+  th,
+  td {
+    margin: 0;
+    padding: 0.2rem;
+    border-bottom: var(--border);
+    border-right: var(--border);
+    font-size: 0.9rem;
+  }
+}
+
+.cell {
+  display: flex;
+  max-width: 100%;
+}
+
+.cell--is-disabled {
+  background-color: lightgray;
+}
+
+.cell--center {
+  justify-content: center;
+}
+
+.footer {
+  display: flex;
+  font-weight: bold;
+}
+
+.footer--left {
+  padding-left: 0.5rem;
+}
+
+.footer--center {
+  justify-content: center;
+}

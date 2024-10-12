@@ -1,6 +1,6 @@
 import { ErrorMessage } from "./ErrorMessage";
 import { Label } from "./Label";
-import "./input-text-area.css";
+import css from "./input-text-area.module.css";
 import { InputProps, OnInput } from "./input.types";
 import { useBoolean } from "./helpers/state";
 
@@ -42,7 +42,7 @@ export const InputTextArea = ({
       ) : (
         <>
           <textarea
-            className="input-text-area"
+            className={css.input}
             value={value}
             rows={lineCount}
             placeholder={placeholder}

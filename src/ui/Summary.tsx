@@ -7,7 +7,7 @@ import { TextBlock } from "./TextBlock";
 import { copyToClipboard } from "./helpers/copy";
 import { Option } from "./helpers/options";
 import { Language } from "./language";
-import "./summary.css";
+import css from "./summary.module.css";
 
 type Props = {
   getContent: (language: Language) => string; // This part of the content must be a string for copy-pasting
@@ -27,7 +27,7 @@ export const Summary = ({ getContent, getTable }: Props) => {
   return (
     <>
       <Section title="Compte-rendu">
-        <div className="summary-buttons">
+        <div className={css.buttons}>
           {/* TODO clean: have a grey variant here */}
           <Select
             name="Language selection"

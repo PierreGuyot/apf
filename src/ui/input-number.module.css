@@ -1,16 +1,4 @@
-/* TODO clean: extract this style */
-.input-text-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* TODO clean: extract label style */
-.input-text-container--sm {
-  font-size: 0.9rem;
-}
-
-.input-text {
+.input {
   /* Reset style */
   padding: 0;
   margin: 0;
@@ -18,8 +6,9 @@
   outline: none;
   border: none;
 
-  /** Custom style */
-  padding: 0.2rem;
+  /* Custom style */
+  padding: 0.2rem 0.5rem;
+  border: 1px solid transparent;
 
   /* Common interaction style */
   font-family: "body-font";
@@ -36,6 +25,15 @@
   }
 }
 
-.input-text--is-full-width {
-  width: 100%;
+.md {
+  max-width: 1.2rem;
+}
+
+.lg {
+  max-width: 4rem;
+}
+
+/* TODO clean: extract and make common with other inputs */
+.isInvalid {
+  border-color: red;
 }

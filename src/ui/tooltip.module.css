@@ -1,13 +1,13 @@
-.tooltip {
+.main {
   position: relative;
 }
 
-.tooltip-handle {
+.handle {
   display: flex;
   width: fit-content;
 }
 
-.tooltip-content {
+.content {
   /* Position */
   position: absolute;
   top: 0;

@@ -1,5 +1,6 @@
-.stack {
+.main {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  width: fit-content;
 }

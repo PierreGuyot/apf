@@ -1,5 +1,5 @@
 import { join } from "./helpers/helpers";
-import "./label.css";
+import css from "./label.module.css";
 
 type Props = {
   label: string;
@@ -8,10 +8,7 @@ type Props = {
 
 export const Label = ({ label, placement = "inline" }: Props) => (
   <label
-    className={join(
-      "label",
-      placement === "inline" ? "label--is-inline" : "label--is-above",
-    )}
+    className={join(css.main, placement === "inline" ? undefined : css.isAbove)}
   >
     {label}
   </label>

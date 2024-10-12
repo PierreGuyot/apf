@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { join, patchArray } from "./helpers/helpers";
-import "./table.css";
+import css from "./table.module.css";
 
 export type ValueOf<Row> = Row[keyof Row];
 
@@ -45,7 +45,7 @@ export function Table<Row>({
 }: Props<Row>) {
   return (
     <>
-      <table>
+      <table className={css.main}>
         {/* Header */}
         <thead>
           {Header ? (
@@ -71,15 +71,12 @@ export function Table<Row>({
                   <td
                     key={`cell--${String(column.key)}--${rowIndex}`}
                     className={join(
-                      isDisabled ? "table-cell--is-disabled" : undefined,
+                      isDisabled ? css["cell--is-disabled"] : undefined,
                     )}
                   >
                     {isDisabled ? undefined : (
                       <div
-                        className={join(
-                          "table-cell",
-                          `table-cell--alignment-${alignment}`,
-                        )}
+                        className={join(css.cell, css[`cell--${alignment}`])}
                       >
                         {column.render(row, isReadOnly, (value) =>
                           onChange(
@@ -107,10 +104,7 @@ export function Table<Row>({
                 return (
                   <td key={`footer--${String(column.key)}`}>
                     <div
-                      className={join(
-                        "table-cell-footer",
-                        `table-cell-footer--alignment-${alignment}`,
-                      )}
+                      className={join(css.footer, css[`footer--${alignment}`])}
                     >
                       {column.total ? column.total(rows) : undefined}
                     </div>

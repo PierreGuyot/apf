@@ -1,10 +1,8 @@
-import "./error-message.css";
+import css from "./error-message.module.css";
 
 type Props = {
   errorMessage: string | undefined;
 };
 
 export const ErrorMessage = ({ errorMessage }: Props) =>
-  errorMessage ? (
-    <div className="error-message">{errorMessage}</div>
-  ) : undefined;
+  errorMessage ? <div className={css.main}>{errorMessage}</div> : undefined;

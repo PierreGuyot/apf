@@ -1,5 +1,5 @@
 import { useBoolean } from "./helpers/state";
-import "./tooltip.css";
+import css from "./tooltip.module.css";
 
 import {
   PropsWithChildren,
@@ -111,13 +111,13 @@ export const Tooltip = ({
   }, [mode, close, onMouseDown]);
 
   return (
-    <span className="tooltip">
-      <span className="tooltip-handle" ref={tooltipHandle} {...callbacks}>
+    <span className={css.main}>
+      <span className={css.handle} ref={tooltipHandle} {...callbacks}>
         <span>{children}</span>
       </span>
       {isOpen ? (
         <div
-          className="tooltip-content"
+          className={css.content}
           ref={tooltipContent}
           style={getStyle(translation)}
         >

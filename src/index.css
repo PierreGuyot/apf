@@ -1,3 +1,8 @@
+/* Global CSS */
+
+/* CAUTION: this is the only allowed unscoped CSS file (as it handles global style) */
+/* For styling individual components, use CSS modules (which are scoped to the component)  */
+
 @font-face {
   font-family: "body-font";
   src: local("Helvetica Neue"), local("Arial"), local(sans-serif);

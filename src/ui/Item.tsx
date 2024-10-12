@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 
 import { join } from "./helpers/helpers";
-import "./item.css";
+import css from "./item.module.css";
 
 type Props = PropsWithChildren<{
   size?: "sm" | "md";
@@ -11,9 +11,9 @@ type Props = PropsWithChildren<{
 export const Item = ({ size = "md", hasMaxWidth = true, children }: Props) => (
   <div
     className={join(
-      "item",
-      `item--${size}`,
-      hasMaxWidth ? "item--has-max-width" : undefined,
+      css.main,
+      css[size],
+      hasMaxWidth ? css.hasMaxWidth : undefined,
     )}
   >
     {children}

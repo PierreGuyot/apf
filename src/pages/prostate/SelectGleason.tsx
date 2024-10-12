@@ -6,7 +6,7 @@ import { getPercentageOptions } from "../../ui/helpers/percent";
 import { Language } from "../../ui/language";
 import { GLEASON_SCORES, GleasonItem, GleasonScore } from "./helpers";
 
-import "./select-gleason.css";
+import css from "./select-gleason.module.css";
 import { getCribriformPercentageOptions, getGleasonSummary } from "./helpers";
 
 const Plus = () => <span>+</span>;
@@ -107,5 +107,5 @@ export const SelectGleason = ({
     b === 4 ? SelectCribriformPercentage : undefined,
   ].filter(filterEmpty);
 
-  return <span className="select-gleason">{items}</span>;
+  return <span className={css.main}>{items}</span>;
 };

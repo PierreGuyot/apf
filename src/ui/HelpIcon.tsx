@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Tooltip } from "./Tooltip";
-import "./help-icon.css";
+import css from "./help-icon.module.css";
 
 type Props = {
   content: ReactNode;
@@ -8,6 +8,6 @@ type Props = {
 
 export const HelpIcon = ({ content }: Props) => (
   <Tooltip content={content}>
-    <div className="help-icon">?</div>
+    <div className={css.main}>?</div>
   </Tooltip>
 );

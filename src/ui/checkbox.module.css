@@ -1,4 +1,4 @@
-.checkbox {
+.main {
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -12,7 +12,7 @@
 }
 
 /* TODO clean: extract as label style  */
-.checkbox-label {
+.label {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: auto;

@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react";
 
-import "./inline-code.css";
+import css from "./inline-code.module.css";
 
 type Props = PropsWithChildren<{}>;
 
 export const InlineCode = ({ children }: Props) => (
-  <code className="inline-code">{children}</code>
+  <code className={css.main}>{children}</code>
 );

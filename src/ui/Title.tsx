@@ -1,5 +1,5 @@
 import { join } from "./helpers/helpers";
-import "./title.css";
+import css from "./title.module.css";
 
 type Props = {
   title: string;
@@ -16,9 +16,9 @@ export const Title = ({
 }: Props) => (
   <h1
     className={join(
-      "title",
-      `title--margin-${size}`,
-      hasMarginBottom ? undefined : "title--no-margin-bottom",
+      css.main,
+      css[size],
+      hasMarginBottom ? undefined : css.noMarginBottom,
     )}
   >
     {index ? `${index}. ` : undefined}

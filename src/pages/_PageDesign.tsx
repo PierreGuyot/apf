@@ -118,6 +118,7 @@ export const DesignPage = () => {
          *   - NestedItem
          *   - Section
          *   - SubSection
+         *   - Stack
          */}
 
         <EntryTranslation />
@@ -236,6 +237,14 @@ const EntrySelect = () => {
       />
       <Select
         name="Name of the label"
+        label="A dropdown menu with a small label"
+        labelSize="sm"
+        options={MOCK_OPTIONS}
+        value={value1}
+        onChange={setValue1}
+      />
+      <Select
+        name="Name of the label"
         label="A dropdown menu with grouped options"
         options={MOCK_GROUPS}
         value={value2}
@@ -256,6 +265,7 @@ const EntrySelect = () => {
 const EntrySelectList = () => {
   const [values1, setValues1] = useState<Value[]>([]);
   const [values2, setValues2] = useState<Value[]>([]);
+  const [values3, setValues3] = useState<Value[]>([]);
 
   return (
     <DocumentationEntry name="SelectList">
@@ -266,14 +276,20 @@ const EntrySelectList = () => {
         value={values1}
         onChange={setValues1}
       />
-
+      <SelectList
+        groups={MOCK_GROUPS}
+        label="A list selection with an empty state"
+        emptyState="An example empty state"
+        value={values2}
+        onChange={setValues2}
+      />
       <div>
         <SelectList
           label="A list selection with custom items"
           hasList={false}
           groups={MOCK_GROUPS}
-          value={values2}
-          onChange={setValues2}
+          value={values3}
+          onChange={setValues3}
         />
         <ul>
           {values2.map((value) => (
@@ -281,7 +297,6 @@ const EntrySelectList = () => {
           ))}
         </ul>
       </div>
-
       <SelectList
         groups={MOCK_GROUPS}
         label="A read-only list selection"

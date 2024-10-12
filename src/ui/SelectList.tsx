@@ -7,7 +7,7 @@ import { FieldProps } from "./helpers/fields";
 import { noop } from "./helpers/helpers";
 import { Option, OptionValue } from "./helpers/options";
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
-import "./select-list.css";
+import css from "./select-list.module.css";
 import { Label } from "./Label";
 
 export type ItemGroup<T extends OptionValue> = {
@@ -65,7 +65,7 @@ export function SelectList<T extends OptionValue>({
         <Tooltip
           mode="click"
           content={
-            <div className="select-list-tooltip">
+            <div className={css.tooltip}>
               {groups.map((group) => (
                 <CheckboxList
                   language={language}
@@ -80,7 +80,7 @@ export function SelectList<T extends OptionValue>({
           }
           onClose={onCommit}
         >
-          <Button _className={"select-list-button"} label="+" onClick={noop} />
+          <Button _className={css.button} label="+" onClick={noop} />
         </Tooltip>
         {hasList ? (
           <>
@@ -91,7 +91,7 @@ export function SelectList<T extends OptionValue>({
               />
             ))}
             {selectedOptions.length ? undefined : (
-              <div className="select-list-empty-state">{emptyState}</div>
+              <div className={css.emptyState}>{emptyState}</div>
             )}
           </>
         ) : undefined}
@@ -110,7 +110,7 @@ export function SelectList<T extends OptionValue>({
 
   return (
     /* TODO clean: mutualize style with InputText */
-    <div className="select-list">
+    <div className={css.main}>
       {label ? <Label label={label} /> : undefined}
       {content}
     </div>

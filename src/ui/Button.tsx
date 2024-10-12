@@ -1,4 +1,4 @@
-import "./button.css";
+import css from "./button.module.css";
 import { join } from "./helpers/helpers";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 export const Button = ({ _className, label, onClick }: Props) => {
   return (
-    <button className={join("button", _className)} onClick={onClick}>
+    <button className={join(css.main, _className)} onClick={onClick}>
       {label}
     </button>
   );

@@ -1,12 +1,12 @@
 import { PropsWithChildren } from "react";
 
 import { Item } from "./Item";
-import "./line.css";
+import css from "./line.module.css";
 
 type Props = PropsWithChildren<{}>;
 
 export const Line = ({ children }: Props) => (
   <Item size="sm">
-    <div className="line">{children}</div>
+    <div className={css.main}>{children}</div>
   </Item>
 );

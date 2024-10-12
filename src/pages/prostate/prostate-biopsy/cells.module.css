@@ -1,15 +1,15 @@
-.cell {
+.main {
   display: flex;
   font-size: 1rem;
   align-items: center;
 }
 
-.cell-sum {
+.sum {
   font-size: 1rem;
   margin-right: 0.3em;
 }
 
-.cell-number-size {
+.size {
   display: flex;
   align-items: center;
   gap: 0.3rem;

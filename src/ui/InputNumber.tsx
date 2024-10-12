@@ -4,7 +4,7 @@ import { Label } from "./Label";
 import { clamp, join } from "./helpers/helpers";
 import { useBoolean, useString } from "./helpers/state";
 import { Unit, getUnitLabel } from "./helpers/units";
-import "./input-number.css";
+import css from "./input-number.module.css";
 import { InputProps, OnInput } from "./input.types";
 
 // TODO feature: add tooltip to display error message
@@ -106,9 +106,9 @@ export const InputNumber = ({
         <>
           <input
             className={join(
-              "input-number",
-              `input-number--${size}`,
-              shouldDisplayError ? "input-number--is-invalid" : undefined,
+              css.input,
+              css[size],
+              shouldDisplayError ? css.isInvalid : undefined,
             )}
             // CAUTION:
             // Native type number inputs are poorly implemented so we resort to customizing a string input

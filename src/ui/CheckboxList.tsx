@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Checkbox } from "./Checkbox";
-import "./checkbox-list.css";
+import css from "./checkbox-list.module.css";
 import { Option, OptionValue } from "./helpers/options";
 import { Language, translate } from "./language";
 
@@ -26,7 +26,7 @@ export function CheckboxList<T extends OptionValue>({
     <div>
       {title ? (
         // TODO clean: use Label component
-        <div className="checkbox-list-title">{translate(title, language)}</div>
+        <div className={css.label}>{translate(title, language)}</div>
       ) : undefined}
       {options.map((item) => {
         const isChecked = valueSet.has(item.value);

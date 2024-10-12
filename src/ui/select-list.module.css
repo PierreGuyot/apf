@@ -1,17 +1,27 @@
 /* TODO clean: mutualize style with InputText */
-.select-container {
+.main {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
 }
 
-/* TODO clean: extract label style */
-.select-container--sm {
-  font-size: 0.9rem;
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
-.select {
-  max-width: 300px !important;
+.emptyState {
+  align-self: center;
+  font-size: 0.9em;
+  font-style: italic;
+  color: gray;
+}
+
+.button {
+  border-radius: 4px;
+  aspect-ratio: 1;
 
   /* Common interaction style */
   --background-color: rgb(223, 243, 255);

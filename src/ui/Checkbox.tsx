@@ -1,4 +1,4 @@
-import "./checkbox.css";
+import css from "./checkbox.module.css";
 import { noop } from "./helpers/helpers";
 
 type Props = {
@@ -10,9 +10,9 @@ type Props = {
 
 export const Checkbox = ({ label, isChecked, onChange }: Props) => {
   return (
-    <div className="checkbox" onClick={onChange}>
+    <div className={css.main} onClick={onChange}>
       <input type="checkbox" checked={isChecked} onChange={noop} />
-      <span className="checkbox-label">{label}</span>
+      <span className={css.label}>{label}</span>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { anId, join } from "./helpers/helpers";
 import { Option, OptionGroup, OptionValue } from "./helpers/options";
 
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
-import "./select.css";
+import css from "./select.module.css";
 
 type Props<T extends OptionValue> = {
   language?: Language;
@@ -77,7 +77,7 @@ export function Select<T extends OptionValue>({
 
     return (
       <select
-        className="select"
+        className={css.select}
         value={String(value)}
         name={name}
         id={id}
@@ -110,7 +110,7 @@ export function Select<T extends OptionValue>({
 
   return (
     // TODO clean: mutualize style with InputText
-    <div className={join("select-container", `select-container--${labelSize}`)}>
+    <div className={join(css.main, css[labelSize])}>
       {/* TODO clean: replace with Label */}
       {/* TODO clean: translate label */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}

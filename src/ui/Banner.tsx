@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import "./banner.css";
+import css from "./banner.module.css";
 import { join } from "./helpers/helpers";
 
 type Props = {
@@ -10,9 +10,9 @@ type Props = {
 
 export const Banner = ({ left, right, isWarning = false }: Props) => {
   return (
-    <div className={join("banner", isWarning ? "banner--warning" : undefined)}>
+    <div className={join(css.main, isWarning ? css.warning : undefined)}>
       <div>{left}</div>
-      <div className="banner-actions">{right}</div>
+      <div className={css.actions}>{right}</div>
     </div>
   );
 };
