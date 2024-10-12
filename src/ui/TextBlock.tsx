@@ -1,8 +1,8 @@
 import { PropsWithChildren } from "react";
-import "./text-block.css";
+import css from "./text-block.module.css";
 
 type Props = PropsWithChildren<{}>;
 
 export const TextBlock = ({ children }: Props) => (
-  <pre className="text-block">{children}</pre>
+  <pre className={css.main}>{children}</pre>
 );

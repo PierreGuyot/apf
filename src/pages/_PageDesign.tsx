@@ -30,6 +30,7 @@ import { YesOrNo } from "../ui/YesOrNo";
 // TODO design-system: test readonly cases for inputs
 // TODO design-system: handle max width
 // TODO design-system: make SelectList button blue
+// TODO design-system: use CSS modules for all components
 
 // Fixtures
 
