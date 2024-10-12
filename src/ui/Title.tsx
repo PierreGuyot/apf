@@ -1,5 +1,5 @@
 import { join } from "./helpers/helpers";
-import { NoWrap } from "./NoWrap";
+import { Text } from "./Text";
 import css from "./title.module.css";
 
 type Props = {
@@ -31,10 +31,10 @@ export const Title = ({
         hasMarginBottom ? undefined : css.noMarginBottom,
       )}
     >
-      <NoWrap>
+      <Text shouldWrap={false}>
         {index ? `${index}. ` : undefined}
         {title}
-      </NoWrap>
+      </Text>
     </Component>
   );
 };

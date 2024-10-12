@@ -1,6 +1,6 @@
 import css from "./checkbox.module.css";
 import { noop } from "./helpers/helpers";
-import { NoWrap } from "./NoWrap";
+import { Text } from "./Text";
 
 type Props = {
   label: string;
@@ -13,7 +13,7 @@ export const Checkbox = ({ label, isChecked, onChange }: Props) => {
   return (
     <div className={css.main} onClick={onChange}>
       <input type="checkbox" checked={isChecked} onChange={noop} />
-      <NoWrap>{label}</NoWrap>
+      <Text shouldWrap={false}>{label}</Text>
     </div>
   );
 };

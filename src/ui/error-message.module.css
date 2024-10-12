@@ -1,6 +1,0 @@
-@import "./constants.css";
-
-.main {
-  font-size: var(--text-sm);
-  color: var(--text-warning);
-}

@@ -2,11 +2,9 @@
 
 .main {
   border: 1px solid var(--border-warning);
-  padding: 0.6rem 1.2rem;
-  font-size: var(--text-sm);
-  color: var(--text-warning);
+  padding: var(--spacing-md) var(--spacing-lg);
 
   li {
-    margin-top: 0.3em;
+    margin-top: var(--spacing-xs);
   }
 }

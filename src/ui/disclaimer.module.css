@@ -4,9 +4,8 @@
   width: fit-content;
   border: 1px solid transparent;
   border-radius: var(--border-radius-md);
-  padding: 1rem 1.5rem;
+  padding: var(--spacing-md) var(--spacing-lg);
 
   border-color: var(--text-warning);
-  color: var(--text-warning);
-  background-color: var(--background--warning);
+  background-color: var(--background-warning);
 }

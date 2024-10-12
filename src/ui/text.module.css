@@ -1,0 +1,43 @@
+@import "./constants.css";
+
+/* Size */
+
+.size--sm {
+  font-size: var(--text-sm);
+}
+
+.size--md {
+  font-size: var(--text-md);
+}
+
+.size--inherit {
+  font-size: inherit;
+}
+
+/* Color */
+
+.color--default {
+  color: var(--text-default);
+}
+
+.color--warning {
+  color: var(--text-warning);
+}
+
+.color--inherit {
+  color: inherit;
+}
+
+/* Variant */
+
+.variant--bold {
+  font-weight: bold;
+}
+
+/* Wrapping */
+
+.noWrap {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: auto;
+}

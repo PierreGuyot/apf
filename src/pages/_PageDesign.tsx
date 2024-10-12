@@ -31,6 +31,7 @@ import {
   SIZES,
   Summary,
   Table,
+  Text,
   TextBlock,
   Title,
   Tooltip,
@@ -75,6 +76,8 @@ const MOCK_GROUPS: ItemGroup<Value>[] = [
   },
 ];
 
+const MOCK_SENTENCE = "Lorem ipsum dolor sit amet, consectetur adipiscing elit";
+
 const MOCK_PARAGRAPH =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus rutrum ultricies est, sit amet fermentum nunc gravida interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi vitae interdum risus. Aliquam nibh dolor, venenatis sed tellus in, accumsan aliquet massa. Integer accumsan accumsan tortor, et pretium urna egestas in. In lectus est, maximus a neque ornare, egestas ultrices ipsum.";
 
@@ -113,12 +116,11 @@ export const DesignPage = () => {
         <EntrySummary />
         <EntryTable />
         <EntryTextBlock />
-        <EntryTitle />
         <EntryTooltip />
         <EntryValidationErrors />
         <EntryYesOrNo />
-        <EntryNoWrap />
-        {/* TODO clean: add Text component */}
+        <EntryText />
+        <EntryTitle />
 
         {/* TODO clean: add a layout section using:
          *   - Item
@@ -713,25 +715,6 @@ const EntryTextBlock = () => {
   );
 };
 
-const EntryTitle = () => {
-  return (
-    <DocumentationEntry name="Title">
-      <Title title="An example title (md)" size="md" />
-      <Title title="An example title (lg)" size="lg" />
-      <Title title="An example title (xl)" size="xl" />
-      <Title title="An example title with an index" index={3} />
-      <div>
-        Bottom margin can be removed using the{" "}
-        <InlineCode>hasMarginBottom</InlineCode> prop:
-      </div>
-      <Title
-        title="An example title with no bottom margin"
-        hasMarginBottom={false}
-      />
-    </DocumentationEntry>
-  );
-};
-
 const EntryTooltip = () => {
   return (
     <DocumentationEntry name="Tooltip">
@@ -771,10 +754,50 @@ const EntryYesOrNo = () => {
   );
 };
 
-const EntryNoWrap = () => {
+const EntryTitle = () => {
   return (
-    <DocumentationEntry name="NoWrap">
-      <Todo />
+    <DocumentationEntry name="Title">
+      <Title title="An example title (md)" size="md" />
+      <Title title="An example title (lg)" size="lg" />
+      <Title title="An example title (xl)" size="xl" />
+      <Title title="An example title with an index" index={3} />
+      <div>
+        Bottom margin can be removed using the{" "}
+        <InlineCode>hasMarginBottom</InlineCode> prop:
+      </div>
+      <Title
+        title="An example title with no bottom margin"
+        hasMarginBottom={false}
+      />
+    </DocumentationEntry>
+  );
+};
+
+const EntryText = () => {
+  return (
+    <DocumentationEntry name="Text">
+      <Text as="div">{MOCK_SENTENCE}</Text>
+      <Text as="div" size="sm">
+        {MOCK_SENTENCE}
+      </Text>
+      <Text as="div" color="warning">
+        {MOCK_SENTENCE}
+      </Text>
+      <Text as="div" size="sm" color="warning">
+        {MOCK_SENTENCE}
+      </Text>
+      <Text as="div" variant="bold">
+        {MOCK_SENTENCE}
+      </Text>
+      <Text as="div" size="sm" variant="bold">
+        {MOCK_SENTENCE}
+      </Text>
+      <Text as="div" color="warning" variant="bold">
+        {MOCK_SENTENCE}
+      </Text>
+      <Text as="div" size="sm" color="warning" variant="bold">
+        {MOCK_SENTENCE}
+      </Text>
     </DocumentationEntry>
   );
 };

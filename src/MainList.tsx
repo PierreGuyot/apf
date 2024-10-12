@@ -1,13 +1,13 @@
 import {
   Button,
   Disclaimer,
-  Em,
   FORMS,
   FORM_ROUTES,
   FormId,
   Page,
   Section,
   Stack,
+  Text,
   Title,
   getCategoryProps,
   useHash,
@@ -34,13 +34,13 @@ export const MainList = () => {
       <Section>
         <div className={css.presentation}>
           <div>
-            <Em>APF</Em> est un formulaire de compte-rendu standardisé pour
-            l'anatomopathologie.
+            <Text variant="bold">APF</Text> est un formulaire de compte-rendu
+            standardisé pour l'anatomopathologie.
           </div>
           <div>
-            Il est conçu par <Em>Louis Vaquier</Em> (interne en
-            anatomopathologie) et <Em>Pierre Guyot</Em> (ingénieur en
-            informatique).
+            Il est conçu par <Text variant="bold">Louis Vaquier</Text> (interne
+            en anatomopathologie) et <Text variant="bold">Pierre Guyot</Text>{" "}
+            (ingénieur en informatique).
           </div>
           <div>
             Le code du projet est disponible{" "}
