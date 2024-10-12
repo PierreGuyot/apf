@@ -13,6 +13,7 @@ import { Em } from "./ui/Em";
 import { Page } from "./ui/Page";
 import { Section } from "./ui/Section";
 import { Stack } from "./ui/Stack";
+import { Title } from "./ui/Title";
 
 // TODO clean: handle link buttons?
 const FormRoute = ({ route }: { route: FormId }) => {
@@ -64,7 +65,7 @@ export const MainList = () => {
               <div key={item.category}>
                 <div className={css.section}>
                   <img className={css.icon} src={imagePath} alt="" />
-                  <div className={css.label}> {label}</div>
+                  <Title title={label} size="sm" hasMarginBottom={false} />
                 </div>
                 <Stack>
                   {item.routes.map((route) => (

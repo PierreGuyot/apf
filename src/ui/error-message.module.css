@@ -1,6 +1,6 @@
 @import "./constants.css";
 
 .main {
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   color: var(--text-warning);
 }

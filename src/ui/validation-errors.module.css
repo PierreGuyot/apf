@@ -3,7 +3,7 @@
 .main {
   border: 1px solid var(--border-warning);
   padding: 0.6rem 1.2rem;
-  font-size: 0.8rem;
+  font-size: var(--text-sm);
   color: var(--text-warning);
 
   li {

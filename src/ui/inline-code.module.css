@@ -1,8 +1,5 @@
 @import "./constants.css";
 
 .main {
-  font-size: 0.9rem;
   font-weight: bold;
-  display: inline-block;
-  letter-spacing: -0.01rem;
 }

@@ -1,7 +1,6 @@
 @import "./constants.css";
 
 .main {
-  font-size: 1.1rem;
   height: var(--height-md);
   aspect-ratio: 1;
   display: flex;

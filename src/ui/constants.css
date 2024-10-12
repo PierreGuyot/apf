@@ -1,3 +1,6 @@
+/* Only use rgb or rgba for colors */
+/* Only use rem for sizes */
+
 :root {
   /* Colors (semantic) */
   --background-primary: rgb(255, 255, 255);
@@ -19,7 +22,15 @@
   --background-disabled: rgb(211, 211, 211);
   --background-info: rgb(28, 55, 151);
 
+  /* Font size*/
+  --text-sm: 0.8rem;
+  --text-md: 1rem;
+  --title-sm: 1.1rem;
+  --title-md: 1.5rem;
+  --title-lg: 2.5rem;
+
   /* Height */
+  --height-sm: 1.2rem;
   --height-md: 1.6rem;
 
   /* Border radius */

@@ -158,23 +158,30 @@ const EntryCheckboxList = () => {
 };
 
 const EntryInputText = () => {
-  const [value, setValue] = useState<string>("");
+  const [value1, setValue1] = useState<string>("");
+  const [value2, setValue2] = useState<string>("");
 
   return (
     <DocumentationEntry name="InputText">
-      <InputText label="An example input" value={value} onChange={setValue} />
+      <InputText label="An example input" value={value1} onChange={setValue1} />
       <InputText
         isFullWidth
         label="A full-width input"
-        value={value}
-        onChange={setValue}
+        value={value2}
+        onChange={setValue2}
+      />
+      <InputText
+        label="An input text menu with a small label"
+        labelSize="sm"
+        value={value2}
+        onChange={setValue2}
       />
       {/* TODO clean: fix style */}
       <InputText
         isReadOnly
         label="A read-only input"
         value={"A read-only value"}
-        onChange={setValue}
+        onChange={noop}
       />
     </DocumentationEntry>
   );
@@ -285,7 +292,7 @@ const EntrySelectList = () => {
           onChange={setValues3}
         />
         <ul>
-          {values2.map((value) => (
+          {values3.map((value) => (
             <li>{value}</li>
           ))}
         </ul>

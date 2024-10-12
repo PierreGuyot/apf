@@ -14,8 +14,6 @@
   border: 1px solid transparent;
 
   /* Common interaction style */
-  font-family: "body-font";
-  font-size: 1rem;
   background-color: var(--background-interaction);
   border-bottom: 1px solid var(--border-interaction);
 

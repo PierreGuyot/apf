@@ -1,9 +1,8 @@
 @import "./constants.css";
 
 .main {
-  font-size: 1rem;
   padding: 1.5rem;
-  line-height: var(--height-md);
+  line-height: var(--height-sm);
   border-radius: var(--border-radius-md);
   background-color: var(--background-read-only);
   border: 1px solid var(--border-read-only);

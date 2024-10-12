@@ -15,6 +15,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+  /* Base font size */
+  /* Every other font size should be specified in rem units  */
+  font-size: 15px;
 }
 
 code {

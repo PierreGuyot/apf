@@ -12,10 +12,10 @@
   /** Custom style */
   padding: 1rem 1.4em;
   resize: vertical;
+  /* Needed to remove default styling for textarea */
+  font-family: "body-font";
 
   /* Common interaction style */
-  font-family: "body-font";
-  font-size: 1rem;
   background-color: var(--background-interaction);
   border-bottom: 1px solid var(--border-interaction);
 

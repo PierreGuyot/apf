@@ -16,7 +16,7 @@
   z-index: 20;
 
   /* Style */
-  font-size: 0.9em;
+  font-size: var(--text-sm);
   padding: 0.7rem;
   border-radius: var(--border-radius-md);
 
