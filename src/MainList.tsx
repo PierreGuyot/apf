@@ -67,7 +67,7 @@ export const MainList = () => {
                   <img className={css.icon} src={imagePath} alt="" />
                   <Title title={label} size="sm" hasMarginBottom={false} />
                 </div>
-                <Stack>
+                <Stack spacing="sm">
                   {item.routes.map((route) => (
                     <FormRoute key={route} route={route} />
                   ))}

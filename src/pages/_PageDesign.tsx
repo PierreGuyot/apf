@@ -27,6 +27,7 @@ import { Tooltip } from "../ui/Tooltip";
 import { ValidationErrors } from "../ui/ValidationErrors";
 import { YesOrNo } from "../ui/YesOrNo";
 import { aMessage } from "../ui/helpers/mock";
+import { Size, SIZES } from "../ui/sizes";
 
 // TODO clean: test readonly cases for inputs
 // TODO clean: make SelectList button blue
@@ -171,9 +172,6 @@ const ColorSquare = ({
     </div>
   );
 };
-
-const SIZES = ["xs", "sm", "md", "lg", "xl"] as const;
-type Size = (typeof SIZES)[number];
 
 const SizeSquare = ({ size }: { size: Size }) => {
   const sizeVariable = `var(--spacing-${size})`;

@@ -1,9 +1,17 @@
 import { PropsWithChildren } from "react";
 import css from "./stack.module.css";
+import { Size } from "./sizes";
+import { join } from "./helpers/helpers";
 
-type Props = PropsWithChildren<{}>;
+type Props = PropsWithChildren<{
+  direction?: "row" | "column";
+  spacing?: Size | "none";
+}>;
 
-// TODO clean: replace with a Spacing component
-export const Stack = ({ children }: Props) => (
-  <div className={css.main}>{children}</div>
+export const Stack = ({
+  spacing = "none",
+  direction = "column",
+  children,
+}: Props) => (
+  <div className={join(css.main, css[spacing], css[direction])}>{children}</div>
 );

@@ -3,6 +3,7 @@ import { Label } from "./Label";
 import css from "./input-text-area.module.css";
 import { InputProps, OnInput } from "./input.types";
 import { useBoolean } from "./helpers/state";
+import { Stack } from "./Stack";
 
 type Props = InputProps<string> & {
   placeholder?: string;
@@ -35,7 +36,7 @@ export const InputTextArea = ({
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <Stack>
       {label ? <Label label={label} placement="above" /> : undefined}
       {isReadOnly ? (
         value
@@ -54,6 +55,6 @@ export const InputTextArea = ({
           ) : undefined}
         </>
       )}
-    </div>
+    </Stack>
   );
 };

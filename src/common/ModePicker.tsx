@@ -8,9 +8,9 @@ type Props = { onPick: (mode: Mode) => void };
 
 export const ModePicker = ({ onPick }: Props) => {
   return (
-    <Stack>
+    <Stack spacing="sm">
       <Line>Choisissez un mode pour le formulaire :</Line>
-      <Stack>
+      <Stack spacing="sm">
         <Button label="Standard" onClick={() => onPick("standard")} />
         <Button label="Expert" onClick={() => onPick("expert")} />
       </Stack>
