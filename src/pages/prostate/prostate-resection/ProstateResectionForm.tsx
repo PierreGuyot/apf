@@ -191,7 +191,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
         <Line>
           Autres lésions
           <SelectList
-            value={otherLesions}
+            values={otherLesions}
             groups={OTHER_LESION_GROUPS}
             onChange={setField("otherLesions")}
           />

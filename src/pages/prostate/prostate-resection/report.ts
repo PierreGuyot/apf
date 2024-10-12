@@ -113,7 +113,7 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
 
 const getOtherLesionsSection = (form: ReportParams, language: Language) => {
   const selectedItems = getSelectedOptions({
-    value: form.otherLesions,
+    values: form.otherLesions,
     groups: OTHER_LESION_GROUPS,
   });
 

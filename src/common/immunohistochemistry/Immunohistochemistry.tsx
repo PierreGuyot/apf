@@ -84,28 +84,10 @@ export const Immunohistochemistry = ({
   const setField = patchState(state, setState);
 
   const selectedBlocks = blocks.map((block) => block.index);
-
-  // FIXME: clean update API (order is not preserved)
-  const onSelectBlocks = (newSelection: number[]) => {
-    const updatedMap = new Map(blocks.map((block) => [block.index, block]));
-
-    const oldSet = new Set(selectedBlocks);
-    const newSet = new Set(newSelection);
-
-    for (const { value } of blockOptions) {
-      // Value has been added
-      if (!oldSet.has(value) && newSet.has(value)) {
-        updatedMap.set(value, aNewBlock(value));
-      }
-
-      // Value has been deleted
-      if (oldSet.has(value) && !newSet.has(value)) {
-        updatedMap.delete(value);
-      }
-    }
-
-    setField("blocks")(Array.from(updatedMap.values()));
-  };
+  const blocksByIndex = useMemo(
+    () => Object.fromEntries(blocks.map((block) => [block.index, block])),
+    [blocks],
+  );
 
   const blockOptions = getBlockOptions(containerCount);
   const blockGroups = useMemo(
@@ -117,6 +99,13 @@ export const Immunohistochemistry = ({
     ],
     [blockOptions],
   );
+
+  const onSelectBlocks = (newSelection: number[]) => {
+    const newBlocks = newSelection.map(
+      (index) => blocksByIndex[index] ?? aNewBlock(index),
+    );
+    setField("blocks")(newBlocks);
+  };
 
   return (
     <>
@@ -135,7 +124,7 @@ export const Immunohistochemistry = ({
             <SelectList
               label="Sur quels blocs avez-vous réalisé une immunohistochimie ?"
               groups={blockGroups}
-              value={selectedBlocks}
+              values={selectedBlocks}
               hasList={false}
               onChange={onSelectBlocks}
             />
@@ -176,34 +165,17 @@ const BlockSection = ({
   const { antibodies } = block;
   const setField = patchState(block, setBlock);
 
-  // FIXME: clean update API (order is not preserved)
   const selectedAntibodies = antibodies.map((antibody) => antibody.type);
-  const onSelectAntibodies = (newSelection: Array<Antibody | "other">) => {
-    const updatedMap = new Map(
-      antibodies.map((antibody) => [antibody.type, antibody]),
+  const antibodiesByType = Object.fromEntries(
+    antibodies.map((antibody) => [antibody.type, antibody]),
+  );
+
+  const onSelectAntibodies = (newSelection: AntibodyData["type"][]) => {
+    const newAntibodies = newSelection.map(
+      (type) =>
+        antibodiesByType[type] ?? anEmptyAntibodyData({ type, properties }),
     );
-
-    const oldSet = new Set(selectedAntibodies);
-    const newSet = new Set(newSelection);
-
-    for (const { options } of groups) {
-      for (const { value } of options) {
-        // Value has been added
-        if (!oldSet.has(value) && newSet.has(value)) {
-          updatedMap.set(
-            value,
-            anEmptyAntibodyData({ type: value, properties }),
-          );
-        }
-
-        // Value has been deleted
-        if (oldSet.has(value) && !newSet.has(value)) {
-          updatedMap.delete(value);
-        }
-      }
-    }
-
-    setField("antibodies")(Array.from(updatedMap.values()));
+    setField("antibodies")(newAntibodies);
   };
 
   // Patched groups with fallback option `other`
@@ -221,13 +193,13 @@ const BlockSection = ({
   return (
     <>
       <SubSection title={`Bloc ${block.index}`}>
-        {/* TODO clean: extract clean `Spacing` component with t-shirt sizes (`sm`, `md`, etc.) */}
+        {/* TODO clean: use `Stack` component */}
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <Line>
             Quels sont les anticorps utilisés ?
             <SelectList
               groups={groups}
-              value={selectedAntibodies}
+              values={selectedAntibodies}
               hasList={false}
               onChange={onSelectAntibodies}
             />

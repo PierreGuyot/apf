@@ -31,6 +31,7 @@ export function CheckboxList<T extends OptionValue>({
       {options.map((item) => {
         const isChecked = valueSet.has(item.value);
 
+        // CAUTION: this not preserve option order
         const onChange = () => {
           const updatedValueSet = new Set(valueSet);
           if (isChecked) {

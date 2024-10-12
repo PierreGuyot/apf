@@ -112,7 +112,6 @@ export const DesignPage = () => {
         <EntryTooltip />
         <EntryValidationErrors />
         <EntryYesOrNo />
-        {/* TODO clean: add Spacing component */}
         {/* TODO clean: add Text component */}
 
         {/* TODO clean: add a layout section using:
@@ -377,14 +376,14 @@ const EntrySelectList = () => {
       <SelectList
         label="An example list selection"
         groups={MOCK_GROUPS}
-        value={values1}
+        values={values1}
         onChange={setValues1}
       />
       <SelectList
         groups={MOCK_GROUPS}
         label="A list selection with an empty state"
         emptyState="An example empty state"
-        value={values2}
+        values={values2}
         onChange={setValues2}
       />
       <div>
@@ -392,7 +391,7 @@ const EntrySelectList = () => {
           label="A list selection with custom items"
           hasList={false}
           groups={MOCK_GROUPS}
-          value={values3}
+          values={values3}
           onChange={setValues3}
         />
         <ul>
@@ -405,7 +404,7 @@ const EntrySelectList = () => {
         groups={MOCK_GROUPS}
         label="A read-only list selection"
         isReadOnly
-        value={["option-e", "option-d", "option-a"]}
+        values={["option-e", "option-d", "option-a"]}
         onChange={noop}
       />
     </DocumentationEntry>

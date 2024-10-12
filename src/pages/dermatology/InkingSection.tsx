@@ -95,7 +95,7 @@ export const InkingSection = ({ state, setState }: Props) => {
             Quelles encres avez-vous utilisées ?
             <SelectList
               groups={INKING_COLOR_GROUPS}
-              value={selectedInkings}
+              values={selectedInkings}
               onChange={onSelectInkings}
             />
           </Line>

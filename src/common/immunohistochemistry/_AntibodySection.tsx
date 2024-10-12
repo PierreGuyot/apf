@@ -56,13 +56,14 @@ const AntibodyForm = ({
 
   return (
     <div
-      /* TODO clean: use `Spacing` component */
+      /* TODO clean: use `Stack` component */
       style={{
         display: "flex",
         gap: "16px",
         alignItems: "center",
       }}
     >
+      {/* TODO clean: fix width */}
       {/* TODO clean: extract `Text` component */}
       <div style={{ fontWeight: "bold" }}>{label}</div>
       <Select
@@ -95,7 +96,7 @@ const OtherAntibodyForm = ({
   const setField = patchState(state, setState);
 
   return (
-    // TODO clean: use `Spacing` component
+    // TODO clean: use `Stack` component
     <div
       style={{
         display: "flex",
@@ -103,10 +104,11 @@ const OtherAntibodyForm = ({
         gap: "8px",
       }}
     >
+      {/* TODO clean: fix width */}
       {/* TODO clean: extract `Text` component */}
       <div style={{ fontWeight: "bold" }}>Autre</div>
       <SubSection>
-        {/* TODO clean: use `Spacing` component */}
+        {/* TODO clean: use `Stack` component */}
         <div
           style={{
             display: "flex",
@@ -114,7 +116,7 @@ const OtherAntibodyForm = ({
             gap: "8px",
           }}
         >
-          {/* TODO clean: use `Spacing` component */}
+          {/* TODO clean: use `Stack` component */}
           <div
             style={{
               display: "flex",
@@ -137,7 +139,7 @@ const OtherAntibodyForm = ({
             />
           </div>
           <Item>
-            {/* TODO clean: use a `Text` component and `Spacing` component */}
+            {/* TODO clean: use a `Text` component and `Stack` component */}
             <div style={{ fontSize: "0.9rem", marginBottom: "4px" }}>
               Résultat immunohistochimie
             </div>

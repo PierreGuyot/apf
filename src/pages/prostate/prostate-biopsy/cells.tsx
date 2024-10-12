@@ -10,9 +10,12 @@ import { SelectGleason } from "../SelectGleason";
 import { GleasonItem, OTHER_LESION_GROUPS, OtherLesionType } from "../helpers";
 import css from "./cells.module.css";
 
-export const CellSelectList = (
-  props: FieldProps<OtherLesionType[]> & { language?: Language },
-) => <SelectList groups={OTHER_LESION_GROUPS} {...props} />;
+export const CellSelectList = (props: {
+  values: OtherLesionType[];
+  onChange: (value: OtherLesionType[]) => void;
+  isReadOnly: boolean;
+  language?: Language;
+}) => <SelectList groups={OTHER_LESION_GROUPS} {...props} />;
 export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellChoice = Select;
 

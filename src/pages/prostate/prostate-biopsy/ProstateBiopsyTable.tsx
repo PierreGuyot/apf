@@ -241,7 +241,7 @@ export const ProstateBiopsyTable = ({
       render: (row, isReadOnly, onChange) => (
         <CellSelectList
           language={language}
-          value={row.otherLesions}
+          values={row.otherLesions}
           isReadOnly={isReadOnly}
           onChange={onChange}
         />
