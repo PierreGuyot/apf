@@ -35,4 +35,12 @@
 
   /* Border radius */
   --border-radius-md: 0.2rem;
+
+  /* Z-index */
+  /* Base level (for reference) */
+  --z-index-0: 1;
+  /* Banner */
+  --z-index-1: 10;
+  /* Tooltip */
+  --z-index-2: 20;
 }
