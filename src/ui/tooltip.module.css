@@ -19,8 +19,6 @@
   border-radius: 0.2rem;
 
   /* TODO clean: have blue and grey variants */
-  --background-color: rgb(223, 243, 255);
-  --border: 1px solid rgb(114, 176, 214);
-  background-color: var(--background-color);
-  border: var(--border);
+  background-color: var(--background-interaction);
+  border: 1px solid var(--border-interaction);
 }

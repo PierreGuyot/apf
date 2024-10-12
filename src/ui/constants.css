@@ -1,0 +1,19 @@
+:root {
+  --background-primary: rgb(255, 255, 255);
+  --background-warning: rgb(255, 223, 223);
+
+  --border-default: rgb(128, 128, 128);
+  --border-warning: rgb(229, 0, 0);
+  --border-interaction: rgb(114, 176, 214);
+  --border-read-only: rgb(0, 0, 0);
+
+  --text-secondary: rgb(128, 128, 128);
+  --text-knockout: rgb(255, 255, 255);
+  --text-warning: rgb(229, 0, 0);
+  --text-interaction: rgb(114, 176, 214);
+
+  --background-interaction: rgb(223, 243, 255);
+  --background-read-only: rgb(211, 211, 211);
+  --background-disabled: rgb(211, 211, 211);
+  --background-info: rgb(28, 55, 151);
+}

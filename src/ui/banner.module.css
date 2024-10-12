@@ -1,3 +1,5 @@
+@import "./constants.css";
+
 .main {
   position: fixed;
   top: 0;
@@ -5,8 +7,8 @@
   width: 100%;
   max-width: 100%;
   padding: 1rem 2rem;
-  background-color: white;
-  border-bottom: 1px solid grey;
+  background-color: var(--background-primary);
+  border-bottom: 1px solid var(--border-default);
   box-sizing: border-box;
   z-index: 10;
   font-size: 0.8rem;
@@ -15,13 +17,10 @@
   justify-content: space-between;
 }
 
-/* TODO clean: extract warning colors */
 .warning {
-  --warning-color: rgb(229, 0, 0);
-  --warning-background-color: rgb(255, 223, 223) border-color:
-    var(--warning-color);
-  color: var(--warning-color);
-  background-color: var(--warning-background-color);
+  border-color: var(--border-warning);
+  color: var(--text-warning);
+  background-color: var(--background-warning);
 }
 
 .actions {

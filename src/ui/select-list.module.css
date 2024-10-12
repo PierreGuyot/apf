@@ -1,4 +1,4 @@
-/* TODO clean: mutualize style with InputText */
+/* TODO clean: extract common style */
 .main {
   display: flex;
   align-items: center;
@@ -16,16 +16,12 @@
   align-self: center;
   font-size: 0.9em;
   font-style: italic;
-  color: gray;
+  color: var(--text-secondary);
 }
 
 .button {
   border-radius: 4px;
   aspect-ratio: 1;
-
-  /* Common interaction style */
-  --background-color: rgb(223, 243, 255);
-  --border: 1px solid rgb(114, 176, 214);
-  background-color: var(--background-color);
-  border: var(--border);
+  background-color: var(--background-interaction);
+  border: 1px solid var(--border-interaction);
 }

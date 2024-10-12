@@ -1,4 +1,6 @@
+@import "./constants.css";
+
 .main {
   font-size: 0.8rem;
-  color: red;
+  color: var(--text-warning);
 }

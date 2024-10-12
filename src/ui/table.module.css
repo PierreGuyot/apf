@@ -1,16 +1,16 @@
-.main {
-  --border: 1px solid rgb(0, 0, 0);
+@import "./constants.css";
 
+.main {
   border-spacing: 0;
-  border-top: var(--border);
-  border-left: var(--border);
+  border-top: 1px solid var(--border-default);
+  border-left: 1px solid var(--border-default);
 
   th,
   td {
     margin: 0;
     padding: 0.2rem;
-    border-bottom: var(--border);
-    border-right: var(--border);
+    border-bottom: 1px solid var(--border-default);
+    border-right: 1px solid var(--border-default);
     font-size: 0.9rem;
   }
 }
@@ -21,7 +21,7 @@
 }
 
 .cell--is-disabled {
-  background-color: lightgray;
+  background-color: var(--background-disabled);
 }
 
 .cell--center {

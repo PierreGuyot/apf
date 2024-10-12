@@ -1,4 +1,6 @@
-/* TODO clean: extract this style */
+@import "./constants.css";
+
+/* TODO clean: extract common style */
 .main {
   display: flex;
   align-items: center;
@@ -24,15 +26,11 @@
   /* Common interaction style */
   font-family: "body-font";
   font-size: 1rem;
-  --background-color: rgb(223, 243, 255);
-  --border: 1px solid rgb(114, 176, 214);
-  background-color: var(--background-color);
-  border-bottom: var(--border);
+  background-color: var(--background-interaction);
+  border-bottom: 1px solid var(--border-interaction);
 
   &::placeholder {
-    /* Same as border */
-    --placeholder-color: rgb(114, 176, 214);
-    color: var(--placeholder-color);
+    color: var(--text-interaction);
   }
 }
 

@@ -1,14 +1,12 @@
-/* TODO clean: extract warning colors */
+@import "./constants.css";
+
 .main {
   width: fit-content;
-  padding: 1rem 1.5rem;
   border: 1px solid transparent;
   border-radius: 0.2em;
+  padding: 1rem 1.5rem;
 
-  --warning-color: rgb(229, 0, 0);
-  --warning-background-color: rgb(255, 223, 223);
-
-  border-color: var(--warning-color);
-  color: var(--warning-color);
-  background-color: var(--warning-background-color);
+  border-color: var(--text-warning);
+  color: var(--text-warning);
+  background-color: var(--background--warning);
 }
