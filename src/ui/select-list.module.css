@@ -5,13 +5,13 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--spacing-xs);
 }
 
 .tooltip {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: var(--spacing-md);
 }
 
 .emptyState {

@@ -3,4 +3,5 @@
 .main {
   cursor: pointer;
   width: fit-content;
+  padding: var(--spacing-xs) var(--spacing-sm);
 }
