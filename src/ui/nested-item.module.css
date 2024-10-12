@@ -1,8 +1,10 @@
+@import "./constants.css";
+
 .main {
   display: flex;
   flex-direction: column;
 }
 
 .isNested {
-  border-left: 2px solid lightgray;
+  border-left: 2px solid var(--border-secondary);
 }

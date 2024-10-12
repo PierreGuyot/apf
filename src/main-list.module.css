@@ -1,3 +1,5 @@
+@import "./ui/constants.css";
+
 /* TODO clean: extract paragraph style */
 .presentation {
   display: flex;

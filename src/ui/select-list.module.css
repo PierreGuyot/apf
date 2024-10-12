@@ -1,3 +1,5 @@
+@import "./constants.css";
+
 /* TODO clean: extract common style */
 .main {
   display: flex;
@@ -20,7 +22,7 @@
 }
 
 .button {
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   aspect-ratio: 1;
   background-color: var(--background-interaction);
   border: 1px solid var(--border-interaction);

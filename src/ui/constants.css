@@ -4,6 +4,7 @@
   --background-warning: rgb(255, 223, 223);
 
   --border-default: rgb(128, 128, 128);
+  --border-secondary: rgb(211, 211, 211);
   --border-warning: rgb(229, 0, 0);
   --border-interaction: rgb(114, 176, 214);
   --border-read-only: rgb(0, 0, 0);
@@ -20,4 +21,7 @@
 
   /* Height */
   --height-md: 1.6rem;
+
+  /* Border radius */
+  --border-radius-md: 0.2rem;
 }

@@ -1,8 +1,10 @@
+@import "./constants.css";
+
 .main {
-  border: 1px solid gray;
+  border: 1px solid var(--border-default);
   font-size: 0.9em;
   padding: 0.1em 0.3em;
-  border-radius: 0.2em;
+  border-radius: var(--border-radius-md);
   max-width: 100px;
 
   /* TODO clean: extract as label style  */

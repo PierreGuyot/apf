@@ -3,7 +3,7 @@
 .main {
   width: fit-content;
   border: 1px solid transparent;
-  border-radius: 0.2em;
+  border-radius: var(--border-radius-md);
   padding: 1rem 1.5rem;
 
   border-color: var(--text-warning);
