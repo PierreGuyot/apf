@@ -566,7 +566,11 @@ const EntryLabel = () => {
 };
 
 const EntryPage = () => {
-  return <DocumentationEntry name="Page"></DocumentationEntry>;
+  return (
+    <DocumentationEntry name="Page">
+      <Todo />
+    </DocumentationEntry>
+  );
 };
 
 const EntryPill = () => {
@@ -766,7 +770,9 @@ const EntryTranslation = () => {
 // Building blocks
 
 const Separator = () => (
-  <div style={{ width: "100%", borderTop: "1px solid lightgrey" }} />
+  <div
+    style={{ width: "100%", borderTop: "1px solid var(--border-default)" }}
+  />
 );
 
 const DocumentationEntry = ({
@@ -802,11 +808,19 @@ const Target = ({ children }: PropsWithChildren<{}>) => {
       style={{
         padding: px(16),
         borderRadius: px(4),
-        border: "1px solid lightgrey",
+        border: "1px solid var(--border-default)",
         cursor: "default",
       }}
     >
       {children}
+    </div>
+  );
+};
+
+const Todo = () => {
+  return (
+    <div style={{ color: "var(--text-secondary)" }}>
+      TODO: add documentation
     </div>
   );
 };
