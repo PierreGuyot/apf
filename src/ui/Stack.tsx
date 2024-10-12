@@ -3,6 +3,7 @@ import css from "./stack.module.css";
 import { Size } from "./sizes";
 import { join } from "./helpers/helpers";
 
+// TODO clean: add flexWrap prop
 type Props = PropsWithChildren<{
   direction?: "row" | "column";
   spacing?: Size | "none";

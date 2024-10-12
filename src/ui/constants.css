@@ -3,8 +3,13 @@
 
 :root {
   /* Colors (semantic) */
-  --background-primary: rgb(255, 255, 255);
+  --background-default: rgb(255, 255, 255);
+  --background-secondary: rgb(236, 236, 236);
   --background-warning: rgb(255, 223, 223);
+  --background-interaction: rgb(223, 243, 255);
+  --background-read-only: rgb(236, 236, 236);
+  --background-disabled: rgb(211, 211, 211);
+  --background-info: rgb(28, 55, 151);
 
   --border-default: rgb(128, 128, 128);
   --border-secondary: rgb(211, 211, 211);
@@ -16,11 +21,6 @@
   --text-knockout: rgb(255, 255, 255);
   --text-warning: rgb(229, 0, 0);
   --text-interaction: rgb(114, 176, 214);
-
-  --background-interaction: rgb(223, 243, 255);
-  --background-read-only: rgb(236, 236, 236);
-  --background-disabled: rgb(211, 211, 211);
-  --background-info: rgb(28, 55, 151);
 
   /* Font size*/
   --text-sm: 0.8rem;

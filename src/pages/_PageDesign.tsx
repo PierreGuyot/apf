@@ -38,10 +38,6 @@ import {
   YesOrNo,
 } from "../ui";
 
-// TODO clean: test readonly cases for inputs
-// TODO clean: make SelectList button blue
-// TODO clean: use CSS modules for all components
-
 // Fixtures
 
 const noop = () => {};
@@ -140,21 +136,38 @@ export const DesignPage = () => {
 };
 
 const COLOR_NAMES = [
-  { name: "--background-primary", hasBorder: true },
-  { name: "--background-warning" },
-  { name: "--border-default", isKnockout: true },
-  { name: "--border-secondary" },
-  { name: "--border-warning" },
-  { name: "--border-interaction" },
-  { name: "--border-read-only", isKnockout: true },
-  { name: "--text-secondary", isKnockout: true },
-  { name: "--text-knockout", hasBorder: true },
-  { name: "--text-warning" },
-  { name: "--text-interaction" },
-  { name: "--background-interaction" },
-  { name: "--background-read-only" },
-  { name: "--background-disabled" },
-  { name: "--background-info", isKnockout: true },
+  {
+    name: "Backgrounds",
+    items: [
+      { name: "--background-default", hasBorder: true },
+      { name: "--background-secondary" },
+      { name: "--background-warning" },
+      { name: "--background-interaction" },
+      { name: "--background-read-only" },
+      { name: "--background-disabled" },
+      { name: "--background-info", isKnockout: true },
+    ],
+  },
+  {
+    name: "Borders",
+    items: [
+      { name: "--border-default", isKnockout: true },
+      { name: "--border-secondary" },
+      { name: "--border-warning" },
+      { name: "--border-interaction" },
+      { name: "--border-read-only", isKnockout: true },
+    ],
+  },
+
+  {
+    name: "Texts",
+    items: [
+      { name: "--text-secondary", isKnockout: true },
+      { name: "--text-knockout", hasBorder: true },
+      { name: "--text-warning" },
+      { name: "--text-interaction" },
+    ],
+  },
 ];
 
 const ColorSquare = ({
@@ -210,17 +223,21 @@ const EntryConstants = () => {
       <div
         style={{
           display: "flex",
-          flexWrap: "wrap",
-          gap: "0.4rem",
+          gap: "0.8rem",
         }}
       >
-        {COLOR_NAMES.map(({ name, isKnockout, hasBorder }) => (
-          <ColorSquare
-            key={name}
-            color={name}
-            isKnockout={isKnockout}
-            hasBorder={hasBorder}
-          />
+        {COLOR_NAMES.map((section) => (
+          <div key={section.name}>
+            <Label label={section.name} placement="above" />
+            {section.items.map(({ name, isKnockout, hasBorder }) => (
+              <ColorSquare
+                key={name}
+                color={name}
+                isKnockout={isKnockout}
+                hasBorder={hasBorder}
+              />
+            ))}
+          </div>
         ))}
       </div>
 
@@ -339,6 +356,8 @@ const EntryInputTextArea = () => {
 const EntrySelect = () => {
   const [value1, setValue1] = useState<Value>("option-a");
   const [value2, setValue2] = useState<Value>("option-a");
+  const [value3, setValue3] = useState<Value>("option-a");
+  const [value4, setValue4] = useState<Value>("option-a");
 
   return (
     <DocumentationEntry name="Select">
@@ -354,15 +373,23 @@ const EntrySelect = () => {
         label="A dropdown menu with a small label"
         labelSize="sm"
         options={MOCK_OPTIONS}
-        value={value1}
-        onChange={setValue1}
+        value={value2}
+        onChange={setValue2}
+      />
+      <Select
+        name="Name of the label"
+        label="A dropdown menu with the ui variant (not a field)"
+        labelSize="sm"
+        options={MOCK_OPTIONS}
+        value={value3}
+        onChange={setValue3}
       />
       <Select
         name="Name of the label"
         label="A dropdown menu with grouped options"
         options={MOCK_GROUPS}
-        value={value2}
-        onChange={setValue2}
+        value={value4}
+        onChange={setValue4}
       />
       <Select
         name="Name of the label"

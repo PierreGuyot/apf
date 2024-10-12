@@ -28,8 +28,8 @@ export const Summary = ({ getContent, getTable }: Props) => {
     <>
       <Section title="Compte-rendu">
         <div className={css.buttons}>
-          {/* TODO clean: have a grey variant here */}
           <Select
+            variant="neutral"
             name="Language selection"
             label="Langue :"
             value={language}

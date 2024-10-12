@@ -6,14 +6,16 @@ import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import css from "./select.module.css";
 
 type Props<T extends OptionValue> = {
+  name: string;
   language?: Language;
   options: Option<T>[] | OptionGroup<T>[];
-  name: string;
-  label?: string; // TODO clean: consider using label as name
-  labelSize?: "sm" | "md";
   value: T;
   onChange: (value: T) => void;
+
+  label?: string; // TODO clean: consider using label as name
+  labelSize?: "sm" | "md";
   isReadOnly?: boolean;
+  variant?: "field" | "neutral";
   width?: string; // Free string
 };
 
@@ -24,14 +26,15 @@ function isGroupedOptions<T extends OptionValue>(
 }
 
 export function Select<T extends OptionValue>({
-  language = DEFAULT_LANGUAGE,
-  value,
-  options: _options,
   name,
+  language = DEFAULT_LANGUAGE,
+  options: _options,
+  value,
+  onChange: _onChange,
   label,
   labelSize = "md",
   isReadOnly,
-  onChange: _onChange,
+  variant = "field",
   width,
 }: Props<T>) {
   const id = useMemo(anId, []);
@@ -79,7 +82,7 @@ export function Select<T extends OptionValue>({
 
     return (
       <select
-        className={css.select}
+        className={join(css.select, css[variant])}
         style={{ width }}
         value={String(value)}
         name={name}
@@ -110,6 +113,7 @@ export function Select<T extends OptionValue>({
     renderOption,
     value,
     width,
+    variant,
   ]);
 
   return (
