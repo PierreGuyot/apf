@@ -110,6 +110,7 @@ export const Tooltip = ({
     }
   }, [mode, close, onMouseDown]);
 
+  // FIXME: fix z-index (handle should not be affected)
   return (
     <span className={css.main}>
       <span className={css.handle} ref={tooltipHandle} {...callbacks}>
