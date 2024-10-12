@@ -83,6 +83,8 @@ export const DesignPage = () => {
           maxWidth: "850px",
         }}
       >
+        <EntryConstants />
+
         {/* Inputs */}
         <EntryCheckbox />
         <EntryCheckboxList />
@@ -124,6 +126,110 @@ export const DesignPage = () => {
         <EntryTranslation />
       </div>
     </Page>
+  );
+};
+
+const COLOR_NAMES = [
+  { name: "--background-primary", hasBorder: true },
+  { name: "--background-warning" },
+  { name: "--border-default", isKnockout: true },
+  { name: "--border-secondary" },
+  { name: "--border-warning" },
+  { name: "--border-interaction" },
+  { name: "--border-read-only", isKnockout: true },
+  { name: "--text-secondary", isKnockout: true },
+  { name: "--text-knockout", hasBorder: true },
+  { name: "--text-warning" },
+  { name: "--text-interaction" },
+  { name: "--background-interaction" },
+  { name: "--background-read-only" },
+  { name: "--background-disabled" },
+  { name: "--background-info", isKnockout: true },
+];
+
+const ColorSquare = ({
+  color,
+  isKnockout = false,
+  hasBorder = false,
+}: {
+  color: string;
+  isKnockout?: boolean;
+  hasBorder?: boolean;
+}) => {
+  return (
+    <div
+      style={{
+        backgroundColor: `var(${color})`,
+        width: "200px",
+        padding: "0.4rem 0.8rem",
+        color: isKnockout ? "var(--text-knockout)" : "var(--text-default)",
+        border: "1px solid transparent",
+        borderColor: hasBorder ? "var(--border-secondary)" : "transparent",
+      }}
+    >
+      {color}
+    </div>
+  );
+};
+
+const SIZES = ["xs", "sm", "md", "lg", "xl"] as const;
+type Size = (typeof SIZES)[number];
+
+const SizeSquare = ({ size }: { size: Size }) => {
+  const sizeVariable = `var(--spacing-${size})`;
+  return (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ width: "30px" }}>{size}</div>
+      <div
+        style={{
+          backgroundColor: "palegoldenrod",
+          height: sizeVariable,
+          width: sizeVariable,
+        }}
+      />
+    </div>
+  );
+};
+
+const EntryConstants = () => {
+  return (
+    <DocumentationEntry name="CSS constants">
+      <div>
+        All CSS constants can be picked from{" "}
+        <InlineCode>constants.css</InlineCode>.
+      </div>
+
+      <Title size="sm" title="Colors (semantic)" />
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "0.4rem",
+        }}
+      >
+        {COLOR_NAMES.map(({ name, isKnockout, hasBorder }) => (
+          <ColorSquare
+            key={name}
+            color={name}
+            isKnockout={isKnockout}
+            hasBorder={hasBorder}
+          />
+        ))}
+      </div>
+
+      <Title size="sm" title="Sizes" />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.4rem",
+        }}
+      >
+        {SIZES.map((size) => (
+          <SizeSquare key={size} size={size} />
+        ))}
+      </div>
+    </DocumentationEntry>
   );
 };
 
@@ -679,6 +785,7 @@ const DocumentationEntry = ({
           marginBottom: px(16),
         }}
       >
+        {/* TODO clean: prevent title from wrapping */}
         <Title title={name} hasMarginBottom={false} />
         <Separator />
       </div>

@@ -43,4 +43,11 @@
   --z-index-1: 10;
   /* Tooltip */
   --z-index-2: 20;
+
+  /* Sizes */
+  --spacing-xs: 0.2rem;
+  --spacing-sm: 0.4rem;
+  --spacing-md: 0.8rem;
+  --spacing-lg: 1.6rem;
+  --spacing-xl: 3.2rem;
 }
