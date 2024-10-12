@@ -7,7 +7,6 @@
   border-radius: var(--border-radius-md);
   max-width: 100px;
 
-  /* TODO clean: extract as label style  */
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

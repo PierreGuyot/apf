@@ -1,4 +1,7 @@
 import { PropsWithChildren, useState } from "react";
+
+// TODO clean: add index file for design system
+
 import { Banner } from "../ui/Banner";
 import { Button } from "../ui/Button";
 import { Checkbox } from "../ui/Checkbox";
@@ -6,6 +9,7 @@ import { CheckboxList } from "../ui/CheckboxList";
 import { Disclaimer } from "../ui/Disclaimer";
 import { ErrorMessage } from "../ui/ErrorMessage";
 import { px } from "../ui/helpers/helpers";
+import { aMessage } from "../ui/helpers/mock";
 import { Option } from "../ui/helpers/options";
 import { HelpIcon } from "../ui/HelpIcon";
 import { InlineCode } from "../ui/InlineCode";
@@ -19,6 +23,7 @@ import { Pill } from "../ui/Pill";
 import { Select } from "../ui/Select";
 import { ItemGroup, SelectList } from "../ui/SelectList";
 import { SelectNumber } from "../ui/SelectNumber";
+import { Size, SIZES } from "../ui/sizes";
 import { Summary } from "../ui/Summary";
 import { Column, Table } from "../ui/Table";
 import { TextBlock } from "../ui/TextBlock";
@@ -26,8 +31,6 @@ import { Title } from "../ui/Title";
 import { Tooltip } from "../ui/Tooltip";
 import { ValidationErrors } from "../ui/ValidationErrors";
 import { YesOrNo } from "../ui/YesOrNo";
-import { aMessage } from "../ui/helpers/mock";
-import { Size, SIZES } from "../ui/sizes";
 
 // TODO clean: test readonly cases for inputs
 // TODO clean: make SelectList button blue
@@ -112,6 +115,7 @@ export const DesignPage = () => {
         <EntryTooltip />
         <EntryValidationErrors />
         <EntryYesOrNo />
+        <EntryNoWrap />
         {/* TODO clean: add Text component */}
 
         {/* TODO clean: add a layout section using:
@@ -730,6 +734,14 @@ const EntryYesOrNo = () => {
         EN: <YesOrNo value={true} language="EN" />{" "}
         <YesOrNo value={false} language="EN" />
       </div>
+    </DocumentationEntry>
+  );
+};
+
+const EntryNoWrap = () => {
+  return (
+    <DocumentationEntry name="NoWrap">
+      <Todo />
     </DocumentationEntry>
   );
 };

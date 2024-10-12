@@ -12,10 +12,3 @@
     margin-right: 0.5rem;
   }
 }
-
-/* TODO clean: extract as label style  */
-.label {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: auto;
-}
