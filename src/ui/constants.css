@@ -1,4 +1,5 @@
 :root {
+  /* Colors (semantic) */
   --background-primary: rgb(255, 255, 255);
   --background-warning: rgb(255, 223, 223);
 
@@ -16,4 +17,7 @@
   --background-read-only: rgb(236, 236, 236);
   --background-disabled: rgb(211, 211, 211);
   --background-info: rgb(28, 55, 151);
+
+  /* Height */
+  --height-md: 1.6rem;
 }

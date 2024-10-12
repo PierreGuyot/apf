@@ -2,7 +2,7 @@
 
 .main {
   font-size: 1.1rem;
-  height: 1.5rem;
+  height: var(--height-md);
   aspect-ratio: 1;
   display: flex;
   justify-content: center;
