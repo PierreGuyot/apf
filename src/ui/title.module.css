@@ -5,17 +5,17 @@
   letter-spacing: 0.03rem;
 }
 
-.sm {
+.md {
   font-size: var(--title-sm);
   margin-bottom: 0.8rem;
 }
 
-.md {
+.lg {
   font-size: var(--title-md);
   margin-bottom: 1.4rem;
 }
 
-.lg {
+.xl {
   font-size: var(--title-lg);
   margin-bottom: 3rem;
 }

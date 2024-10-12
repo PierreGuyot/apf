@@ -8,12 +8,10 @@ type Props = PropsWithChildren<{
   title?: string;
 }>;
 
-const size = "sm";
-
 // TODO clean: use role `section`?
 export const SubSection = ({ title, children }: Props) => (
   <Item>
-    {title ? <Title title={title} size={size} /> : undefined}
+    {title ? <Title title={title} /> : undefined}
     <NestedItem depth={1}>{children}</NestedItem>
   </Item>
 );

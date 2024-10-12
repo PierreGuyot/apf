@@ -196,7 +196,7 @@ const EntryConstants = () => {
         <InlineCode>constants.css</InlineCode>.
       </div>
 
-      <Title size="sm" title="Colors (semantic)" />
+      <Title title="Colors (semantic)" />
       <div
         style={{
           display: "flex",
@@ -214,7 +214,7 @@ const EntryConstants = () => {
         ))}
       </div>
 
-      <Title size="sm" title="Sizes" />
+      <Title title="Sizes" />
       <div
         style={{
           display: "flex",
@@ -679,9 +679,9 @@ const EntryTextBlock = () => {
 const EntryTitle = () => {
   return (
     <DocumentationEntry name="Title">
-      <Title title="An example title (sm)" size="sm" />
       <Title title="An example title (md)" size="md" />
       <Title title="An example title (lg)" size="lg" />
+      <Title title="An example title (xl)" size="xl" />
       <Title title="An example title with an index" index={3} />
       <div>
         Bottom margin can be removed using the{" "}
@@ -789,7 +789,7 @@ const DocumentationEntry = ({
         }}
       >
         {/* TODO clean: prevent title from wrapping */}
-        <Title title={name} hasMarginBottom={false} />
+        <Title size="lg" title={name} hasMarginBottom={false} />
         <Separator />
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: px(16) }}>

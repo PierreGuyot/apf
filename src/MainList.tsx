@@ -65,7 +65,7 @@ export const MainList = () => {
               <div key={item.category}>
                 <div className={css.section}>
                   <img className={css.icon} src={imagePath} alt="" />
-                  <Title title={label} size="sm" hasMarginBottom={false} />
+                  <Title title={label} hasMarginBottom={false} />
                 </div>
                 <Stack spacing="sm">
                   {item.routes.map((route) => (

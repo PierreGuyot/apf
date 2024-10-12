@@ -12,7 +12,7 @@ type Props = PropsWithChildren<{
 export const Page = ({ title, paddingTop = "md", children }: Props) => {
   return (
     <div className={join(css.main, css[paddingTop])}>
-      {title ? <Title title={title} size="lg" /> : undefined}
+      {title ? <Title title={title} size="xl" /> : undefined}
       {children}
     </div>
   );

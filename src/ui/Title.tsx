@@ -4,15 +4,14 @@ import css from "./title.module.css";
 type Props = {
   title: string;
   index?: number;
-  // TODO clean: remap sizes to "md" | "lg" | "xl"
-  size?: "sm" | "md" | "lg";
+  size?: "md" | "lg" | "xl";
   hasMarginBottom?: boolean;
 };
 
 const COMPONENTS_BY_SIZE = {
-  sm: "h3",
-  md: "h2",
-  lg: "h1",
+  md: "h3",
+  lg: "h2",
+  xl: "h1",
 } as const;
 
 export const Title = ({
