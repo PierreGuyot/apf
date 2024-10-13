@@ -3,8 +3,8 @@ import { Option } from "../../ui/helpers/options";
 // FIXME: translate
 export type BiopsyType = "punch" | "fuseau";
 export const BIOPSY_TYPES: Option<BiopsyType>[] = [
-  { value: "punch", label: "Punch" },
-  { value: "fuseau", label: "Fuseau" },
+  { value: "punch", label: "punch" },
+  { value: "fuseau", label: "fuseau" },
 ] as const;
 
 // FIXME: translate

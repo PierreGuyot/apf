@@ -181,7 +181,7 @@ const ColorSquare = ({
       style={{
         backgroundColor: `var(${color})`,
         width: "200px",
-        padding: "0.4rem 0.8rem",
+        padding: `${size("sm")} ${size("md")}`,
         color: isKnockout ? "var(--text-knockout)" : "var(--text-default)",
         border: "1px solid transparent",
         borderColor: hasBorder ? "var(--border-secondary)" : "transparent",
@@ -192,20 +192,19 @@ const ColorSquare = ({
   );
 };
 
-const SizeSquare = ({ size }: { size: Size }) => {
-  const sizeVariable = `var(--spacing-${size})`;
+const SizeSquare = ({ size: _size }: { size: Size }) => {
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <div style={{ width: "30px" }}>
         <Text size="sm" color="secondary">
-          {size}
+          {_size}
         </Text>
       </div>
       <div
         style={{
           backgroundColor: "palegoldenrod",
-          height: sizeVariable,
-          width: sizeVariable,
+          height: size(_size),
+          width: size(_size),
         }}
       />
     </div>
@@ -314,11 +313,22 @@ const EntryInputText = () => {
 };
 
 const EntryInputNumber = () => {
-  const [value, setValue] = useState<number>(0);
+  const [value1, setValue1] = useState<number>(0);
+  const [value2, setValue2] = useState<number>(0);
 
   return (
     <DocumentationEntry name="InputNumber">
-      <InputNumber label="An example input" value={value} onChange={setValue} />
+      <InputNumber
+        label="An example input"
+        value={value1}
+        onChange={setValue1}
+      />
+      <InputNumber
+        label="A large input"
+        size="lg"
+        value={value2}
+        onChange={setValue2}
+      />
       <InputNumber
         label="A read-only input"
         isReadOnly
@@ -622,7 +632,7 @@ type Row = {
   others: string;
 };
 
-const COLUMNS: Column<Row>[] = [
+const MOCK_COLUMNS: Column<Row>[] = [
   {
     label: "Index",
     key: "index",
@@ -632,11 +642,18 @@ const COLUMNS: Column<Row>[] = [
     label: "Type",
     key: "type",
     render: (row, _isReadOnly, _onChange) => <div>{row.type}</div>,
+    alignment: "left",
+    total: () => {
+      return <div>Total 1</div>;
+    },
   },
   {
     label: "Location",
     key: "location",
     render: (row, _isReadOnly, _onChange) => <div>{row.location}</div>,
+    total: () => {
+      return <div>Total 2</div>;
+    },
   },
 
   {
@@ -676,11 +693,11 @@ const EntryTable = () => {
   return (
     <DocumentationEntry name="Table">
       <Table
-        columns={COLUMNS}
+        columns={MOCK_COLUMNS}
         visibleRowCount={visibleRowCount}
         rows={MOCK_ROWS}
         header={Header}
-        hasFooter={false}
+        hasFooter={true}
         isReadOnly={isReadOnly}
         onChange={onChange}
       />
@@ -789,18 +806,34 @@ const EntryTranslation = () => {
     .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
     .map((key) => ({ FR: key, EN: DICTIONARY_EN[key] }));
 
+  const Item = ({ value }: { value: string }) => {
+    // We add a visual warning for missing translations
+    const isTodo = value.toLowerCase().includes("todo");
+    return (
+      <div
+        style={
+          isTodo
+            ? { backgroundColor: "red", color: "var(--text-knockout)" }
+            : undefined
+        }
+      >
+        <Text>{value}</Text>
+      </div>
+    );
+  };
+
   const COLUMNS: Column<Row>[] = [
     {
       label: "FR",
       key: "FR",
       alignment: "left",
-      render: (row) => <div>{row.FR}</div>,
+      render: (row) => <Item value={row.FR} />,
     },
     {
       label: "EN",
       key: "EN",
       alignment: "left",
-      render: (row) => <div>{row.EN}</div>,
+      render: (row) => <Item value={row.EN} />,
     },
   ];
 

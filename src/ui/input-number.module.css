@@ -10,7 +10,7 @@
   border: none;
 
   /* Custom style */
-  padding: 0.2rem 0.5rem;
+  padding: var(--spacing-xs) var(--spacing-sm);
   border: 1px solid transparent;
 
   /* Common interaction style */
@@ -23,11 +23,11 @@
 }
 
 .md {
-  max-width: 1.2rem;
+  max-width: var(--width-md);
 }
 
 .lg {
-  max-width: 4rem;
+  max-width: var(--width-lg);
 }
 
 /* TODO clean: extract common style */

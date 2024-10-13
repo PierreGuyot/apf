@@ -8,20 +8,14 @@
   border-bottom: 1px solid var(--border-default);
   box-sizing: border-box;
   z-index: var(--z-index-banner);
-
-  /* TODO clean: use Text */
   font-size: var(--text-sm);
-
   width: 100%;
   max-width: 100%;
-  /* TODO clean: use Stack (requires additional paddingX/paddingY props) */
-  padding: 1rem 2rem;
+  padding: var(--spacing-lg) var(--spacing-xl);
 }
 
 .warning {
   border-color: var(--border-warning);
   background-color: var(--background-warning);
-
-  /* TODO clean: use Text */
   color: var(--text-warning);
 }

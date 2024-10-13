@@ -62,6 +62,7 @@ export const FormBanner = ({
         <a href={ISSUE_LINK}>ici</a>.
       </div>
       {isPrototype ? (
+        // TODO NOW
         <div style={{ marginTop: "10px" }}>
           <FormDisclaimer />
         </div>

@@ -1,7 +1,7 @@
 @import "./constants.css";
 
 .main {
-  padding: 32px;
+  padding: var(--spacing-xl);
   min-height: 100vh;
   margin-left: 150px;
   border-left: 1px solid var(--border-secondary);
@@ -11,6 +11,7 @@
   padding-top: 80px;
 }
 
+/* Used to handle the height of the full banner on form pages */
 .lg {
   padding-top: 180px;
 }

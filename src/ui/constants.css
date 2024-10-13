@@ -44,10 +44,14 @@
   /* Tooltip */
   --z-index-2: 20;
 
-  /* Sizes */
+  /* Spacing (margin, padding, gap, etc.) */
   --spacing-xs: 0.2rem;
   --spacing-sm: 0.4rem;
   --spacing-md: 0.8rem;
   --spacing-lg: 1.6rem;
   --spacing-xl: 3.2rem;
+
+  /* Width  */
+  --width-md: 1.6rem;
+  --width-lg: 3.2rem;
 }

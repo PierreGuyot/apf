@@ -3,10 +3,11 @@
 .main {
   border: 1px solid var(--border-default);
   font-size: var(--text-sm);
-  padding: 0.1em 0.3em;
+  padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-md);
   max-width: 100px;
 
+  /* Ellipsis */
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

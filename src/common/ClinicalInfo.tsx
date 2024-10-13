@@ -11,7 +11,7 @@ export const ClinicalInfo = ({ index, value, onChange }: Props) => (
   <Section title="Renseignements cliniques" index={index}>
     <InputTextArea
       value={value}
-      placeholder="Ajoutez ici les renseignements cliniques"
+      placeholder="Ajoutez ici les renseignements cliniques."
       onChange={onChange}
     />
   </Section>

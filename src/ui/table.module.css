@@ -8,7 +8,7 @@
   th,
   td {
     margin: 0;
-    padding: 0.2rem;
+    padding: var(--spacing-xs);
     border-bottom: 1px solid var(--border-default);
     border-right: 1px solid var(--border-default);
     font-size: var(--text-sm);
@@ -34,7 +34,7 @@
 }
 
 .footer--left {
-  padding-left: 0.5rem;
+  padding-left: var(--spacing-sm);
 }
 
 .footer--center {

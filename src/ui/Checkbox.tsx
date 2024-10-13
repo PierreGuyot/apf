@@ -12,7 +12,7 @@ type Props = {
 
 export const Checkbox = ({ label, isChecked, onChange }: Props) => {
   return (
-    <Stack direction="row" alignItems="center" onClick={onChange}>
+    <Stack direction="row" alignItems="center" onClick={onChange} spacing="sm">
       <input
         type="checkbox"
         className={css.input}

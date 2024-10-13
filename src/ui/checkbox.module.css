@@ -1,7 +1,6 @@
 @import "./constants.css";
 
 .input {
+  /* Reset style */
   margin: initial;
-  /* TODO clean: mutualize style with other inputs and selects */
-  margin-right: 0.5rem;
 }

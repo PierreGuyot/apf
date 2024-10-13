@@ -1,7 +1,7 @@
 @import "./constants.css";
 
 .main {
-  padding: 1.5rem;
+  padding: var(--spacing-lg) var(--spacing-lg);
   line-height: var(--height-sm);
   border-radius: var(--border-radius-md);
   background-color: var(--background-read-only);

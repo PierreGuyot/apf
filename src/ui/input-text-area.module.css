@@ -8,12 +8,11 @@
   border: 0;
   outline: none;
   border: none;
+  font-family: "body-font";
 
   /** Custom style */
-  padding: 1rem 1.4em;
+  padding: var(--spacing-md) var(--spacing-lg);
   resize: vertical;
-  /* Needed to remove default styling for textarea */
-  font-family: "body-font";
 
   /* Common interaction style */
   background-color: var(--background-interaction);

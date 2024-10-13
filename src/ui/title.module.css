@@ -7,17 +7,17 @@
 
 .md {
   font-size: var(--title-sm);
-  margin-bottom: 0.8rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .lg {
   font-size: var(--title-md);
-  margin-bottom: 1.4rem;
+  margin-bottom: var(--spacing-lg);
 }
 
 .xl {
   font-size: var(--title-lg);
-  margin-bottom: 3rem;
+  margin-bottom: var(--spacing-xl);
 }
 
 .noMarginBottom {
