@@ -11,7 +11,7 @@
   font-family: "body-font";
 
   /** Custom style */
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-lg);
   resize: vertical;
 
   /* Common interaction style */
