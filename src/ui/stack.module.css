@@ -4,30 +4,24 @@
   display: flex;
 }
 
-.column {
-  flex-direction: column;
-}
+/* Spacing */
 
-.row {
-  flex-direction: row;
-}
-
-.xs {
+.spacing--xs {
   gap: var(--spacing-xs);
 }
 
-.sm {
+.spacing--sm {
   gap: var(--spacing-sm);
 }
 
-.md {
+.spacing--md {
   gap: var(--spacing-md);
 }
 
-.lg {
+.spacing--lg {
   gap: var(--spacing-lg);
 }
 
-.xl {
+.spacing--xl {
   gap: var(--spacing-xl);
 }

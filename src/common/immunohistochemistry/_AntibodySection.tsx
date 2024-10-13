@@ -5,6 +5,7 @@ import {
   Item,
   patchState,
   Select,
+  Stack,
   SubSection,
 } from "../../ui";
 import {
@@ -50,7 +51,6 @@ const AntibodyForm = ({
 
   const { clones, label } = ANTIBODIES_PROPERTIES[state.type];
   // TODO clean: consider activating noUncheckedIndexedAccess in tsconfig.json
-  // TODO clean: consider using ErrorBoundary
   const antibodyProperties = properties[state.type];
   if (!antibodyProperties) {
     throw new Error("Missing antibody properties");
@@ -59,14 +59,7 @@ const AntibodyForm = ({
   const resultOptions = antibodyProperties.resultOptions;
 
   return (
-    <div
-      /* TODO clean: use `Stack` component */
-      style={{
-        display: "flex",
-        gap: "16px",
-        alignItems: "center",
-      }}
-    >
+    <Stack direction="row" alignItems="center" spacing="md">
       {/* TODO clean: extract `Text` component */}
       <div style={{ fontWeight: "bold", width: ANTIBODY_TYPE_WIDTH }}>
         {label}
@@ -88,7 +81,7 @@ const AntibodyForm = ({
         value={state.result}
         onChange={setField("result")}
       />
-    </div>
+    </Stack>
   );
 };
 
@@ -102,36 +95,14 @@ const OtherAntibodyForm = ({
   const setField = patchState(state, setState);
 
   return (
-    // TODO clean: use `Stack` component
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-      }}
-    >
+    <Stack spacing="md">
       {/* TODO clean: extract `Text` component */}
       <div style={{ fontWeight: "bold", width: ANTIBODY_TYPE_WIDTH }}>
         Autre
       </div>
       <SubSection>
-        {/* TODO clean: use `Stack` component */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px",
-          }}
-        >
-          {/* TODO clean: use `Stack` component */}
-          <div
-            style={{
-              display: "flex",
-              gap: "16px",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
+        <Stack spacing="sm">
+          <Stack direction="row" spacing="md" wrap="wrap">
             <InputText
               label="Nom de l'anticorps"
               labelSize="sm"
@@ -144,20 +115,17 @@ const OtherAntibodyForm = ({
               value={state.clone}
               onChange={setField("clone")}
             />
-          </div>
+          </Stack>
           <Item>
-            {/* TODO clean: use a `Text` component and `Stack` component */}
-            <div style={{ fontSize: "0.9rem", marginBottom: "4px" }}>
-              Résultat immunohistochimie
-            </div>
             <InputTextArea
+              label="Résultat immunohistochimie"
               lineCount={2}
               value={state.result}
               onChange={setField("result")}
             />
           </Item>
-        </div>
+        </Stack>
       </SubSection>
-    </div>
+    </Stack>
   );
 };

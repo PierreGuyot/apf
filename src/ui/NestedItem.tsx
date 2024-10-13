@@ -1,20 +1,19 @@
 import { PropsWithChildren } from "react";
 
-import { join, px } from "./helpers/helpers";
-import css from "./nested-item.module.css";
+import { join } from "./helpers/helpers";
 import { Item } from "./Item";
+import css from "./nested-item.module.css";
+import { size } from "./sizes";
 
 type Props = PropsWithChildren<{
   depth?: number;
 }>;
 
-const BASE_NESTING = 25;
-
 export const NestedItem = ({ depth = 0, children }: Props) => (
   <Item size="sm">
     <div
       className={join(css.main, depth ? css.isNested : undefined)}
-      style={{ paddingLeft: px(depth * BASE_NESTING) }}
+      style={{ paddingLeft: `calc(${depth} * ${size("lg")})` }}
     >
       {children}
     </div>

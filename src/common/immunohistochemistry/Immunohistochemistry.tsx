@@ -6,6 +6,7 @@ import {
   range,
   Select,
   SelectList,
+  Stack,
   SubSection,
   YES_NO_OPTIONS,
 } from "../../ui";
@@ -196,11 +197,10 @@ const BlockSection = ({
   return (
     <>
       <SubSection title={`Bloc ${block.index}`}>
-        {/* TODO clean: use `Stack` component */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Stack spacing="md">
           <Line>
-            Quels sont les anticorps utilisés ?
             <SelectList
+              label="Quels sont les anticorps utilisés ?"
               groups={groups}
               values={selectedAntibodies}
               hasList={false}
@@ -226,7 +226,7 @@ const BlockSection = ({
               />
             );
           })}
-        </div>
+        </Stack>
       </SubSection>
     </>
   );

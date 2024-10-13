@@ -23,12 +23,13 @@ import {
   Option,
   Page,
   Pill,
-  px,
   Select,
   SelectList,
   SelectNumber,
+  size,
   Size,
   SIZES,
+  Stack,
   Summary,
   Table,
   Text,
@@ -84,14 +85,7 @@ const MOCK_PARAGRAPH =
 export const DesignPage = () => {
   return (
     <Page title="Design system">
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: px(32),
-          maxWidth: "850px",
-        }}
-      >
+      <Stack spacing="lg" maxWidth="850px">
         <EntryConstants />
 
         {/* Inputs */}
@@ -132,7 +126,7 @@ export const DesignPage = () => {
          */}
 
         <EntryTranslation />
-      </div>
+      </Stack>
     </Page>
   );
 };
@@ -836,7 +830,7 @@ const EntryTranslation = () => {
 
 const Separator = () => (
   <div
-    style={{ width: "100%", borderTop: "1px solid var(--border-default)" }}
+    style={{ width: "100%", borderTop: "1px solid var(--border-secondary)" }}
   />
 );
 
@@ -848,21 +842,11 @@ const DocumentationEntry = ({
 }>) => {
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: px(16),
-          marginBottom: px(16),
-        }}
-      >
-        {/* TODO clean: prevent title from wrapping */}
+      <Stack direction="row" alignItems="center" spacing="md" marginBottom="md">
         <Title size="lg" title={name} hasMarginBottom={false} />
         <Separator />
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: px(16) }}>
-        {children}
-      </div>
+      </Stack>
+      <Stack spacing="md">{children}</Stack>
     </div>
   );
 };
@@ -871,8 +855,8 @@ const Target = ({ children }: PropsWithChildren<{}>) => {
   return (
     <div
       style={{
-        padding: px(16),
-        borderRadius: px(4),
+        padding: size("md"),
+        borderRadius: size("sm"),
         border: "1px solid var(--border-default)",
         cursor: "default",
       }}

@@ -121,6 +121,7 @@ export function Select<T extends OptionValue>({
     <div className={join(css.main, css[labelSize])}>
       {/* TODO clean: replace with Label */}
       {/* TODO clean: translate label */}
+      {/* TODO clean: prevent unwanted wrapping */}
       {label ? <label htmlFor={id}>{label}</label> : undefined}
       {content}
     </div>

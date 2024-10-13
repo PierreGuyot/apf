@@ -65,9 +65,6 @@ export const toOption = <T extends number = number>(value: T) => ({
   label: String(value),
 });
 
-// TODO clean: replace with T-shirt sizes
-export const px = (value: number) => `${value}px`;
-
 export const clamp = ({
   value: _value,
   min,
