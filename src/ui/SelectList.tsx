@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "./Button";
 import { CheckboxList } from "./CheckboxList";
+import { Label } from "./Label";
 import { Pill } from "./Pill";
+import { Text } from "./Text";
 import { Tooltip } from "./Tooltip";
 import { noop } from "./helpers/helpers";
 import { Option, OptionValue } from "./helpers/options";
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import css from "./select-list.module.css";
-import { Label } from "./Label";
 
 export type ItemGroup<T extends OptionValue> = {
   title: string;
@@ -96,7 +97,11 @@ export function SelectList<T extends OptionValue>({
               />
             ))}
             {selectedOptions.length ? undefined : (
-              <div className={css.emptyState}>{emptyState}</div>
+              <div className={css.emptyState}>
+                <Text size="sm" color="secondary">
+                  {emptyState}
+                </Text>
+              </div>
             )}
           </>
         ) : undefined}

@@ -1,6 +1,7 @@
 import { PropsWithChildren, useState } from "react";
 
 // TODO clean: add @ui alias for design system
+// TODO clean: re-order entries
 
 import {
   aMessage,
@@ -195,7 +196,11 @@ const SizeSquare = ({ size }: { size: Size }) => {
   const sizeVariable = `var(--spacing-${size})`;
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
-      <div style={{ width: "30px" }}>{size}</div>
+      <div style={{ width: "30px" }}>
+        <Text size="sm" color="secondary">
+          {size}
+        </Text>
+      </div>
       <div
         style={{
           backgroundColor: "palegoldenrod",
@@ -210,45 +215,40 @@ const SizeSquare = ({ size }: { size: Size }) => {
 const EntryConstants = () => {
   return (
     <DocumentationEntry name="CSS constants">
-      <div>
-        All CSS constants can be picked from{" "}
-        <InlineCode>constants.css</InlineCode>.
-      </div>
+      <Stack spacing="lg">
+        <div>
+          All CSS constants can be picked from{" "}
+          <InlineCode>constants.css</InlineCode>.
+        </div>
 
-      <Title title="Colors (semantic)" />
-      <div
-        style={{
-          display: "flex",
-          gap: "0.8rem",
-        }}
-      >
-        {COLOR_NAMES.map((section) => (
-          <div key={section.name}>
-            <Label label={section.name} placement="above" />
-            {section.items.map(({ name, isKnockout, hasBorder }) => (
-              <ColorSquare
-                key={name}
-                color={name}
-                isKnockout={isKnockout}
-                hasBorder={hasBorder}
-              />
+        <div>
+          <Title title="Colors (semantic)" />
+          <Stack direction="row" spacing="md">
+            {COLOR_NAMES.map((section) => (
+              <div key={section.name}>
+                <Label label={section.name} placement="above" />
+                {section.items.map(({ name, isKnockout, hasBorder }) => (
+                  <ColorSquare
+                    key={name}
+                    color={name}
+                    isKnockout={isKnockout}
+                    hasBorder={hasBorder}
+                  />
+                ))}
+              </div>
             ))}
-          </div>
-        ))}
-      </div>
+          </Stack>
+        </div>
 
-      <Title title="Sizes" />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "0.4rem",
-        }}
-      >
-        {SIZES.map((size) => (
-          <SizeSquare key={size} size={size} />
-        ))}
-      </div>
+        <div>
+          <Title title="Sizes" />
+          <Stack spacing="sm">
+            {SIZES.map((size) => (
+              <SizeSquare key={size} size={size} />
+            ))}
+          </Stack>
+        </div>
+      </Stack>
     </DocumentationEntry>
   );
 };
@@ -564,13 +564,7 @@ const EntryLabel = () => {
   return (
     <DocumentationEntry name="Label">
       {/* TODO clean: extract these styles (see InputText) */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-        }}
-      >
+      <Stack direction="row" alignItems="center" spacing="sm">
         <Label label="An inline label" />
         <div
           style={{
@@ -579,7 +573,7 @@ const EntryLabel = () => {
             width: "200px",
           }}
         />
-      </div>
+      </Stack>
 
       <div>
         <Label label="A label" placement="above" />

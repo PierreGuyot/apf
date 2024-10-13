@@ -5,7 +5,7 @@ import css from "./text.module.css";
 type Props = {
   as?: "span" | "div";
   size?: "sm" | "md" | "inherit";
-  color?: "default" | "warning" | "inherit";
+  color?: "default" | "secondary" | "warning" | "inherit";
   variant?: "thin" | "bold";
   shouldWrap?: boolean;
   children: ReactNode;

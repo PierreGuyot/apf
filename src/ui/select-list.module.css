@@ -16,9 +16,7 @@
 
 .emptyState {
   align-self: center;
-  font-size: var(--text-sm);
   font-style: italic;
-  color: var(--text-secondary);
 }
 
 .button {

@@ -1,11 +1,12 @@
 import { useEffect, useMemo } from "react";
-import { InlineCode } from "./InlineCode";
-import { Label } from "./Label";
 import { clamp, join } from "./helpers/helpers";
 import { useBoolean, useString } from "./helpers/state";
 import { Unit, getUnitLabel } from "./helpers/units";
+import { InlineCode } from "./InlineCode";
 import css from "./input-number.module.css";
 import { InputProps, OnInput } from "./input.types";
+import { Label } from "./Label";
+import { Stack } from "./Stack";
 
 // TODO feature: add tooltip to display error message
 
@@ -92,13 +93,7 @@ export const InputNumber = ({
 
   return (
     // TODO clean: mutualize style with InputText
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "0.5rem",
-      }}
-    >
+    <Stack direction="row" alignItems="center" spacing="sm">
       {label ? <Label label={label} /> : undefined}
       {isReadOnly ? (
         value
@@ -126,6 +121,6 @@ export const InputNumber = ({
           {unit ? <InlineCode>{getUnitLabel(unit)}</InlineCode> : undefined}
         </>
       )}
-    </div>
+    </Stack>
   );
 };

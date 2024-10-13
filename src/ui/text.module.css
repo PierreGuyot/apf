@@ -20,6 +20,10 @@
   color: var(--text-default);
 }
 
+.color--secondary {
+  color: var(--text-secondary);
+}
+
 .color--warning {
   color: var(--text-warning);
 }

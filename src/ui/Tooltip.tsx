@@ -10,6 +10,8 @@ import {
   useState,
 } from "react";
 
+// TODO clean: completely rewrite using React Portal
+
 type Props = PropsWithChildren<{
   content: ReactNode;
   mode?: "click" | "hover";
