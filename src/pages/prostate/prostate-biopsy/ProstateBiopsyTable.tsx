@@ -90,7 +90,6 @@ export const ProstateBiopsyTable = ({
       render: (row, isReadOnly, onChange) => (
         <CellChoice
           language={language}
-          name="Type"
           value={row.type}
           options={getContainerTypes(formId)}
           isReadOnly={isReadOnly}
@@ -117,7 +116,6 @@ export const ProstateBiopsyTable = ({
       render: (row, isReadOnly, onChange) => (
         <Select
           language={language}
-          name="Biopsy count"
           value={row.biopsyCount}
           options={BIOPSY_COUNT_OPTIONS}
           isReadOnly={isReadOnly}
@@ -146,7 +144,6 @@ export const ProstateBiopsyTable = ({
       render: (row, isReadOnly, onChange) => (
         <Select
           language={language}
-          name="Tumor count"
           value={row.tumorCount}
           options={TUMOR_COUNT_OPTIONS}
           isReadOnly={isReadOnly}
@@ -204,7 +201,6 @@ export const ProstateBiopsyTable = ({
       render: (row, isReadOnly, onChange) => (
         <CellYesNo
           language={language}
-          name="Tumor EPN"
           value={row.tumorEpn}
           isReadOnly={isReadOnly}
           onChange={onChange}
@@ -225,7 +221,6 @@ export const ProstateBiopsyTable = ({
       render: (row, isReadOnly, onChange) => (
         <CellYesNo
           language={language}
-          name="Tumor TEP"
           value={row.tumorTep}
           isReadOnly={isReadOnly}
           onChange={onChange}

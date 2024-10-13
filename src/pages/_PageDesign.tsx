@@ -358,14 +358,12 @@ const EntrySelect = () => {
   return (
     <DocumentationEntry name="Select">
       <Select
-        name="Name of the label"
         label="An example dropdown menu"
         options={MOCK_OPTIONS}
         value={value1}
         onChange={setValue1}
       />
       <Select
-        name="Name of the label"
         label="A dropdown menu with a small label"
         labelSize="sm"
         options={MOCK_OPTIONS}
@@ -373,7 +371,6 @@ const EntrySelect = () => {
         onChange={setValue2}
       />
       <Select
-        name="Name of the label"
         label="A dropdown menu with the ui variant (not a field)"
         labelSize="sm"
         options={MOCK_OPTIONS}
@@ -381,14 +378,12 @@ const EntrySelect = () => {
         onChange={setValue3}
       />
       <Select
-        name="Name of the label"
         label="A dropdown menu with grouped options"
         options={MOCK_GROUPS}
         value={value4}
         onChange={setValue4}
       />
       <Select
-        name="Name of the label"
         label="A read-only dropdown menu"
         options={MOCK_OPTIONS}
         isReadOnly
@@ -453,7 +448,6 @@ const EntrySelectNumber = () => {
         The <InlineCode>max</InlineCode> prop is mandatory by design.
       </div>
       <SelectNumber
-        name="Name of the label"
         label="An example number selection"
         max={5}
         value={value}
@@ -461,7 +455,6 @@ const EntrySelectNumber = () => {
       />
       <SelectNumber
         isReadOnly
-        name="Name of the label"
         label="A read-only number selection"
         max={5}
         value={3}

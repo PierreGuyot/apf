@@ -85,7 +85,6 @@ export const InkingSection = ({ state, setState }: Props) => {
     <>
       <Line>
         <Select
-          name="Encrage de la lésion"
           label="Avez vous réalisé un encrage"
           value={hasInking}
           options={YES_NO_OPTIONS}
@@ -150,7 +149,6 @@ export const InkingItem = ({
   return (
     <Line>
       <Select
-        name="Localisation de l'encre"
         label={label}
         options={INKING_LIMIT_TYPE_OPTIONS}
         value={type}
@@ -161,14 +159,12 @@ export const InkingItem = ({
         <>
           de{" "}
           <Select
-            name="Position de départ de l'encrage"
             options={INKING_POSITIONS}
             value={start}
             onChange={setField("start")}
           />{" "}
           à{" "}
           <Select
-            name="Position de fin de l'encrage"
             options={INKING_POSITIONS}
             value={end}
             onChange={setField("end")}

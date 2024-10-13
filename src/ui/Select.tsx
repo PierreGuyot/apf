@@ -6,13 +6,12 @@ import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import css from "./select.module.css";
 
 type Props<T extends OptionValue> = {
-  name: string;
   language?: Language;
   options: Option<T>[] | OptionGroup<T>[];
   value: T;
   onChange: (value: T) => void;
 
-  label?: string; // TODO clean: consider using label as name
+  label?: string;
   labelSize?: "sm" | "md";
   isReadOnly?: boolean;
   variant?: "field" | "neutral";
@@ -26,7 +25,6 @@ function isGroupedOptions<T extends OptionValue>(
 }
 
 export function Select<T extends OptionValue>({
-  name,
   language = DEFAULT_LANGUAGE,
   options: _options,
   value,
@@ -85,7 +83,6 @@ export function Select<T extends OptionValue>({
         className={join(css.select, css[variant])}
         style={{ width }}
         value={String(value)}
-        name={name}
         id={id}
         onChange={onChange}
       >
@@ -109,7 +106,6 @@ export function Select<T extends OptionValue>({
     id,
     isReadOnly,
     language,
-    name,
     renderOption,
     value,
     width,

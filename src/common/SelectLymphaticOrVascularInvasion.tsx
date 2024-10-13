@@ -14,7 +14,6 @@ export const SelectLymphaticOrVascularInvasion = ({
     <Select
       value={value}
       options={YES_NO_OPTIONS}
-      name="Emboles vasculaires ou lymphatiques"
       label="Emboles vasculaires ou lymphatiques"
       onChange={onChange}
     />

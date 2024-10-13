@@ -66,7 +66,6 @@ const AntibodyForm = ({
       </div>
       <Select
         width="150px"
-        name="Clone utilisé"
         label="Clone utilisé"
         labelSize="sm"
         options={clones}
@@ -74,7 +73,6 @@ const AntibodyForm = ({
         onChange={setField("clone")}
       />
       <Select
-        name="Résultat immunohistochimie"
         label="Résultat"
         labelSize="sm"
         options={resultOptions}

@@ -11,7 +11,6 @@ export const SelectPerineuralInvasion = ({ value, onChange }: Props) => (
     <Select
       value={value}
       options={YES_NO_OPTIONS}
-      name="Engainements périnerveux"
       label="Engainements périnerveux"
       onChange={onChange}
     />

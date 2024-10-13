@@ -19,9 +19,7 @@ const SelectGleasonScore = (props: {
   value: GleasonScore;
   isReadOnly?: boolean; // TODO clean: implement
   onChange: (value: GleasonScore) => void;
-}) => (
-  <Select name="Gleason score" options={GLEASON_SCORE_OPTIONS} {...props} />
-);
+}) => <Select options={GLEASON_SCORE_OPTIONS} {...props} />;
 
 const MAJORITY_PERCENTAGE_OPTIONS = getPercentageOptions({
   min: 50,
@@ -59,7 +57,6 @@ export const SelectGleason = ({
   const SelectCribriformPercentage = (
     <Select
       key="cribriform-percentage"
-      name="Pourcentage cribriforme"
       options={getCribriformPercentageOptions(language)}
       value={cribriformPercentage}
       onChange={(_cribriformPercentage) =>
@@ -83,7 +80,6 @@ export const SelectGleason = ({
     a === b ? undefined : (
       <Select
         key="majority-percentage"
-        name="Pourcentage majoritaire"
         options={MAJORITY_PERCENTAGE_OPTIONS}
         value={percentage}
         onChange={(_percentage) =>
@@ -102,7 +98,6 @@ export const SelectGleason = ({
     a === b ? undefined : (
       <Select
         key="minority-percentage"
-        name="Pourcentage minoritaire"
         options={MINORITY_PERCENTAGE_OPTIONS}
         value={100 - percentage}
         onChange={(_percentage) =>

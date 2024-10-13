@@ -117,7 +117,6 @@ export const Immunohistochemistry = ({
         <Select
           value={hasIhc}
           options={YES_NO_OPTIONS}
-          name="Immunohistochimie"
           label="Avez-vous réalisé une immunohistochimie ?"
           onChange={setField("hasIhc")}
         />

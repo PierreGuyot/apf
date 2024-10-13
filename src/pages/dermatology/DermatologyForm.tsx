@@ -244,7 +244,6 @@ const OperationForm = ({
     <Section title={title} index={index + 1}>
       <Line>
         <Select
-          name="Type d'opération"
           label="Quel est le type d'opération ?"
           value={operation.type}
           options={OPERATION_TYPES}
@@ -276,7 +275,6 @@ const MacroBiopsyForm = ({
       <Line>
         Une biopsie au{" "}
         <Select
-          name="Type de biopsie"
           value={biopsyType}
           options={BIOPSY_TYPES}
           onChange={setField("biopsyType")}
@@ -352,7 +350,6 @@ const MacroExcisionForm = ({
       </Line>
       <Line>
         <Select
-          name="Visibilité de la lésion"
           label="La lésion est-elle visible ?"
           value={isLesionVisible}
           options={YES_NO_OPTIONS}
@@ -364,7 +361,6 @@ const MacroExcisionForm = ({
         <>
           <Line>
             <Select
-              name="Aspect de la lésion"
               label="Quel est l'aspect de la lésion ?"
               value={lesionAspectType}
               options={LESION_ASPECT_TYPES}
@@ -380,7 +376,6 @@ const MacroExcisionForm = ({
             cm de la limite à{" "}
             {/* TODO clean: extract SelectAngle component (including `à`) */}
             <SelectNumber
-              name="Angle à la limite"
               value={limitAngle}
               max={12}
               onChange={setField("limitAngle")}
@@ -392,7 +387,6 @@ const MacroExcisionForm = ({
 
       <Line>
         <Select
-          name="Orientation de l'exèrèse"
           label="Votre exérèse est-elle orientée ?"
           value={isOriented}
           options={YES_NO_OPTIONS}
@@ -404,14 +398,12 @@ const MacroExcisionForm = ({
         <Line>
           Quelle est l'orientation de votre prélèvement ?
           <Select
-            name="Orientation du prélèvement"
             value={orientationType}
             options={ORIENTATION_TYPES}
             onChange={setField("orientationType")}
           />
           à {/* TODO clean: extract SelectAngle component (including `à`) */}
           <SelectNumber
-            name="Angle du prèlèvement limite"
             value={orientationAngle}
             max={12}
             onChange={setField("orientationAngle")}
@@ -422,7 +414,6 @@ const MacroExcisionForm = ({
 
       <Line>
         <SelectNumber
-          name="Nombre de cassettes"
           label="Combien de cassettes avez-vous réalisées sur cette pièce ?"
           value={cassetteCount}
           max={10}
@@ -431,7 +422,6 @@ const MacroExcisionForm = ({
       </Line>
       <Line>
         <Select
-          name="Type d'inclusion"
           label="La pièce a-t-elle été incluse en totalité ?"
           value={inclusionType}
           options={INCLUSION_TYPES}
@@ -441,7 +431,6 @@ const MacroExcisionForm = ({
       <Line>
         <Select
           label="Comment le prélèvement a-t-il été inclus ?"
-          name="Type de coupe"
           value={cutType}
           options={getCutTypes(isOriented)}
           onChange={setField("cutType")}
@@ -482,7 +471,6 @@ const MicroscopyForm = ({
     <>
       <Line>
         <Select
-          name="Type de la lésion"
           label="Quel est le type de lésion ?"
           value={lesionType}
           options={LESION_TYPES}
@@ -521,7 +509,6 @@ const MicroscopyForm = ({
         <>
           <Line>
             <Select
-              name="Type de maladie cutanée"
               label="Quel est le type de maladie cutanée ?"
               value={cutaneousDiseaseType}
               options={CUTANEOUS_DISEASE_TYPES}

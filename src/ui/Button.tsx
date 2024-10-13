@@ -2,6 +2,7 @@ import css from "./button.module.css";
 import { join } from "./helpers/helpers";
 
 type Props = {
+  // TODO clean: remove
   _className?: string;
   label: string;
   onClick: () => void;

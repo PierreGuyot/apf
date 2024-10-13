@@ -10,7 +10,6 @@ type Props = {
 export const SelectClarkInfiltrationLevel = ({ value, onChange }: Props) => (
   <Line>
     <Select
-      name="Niveau d'infiltration selon Clark"
       label="Niveau d'infiltration selon Clark"
       options={CLARK_INFILTRATION_LEVELS}
       value={value}

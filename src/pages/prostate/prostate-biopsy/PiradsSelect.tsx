@@ -28,7 +28,6 @@ const PiradsLine = ({
   return (
     <div className={css.main}>
       <SelectNumber
-        name="PIRADS score"
         label="PIRADS"
         min={2}
         max={5}

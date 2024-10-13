@@ -369,7 +369,6 @@ const ProstateBiopsyFormContent = ({
           always standardized.
         */}
           <Select
-            name="Container count"
             value={containerCount}
             label="Combien de pots avez-vous ?"
             options={CONTAINER_COUNT_OPTIONS}
@@ -392,7 +391,6 @@ const ProstateBiopsyFormContent = ({
       {score.tumorCount ? (
         <Item>
           <Select
-            name="Type histologique de la tumeur"
             label="Type histologique de la tumeur"
             options={TUMOR_TYPES}
             value={tumorType}
@@ -479,7 +477,6 @@ const ClinicalInfoExpert = ({
         <Select
           value={hasInfo}
           options={YES_NO_OPTIONS}
-          name="Renseignements cliniques"
           label="Avez-vous des renseignements cliniques ?"
           onChange={setField("hasInfo")}
         />
@@ -500,7 +497,6 @@ const ClinicalInfoExpert = ({
             <Select
               value={hasMri}
               options={YES_NO_OPTIONS}
-              name="IRM"
               label="Avez-vous une IRM ?"
               onChange={setField("hasMri")}
             />
@@ -511,7 +507,6 @@ const ClinicalInfoExpert = ({
                 <Select
                   value={hasTarget}
                   options={YES_NO_OPTIONS}
-                  name="Présence de cible"
                   label="Avez-vous au moins une cible ?"
                   onChange={setField("hasTarget")}
                 />
@@ -521,7 +516,6 @@ const ClinicalInfoExpert = ({
                   <Line>
                     <SelectNumber
                       value={targetCount}
-                      name="Nombre de cibles"
                       label="Nombre de cibles"
                       max={MAX_TARGET_COUNT}
                       onChange={setField("targetCount")}

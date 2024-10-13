@@ -22,7 +22,6 @@ export const CellNumber = ({ value }: { value: number }) => <b>{value}</b>;
 export const CellChoice = Select;
 
 export const CellYesNo = (props: {
-  name: string;
   language?: Language;
   value: boolean;
   isReadOnly?: boolean;

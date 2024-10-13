@@ -30,7 +30,6 @@ export const Summary = ({ getContent, getTable }: Props) => {
         <div className={css.buttons}>
           <Select
             variant="neutral"
-            name="Language selection"
             label="Langue :"
             value={language}
             options={LANGUAGE_OPTIONS}

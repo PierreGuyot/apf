@@ -112,7 +112,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
         </Line>
         <Line>
           <Select
-            name="Type d'échantillonnage"
             options={SAMPLING_TYPES}
             value={samplingType}
             onChange={setField("samplingType")}
@@ -121,7 +120,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
           <InputNumber value={blockCount} onChange={setField("blockCount")} />{" "}
           blocs (fixation : formol tamponné 4%, coloration:{" "}
           <Select
-            name="Coloration de l'inclusion"
             options={COLORATION_OPTIONS}
             value={coloration}
             onChange={setField("coloration")}
@@ -134,7 +132,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
         <Line>
           <Select
             label="Quelle est le type de la lésion principale ?"
-            name="Type de la lésion principale"
             options={MAIN_LESION_TYPES}
             value={mainLesionType}
             onChange={setField("mainLesionType")}
@@ -146,7 +143,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             <Line>
               <Select
                 label="Type histologique de la tumeur"
-                name="Type histologique de la tumeur"
                 options={TUMOR_TYPES}
                 value={tumorType}
                 onChange={setField("tumorType")}
@@ -155,7 +151,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             <Line>
               <Select
                 label="Conditions pré-existantes"
-                name="Conditions pré-existantes"
                 options={PRIOR_CONDITION_OPTIONS}
                 value={priorConditions}
                 onChange={setField("priorConditions")}
@@ -173,7 +168,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             ) : undefined}
             <Line>
               <Select
-                name="Estimation de la surface envahie"
                 label="Estimation de la surface envahie"
                 options={TUMOR_QUANTIFICATION_OPTIONS}
                 value={tumorQuantification}

@@ -14,5 +14,5 @@ type Props = {
 export const SelectLocation = ({ formId, ...props }: Props) => {
   const options = useMemo(() => getLocationOptions(formId), [formId]);
 
-  return <CellChoice name="Location" options={options} {...props} />;
+  return <CellChoice options={options} {...props} />;
 };

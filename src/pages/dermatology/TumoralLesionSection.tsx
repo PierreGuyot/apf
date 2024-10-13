@@ -51,7 +51,6 @@ export const TumoralLesionSection = ({
       </Line>
       <Line>
         <Select
-          name="Type de la tumeur cutanée principale"
           label="Quel est le type de la tumeur cutanée principale ?"
           value={mainTumorType}
           options={TUMOR_TYPE_OPTIONS}
@@ -60,7 +59,6 @@ export const TumoralLesionSection = ({
       </Line>
       <Line>
         <Select
-          name="Type des tumeurs cutanées adjacentes"
           label="Quel est le type des tumeurs cutanées adjacentes ?"
           value={secondaryTumorType}
           options={TUMOR_TYPE_OPTIONS}
@@ -69,7 +67,6 @@ export const TumoralLesionSection = ({
       </Line>
       <Line>
         <Select
-          name="Type d'exérèse"
           label="Préciser l'exérèse de la lésion :"
           value={excisionType}
           options={EXCISION_TYPES}
@@ -93,7 +90,6 @@ export const TumoralLesionSection = ({
             />
             {isOriented ? (
               <Select
-                name="Position de la marge latérale minimale"
                 options={MARGIN_POSITIONS}
                 value={marginPosition}
                 onChange={setField("marginPosition")}

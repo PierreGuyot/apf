@@ -4,7 +4,6 @@ import { range, toOption } from "./helpers/helpers";
 type Props = {
   min?: number;
   max: number;
-  name: string;
   label?: string;
   value: number;
   isReadOnly?: boolean;
