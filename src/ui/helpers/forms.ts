@@ -2,6 +2,8 @@ import { Language, translate } from "../language";
 import skinPath from "./../../images-who/skin.png";
 import uroPath from "./../../images-who/uro.png";
 
+export const FORM_MAX_WIDTH = "800px";
+
 type Category = "prostate" | "skin";
 
 type FormItem = {

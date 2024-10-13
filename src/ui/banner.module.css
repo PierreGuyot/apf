@@ -4,26 +4,24 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  max-width: 100%;
-  padding: 1rem 2rem;
   background-color: var(--background-default);
   border-bottom: 1px solid var(--border-default);
   box-sizing: border-box;
   z-index: var(--z-index-banner);
+
+  /* TODO clean: use Text */
   font-size: var(--text-sm);
 
-  display: flex;
-  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  /* TODO clean: use Stack (requires additional paddingX/paddingY props) */
+  padding: 1rem 2rem;
 }
 
 .warning {
   border-color: var(--border-warning);
-  color: var(--text-warning);
   background-color: var(--background-warning);
-}
 
-.actions {
-  display: flex;
-  gap: 0.4rem;
+  /* TODO clean: use Text */
+  color: var(--text-warning);
 }

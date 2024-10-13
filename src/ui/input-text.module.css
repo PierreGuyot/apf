@@ -1,17 +1,5 @@
 @import "./constants.css";
 
-/* TODO clean: extract common style */
-.main {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* TODO clean: extract label style */
-.sm {
-  font-size: var(--text-sm);
-}
-
 .input {
   /* Reset style */
   padding: 0;
@@ -21,7 +9,7 @@
   border: none;
 
   /** Custom style */
-  padding: 0.2rem;
+  padding: var(--spacing-xs);
 
   /* Common interaction style */
   background-color: var(--background-interaction);

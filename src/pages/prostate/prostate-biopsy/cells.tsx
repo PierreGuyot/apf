@@ -1,16 +1,15 @@
 import { Fragment } from "react";
 import {
   InputNumber,
-  join,
   Language,
   range,
   Select,
   SelectList,
+  Stack,
   YES_NO_OPTIONS,
 } from "../../../ui";
 import { SelectGleason } from "../SelectGleason";
 import { GleasonItem, OTHER_LESION_GROUPS, OtherLesionType } from "../helpers";
-import css from "./cells.module.css";
 
 export const CellSelectList = (props: {
   values: OtherLesionType[];
@@ -41,7 +40,7 @@ export const CellSize = ({
   onChange: (value: number[]) => void;
   inputCount: number;
 }) => (
-  <div className={join(css.main, css.size)}>
+  <Stack direction="row" alignItems="center" spacing="xs">
     {range(inputCount).map((_, i) => (
       <Fragment key={i}>
         <InputNumber
@@ -56,7 +55,7 @@ export const CellSize = ({
         {i === inputCount - 1 ? undefined : <Plus />}
       </Fragment>
     ))}
-  </div>
+  </Stack>
 );
 
 export const CellGleason = ({
@@ -73,15 +72,16 @@ export const CellGleason = ({
   const { a, b } = value;
 
   return (
-    <div className={css.main}>
-      <div className={css.sum}>{a + b}</div>(
+    <Stack direction="row" alignItems="center" spacing="xs">
+      <div>{a + b}</div>
+      {"("}
       <SelectGleason
         language={language}
         value={value}
         isReadOnly={isReadOnly}
         onChange={onChange}
       />
-      )
-    </div>
+      {")"}
+    </Stack>
   );
 };

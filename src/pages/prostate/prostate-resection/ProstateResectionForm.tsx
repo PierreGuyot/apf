@@ -9,6 +9,7 @@ import {
   Section,
   Select,
   SelectList,
+  Stack,
   Summary,
   useForm,
 } from "../../../ui";
@@ -94,111 +95,113 @@ export const ProstateResectionForm = ({ formId }: Props) => {
 
   return (
     <FormPage formId={formId} onClear={clearState}>
-      <ClinicalInfo
-        index={1}
-        value={caseSummary}
-        onChange={setField("caseSummary")}
-      />
+      <Stack spacing="lg">
+        <ClinicalInfo
+          index={1}
+          value={caseSummary}
+          onChange={setField("caseSummary")}
+        />
 
-      <Section title="Macroscopie" index={2}>
-        <Line>
-          <InputNumber
-            label="Poids des copeaux :"
-            value={chipWeight}
-            unit="g"
-            isDecimal
-            onChange={setField("chipWeight")}
-          />
-        </Line>
-        <Line>
-          <Select
-            options={SAMPLING_TYPES}
-            value={samplingType}
-            onChange={setField("samplingType")}
-          />{" "}
-          en{" "}
-          <InputNumber value={blockCount} onChange={setField("blockCount")} />{" "}
-          blocs (fixation : formol tamponné 4%, coloration:{" "}
-          <Select
-            options={COLORATION_OPTIONS}
-            value={coloration}
-            onChange={setField("coloration")}
-          />
-          )
-        </Line>
-      </Section>
+        <Section title="Macroscopie" index={2}>
+          <Line>
+            <InputNumber
+              label="Poids des copeaux :"
+              value={chipWeight}
+              unit="g"
+              isDecimal
+              onChange={setField("chipWeight")}
+            />
+          </Line>
+          <Line>
+            <Select
+              options={SAMPLING_TYPES}
+              value={samplingType}
+              onChange={setField("samplingType")}
+            />{" "}
+            en{" "}
+            <InputNumber value={blockCount} onChange={setField("blockCount")} />{" "}
+            blocs (fixation : formol tamponné 4%, coloration:{" "}
+            <Select
+              options={COLORATION_OPTIONS}
+              value={coloration}
+              onChange={setField("coloration")}
+            />
+            )
+          </Line>
+        </Section>
 
-      <Section title="Microscopie" index={3}>
-        <Line>
-          <Select
-            label="Quelle est le type de la lésion principale ?"
-            options={MAIN_LESION_TYPES}
-            value={mainLesionType}
-            onChange={setField("mainLesionType")}
-          />
-        </Line>
+        <Section title="Microscopie" index={3}>
+          <Line>
+            <Select
+              label="Quelle est le type de la lésion principale ?"
+              options={MAIN_LESION_TYPES}
+              value={mainLesionType}
+              onChange={setField("mainLesionType")}
+            />
+          </Line>
 
-        {mainLesionType === "tumor" ? (
-          <>
-            <Line>
-              <Select
-                label="Type histologique de la tumeur"
-                options={TUMOR_TYPES}
-                value={tumorType}
-                onChange={setField("tumorType")}
-              />
-            </Line>
-            <Line>
-              <Select
-                label="Conditions pré-existantes"
-                options={PRIOR_CONDITION_OPTIONS}
-                value={priorConditions}
-                onChange={setField("priorConditions")}
-              />
-            </Line>
-            {isApplicable(priorConditions) ? (
+          {mainLesionType === "tumor" ? (
+            <>
               <Line>
-                Score de Gleason :{" "}
-                <CellGleason
-                  language={DEFAULT_LANGUAGE}
-                  value={histologicalGrade}
-                  onChange={setField("histologicalGrade")}
+                <Select
+                  label="Type histologique de la tumeur"
+                  options={TUMOR_TYPES}
+                  value={tumorType}
+                  onChange={setField("tumorType")}
                 />
               </Line>
-            ) : undefined}
-            <Line>
-              <Select
-                label="Estimation de la surface envahie"
-                options={TUMOR_QUANTIFICATION_OPTIONS}
-                value={tumorQuantification}
-                onChange={setField("tumorQuantification")}
+              <Line>
+                <Select
+                  label="Conditions pré-existantes"
+                  options={PRIOR_CONDITION_OPTIONS}
+                  value={priorConditions}
+                  onChange={setField("priorConditions")}
+                />
+              </Line>
+              {isApplicable(priorConditions) ? (
+                <Line>
+                  Score de Gleason :{" "}
+                  <CellGleason
+                    language={DEFAULT_LANGUAGE}
+                    value={histologicalGrade}
+                    onChange={setField("histologicalGrade")}
+                  />
+                </Line>
+              ) : undefined}
+              <Line>
+                <Select
+                  label="Estimation de la surface envahie"
+                  options={TUMOR_QUANTIFICATION_OPTIONS}
+                  value={tumorQuantification}
+                  onChange={setField("tumorQuantification")}
+                />
+              </Line>
+              <SelectLymphaticOrVascularInvasion
+                value={hasLymphaticOrVascularInvasion}
+                onChange={setField("hasLymphaticOrVascularInvasion")}
               />
-            </Line>
-            <SelectLymphaticOrVascularInvasion
-              value={hasLymphaticOrVascularInvasion}
-              onChange={setField("hasLymphaticOrVascularInvasion")}
+              <SelectPerineuralInvasion
+                value={hasEpn}
+                onChange={setField("hasEpn")}
+              />
+            </>
+          ) : undefined}
+          <Line>
+            Autres lésions
+            <SelectList
+              values={otherLesions}
+              groups={OTHER_LESION_GROUPS}
+              onChange={setField("otherLesions")}
             />
-            <SelectPerineuralInvasion
-              value={hasEpn}
-              onChange={setField("hasEpn")}
-            />
-          </>
-        ) : undefined}
-        <Line>
-          Autres lésions
-          <SelectList
-            values={otherLesions}
-            groups={OTHER_LESION_GROUPS}
-            onChange={setField("otherLesions")}
-          />
-        </Line>
-      </Section>
+          </Line>
+        </Section>
 
-      <Summary
-        getContent={(language) =>
-          generateReport({ formId, ...state }, language)
-        }
-      />
+        <Summary
+          getContent={(language) =>
+            generateReport({ formId, ...state }, language)
+          }
+        />
+      </Stack>
     </FormPage>
   );
 };

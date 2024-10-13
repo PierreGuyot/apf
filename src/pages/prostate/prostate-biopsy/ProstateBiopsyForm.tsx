@@ -11,8 +11,8 @@ import {
 } from "../../../common/immunohistochemistry/helpers";
 import {
   DEFAULT_LANGUAGE,
+  FORM_MAX_WIDTH,
   InputNumber,
-  Item,
   Language,
   Line,
   NestedItem,
@@ -20,6 +20,7 @@ import {
   Section,
   Select,
   SelectNumber,
+  Stack,
   Summary,
   ValidationErrors,
   YES_NO_OPTIONS,
@@ -346,101 +347,103 @@ const ProstateBiopsyFormContent = ({
 
   return (
     <FormPage formId={formId} onClear={clearState}>
-      {isExpertMode ? (
-        <ClinicalInfoExpert
-          index={1}
-          formId={formId}
-          state={state}
-          setState={(value) => setState({ ...state, ...value })}
-        />
-      ) : (
-        <ClinicalInfo
-          index={1}
-          value={clinicalInfo}
-          onChange={setField("clinicalInfo")}
-        />
-      )}
+      <Stack spacing="lg">
+        {isExpertMode ? (
+          <ClinicalInfoExpert
+            index={1}
+            formId={formId}
+            state={state}
+            setState={(value) => setState({ ...state, ...value })}
+          />
+        ) : (
+          <ClinicalInfo
+            index={1}
+            value={clinicalInfo}
+            onChange={setField("clinicalInfo")}
+          />
+        )}
 
-      <Section title="Biopsies" index={2}>
-        <Line>
-          {/* CAUTION:
+        <Section title="Biopsies" index={2}>
+          <Line>
+            {/* CAUTION:
           This question is redundant with some previous questions but it is on
           done on purpose, as info given to anatomical pathologists is not
           always standardized.
         */}
-          <Select
-            value={containerCount}
-            label="Combien de pots avez-vous ?"
-            options={CONTAINER_COUNT_OPTIONS}
-            onChange={setField("containerCount")}
-          />
-        </Line>
-      </Section>
-
-      <Item hasMaxWidth={false}>
-        <ProstateBiopsyTable
-          formId={formId}
-          language={DEFAULT_LANGUAGE}
-          rows={rows}
-          visibleRowCount={containerCount}
-          score={score}
-          onChange={setField("rows")}
-        />
-      </Item>
-
-      {score.tumorCount ? (
-        <Item>
-          <Select
-            label="Type histologique de la tumeur"
-            options={TUMOR_TYPES}
-            value={tumorType}
-            onChange={setField("tumorType")}
-          />
-        </Item>
-      ) : undefined}
-
-      <ValidationErrors
-        header="Le tableau comporte les erreurs suivantes :"
-        errors={biopsyTableErrors}
-      />
-
-      <Section title="Immunohistochimie" index={3}>
-        <Immunohistochemistry
-          containerCount={containerCount}
-          groups={PROSTATE_ANTIBODY_GROUPS}
-          properties={PROSTATE_ANTIBODY_PROPERTIES}
-          state={ihc}
-          setState={setField("ihc")}
-        />
-
-        <ValidationErrors
-          header="La section Immunohistochimie comporte les erreurs suivantes :"
-          errors={ihcErrors}
-        />
-      </Section>
-
-      <AdditionalRemarks
-        index={4}
-        value={comment}
-        onChange={setField("comment")}
-      />
-
-      {hasErrors ? undefined : (
-        <Summary
-          getContent={getReportContent}
-          getTable={(language) => (
-            <ProstateBiopsyTable
-              formId={formId}
-              language={language}
-              visibleRowCount={containerCount}
-              rows={rows}
-              score={score}
-              isReadOnly
-              onChange={noop}
+            <Select
+              value={containerCount}
+              label="Combien de pots avez-vous ?"
+              options={CONTAINER_COUNT_OPTIONS}
+              onChange={setField("containerCount")}
             />
-          )}
+          </Line>
+        </Section>
+
+        <Stack spacing="md">
+          {/* NOTE: the table can extend beyond FORM_MAX_WIDTH for better UX */}
+          <ProstateBiopsyTable
+            formId={formId}
+            language={DEFAULT_LANGUAGE}
+            rows={rows}
+            visibleRowCount={containerCount}
+            score={score}
+            onChange={setField("rows")}
+          />
+          <Stack maxWidth={FORM_MAX_WIDTH} spacing="md">
+            {score.tumorCount ? (
+              <Select
+                label="Type histologique de la tumeur"
+                options={TUMOR_TYPES}
+                value={tumorType}
+                onChange={setField("tumorType")}
+              />
+            ) : undefined}
+            <ValidationErrors
+              header="Le tableau comporte les erreurs suivantes :"
+              errors={biopsyTableErrors}
+            />
+          </Stack>
+        </Stack>
+
+        <Section title="Immunohistochimie" index={3}>
+          <Immunohistochemistry
+            containerCount={containerCount}
+            groups={PROSTATE_ANTIBODY_GROUPS}
+            properties={PROSTATE_ANTIBODY_PROPERTIES}
+            state={ihc}
+            setState={setField("ihc")}
+          />
+
+          <ValidationErrors
+            header="La section Immunohistochimie comporte les erreurs suivantes :"
+            errors={ihcErrors}
+          />
+        </Section>
+
+        <AdditionalRemarks
+          index={4}
+          value={comment}
+          onChange={setField("comment")}
         />
-      )}
+
+        {hasErrors ? undefined : (
+          <Summary
+            getContent={getReportContent}
+            // NOTE: the table can extend beyond FORM_MAX_WIDTH for better UX
+            getTable={(language) => (
+              <ProstateBiopsyTable
+                formId={formId}
+                language={language}
+                visibleRowCount={containerCount}
+                rows={rows}
+                score={score}
+                isReadOnly
+                onChange={noop}
+              />
+            )}
+          />
+        )}
+      </Stack>
     </FormPage>
   );
 };

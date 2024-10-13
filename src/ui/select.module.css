@@ -1,17 +1,5 @@
 @import "./constants.css";
 
-/* TODO clean: extract common style */
-.main {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* TODO clean: extract label style */
-.sm {
-  font-size: var(--text-sm);
-}
-
 .select {
   max-width: 300px !important;
 }

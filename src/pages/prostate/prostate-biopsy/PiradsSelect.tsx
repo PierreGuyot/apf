@@ -1,4 +1,4 @@
-import { SelectNumber } from "../../../ui";
+import { SelectNumber, Stack } from "../../../ui";
 import { SelectLocation } from "./SelectLocation";
 import {
   Location,
@@ -6,7 +6,6 @@ import {
   PiradsScore,
   ProstateBiopsyFormId,
 } from "./helpers";
-import css from "./pirads-select.module.css";
 
 // PIRADS: Prostate Imaging Reporting and Data System
 
@@ -26,7 +25,7 @@ const PiradsLine = ({
     onChange({ ...value, location });
 
   return (
-    <div className={css.main}>
+    <Stack direction="row" alignItems="center" spacing="sm">
       <SelectNumber
         label="PIRADS"
         min={2}
@@ -40,7 +39,7 @@ const PiradsLine = ({
         value={value.location}
         onChange={onChangeLocation}
       />
-    </div>
+    </Stack>
   );
 };
 
@@ -57,7 +56,7 @@ export const PiradsSelect = ({
   formId,
   onChange,
 }: Props) => (
-  <>
+  <Stack spacing="sm">
     {items.slice(0, visibleRowCount).map((item, i) => (
       <PiradsLine
         key={i}
@@ -66,5 +65,5 @@ export const PiradsSelect = ({
         onChange={(value) => onChange(value, i)}
       />
     ))}
-  </>
+  </Stack>
 );

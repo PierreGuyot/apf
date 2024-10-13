@@ -4,6 +4,8 @@ import { Option, OptionGroup, OptionValue } from "./helpers/options";
 
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import css from "./select.module.css";
+import { Stack } from "./Stack";
+import { Text } from "./Text";
 
 type Props<T extends OptionValue> = {
   language?: Language;
@@ -113,14 +115,18 @@ export function Select<T extends OptionValue>({
   ]);
 
   return (
-    // TODO clean: mutualize style with InputText
-    <div className={join(css.main, css[labelSize])}>
+    // TODO clean: mutualize style with other inputs and selects
+    <Stack direction="row" alignItems="center" wrap="wrap" spacing="sm">
       {/* TODO clean: replace with Label */}
       {/* TODO clean: translate label */}
       {/* TODO clean: prevent unwanted wrapping */}
-      {label ? <label htmlFor={id}>{label}</label> : undefined}
+      {label ? (
+        <label htmlFor={id}>
+          <Text size={labelSize}>{label}</Text>
+        </label>
+      ) : undefined}
       {content}
-    </div>
+    </Stack>
   );
 }
 

@@ -92,7 +92,7 @@ export const InputNumber = ({
   };
 
   return (
-    // TODO clean: mutualize style with InputText
+    // TODO clean: mutualize style with other inputs and selects
     <Stack direction="row" alignItems="center" spacing="sm">
       {label ? <Label label={label} /> : undefined}
       {isReadOnly ? (

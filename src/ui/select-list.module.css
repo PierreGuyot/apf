@@ -1,19 +1,5 @@
 @import "./constants.css";
 
-/* TODO clean: extract common style */
-.main {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
-}
-
-.tooltip {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
 .emptyState {
   align-self: center;
   font-style: italic;

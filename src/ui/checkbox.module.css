@@ -1,14 +1,7 @@
 @import "./constants.css";
 
-.main {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  width: fit-content;
-
-  input {
-    margin: initial;
-    /* TODO clean: mutualize style with InputText */
-    margin-right: 0.5rem;
-  }
+.input {
+  margin: initial;
+  /* TODO clean: mutualize style with other inputs and selects */
+  margin-right: 0.5rem;
 }

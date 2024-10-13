@@ -4,6 +4,7 @@ import { join } from "./helpers/helpers";
 import css from "./input-text.module.css";
 import { InputProps, OnInput } from "./input.types";
 import { useBoolean } from "./helpers/state";
+import { Stack } from "./Stack";
 
 type Props = InputProps<string> & {
   placeholder?: string;
@@ -31,9 +32,9 @@ export const InputText = ({
   };
 
   return (
-    /* TODO clean: extract label style */
-    <div className={join(css.main, css[labelSize])}>
-      {label ? <Label label={label} /> : undefined}
+    // TODO clean: mutualize style with other inputs and selects
+    <Stack direction="row" alignItems="center" spacing="sm">
+      {label ? <Label label={label} size={labelSize} /> : undefined}
       {isReadOnly ? (
         value
       ) : (
@@ -54,6 +55,6 @@ export const InputText = ({
           ) : undefined}
         </>
       )}
-    </div>
+    </Stack>
   );
 };

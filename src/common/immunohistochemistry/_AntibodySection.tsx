@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import {
   InputText,
   InputTextArea,
-  Item,
   patchState,
   Select,
   Stack,
@@ -114,14 +113,12 @@ const OtherAntibodyForm = ({
               onChange={setField("clone")}
             />
           </Stack>
-          <Item>
-            <InputTextArea
-              label="Résultat immunohistochimie"
-              lineCount={2}
-              value={state.result}
-              onChange={setField("result")}
-            />
-          </Item>
+          <InputTextArea
+            label="Résultat immunohistochimie"
+            lineCount={2}
+            value={state.result}
+            onChange={setField("result")}
+          />
         </Stack>
       </SubSection>
     </Stack>

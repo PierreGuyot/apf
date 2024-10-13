@@ -1,13 +1,12 @@
 import { ReactNode, useState } from "react";
 import { Button } from "./Button";
-import { Item } from "./Item";
 import { Section } from "./Section";
 import { Select } from "./Select";
+import { Stack } from "./Stack";
 import { TextBlock } from "./TextBlock";
 import { copyToClipboard } from "./helpers/copy";
 import { Option } from "./helpers/options";
 import { Language } from "./language";
-import css from "./summary.module.css";
 
 type Props = {
   getContent: (language: Language) => string; // This part of the content must be a string for copy-pasting
@@ -27,24 +26,24 @@ export const Summary = ({ getContent, getTable }: Props) => {
   return (
     <>
       <Section title="Compte-rendu">
-        <div className={css.buttons}>
-          <Select
-            variant="neutral"
-            label="Langue :"
-            value={language}
-            options={LANGUAGE_OPTIONS}
-            onChange={setLanguage}
-          />
-          <Button
-            label="Copier dans le presse-papier"
-            onClick={() => copyToClipboard(content)}
-          />
-        </div>
-        <TextBlock>{content}</TextBlock>
+        <Stack spacing="sm">
+          <Stack direction="row" justifyContent="space-between">
+            <Select
+              variant="neutral"
+              label="Langue :"
+              value={language}
+              options={LANGUAGE_OPTIONS}
+              onChange={setLanguage}
+            />
+            <Button
+              label="Copier dans le presse-papier"
+              onClick={() => copyToClipboard(content)}
+            />
+          </Stack>
+          <TextBlock>{content}</TextBlock>
+        </Stack>
       </Section>
-      {getTable ? (
-        <Item hasMaxWidth={false}>{getTable(language)}</Item>
-      ) : undefined}
+      {getTable ? getTable(language) : undefined}
     </>
   );
 };

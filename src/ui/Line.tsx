@@ -1,12 +1,16 @@
 import { PropsWithChildren } from "react";
 
-import { Item } from "./Item";
-import css from "./line.module.css";
+import { Stack } from "./Stack";
 
 type Props = PropsWithChildren<{}>;
 
 export const Line = ({ children }: Props) => (
-  <Item size="sm">
-    <div className={css.main}>{children}</div>
-  </Item>
+  <Stack
+    direction="row"
+    alignItems="center"
+    spacing="sm"
+    height={"var(--height-md)"}
+  >
+    {children}
+  </Stack>
 );

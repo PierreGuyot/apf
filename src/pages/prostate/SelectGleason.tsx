@@ -4,12 +4,12 @@ import {
   Language,
   Option,
   Select,
+  Stack,
   toOption,
 } from "../../ui";
 import { GLEASON_SCORES, GleasonItem, GleasonScore } from "./helpers";
 
 import { getCribriformPercentageOptions, getGleasonSummary } from "./helpers";
-import css from "./select-gleason.module.css";
 
 const Plus = () => <span>+</span>;
 
@@ -108,5 +108,17 @@ export const SelectGleason = ({
     b === 4 ? SelectCribriformPercentage : undefined,
   ].filter(filterEmpty);
 
-  return <span className={css.main}>{items}</span>;
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      spacing="xs"
+      padding="xs"
+      // TODO: clean use paddingY
+      paddingTop="none"
+      paddingBottom="none"
+    >
+      {items}
+    </Stack>
+  );
 };

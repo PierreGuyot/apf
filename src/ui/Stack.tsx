@@ -2,6 +2,8 @@ import { PropsWithChildren } from "react";
 import { size, Size } from "./sizes";
 import css from "./stack.module.css";
 
+// TODO clean: add marginX/marginY/paddingX/paddingY props
+
 type Props = PropsWithChildren<{
   direction?: "row" | "column";
 
@@ -21,29 +23,44 @@ type Props = PropsWithChildren<{
   alignItems?: "start" | "center" | "end";
   justifyContent?: "start" | "center" | "space-between";
   wrap?: "wrap" | "nowrap";
-  maxWidth?: string; // Free string
+
+  // Free strings
+  width?: string;
+  maxWidth?: string;
+  height?: string;
+  maxHeight?: string;
+
+  // Callbacks
+  onClick?: () => void;
 }>;
 
 export const Stack = ({
   direction = "column",
 
   // Spacing props
-  spacing = "none",
-  margin = "none",
-  marginTop = "none",
-  marginRight = "none",
-  marginBottom = "none",
-  marginLeft = "none",
-  padding = "none",
-  paddingTop = "none",
-  paddingRight = "none",
-  paddingBottom = "none",
-  paddingLeft = "none",
+  spacing,
+  margin,
+  marginTop,
+  marginRight,
+  marginBottom,
+  marginLeft,
+  padding,
+  paddingTop,
+  paddingRight,
+  paddingBottom,
+  paddingLeft,
 
   alignItems,
   justifyContent,
   wrap = "nowrap",
+
+  // Free strings
+  width,
   maxWidth,
+  height,
+  maxHeight,
+
+  onClick,
   children,
 }: Props) => (
   <div
@@ -67,8 +84,16 @@ export const Stack = ({
       alignItems,
       justifyContent,
       flexWrap: wrap,
+
+      // Free strings
+      width,
       maxWidth,
+      height,
+      maxHeight,
+
+      cursor: onClick ? "pointer" : undefined,
     }}
+    onClick={onClick}
   >
     {children}
   </div>

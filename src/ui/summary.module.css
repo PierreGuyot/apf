@@ -1,7 +1,0 @@
-@import "./constants.css";
-
-.buttons {
-  margin-bottom: 0.4rem;
-  display: flex;
-  justify-content: space-between;
-}

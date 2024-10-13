@@ -9,6 +9,7 @@ import { noop } from "./helpers/helpers";
 import { Option, OptionValue } from "./helpers/options";
 import { DEFAULT_LANGUAGE, Language, translate } from "./language";
 import css from "./select-list.module.css";
+import { Stack } from "./Stack";
 
 export type ItemGroup<T extends OptionValue> = {
   title: string;
@@ -71,7 +72,7 @@ export function SelectList<T extends OptionValue>({
         <Tooltip
           mode="click"
           content={
-            <div className={css.tooltip}>
+            <Stack spacing="md">
               {groups.map((group) => (
                 <CheckboxList
                   language={language}
@@ -82,7 +83,7 @@ export function SelectList<T extends OptionValue>({
                   onChange={_setValues}
                 />
               ))}
-            </div>
+            </Stack>
           }
           onClose={onCommit}
         >
@@ -110,10 +111,10 @@ export function SelectList<T extends OptionValue>({
   }, [emptyState, groups, hasList, isReadOnly, language, onChange, _values]);
 
   return (
-    /* TODO clean: mutualize style with InputText */
-    <div className={css.main}>
+    // TODO clean: mutualize style with other inputs and selects
+    <Stack direction="row" alignItems="center" wrap="wrap" spacing="sm">
       {label ? <Label label={label} /> : undefined}
       {content}
-    </div>
+    </Stack>
   );
 }

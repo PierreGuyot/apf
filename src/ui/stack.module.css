@@ -3,25 +3,3 @@
 .main {
   display: flex;
 }
-
-/* Spacing */
-
-.spacing--xs {
-  gap: var(--spacing-xs);
-}
-
-.spacing--sm {
-  gap: var(--spacing-sm);
-}
-
-.spacing--md {
-  gap: var(--spacing-md);
-}
-
-.spacing--lg {
-  gap: var(--spacing-lg);
-}
-
-.spacing--xl {
-  gap: var(--spacing-xl);
-}

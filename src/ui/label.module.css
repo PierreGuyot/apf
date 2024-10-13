@@ -1,9 +1,0 @@
-.main {
-  /* TODO clean: extract this to a `Text` component (as a `shouldWrap` prop) */
-  white-space: nowrap;
-  display: inline-block;
-}
-
-.isAbove {
-  margin-bottom: 0.4em;
-}

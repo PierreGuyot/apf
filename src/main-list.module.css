@@ -1,25 +1,5 @@
 @import "./ui/constants.css";
 
-/* TODO clean: extract paragraph style */
-.presentation {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.routes {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.section {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
 .icon {
   width: 2.5rem;
   aspect-ratio: 1;

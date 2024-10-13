@@ -10,7 +10,6 @@ export * from "./InlineCode";
 export * from "./InputNumber";
 export * from "./InputText";
 export * from "./InputTextArea";
-export * from "./Item";
 export * from "./Label";
 export * from "./language";
 export * from "./Line";

@@ -1,5 +1,6 @@
 import css from "./checkbox.module.css";
 import { noop } from "./helpers/helpers";
+import { Stack } from "./Stack";
 import { Text } from "./Text";
 
 type Props = {
@@ -11,9 +12,14 @@ type Props = {
 
 export const Checkbox = ({ label, isChecked, onChange }: Props) => {
   return (
-    <div className={css.main} onClick={onChange}>
-      <input type="checkbox" checked={isChecked} onChange={noop} />
+    <Stack direction="row" alignItems="center" onClick={onChange}>
+      <input
+        type="checkbox"
+        className={css.input}
+        checked={isChecked}
+        onChange={noop}
+      />
       <Text shouldWrap={false}>{label}</Text>
-    </div>
+    </Stack>
   );
 };

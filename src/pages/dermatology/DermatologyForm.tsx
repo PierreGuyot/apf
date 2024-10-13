@@ -8,6 +8,7 @@ import {
   Section,
   Select,
   SelectNumber,
+  Stack,
   SubSection,
   Summary,
   YES_NO_OPTIONS,
@@ -160,48 +161,53 @@ export const DermatologyForm = () => {
 
   return (
     <FormPage formId={FORM_ID} onClear={clearState}>
-      <ClinicalInfo value={clinicalInfo} onChange={setField("clinicalInfo")} />
+      <Stack spacing="lg">
+        <ClinicalInfo
+          value={clinicalInfo}
+          onChange={setField("clinicalInfo")}
+        />
 
-      <Section>
-        {/* TODO clean: use SelectNumber? */}
-        <Line>
-          Combien de pots avez-vous ?{}
-          <InputNumber
-            value={containerCount}
-            min={1}
-            max={MAX_CONTAINER_COUNT}
-            onChange={setField("containerCount")}
-          />
-        </Line>
-      </Section>
+        <Section>
+          {/* TODO clean: use SelectNumber? */}
+          <Line>
+            Combien de pots avez-vous ?{}
+            <InputNumber
+              value={containerCount}
+              min={1}
+              max={MAX_CONTAINER_COUNT}
+              onChange={setField("containerCount")}
+            />
+          </Line>
+        </Section>
 
-      {operations.slice(0, containerCount).map((operation, index) => {
-        const setOperation = (value: OperationState) =>
-          setField("operations")(
-            patchArray(state.operations, index, () => value),
+        {operations.slice(0, containerCount).map((operation, index) => {
+          const setOperation = (value: OperationState) =>
+            setField("operations")(
+              patchArray(state.operations, index, () => value),
+            );
+
+          return (
+            <OperationForm
+              key={index}
+              index={index}
+              operation={operation}
+              setOperation={setOperation}
+            />
           );
+        })}
 
-        return (
-          <OperationForm
-            key={index}
-            index={index}
-            operation={operation}
-            setOperation={setOperation}
-          />
-        );
-      })}
+        <AdditionalRemarks
+          index={containerCount + 1}
+          value={state.comment}
+          onChange={setField("comment")}
+        />
 
-      <AdditionalRemarks
-        index={containerCount + 1}
-        value={state.comment}
-        onChange={setField("comment")}
-      />
-
-      <Summary
-        getContent={(language) =>
-          generateReport({ ...state, formId: FORM_ID, language })
-        }
-      />
+        <Summary
+          getContent={(language) =>
+            generateReport({ ...state, formId: FORM_ID, language })
+          }
+        />
+      </Stack>
     </FormPage>
   );
 };
