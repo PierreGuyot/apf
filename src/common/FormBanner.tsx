@@ -10,7 +10,9 @@ import {
   goToIndex,
   joinLines,
 } from "../ui";
+import { InfoBox } from "../ui/InfoBox";
 import { FormDisclaimer } from "./FormDisclaimer";
+import { ISSUE_LINK, REPOSITORY_LINK } from "./links";
 
 // We recommend checking for updates after 180 days (around 6 months)
 // FIXME: discuss
@@ -23,8 +25,6 @@ type Props = {
   onClear: () => void;
 };
 
-const REPOSITORY_LINK = "https://github.com/PierreGuyot/apf";
-const ISSUE_LINK = "https://github.com/PierreGuyot/apf/issues";
 const CONFIRMATION_MESSAGE = joinLines([
   "Êtes-vous certain de vouloir remettre le formulaire à zéro ?",
   "Vos changements seront définitivement perdus.",
@@ -48,26 +48,24 @@ export const FormBanner = ({
   };
 
   const left = (
-    <>
+    <Stack spacing="sm">
       <div>
         Dernière mise à jour le {formatDate({ timestamp: lastUpdate })} (
         {formatDurationInDays({ duration: daysSinceLastUpdate })})
       </div>
-      <div>
-        Vous pouvez télécharger une version plus à jour de ce formulaire{" "}
-        <a href={REPOSITORY_LINK}>ici</a>.
-      </div>
-      {/* TODO feature: add mailing address to report issues */}
-      <div>
-        Vous pouvez remonter un problème ou une suggestion d'amélioration{" "}
-        <a href={ISSUE_LINK}>ici</a>.
-      </div>
-      {isPrototype ? (
-        <Stack marginTop="md">
-          <FormDisclaimer />
-        </Stack>
-      ) : undefined}
-    </>
+      {isPrototype ? <FormDisclaimer /> : undefined}
+      <InfoBox>
+        <div>
+          Vous pouvez télécharger une version plus à jour de ce formulaire{" "}
+          <a href={REPOSITORY_LINK}>ici</a>.
+        </div>
+        {/* TODO feature: add mailing address to report issues */}
+        <div>
+          Vous pouvez remonter un problème ou une suggestion d'amélioration{" "}
+          <a href={ISSUE_LINK}>ici</a>.
+        </div>
+      </InfoBox>
+    </Stack>
   );
 
   const right = (

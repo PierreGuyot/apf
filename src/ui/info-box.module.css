@@ -1,0 +1,16 @@
+@import "./constants.css";
+
+.main {
+  background-color: var(--background-info);
+  padding: var(--spacing-md) var(--spacing-lg);
+  width: fit-content;
+  color: white;
+
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:active {
+    color: white;
+  }
+}

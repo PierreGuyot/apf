@@ -11,7 +11,7 @@
   font-size: var(--text-sm);
   width: 100%;
   max-width: 100%;
-  padding: var(--spacing-lg) var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-xl);
 }
 
 .warning {

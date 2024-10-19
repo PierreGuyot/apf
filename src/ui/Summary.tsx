@@ -1,5 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Button } from "./Button";
+import { InfoBox } from "./InfoBox";
 import { Section } from "./Section";
 import { Select } from "./Select";
 import { Stack } from "./Stack";
@@ -7,6 +8,7 @@ import { TextBlock } from "./TextBlock";
 import { copyToClipboard } from "./helpers/copy";
 import { Option } from "./helpers/options";
 import { Language } from "./language";
+import { ISSUE_LINK } from "../common/links";
 
 type Props = {
   getContent: (language: Language) => string; // This part of the content must be a string for copy-pasting
@@ -41,6 +43,13 @@ export const Summary = ({ getContent, getTable }: Props) => {
             />
           </Stack>
           <TextBlock>{content}</TextBlock>
+          {/* TODO feature: add mailing address to report issues */}
+          <Stack alignItems="end">
+            <InfoBox>
+              Vous pouvez remonter un problème ou une suggestion d'amélioration{" "}
+              <a href={ISSUE_LINK}>ici</a>.
+            </InfoBox>
+          </Stack>
         </Stack>
       </Section>
       {getTable ? getTable(language) : undefined}
