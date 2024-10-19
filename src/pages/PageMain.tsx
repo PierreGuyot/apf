@@ -11,9 +11,9 @@ import {
   Title,
   getCategoryProps,
   useHash,
-} from "./ui";
+} from "../ui";
 
-import css from "./main-list.module.css";
+import css from "./page-main.module.css";
 // TODO clean: handle link buttons?
 const FormRoute = ({ route }: { route: FormId }) => {
   const { updateHash } = useHash();
@@ -27,7 +27,7 @@ const FormRoute = ({ route }: { route: FormId }) => {
   );
 };
 
-export const MainList = () => {
+export const PageMain = () => {
   return (
     <Page title="Bienvenue sur APF">
       <Stack spacing="lg">
