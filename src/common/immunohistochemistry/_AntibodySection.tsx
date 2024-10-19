@@ -6,6 +6,7 @@ import {
   Select,
   Stack,
   SubSection,
+  Text,
 } from "../../ui";
 import {
   ANTIBODIES_PROPERTIES,
@@ -59,10 +60,9 @@ const AntibodyForm = ({
 
   return (
     <Stack direction="row" alignItems="center" spacing="md">
-      {/* TODO clean: extract `Text` component */}
-      <div style={{ fontWeight: "bold", width: ANTIBODY_TYPE_WIDTH }}>
-        {label}
-      </div>
+      <Stack width={ANTIBODY_TYPE_WIDTH}>
+        <Text variant="bold">{label}</Text>
+      </Stack>
       <Select
         width="150px"
         label="Clone utilisé"
@@ -93,10 +93,9 @@ const OtherAntibodyForm = ({
 
   return (
     <Stack spacing="md">
-      {/* TODO clean: extract `Text` component */}
-      <div style={{ fontWeight: "bold", width: ANTIBODY_TYPE_WIDTH }}>
-        Autre
-      </div>
+      <Stack width={ANTIBODY_TYPE_WIDTH}>
+        <Text variant="bold">Autre</Text>
+      </Stack>
       <SubSection>
         <Stack spacing="sm">
           <Stack direction="row" spacing="md" wrap="wrap">

@@ -888,8 +888,8 @@ const Target = ({ children }: PropsWithChildren<{}>) => {
 
 const Todo = () => {
   return (
-    <div style={{ color: "var(--text-secondary)" }}>
+    <Text as="div" color="secondary">
       TODO: add documentation
-    </div>
+    </Text>
   );
 };

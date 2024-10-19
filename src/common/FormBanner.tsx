@@ -4,6 +4,7 @@ import {
   FORMS,
   FormId,
   ONE_DAY,
+  Stack,
   formatDate,
   formatDurationInDays,
   goToIndex,
@@ -62,10 +63,9 @@ export const FormBanner = ({
         <a href={ISSUE_LINK}>ici</a>.
       </div>
       {isPrototype ? (
-        // TODO NOW
-        <div style={{ marginTop: "10px" }}>
+        <Stack marginTop="md">
           <FormDisclaimer />
-        </div>
+        </Stack>
       ) : undefined}
     </>
   );
