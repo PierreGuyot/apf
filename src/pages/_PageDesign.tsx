@@ -685,7 +685,7 @@ const Header = () => {
 };
 
 const EntryTable = () => {
-  // TODO documentation: complete example by making these values customizable
+  // TODO clean: complete example by making these values customizable
   const visibleRowCount = 3;
   const isReadOnly = false;
   const onChange = noop;

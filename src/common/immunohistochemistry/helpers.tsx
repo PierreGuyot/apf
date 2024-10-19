@@ -17,13 +17,17 @@ export type StandardAntibody = {
 };
 
 export type OtherAntibody = {
-  type: "other";
   name: string;
   clone: string;
   result: string;
 };
 
-export type AntibodyData = StandardAntibody | OtherAntibody;
+export type OtherAntibodies = {
+  type: "others";
+  values: OtherAntibody[];
+};
+
+export type AntibodyData = StandardAntibody | OtherAntibodies;
 
 // FIXME: translate
 export type Antibody =
@@ -38,7 +42,6 @@ export type Antibody =
   // Prostate neoplasia cells
   | "P504S";
 
-// FIXME: un-mock
 export type AntibodyClone =
   | "M-13H4"
   | "M-4A4"
@@ -53,25 +56,29 @@ export type AntibodyClone =
   | "M-L50-823"
   | "M-EP111"
 
-  // Mocks
+  // FIXME: remove
   | "TODO";
 
 export const aNewOtherAntibody = (): OtherAntibody => ({
-  type: "other",
   name: "",
   clone: "",
   result: "",
+});
+
+export const aNewOtherAntibodies = (): OtherAntibodies => ({
+  type: "others",
+  values: [aNewOtherAntibody()],
 });
 
 export const aNewAntibody = ({
   type,
   properties,
 }: {
-  type: Antibody | "other";
+  type: Antibody | "others";
   properties: PropertiesByAntibody;
 }): AntibodyData => {
-  if (type === "other") {
-    return aNewOtherAntibody();
+  if (type === "others") {
+    return aNewOtherAntibodies();
   }
 
   const { clones } = ANTIBODIES_PROPERTIES[type];
@@ -96,9 +103,7 @@ export const aNewBlock = (index: number): Block => ({
   antibodies: [],
 });
 
-// FIXME: un-mock
-const MOCK_CLONES: Option<AntibodyClone>[] = [{ value: "TODO", label: "TODO" }];
-
+// FIXME: add missing values
 export const ANTIBODIES_PROPERTIES: Record<
   Antibody,
   {
@@ -128,10 +133,9 @@ export const ANTIBODIES_PROPERTIES: Record<
       },
     ],
   },
-  // FIXME: un-mock (missing in the spec)
   BCC: {
     label: "BCC",
-    clones: MOCK_CLONES,
+    clones: [{ value: "TODO", label: "TODO" }],
   },
   "CK5/6": {
     label: "CK5/6",
@@ -142,10 +146,9 @@ export const ANTIBODIES_PROPERTIES: Record<
       },
     ],
   },
-  // FIXME: un-mock (missing in the spec)
   CK903: {
     label: "CK903",
-    clones: MOCK_CLONES,
+    clones: [{ value: "TODO", label: "TODO" }],
   },
   "CK14/CK15": {
     label: "CK14/CK15",
@@ -165,15 +168,6 @@ export const ANTIBODIES_PROPERTIES: Record<
       },
     ],
   },
-};
-
-export const getAntibodyLabel = (type: Antibody | "other") => {
-  if (type === "other") {
-    return "Autre";
-  }
-
-  const properties = ANTIBODIES_PROPERTIES[type];
-  return properties.label;
 };
 
 export type Result = string;
@@ -205,26 +199,14 @@ export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
     }
 
     block.antibodies.forEach((antibody) => {
-      if (antibody.type === "other") {
-        const label = getAntibodyLabel(antibody.type);
-
-        if (!antibody.name) {
-          errors.push(
-            `Dans le bloc ${block.index}, le champ Nom pour l'anticorps ${label} doit être rempli.`,
-          );
-        }
-
-        if (!antibody.clone) {
-          errors.push(
-            `Dans le bloc ${block.index}, le champ Clone pour l'anticorps ${label} doit être rempli.`,
-          );
-        }
-
-        if (!antibody.result) {
-          errors.push(
-            `Dans le bloc ${block.index}, le champ Résultats immunohistochimies pour l'anticorps ${label} doit être rempli.`,
-          );
-        }
+      if (antibody.type === "others") {
+        antibody.values.forEach((value) => {
+          if (!value.name || !value.clone || !value.result) {
+            errors.push(
+              `Dans le bloc ${block.index}, les champs Nom, Clone et Résultat pour les anticorps autres doit être rempli.`,
+            );
+          }
+        });
       }
     });
   });

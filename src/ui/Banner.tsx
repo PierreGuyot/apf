@@ -12,7 +12,7 @@ type Props = {
 export const Banner = ({ left, right, isWarning = false }: Props) => {
   return (
     <div className={join(css.main, isWarning ? css.warning : undefined)}>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack direction="row" justifyContent="space-between" spacing="md">
         <div>{left}</div>
         <Stack direction="row" spacing="sm">
           {right}

@@ -1,7 +1,6 @@
-import { useMemo } from "react";
 import {
+  Button,
   InputText,
-  InputTextArea,
   patchState,
   Select,
   Stack,
@@ -9,8 +8,10 @@ import {
   Text,
 } from "../../ui";
 import {
+  aNewOtherAntibody,
   ANTIBODIES_PROPERTIES,
   AntibodyData,
+  OtherAntibodies,
   OtherAntibody,
   PropertiesByAntibody,
   StandardAntibody,
@@ -23,17 +24,13 @@ type Props = {
 };
 
 export const AntibodySection = ({ properties, state, setState }: Props) => {
-  const content = useMemo(() => {
-    if (state.type === "other") {
-      return <OtherAntibodyForm state={state} setState={setState} />;
-    }
+  if (state.type === "others") {
+    return <OtherAntibodySection state={state} setState={setState} />;
+  }
 
-    return (
-      <AntibodyForm properties={properties} state={state} setState={setState} />
-    );
-  }, [properties, setState, state]);
-
-  return <>{content}</>;
+  return (
+    <AntibodyForm properties={properties} state={state} setState={setState} />
+  );
 };
 
 const ANTIBODY_TYPE_WIDTH = "90px";
@@ -82,44 +79,81 @@ const AntibodyForm = ({
   );
 };
 
-const OtherAntibodyForm = ({
+const OtherAntibodySection = ({
   state,
   setState,
 }: {
-  state: OtherAntibody;
-  setState: (value: OtherAntibody) => void;
+  state: OtherAntibodies;
+  setState: (value: OtherAntibodies) => void;
 }) => {
   const setField = patchState(state, setState);
+  const onAdd = () => {
+    const updatedItems = [...state.values, aNewOtherAntibody()];
+    setField("values")(updatedItems);
+  };
+  const onDelete = (index: number) => {
+    const updatedItems = state.values.filter((_, i) => i !== index);
+    setField("values")(updatedItems);
+  };
 
   return (
     <Stack spacing="md">
       <Stack width={ANTIBODY_TYPE_WIDTH}>
-        <Text variant="bold">Autre</Text>
+        <Text variant="bold">Autres</Text>
       </Stack>
       <SubSection>
         <Stack spacing="sm">
-          <Stack direction="row" spacing="md" wrap="wrap">
-            <InputText
-              label="Nom de l'anticorps"
-              labelSize="sm"
-              value={state.name}
-              onChange={setField("name")}
+          {state.values.map((value, index) => (
+            <OtherAntibodyItem
+              key={index}
+              state={value}
+              setState={(newValue) => {
+                const newValues = [...state.values];
+                newValues[index] = newValue;
+                setField("values")(newValues);
+              }}
+              onDelete={() => onDelete(index)}
             />
-            <InputText
-              label="Clone utilisé"
-              labelSize="sm"
-              value={state.clone}
-              onChange={setField("clone")}
-            />
-          </Stack>
-          <InputTextArea
-            label="Résultat immunohistochimie"
-            lineCount={2}
-            value={state.result}
-            onChange={setField("result")}
-          />
+          ))}
         </Stack>
+        <Button label="Ajouter un anticorps autre" onClick={onAdd} />
       </SubSection>
+    </Stack>
+  );
+};
+
+const OtherAntibodyItem = ({
+  state,
+  setState,
+  onDelete,
+}: {
+  state: OtherAntibody;
+  setState: (value: OtherAntibody) => void;
+  onDelete: () => void;
+}) => {
+  const setField = patchState(state, setState);
+
+  return (
+    <Stack direction="row" spacing="md">
+      <InputText
+        label="Nom de l'anticorps"
+        labelSize="sm"
+        value={state.name}
+        onChange={setField("name")}
+      />
+      <InputText
+        label="Clone utilisé"
+        labelSize="sm"
+        value={state.clone}
+        onChange={setField("clone")}
+      />
+      <InputText
+        label="Résultat"
+        labelSize="sm"
+        value={state.result}
+        onChange={setField("result")}
+      />
+      <Button label="Supprimer" onClick={onDelete} />
     </Stack>
   );
 };

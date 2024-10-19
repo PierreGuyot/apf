@@ -114,7 +114,7 @@ export const SelectGleason = ({
       alignItems="center"
       spacing="xs"
       padding="xs"
-      // TODO: clean use paddingY
+      // TODO clean: clean use paddingY
       paddingTop="none"
       paddingBottom="none"
     >

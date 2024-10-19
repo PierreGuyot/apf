@@ -59,7 +59,7 @@ export const FormBanner = ({
           Vous pouvez télécharger une version plus à jour de ce formulaire{" "}
           <a href={REPOSITORY_LINK}>ici</a>.
         </div>
-        {/* TODO feature: add mailing address to report issues */}
+        {/* FIXME: add mailing address to report issues */}
         <div>
           Vous pouvez remonter un problème ou une suggestion d'amélioration{" "}
           <a href={ISSUE_LINK}>ici</a>.

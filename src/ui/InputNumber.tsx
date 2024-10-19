@@ -8,7 +8,7 @@ import { InputProps, OnInput } from "./input.types";
 import { Label } from "./Label";
 import { Stack } from "./Stack";
 
-// TODO feature: add tooltip to display error message
+// TODO clean: add tooltip to display error message
 
 type Props = InputProps<number> & {
   min?: number;

@@ -43,7 +43,7 @@ export const Summary = ({ getContent, getTable }: Props) => {
             />
           </Stack>
           <TextBlock>{content}</TextBlock>
-          {/* TODO feature: add mailing address to report issues */}
+          {/* FIXME: add mailing address to report issues */}
           <Stack alignItems="end">
             <InfoBox>
               Vous pouvez remonter un problème ou une suggestion d'amélioration{" "}

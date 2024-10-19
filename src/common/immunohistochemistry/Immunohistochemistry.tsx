@@ -143,8 +143,8 @@ const BlockSection = ({
     () => [
       ...antibodyGroups,
       {
-        title: "Autre",
-        options: [{ value: "other" as const, label: "Autre" }],
+        title: "Autres",
+        options: [{ value: "others" as const, label: "Autres" }],
       },
     ],
     [antibodyGroups],
