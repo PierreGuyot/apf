@@ -56,6 +56,46 @@ export type AntibodyClone =
   // Mocks
   | "TODO";
 
+export const aNewOtherAntibody = (): OtherAntibody => ({
+  type: "other",
+  name: "",
+  clone: "",
+  result: "",
+});
+
+export const aNewAntibody = ({
+  type,
+  properties,
+}: {
+  type: Antibody | "other";
+  properties: PropertiesByAntibody;
+}): AntibodyData => {
+  if (type === "other") {
+    return aNewOtherAntibody();
+  }
+
+  const { clones } = ANTIBODIES_PROPERTIES[type];
+  const defaultClone = clones[0].value;
+
+  const antibodyProperties = properties[type];
+  if (!antibodyProperties) {
+    throw new Error("Missing antibody properties");
+  }
+  const { resultOptions } = antibodyProperties;
+  const defaultResult = resultOptions[0].value;
+
+  return {
+    type: type,
+    clone: defaultClone,
+    result: defaultResult,
+  };
+};
+
+export const aNewBlock = (index: number): Block => ({
+  index,
+  antibodies: [],
+});
+
 // FIXME: un-mock
 const MOCK_CLONES: Option<AntibodyClone>[] = [{ value: "TODO", label: "TODO" }];
 

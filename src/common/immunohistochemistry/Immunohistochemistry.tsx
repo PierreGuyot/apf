@@ -12,12 +12,12 @@ import {
 } from "../../ui";
 import { AntibodySection } from "./_AntibodySection";
 import {
-  ANTIBODIES_PROPERTIES,
-  Antibody,
+  aNewAntibody,
+  aNewBlock,
   AntibodyData,
   AntibodyGroup,
+  Block,
   IhcState,
-  OtherAntibody,
   PropertiesByAntibody,
 } from "./helpers";
 
@@ -29,53 +29,11 @@ type Props = {
   setState: (state: IhcState) => void;
 };
 
-const anEmptyAntibodyData = ({
-  type,
-  properties,
-}: {
-  type: Antibody | "other";
-  properties: PropertiesByAntibody;
-}): AntibodyData => {
-  if (type === "other") {
-    return {
-      type,
-      name: "",
-      clone: "",
-      result: "",
-    } satisfies OtherAntibody;
-  }
-
-  const { clones } = ANTIBODIES_PROPERTIES[type];
-  const defaultClone = clones[0].value;
-
-  const antibodyProperties = properties[type];
-  if (!antibodyProperties) {
-    throw new Error("Missing antibody properties");
-  }
-  const { resultOptions } = antibodyProperties;
-  const defaultResult = resultOptions[0].value;
-
-  return {
-    type: type,
-    clone: defaultClone,
-    result: defaultResult,
-  };
-};
-
-const aNewBlock = (index: number): Block => ({
-  index,
-  antibodies: [],
-});
 const getBlockOptions = (count: number) =>
   range(1, count).map((value) => ({
     value,
     label: `Bloc ${value}`,
   }));
-
-type Block = {
-  index: number;
-  antibodies: AntibodyData[];
-};
 
 export const Immunohistochemistry = ({
   containerCount,
@@ -175,8 +133,7 @@ const BlockSection = ({
 
   const onSelectAntibodies = (newSelection: AntibodyData["type"][]) => {
     const newAntibodies = newSelection.map(
-      (type) =>
-        antibodiesByType[type] ?? anEmptyAntibodyData({ type, properties }),
+      (type) => antibodiesByType[type] ?? aNewAntibody({ type, properties }),
     );
     setField("antibodies")(newAntibodies);
   };
