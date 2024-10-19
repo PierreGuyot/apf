@@ -36,18 +36,7 @@ export type Antibody =
   | "CK903"
   | "CK14/CK15"
   // Prostate neoplasia cells
-  | "P504S"
-  // Prostatic
-  | "PSA"
-  | "PSAP"
-  | "NKX3.1"
-  | "RA"
-  // Vesicular
-  | "CK7"
-  | "CK20"
-  | "GATA3"
-  // Prognostic
-  | "ERG";
+  | "P504S";
 
 // FIXME: un-mock
 export type AntibodyClone =
@@ -133,64 +122,6 @@ export const ANTIBODIES_PROPERTIES: Record<
       {
         value: "M-13H4",
         label: "M-13H4",
-      },
-    ],
-  },
-  PSA: {
-    label: "PSA",
-    clones: [
-      {
-        value: "polyclonal-ventana",
-        label: "Polyclonal (Ventana)",
-      },
-    ],
-  },
-  // FIXME: un-mock (missing in the spec)
-  PSAP: { label: "PSAP", clones: MOCK_CLONES },
-  "NKX3.1": {
-    label: "NKX3.1",
-    clones: [
-      {
-        value: "EP356",
-        label: "EP356",
-      },
-    ],
-  },
-  // FIXME: un-mock (missing in the spec)
-  RA: { label: "RA", clones: MOCK_CLONES },
-  CK7: {
-    label: "CK7",
-    clones: [
-      {
-        value: "M-SP52",
-        label: "M-SP52",
-      },
-    ],
-  },
-  CK20: {
-    label: "CK20",
-    clones: [
-      {
-        value: "M-SP33",
-        label: "M-SP33",
-      },
-    ],
-  },
-  GATA3: {
-    label: "GATA3",
-    clones: [
-      {
-        value: "M-L50-823",
-        label: "M-L50-823",
-      },
-    ],
-  },
-  ERG: {
-    label: "ERG",
-    clones: [
-      {
-        value: "M-EP111",
-        label: "M-EP111",
       },
     ],
   },

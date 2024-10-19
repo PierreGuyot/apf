@@ -153,9 +153,11 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Emboles vasculaires ou lymphatiques": "Lympathic or vascular invasion",
   "Engainements périnerveux": "Perineural Invasion",
   "Poids des copeaux": "Total chip weight",
-
-  // Dermatology
   Dermatologie: "Dermatology",
+
+  Bénin: "Begnin",
+  "Lésion intra-épithéliale": "Intraepithelial lesion",
+  "Carcinome invasif": "Invasive carcinoma",
 };
 
 export const translate = (value: string, language: Language) => {

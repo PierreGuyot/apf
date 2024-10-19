@@ -266,15 +266,10 @@ export const getGleasonSummary = (
   return `${a + b} (${items})`;
 };
 
-// FIXME: translate
 const CONCLUSIONS_SEVERITY = [
   { value: "begnin", label: "Bénin" },
   { value: "intraepithelial-lesion", label: "Lésion intra-épithéliale" },
   { value: "invasive-carcinoma", label: "Carcinome invasif" },
-];
-const CONCLUSIONS_ORIGIN = [
-  { value: "origin-prostate", label: "Origine prostatique" },
-  { value: "origin-vesicle", label: "Origine vésiculaire" },
 ];
 
 // FIXME: translate
@@ -296,27 +291,6 @@ export const PROSTATE_ANTIBODY_GROUPS = [
     title: "Anticorps des cellules néoplasiques prostatiques",
     options: [{ value: "P504S" as const, label: "P504S" }],
   },
-  {
-    title: "Anticorps d'origine prostatique",
-    options: [
-      { value: "PSA" as const, label: "PSA" },
-      { value: "PSAP" as const, label: "PSAP" },
-      { value: "NKX3.1" as const, label: "NKX3.1" },
-      { value: "RA" as const, label: "RA" },
-    ],
-  },
-  {
-    title: "Anticorps d'origine vésicale",
-    options: [
-      { value: "CK7" as const, label: "CK7" },
-      { value: "CK20" as const, label: "CK20" },
-      { value: "GATA3" as const, label: "GATA3" },
-    ],
-  },
-  {
-    title: "Anticorps pronostiques",
-    options: [{ value: "ERG" as const, label: "ERG" }],
-  },
 ] satisfies AntibodyGroup[];
 
 export const PROSTATE_ANTIBODY_PROPERTIES: PropertiesByAntibody = {
@@ -326,17 +300,4 @@ export const PROSTATE_ANTIBODY_PROPERTIES: PropertiesByAntibody = {
   CK903: { resultOptions: CONCLUSIONS_SEVERITY },
   "CK14/CK15": { resultOptions: CONCLUSIONS_SEVERITY },
   P504S: { resultOptions: CONCLUSIONS_SEVERITY },
-  PSA: { resultOptions: CONCLUSIONS_ORIGIN },
-  PSAP: { resultOptions: CONCLUSIONS_ORIGIN },
-  "NKX3.1": { resultOptions: CONCLUSIONS_ORIGIN },
-  RA: { resultOptions: CONCLUSIONS_ORIGIN },
-  CK7: { resultOptions: CONCLUSIONS_ORIGIN },
-  CK20: { resultOptions: CONCLUSIONS_ORIGIN },
-  GATA3: { resultOptions: CONCLUSIONS_ORIGIN },
-  ERG: {
-    resultOptions: [
-      // FIX ME: complete missing value (we fill it to avoid runtime crash)
-      { value: "FIXME", label: "FIXME" },
-    ],
-  },
 };
