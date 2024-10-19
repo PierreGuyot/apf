@@ -2,7 +2,7 @@ import {
   Button,
   Disclaimer,
   FORMS,
-  FORM_ROUTES,
+  FORM_CATEGORIES,
   FormId,
   Page,
   Section,
@@ -60,7 +60,7 @@ export const PageMain = () => {
 
         <Section title="Choisissez un type de formulaire">
           <Stack spacing="lg">
-            {FORM_ROUTES.map((item) => {
+            {FORM_CATEGORIES.map((item) => {
               const { label, imagePath } = getCategoryProps(item.category);
               return (
                 <div key={item.category}>

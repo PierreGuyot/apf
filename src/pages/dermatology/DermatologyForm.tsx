@@ -3,6 +3,7 @@ import { AdditionalRemarks } from "../../common/AdditionalRemarks";
 import { ClinicalInfo } from "../../common/ClinicalInfo";
 import { FormPage } from "../../common/FormPage";
 import {
+  FormId,
   InputNumber,
   Line,
   Section,
@@ -44,8 +45,6 @@ import {
   getCutTypes,
 } from "./helpers";
 import { generateReport } from "./report";
-
-const FORM_ID = "dermatology";
 
 export type TumorData = {
   mainTumorType: TumorType;
@@ -155,12 +154,16 @@ const getInitialState = (): FormState => ({
   comment: "",
 });
 
-export const DermatologyForm = () => {
+type Props = {
+  formId: FormId;
+};
+
+export const DermatologyForm = ({ formId }: Props) => {
   const { state, setField, clearState } = useForm(getInitialState);
   const { clinicalInfo, containerCount, operations } = state;
 
   return (
-    <FormPage formId={FORM_ID} onClear={clearState}>
+    <FormPage formId={formId} onClear={clearState}>
       <Stack spacing="lg">
         <ClinicalInfo
           value={clinicalInfo}
@@ -204,7 +207,7 @@ export const DermatologyForm = () => {
 
         <Summary
           getContent={(language) =>
-            generateReport({ ...state, formId: FORM_ID, language })
+            generateReport({ ...state, formId, language })
           }
         />
       </Stack>
