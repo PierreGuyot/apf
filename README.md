@@ -29,6 +29,10 @@ For that:
 
 TODO: principles of design (with related articles)
 
+- Style is very simple, it should mostly look like a paper form
+- Fields to be filled are light blue so they pop immediately, while the rest of the form is in grey to recede in the back
+- The order of elements in the form is the same as the order of elements in the final report (excepted for tables that need to be moved to the end for a clean copy-paste)
+
 ## How to contribute?
 
 ### Quick start
