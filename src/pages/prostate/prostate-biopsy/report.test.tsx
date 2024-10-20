@@ -1,4 +1,8 @@
-import { ReportParams, generateReport } from "./report";
+import { render } from "@testing-library/react";
+import { Report, ReportParams } from "./report";
+
+// TODO clean: test functions to compute scores
+// TODO clean: test functions to compute errors
 
 const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
   formId: "prostate-biopsy-transrectal",
@@ -400,11 +404,6 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
   },
 };
 
-// TODO clean: test functions to compute scores
-// TODO clean: test functions to compute errors
-// TODO clean: add test cases for standard mode vs expert mode
-// TODO clean: test non-trivial values for ihc field
-
 const ihc: ReportParams["ihc"] = {
   hasIhc: true,
   blocks: [
@@ -435,10 +434,7 @@ const ihc: ReportParams["ihc"] = {
   ],
 };
 
-describe("generateReport", () => {
-  it("should generate a clean report without a tumor (FR)", () => {
-    expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "FR", true)).toEqual(
-      `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
+const SAMPLE_WITHOUT_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques :
     PSA: 10 ng.mL⁻¹
@@ -451,13 +447,9 @@ Remarques particulières :
     MOCK-specific-notes
 
 Absence de foyer tumoral sur l'ensemble des 18 biopsies étudiées (36 mm).
-Adénomyome prostatique.`,
-    );
-  });
+Adénomyome prostatique.`;
 
-  it("should generate a clean report with a tumor (FR)", () => {
-    expect(generateReport(MOCK_DATA_WITH_TUMOR, "FR", true))
-      .toEqual(`BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
+const SAMPLE_WITH_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques :
     PSA: 10 ng.mL⁻¹
@@ -476,12 +468,9 @@ Il est localisé sur 2 des 12 biopsies systématiques (5 mm sur 24 mm examinés,
 Il mesure 5 mm sur 36 mm examinés sur la totalité des biopsies examinées.
 
 Engainements périnerveux : Non
-Tissu extra-prostatique : Non`);
-  });
+Tissu extra-prostatique : Non`;
 
-  it("should generate a clean report without a tumor (EN)", () => {
-    expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "EN", true)).toEqual(
-      `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
+const SAMPLE_WITHOUT_TUMOR_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
 Case summary:
     PSA: 10 ng.mL⁻¹
@@ -494,13 +483,9 @@ Other:
     MOCK-specific-notes
 
 No tumor seen among the 18 studied biopsies (36 mm).
-Prostate adenomyoma.`,
-    );
-  });
+Prostate adenomyoma.`;
 
-  it("should generate a clean report with a tumor (EN)", () => {
-    expect(generateReport(MOCK_DATA_WITH_TUMOR, "EN", true)).toEqual(
-      `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
+const SAMPLE_WITH_TUMOR_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
 Case summary:
     PSA: 10 ng.mL⁻¹
@@ -519,15 +504,9 @@ It is localized on 2 out of 6 systematic biopsies (5 mm out of 24 mm examined, 2
 It has a size of 5 mm out of 36 mm examined on all biopsies.
 
 Perineural Invasion : No
-Periprostatic Fat Invasion : No`,
-    );
-  });
+Periprostatic Fat Invasion : No`;
 
-  it("should generate a clean IHC report (FR)", () => {
-    expect(
-      generateReport({ ...MOCK_DATA_WITH_TUMOR, ihc }, "FR", true),
-    ).toEqual(
-      `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
+const SAMPLE_WITH_IHC_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques :
     PSA: 10 ng.mL⁻¹
@@ -559,15 +538,9 @@ Il est localisé sur 2 des 12 biopsies systématiques (5 mm sur 24 mm examinés,
 Il mesure 5 mm sur 36 mm examinés sur la totalité des biopsies examinées.
 
 Engainements périnerveux : Non
-Tissu extra-prostatique : Non`,
-    );
-  });
+Tissu extra-prostatique : Non`;
 
-  it("should generate a clean IHC report (EN)", () => {
-    expect(
-      generateReport({ ...MOCK_DATA_WITH_TUMOR, ihc }, "EN", true),
-    ).toEqual(
-      `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
+const SAMPLE_WITH_IHC_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
 Case summary:
     PSA: 10 ng.mL⁻¹
@@ -599,7 +572,72 @@ It is localized on 2 out of 6 systematic biopsies (5 mm out of 24 mm examined, 2
 It has a size of 5 mm out of 36 mm examined on all biopsies.
 
 Perineural Invasion : No
-Periprostatic Fat Invasion : No`,
+Periprostatic Fat Invasion : No`;
+
+describe("generateReport", () => {
+  it("should generate a clean report without a tumor (FR)", () => {
+    const { container } = render(
+      <Report
+        form={MOCK_DATA_WITHOUT_TUMOR}
+        language={"FR"}
+        isExpertMode={true}
+      />,
     );
+    expect(container.textContent).toEqual(SAMPLE_WITHOUT_TUMOR_FR);
+  });
+
+  it("should generate a clean report with a tumor (FR)", () => {
+    const { container } = render(
+      <Report
+        form={MOCK_DATA_WITH_TUMOR}
+        language={"FR"}
+        isExpertMode={true}
+      />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_WITH_TUMOR_FR);
+  });
+
+  it("should generate a clean report without a tumor (EN)", () => {
+    const { container } = render(
+      <Report
+        form={MOCK_DATA_WITHOUT_TUMOR}
+        language={"EN"}
+        isExpertMode={true}
+      />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_WITHOUT_TUMOR_EN);
+  });
+
+  it("should generate a clean report with a tumor (EN)", () => {
+    const { container } = render(
+      <Report
+        form={MOCK_DATA_WITH_TUMOR}
+        language={"EN"}
+        isExpertMode={true}
+      />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_WITH_TUMOR_EN);
+  });
+
+  it("should generate a clean IHC report (FR)", () => {
+    const { container } = render(
+      <Report
+        form={{ ...MOCK_DATA_WITH_TUMOR, ihc }}
+        language={"FR"}
+        isExpertMode={true}
+      />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_WITH_IHC_FR);
+  });
+
+  it("should generate a clean IHC report (EN)", () => {
+    const { container } = render(
+      <Report
+        form={{ ...MOCK_DATA_WITH_TUMOR, ihc }}
+        language={"EN"}
+        isExpertMode={true}
+      />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_WITH_IHC_EN);
   });
 });
