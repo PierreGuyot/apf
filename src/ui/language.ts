@@ -49,7 +49,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   expert: "expert",
   Expert: "Expert",
 
-  // Prostate
+  // Specialized
   "Biopsies prostatiques transrectales écho-guidées":
     "Transrectal prostate needle biopsies",
   "Biopsies prostatiques transpérinéales écho-guidées":
@@ -57,23 +57,13 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Résection transurétrale de prostate": "Transurethral Prostatic Resection",
   "Enucléation au laser holnium de la prostate":
     "Holmium laser prostatic enucleation of the prostate",
-
-  pot: "Container", // FIXME: confirm sample versus container
-  Pot: "container", // FIXME: confirm sample versus container
   Sextant: "Systematic biopsy",
   Cible: "Targeted biopsy",
   Cibles: "Targeted biopsies",
   "Biopsie systématique": "Systematic biopsy",
   "Biopsie ciblée": "Targeted biopsy",
-  Pots: "Containers", // FIXME: confirm sample versus container
   "Autres lésions": "Other lesions",
   "Score de Gleason": "Gleason Score",
-
-  // FIXME: re-check wording for these 3 items
-  "Tissu extra-prostatique": "Periprostatic Fat Invasion",
-  EPN: "Perineural Invasion",
-  TEP: "Periprostatic Fat Invasion",
-
   "Base droite": "Right base",
   "Milieu droit": "Right mid",
   "Apex droit": "Right apex",
@@ -88,10 +78,6 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Zone périphérique médiane gauche": "Left median peripheral zone",
   "Lésions tumorales précancéreuses": "Glandular neoplasms of the prostate",
   "Carcinome intra-ductal": "Isolated intraductal carcinoma",
-  // FIXME: confirm PINGH vs PIN and English vs French (seems to be PIN/HGPIN in English)
-  "Néoplasie intra-épithéliale de haut grade":
-    "High-grade prostatic intraepithelial neoplasia",
-  PINGH: "PINHG",
   "Prolifération acinaire atypique": "Atypical small acinar proliferation",
   ASAP: "ASAP",
   "Lésions tumorales bégnines": "Other benign lesions",
@@ -132,8 +118,6 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Carcinome neuroendocrine à grandes cellules":
     "Large cell neuroendocrine carcinoma",
   "non cribriforme": "non cribriform",
-  // FIXME: confirm PSA vs APS
-  PSA: "PSA", // Prostate Specific Antigen
   IRM: "MRI",
   "Inclusion en totalité": "Full inclusion",
   Échantillonnage: "Sampling",
@@ -154,10 +138,25 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Engainements périnerveux": "Perineural Invasion",
   "Poids des copeaux": "Total chip weight",
   Dermatologie: "Dermatology",
-
   Bénin: "Begnin",
   "Lésion intra-épithéliale": "Intraepithelial lesion",
   "Carcinome invasif": "Invasive carcinoma",
+  Immunohistochimie: "Immunohistochemistry",
+  PSA: "PSA", // Prostate Specific Antigen
+
+  // Tranlations to review
+
+  Bloc: "Block",
+  "Néoplasie intra-épithéliale de haut grade":
+    "High-grade prostatic intraepithelial neoplasia",
+  PINGH: "PINHG",
+  "Tissu extra-prostatique": "Periprostatic Fat Invasion",
+  EPN: "Perineural Invasion",
+  TEP: "Periprostatic Fat Invasion",
+  // FIXME: confirm sample versus container
+  Pots: "Containers",
+  pot: "Container",
+  Pot: "container",
 };
 
 export const translate = (value: string, language: Language) => {
