@@ -2,7 +2,7 @@ import {
   AntibodyGroup,
   PropertiesByAntibody,
 } from "../../common/immunohistochemistry/helpers";
-import { filterEmpty } from "../../ui/helpers/helpers";
+import { filterEmpty, findOption } from "../../ui/helpers/helpers";
 import { Option, OptionValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";
 import { Language, translate } from "../../ui/language";
@@ -272,7 +272,8 @@ const CONCLUSIONS_SEVERITY = [
   { value: "invasive-carcinoma", label: "Carcinome invasif" },
 ];
 
-// FIXME: translate
+export const getResultOption = findOption(CONCLUSIONS_SEVERITY);
+
 export const PROSTATE_ANTIBODY_GROUPS = [
   {
     title: "Anticorps composés",

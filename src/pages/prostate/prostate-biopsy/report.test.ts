@@ -405,6 +405,36 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
 // TODO clean: add test cases for standard mode vs expert mode
 // TODO clean: test non-trivial values for ihc field
 
+const ihc: ReportParams["ihc"] = {
+  hasIhc: true,
+  blocks: [
+    {
+      index: 1,
+      antibodies: [
+        { type: "P504S/P63", clone: "M-13H4", result: "invasive-carcinoma" },
+        {
+          type: "others",
+          values: [
+            { name: "other_1", clone: "clone_1", result: "bénin" },
+            { name: "other_2", clone: "clone_2", result: "malin" },
+          ],
+        },
+      ],
+    },
+    {
+      index: 3,
+      antibodies: [
+        { type: "P63", clone: "M-4A4", result: "begnin" },
+        { type: "CK14/CK15", clone: "SP53", result: "intraepithelial-lesion" },
+        {
+          type: "others",
+          values: [{ name: "other_3", clone: "clone_3", result: "bénin" }],
+        },
+      ],
+    },
+  ],
+};
+
 describe("generateReport", () => {
   it("should generate a clean report without a tumor (FR)", () => {
     expect(generateReport(MOCK_DATA_WITHOUT_TUMOR, "FR", true)).toEqual(
@@ -478,6 +508,86 @@ Case summary:
     Targeted biopsies:
         PIRADS 2, right base (Containers 6 and 7)
         PIRADS 3, right apex (Container 8)
+
+Other:
+    MOCK-specific-notes
+
+Acinar adenocarcinoma, conventional (usual).
+
+It has a Gleason score of 9 (4 à 95% including cribriform 10% + 5 à 5%), i.e. an ISUP score of 5.
+It is localized on 2 out of 6 systematic biopsies (5 mm out of 24 mm examined, 21%) and on 0 out of 3 targeted biopsies (0 mm out of 12 mm examined, 0%).
+It has a size of 5 mm out of 36 mm examined on all biopsies.
+
+Perineural Invasion : No
+Periprostatic Fat Invasion : No`,
+    );
+  });
+
+  it("should generate a clean IHC report (FR)", () => {
+    expect(
+      generateReport({ ...MOCK_DATA_WITH_TUMOR, ihc }, "FR", true),
+    ).toEqual(
+      `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
+
+Renseignements cliniques :
+    PSA: 10 ng.mL⁻¹
+    IRM: Oui
+    Cibles :
+        PIRADS 2, base droite (pots 6 et 7)
+        PIRADS 3, apex droit (pot 8)
+
+Immunohistochimie :
+    Bloc 1 :
+        P504S/P63 (clone M-13H4) : carcinome invasif
+        Autres :
+            other_1 (clone clone_1) : bénin
+            other_2 (clone clone_2) : malin
+
+    Bloc 3 :
+        P63 (clone M-4A4) : bénin
+        CK14/CK15 (clone SP53) : lésion intra-épithéliale
+        Autres :
+            other_3 (clone clone_3) : bénin
+
+Remarques particulières :
+    MOCK-specific-notes
+
+Adénocarcinome acinaire de type prostatique.
+
+Il présente un score de Gleason 9 (4 à 95% dont 10% cribriformes + 5 à 5%), soit un score ISUP de 5.
+Il est localisé sur 2 des 12 biopsies systématiques (5 mm sur 24 mm examinés, 21%) et sur 0 des 6 biopsies ciblées (0 mm sur 12 mm examinés, 0%).
+Il mesure 5 mm sur 36 mm examinés sur la totalité des biopsies examinées.
+
+Engainements périnerveux : Non
+Tissu extra-prostatique : Non`,
+    );
+  });
+
+  it("should generate a clean IHC report (EN)", () => {
+    expect(
+      generateReport({ ...MOCK_DATA_WITH_TUMOR, ihc }, "EN", true),
+    ).toEqual(
+      `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
+
+Case summary:
+    PSA: 10 ng.mL⁻¹
+    MRI: Yes
+    Targeted biopsies:
+        PIRADS 2, right base (Containers 6 and 7)
+        PIRADS 3, right apex (Container 8)
+
+Immunohistochemistry:
+    Block 1:
+        P504S/P63 (clone M-13H4): invasive carcinoma
+        Others:
+            other_1 (clone clone_1): bénin
+            other_2 (clone clone_2): malin
+            
+    Block 3:
+        P63 (clone M-4A4): begnin
+        CK14/CK15 (clone SP53): intraepithelial lesion
+        Others:
+            other_3 (clone clone_3): bénin
 
 Other:
     MOCK-specific-notes

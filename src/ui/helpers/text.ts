@@ -5,6 +5,10 @@ export const EMPTY_LINE = "\n";
 const PADDING = " ".repeat(4);
 
 export const pad = (value: string) => `${PADDING}${value}`;
+export const nest =
+  (depth: number = 1) =>
+  (value: string) =>
+    `${PADDING.repeat(depth)}${value}`;
 export const padSection = (value: string) =>
   value.split(EMPTY_LINE).map(pad).join(EMPTY_LINE);
 

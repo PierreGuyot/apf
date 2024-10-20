@@ -1,3 +1,7 @@
+import {
+  AntibodyData,
+  Block,
+} from "../../../common/immunohistochemistry/helpers";
 import { getFormTitle } from "../../../ui/helpers/forms";
 import { sum, sumOnField } from "../../../ui/helpers/helpers";
 import { toYesNo } from "../../../ui/helpers/options";
@@ -6,6 +10,7 @@ import {
   joinLines,
   joinSections,
   naturalJoin,
+  nest,
   pad,
   padSection,
 } from "../../../ui/helpers/text";
@@ -14,6 +19,7 @@ import { COLON_CHARACTER, Language, translate } from "../../../ui/language";
 import {
   DEFAULT_GLEASON_ITEM,
   getGleasonSummary,
+  getResultOption,
   getTumorTypeOption,
 } from "../helpers";
 import { FormState } from "./ProstateBiopsyForm";
@@ -25,6 +31,8 @@ import {
   getIsupScore,
   getLocationLabel,
 } from "./helpers";
+
+// TODO CLEAN: clean code (what about TSX?)
 
 export type ReportParams = FormState & {
   formId: ProstateBiopsyFormId;
@@ -93,6 +101,52 @@ const getClinicalInformationSection = (
           ),
         ].map(pad)
       : []),
+  ]);
+};
+
+const renderAntibody = (antibody: AntibodyData, language: Language) => {
+  if (antibody.type === "others") {
+    return joinLines(
+      [
+        `${translate("Autres", language)}${translate(COLON_CHARACTER, language)}`,
+        ...antibody.values
+          .map(
+            (value) =>
+              `${value.name} (clone ${value.clone})${translate(COLON_CHARACTER, language)} ${translate(value.result, language)}`,
+          )
+          .map(pad),
+      ].map(nest(2)),
+    );
+  }
+
+  const { label } = getResultOption(antibody.result);
+
+  return joinLines(
+    [
+      `${translate(antibody.type, language)} (${translate("clone", language)} ${antibody.clone})${translate(COLON_CHARACTER, language)} ${translate(label, language).toLocaleLowerCase()}`,
+    ].map(nest(2)),
+  );
+};
+
+const renderBlock = (block: Block, language: Language) => {
+  return joinLines([
+    `${translate("Bloc", language)} ${block.index}${translate(COLON_CHARACTER, language)}`,
+    ...block.antibodies.map((antibody) => renderAntibody(antibody, language)),
+    "", // Empty line
+  ]);
+};
+
+const getImmunohistochemistrySection = (
+  form: ReportParams,
+  language: Language,
+) => {
+  if (!form.ihc.hasIhc) {
+    return undefined;
+  }
+
+  return joinLines([
+    `${translate("Immunohistochimie", language)}${translate(COLON_CHARACTER, language)}`,
+    ...form.ihc.blocks.map((block) => renderBlock(block, language)).map(pad),
   ]);
 };
 
@@ -196,6 +250,7 @@ export const generateReport = (
   return joinSections([
     getFormTitle(form.formId, language),
     getClinicalInformationSection(form, language),
+    getImmunohistochemistrySection(form, language),
     getCommentSection(form, language),
     getConclusionSection(form, language, isExpertMode),
   ]);
