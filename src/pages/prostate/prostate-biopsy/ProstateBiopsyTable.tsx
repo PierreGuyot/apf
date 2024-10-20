@@ -28,37 +28,41 @@ import {
 const BIOPSY_COUNT_OPTIONS: Option<number>[] = [1, 2, 3, 4].map(toOption);
 const TUMOR_COUNT_OPTIONS: Option<number>[] = [0, 1, 2, 3, 4].map(toOption);
 
-const TableHeader = ({ language }: { language: Language }) => (
-  <>
-    <tr>
-      <th scope="col" rowSpan={1} colSpan={3}>
-        {translate("Pots", language)}
-      </th>
-      <th scope="col" rowSpan={1} colSpan={2}>
-        {translate("Biopsies", language)}
-      </th>
-      <th scope="col" rowSpan={1} colSpan={5}>
-        {translate("Tumeurs", language)}
-      </th>
-      {/* FIXME: fix column width to avoid jumping tooltip */}
-      <th scope="col" rowSpan={2} colSpan={2}>
-        {translate("Autres lésions", language)}
-      </th>
-    </tr>
-    <tr>
-      <th scope="col">{translate("Numéro", language)}</th>
-      <th scope="col">{translate("Type", language)}</th>
-      <th scope="col">{translate("Localisation", language)}</th>
-      <th scope="col">{translate("Nombre", language)}</th>
-      <th scope="col">{translate("Taille", language)}</th>
-      <th scope="col">{translate("Nombre", language)} +</th>
-      <th scope="col">{translate("Taille", language)} *</th>
-      <th scope="col">{translate("Score de Gleason", language)}</th>
-      <th scope="col">{translate("EPN", language)}</th>
-      <th scope="col">{translate("TEP", language)}</th>
-    </tr>
-  </>
-);
+const TableHeader = ({ language }: { language: Language }) => {
+  const t = (value: string) => translate(value, language);
+
+  return (
+    <>
+      <tr>
+        <th scope="col" rowSpan={1} colSpan={3}>
+          {t("Pots")}
+        </th>
+        <th scope="col" rowSpan={1} colSpan={2}>
+          {t("Biopsies")}
+        </th>
+        <th scope="col" rowSpan={1} colSpan={5}>
+          {t("Tumeurs")}
+        </th>
+        {/* FIXME: fix column width to avoid jumping tooltip */}
+        <th scope="col" rowSpan={2} colSpan={2}>
+          {t("Autres lésions")}
+        </th>
+      </tr>
+      <tr>
+        <th scope="col">{t("Numéro")}</th>
+        <th scope="col">{t("Type")}</th>
+        <th scope="col">{t("Localisation")}</th>
+        <th scope="col">{t("Nombre")}</th>
+        <th scope="col">{t("Taille")}</th>
+        <th scope="col">{t("Nombre")} +</th>
+        <th scope="col">{t("Taille")} *</th>
+        <th scope="col">{t("Score de Gleason")}</th>
+        <th scope="col">{t("EPN")}</th>
+        <th scope="col">{t("TEP")}</th>
+      </tr>
+    </>
+  );
+};
 
 type Props = {
   formId: ProstateBiopsyFormId;

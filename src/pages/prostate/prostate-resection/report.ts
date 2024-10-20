@@ -28,28 +28,35 @@ export type ReportParams = FormState & {
 };
 
 const getCaseSummarySection = (form: ReportParams, language: Language) => {
+  const t = (value: string) => translate(value, language);
+  const colon = t(COLON_CHARACTER);
+
   return form.caseSummary
     ? joinLines([
-        `${translate("Renseignements cliniques", language)}${translate(COLON_CHARACTER, language)}`,
+        `${t("Renseignements cliniques")}${colon}`,
         padSection(form.caseSummary),
       ])
     : undefined;
 };
 
 const getMacroscopySection = (form: ReportParams, language: Language) => {
+  const t = (value: string) => translate(value, language);
+
   const { label: samplingTypeLabel } = getSamplingTypeOption(form.samplingType);
 
   return joinLines([
-    `${translate("Poids des copeaux", language)} : ${form.chipWeight}g`,
+    `${t("Poids des copeaux")} : ${form.chipWeight}g`,
     // NOTE: inline translation
     language === "FR"
-      ? `${translate(samplingTypeLabel, language)} en ${form.blockCount} blocs (fixation : formol tamponné 4%, coloration ${form.coloration})`
-      : `${translate(samplingTypeLabel, language)} in ${form.blockCount} blocks (fixation : buffered formalin 4%, stain ${form.coloration})`,
+      ? `${t(samplingTypeLabel)} en ${form.blockCount} blocs (fixation : formol tamponné 4%, coloration ${form.coloration})`
+      : `${t(samplingTypeLabel)} in ${form.blockCount} blocks (fixation : buffered formalin 4%, stain ${form.coloration})`,
   ]);
 };
 
 // NOTE: inline translation
 const getConclusionSection = (form: ReportParams, language: Language) => {
+  const t = (value: string) => translate(value, language);
+
   // Tumor presence
   if (form.mainLesionType === "tumor") {
     const { label: tumorTypeLabel } = getTumorTypeOption(form.tumorType);
@@ -61,14 +68,14 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
     );
 
     return joinLines([
-      `${translate(tumorTypeLabel, language)}.\n`, // We add an empty line for aesthetic purposes
-      `${translate("Conditions pré-existantes", language)} : ${translate(priorConditionsLabel, language)}`,
+      `${t(tumorTypeLabel)}.\n`, // We add an empty line for aesthetic purposes
+      `${t("Conditions pré-existantes")} : ${t(priorConditionsLabel)}`,
       isApplicable(form.priorConditions)
-        ? `${translate("Score de Gleason", language)} : ${getGleasonSummary(form.histologicalGrade, language)}`
+        ? `${t("Score de Gleason")} : ${getGleasonSummary(form.histologicalGrade, language)}`
         : "",
-      `${translate("Estimation de la surface envahie", language)} : ${translate(tumorQuantificationLabel, language)}`,
-      `${translate("Emboles vasculaires ou lymphatiques", language)} : ${toYesNo(form.hasLymphaticOrVascularInvasion, language)}`,
-      `${translate("Engainements périnerveux", language)} : ${toYesNo(form.hasEpn, language)}`,
+      `${t("Estimation de la surface envahie")} : ${t(tumorQuantificationLabel)}`,
+      `${t("Emboles vasculaires ou lymphatiques")} : ${toYesNo(form.hasLymphaticOrVascularInvasion, language)}`,
+      `${t("Engainements périnerveux")} : ${toYesNo(form.hasEpn, language)}`,
     ]);
   }
 
@@ -112,6 +119,9 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
 };
 
 const getOtherLesionsSection = (form: ReportParams, language: Language) => {
+  const t = (value: string) => translate(value, language);
+  const colon = t(COLON_CHARACTER);
+
   const selectedItems = getSelectedOptions({
     values: form.otherLesions,
     groups: OTHER_LESION_GROUPS,
@@ -122,10 +132,8 @@ const getOtherLesionsSection = (form: ReportParams, language: Language) => {
   }
 
   return joinLines([
-    `${translate("Autres lésions", language)}${translate(COLON_CHARACTER, language)}`,
-    ...selectedItems.map((item) =>
-      pad(` - ${translate(item.label, language)}`),
-    ),
+    `${t("Autres lésions")}${colon}`,
+    ...selectedItems.map((item) => pad(` - ${t(item.label)}`)),
   ]);
 };
 
