@@ -104,6 +104,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
 
         <Section title="Macroscopie" index={2}>
           <Line>
+            {/* FIXME: add validation (chipWeight must not be zero) */}
             <InputNumber
               label="Poids des copeaux :"
               value={chipWeight}
@@ -118,8 +119,11 @@ export const ProstateResectionForm = ({ formId }: Props) => {
               value={samplingType}
               onChange={setField("samplingType")}
             />{" "}
-            en{" "}
-            <InputNumber value={blockCount} onChange={setField("blockCount")} />{" "}
+            en {/* FIXME: add validation (blockCount must not be zero) */}
+            <InputNumber
+              value={blockCount}
+              onChange={setField("blockCount")}
+            />{" "}
             blocs (fixation : formol tamponné 4%, coloration:{" "}
             <Select
               options={COLORATION_OPTIONS}
