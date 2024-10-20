@@ -8,7 +8,7 @@ import {
   pad,
   padSection,
 } from "../../../ui/helpers/text";
-import { COLON_CHARACTER, Language, translate } from "../../../ui/language";
+import { COLON_CHARACTER, Language, translate } from "../../../ui/translation";
 import {
   OTHER_LESION_GROUPS,
   getGleasonSummary,

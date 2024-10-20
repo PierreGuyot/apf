@@ -1,4 +1,4 @@
-import { Language, translate } from "../language";
+import { Language, translate } from "../translation";
 import { filterEmpty, filterNullish } from "./helpers";
 
 export const EMPTY_LINE = "\n";

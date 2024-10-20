@@ -5,7 +5,7 @@ import {
 import { filterEmpty, findOption } from "../../ui/helpers/helpers";
 import { Option, OptionValue } from "../../ui/helpers/options";
 import { getPercentageValues, percent } from "../../ui/helpers/percent";
-import { Language, translate } from "../../ui/language";
+import { Language, translate } from "../../ui/translation";
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];

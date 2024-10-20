@@ -7,7 +7,7 @@ import { Stack } from "./Stack";
 import { TextBlock } from "./TextBlock";
 import { copyToClipboard } from "./helpers/copy";
 import { Option } from "./helpers/options";
-import { Language } from "./language";
+import { Language } from "./translation";
 import { ISSUE_LINK } from "../common/links";
 
 type Props = {

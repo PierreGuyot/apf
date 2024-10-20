@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Checkbox } from "./Checkbox";
 import { Option, OptionValue } from "./helpers/options";
 import { Label } from "./Label";
-import { Language, translate } from "./language";
+import { Language, translate } from "./translation";
 
 type Props<T extends OptionValue> = {
   language: Language;

@@ -7,7 +7,7 @@ import { Text } from "./Text";
 import { Tooltip } from "./Tooltip";
 import { noop } from "./helpers/helpers";
 import { Option, OptionValue } from "./helpers/options";
-import { DEFAULT_LANGUAGE, Language, translate } from "./language";
+import { DEFAULT_LANGUAGE, Language, translate } from "./translation";
 import css from "./select-list.module.css";
 import { Stack } from "./Stack";
 

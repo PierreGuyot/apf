@@ -1,4 +1,4 @@
-import { DEFAULT_LANGUAGE, Language, translate } from "../language";
+import { DEFAULT_LANGUAGE, Language, translate } from "../translation";
 import { findOption } from "./helpers";
 
 export type OptionValue = string | number | boolean;

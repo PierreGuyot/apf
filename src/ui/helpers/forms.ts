@@ -1,5 +1,5 @@
 import { isFeatureFlagEnabled } from "../../feature-flags";
-import { Language, translate } from "../language";
+import { Language, translate } from "../translation";
 import skinPath from "./../../images-who/skin.png";
 import uroPath from "./../../images-who/uro.png";
 

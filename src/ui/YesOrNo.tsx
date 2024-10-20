@@ -1,5 +1,5 @@
 import { toYesNo } from "./helpers/options";
-import { Language } from "./language";
+import { Language } from "./translation";
 
 type Props = {
   language?: Language;

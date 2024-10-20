@@ -15,7 +15,7 @@ import {
   padSection,
 } from "../../../ui/helpers/text";
 import { formatWithUnit } from "../../../ui/helpers/units";
-import { COLON_CHARACTER, Language, translate } from "../../../ui/language";
+import { COLON_CHARACTER, Language, translate } from "../../../ui/translation";
 import {
   DEFAULT_GLEASON_ITEM,
   getGleasonSummary,

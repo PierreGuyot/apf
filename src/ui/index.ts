@@ -11,7 +11,7 @@ export * from "./InputNumber";
 export * from "./InputText";
 export * from "./InputTextArea";
 export * from "./Label";
-export * from "./language";
+export * from "./translation";
 export * from "./Line";
 export * from "./NestedItem";
 export * from "./Page";

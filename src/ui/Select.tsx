@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { anId, join } from "./helpers/helpers";
 import { Option, OptionGroup, OptionValue } from "./helpers/options";
 
-import { DEFAULT_LANGUAGE, Language, translate } from "./language";
+import { DEFAULT_LANGUAGE, Language, translate } from "./translation";
 import css from "./select.module.css";
 import { Stack } from "./Stack";
 import { Text } from "./Text";
