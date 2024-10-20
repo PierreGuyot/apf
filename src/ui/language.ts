@@ -155,6 +155,8 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Poids des copeaux": "Total chip weight",
   Dermatologie: "Dermatology",
 
+  // TODO Louis: review
+
   Bénin: "Begnin",
   "Lésion intra-épithéliale": "Intraepithelial lesion",
   "Carcinome invasif": "Invasive carcinoma",
