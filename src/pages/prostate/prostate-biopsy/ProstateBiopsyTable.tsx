@@ -40,6 +40,7 @@ const TableHeader = ({ language }: { language: Language }) => (
       <th scope="col" rowSpan={1} colSpan={5}>
         {translate("Tumeurs", language)}
       </th>
+      {/* FIXME: fix column width to avoid jumping tooltip */}
       <th scope="col" rowSpan={2} colSpan={2}>
         {translate("Autres lésions", language)}
       </th>

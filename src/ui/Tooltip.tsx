@@ -102,17 +102,20 @@ export const Tooltip = ({
       : { onClick: open };
 
   useEffect(() => {
+    // Hover
     if (mode === "hover") {
       window.addEventListener("scroll", close, true);
       return () => window.removeEventListener("scroll", close, true);
-    } else {
+    }
+
+    // Click
+    else {
       // Handle clicking outside of the tooltip
       document.addEventListener("mousedown", onMouseDown);
       return () => document.removeEventListener("mousedown", onMouseDown);
     }
   }, [mode, close, onMouseDown]);
 
-  // FIXME: fix z-index (handle should not be affected)
   return (
     <span className={css.main}>
       <span className={css.handle} ref={tooltipHandle} {...callbacks}>
