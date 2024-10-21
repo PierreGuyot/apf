@@ -46,8 +46,8 @@ export const Summary = ({ getContent, getTable }: Props) => {
           {/* FIXME: add mailing address to report issues */}
           <Stack alignItems="end">
             <InfoBox>
-              Vous pouvez remonter un problème ou une suggestion d'amélioration{" "}
-              <a href={ISSUE_LINK}>ici</a>.
+              Vous pouvez remonter un problème ou une suggestion d'amélioration
+              en cliquant <a href={ISSUE_LINK}>ici</a>.
             </InfoBox>
           </Stack>
         </Stack>

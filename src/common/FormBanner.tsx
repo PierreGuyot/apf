@@ -56,13 +56,13 @@ export const FormBanner = ({
       {isPrototype ? <FormDisclaimer /> : undefined}
       <InfoBox>
         <div>
-          Vous pouvez télécharger une version plus à jour de ce formulaire{" "}
-          <a href={REPOSITORY_LINK}>ici</a>.
+          Vous pouvez télécharger une version plus à jour de ce formulaire en
+          cliquant <a href={REPOSITORY_LINK}>ici</a>.
         </div>
         {/* FIXME: add mailing address to report issues */}
         <div>
-          Vous pouvez remonter un problème ou une suggestion d'amélioration{" "}
-          <a href={ISSUE_LINK}>ici</a>.
+          Vous pouvez remonter un problème ou une suggestion d'amélioration en
+          cliquant <a href={ISSUE_LINK}>ici</a>.
         </div>
       </InfoBox>
     </Stack>
