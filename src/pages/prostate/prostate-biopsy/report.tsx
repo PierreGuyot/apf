@@ -47,7 +47,7 @@ const renderPiradsItem = (
 
   const matches = rows
     .filter((row) => row.type === "target" && row.location === item.location)
-    .map(({ index }) => index);
+    .map(({ index }) => index + 1);
   const containerCount = matches.length
     ? ` (${pluralize(matches.length, t("pot"))} ${naturalJoin(matches, language)})`
     : undefined;

@@ -441,8 +441,8 @@ Renseignements cliniques :
     PSA: 10 ng.mL⁻¹
     IRM: Oui
     Cibles :
-        PIRADS 2, base droite (pots 6 et 7)
-        PIRADS 3, apex droit (pot 8)
+        PIRADS 2, base droite (pots 7 et 8)
+        PIRADS 3, apex droit (pot 9)
 
 Remarques particulières :
     MOCK-specific-notes
@@ -459,8 +459,8 @@ Renseignements cliniques :
     PSA: 10 ng.mL⁻¹
     IRM: Oui
     Cibles :
-        PIRADS 2, base droite (pots 6 et 7)
-        PIRADS 3, apex droit (pot 8)
+        PIRADS 2, base droite (pots 7 et 8)
+        PIRADS 3, apex droit (pot 9)
 
 Remarques particulières :
     MOCK-specific-notes
@@ -486,8 +486,8 @@ Case summary:
     PSA: 10 ng.mL⁻¹
     MRI: Yes
     Targeted biopsies:
-        PIRADS 2, right base (containers 6 and 7)
-        PIRADS 3, right apex (container 8)
+        PIRADS 2, right base (containers 7 and 8)
+        PIRADS 3, right apex (container 9)
 
 Other:
     MOCK-specific-notes
@@ -504,8 +504,8 @@ Case summary:
     PSA: 10 ng.mL⁻¹
     MRI: Yes
     Targeted biopsies:
-        PIRADS 2, right base (containers 6 and 7)
-        PIRADS 3, right apex (container 8)
+        PIRADS 2, right base (containers 7 and 8)
+        PIRADS 3, right apex (container 9)
 
 Other:
     MOCK-specific-notes
@@ -531,8 +531,8 @@ Renseignements cliniques :
     PSA: 10 ng.mL⁻¹
     IRM: Oui
     Cibles :
-        PIRADS 2, base droite (pots 6 et 7)
-        PIRADS 3, apex droit (pot 8)
+        PIRADS 2, base droite (pots 7 et 8)
+        PIRADS 3, apex droit (pot 9)
 
 Immunohistochimie :
 
@@ -572,8 +572,8 @@ Case summary:
     PSA: 10 ng.mL⁻¹
     MRI: Yes
     Targeted biopsies:
-        PIRADS 2, right base (containers 6 and 7)
-        PIRADS 3, right apex (container 8)
+        PIRADS 2, right base (containers 7 and 8)
+        PIRADS 3, right apex (container 9)
 
 Immunohistochemistry:
 
