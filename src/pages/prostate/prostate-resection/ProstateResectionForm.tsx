@@ -12,6 +12,7 @@ import {
   Stack,
   Summary,
   useForm,
+  ValidationErrors,
 } from "../../../ui";
 import {
   DEFAULT_GLEASON_ITEM,
@@ -74,6 +75,27 @@ type Props = {
   formId: ProstateResectionFormId;
 };
 
+// TODO clean: test extensively
+const validateMacroscopy = ({
+  chipWeight,
+  blockCount,
+}: {
+  chipWeight: number;
+  blockCount: number;
+}) => {
+  const errors: string[] = [];
+
+  if (!chipWeight) {
+    errors.push("Le poids des copeaux est égal à 0.");
+  }
+
+  if (!blockCount) {
+    errors.push("Le nombre de blocs est égal à 0.");
+  }
+
+  return errors;
+};
+
 export const ProstateResectionForm = ({ formId }: Props) => {
   // State
   const { state, setField, clearState } = useForm(getInitialState);
@@ -93,6 +115,12 @@ export const ProstateResectionForm = ({ formId }: Props) => {
     otherLesions,
   } = state;
 
+  const macroscopyErrors = validateMacroscopy({
+    chipWeight,
+    blockCount,
+  });
+  const hasErrors = !!macroscopyErrors.length;
+
   return (
     <FormPage formId={formId} onClear={clearState}>
       <Stack spacing="lg">
@@ -104,7 +132,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
 
         <Section title="Macroscopie" index={2}>
           <Line>
-            {/* FIXME: add validation (chipWeight must not be zero) */}
             <InputNumber
               label="Poids des copeaux :"
               value={chipWeight}
@@ -119,11 +146,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
               value={samplingType}
               onChange={setField("samplingType")}
             />{" "}
-            en {/* FIXME: add validation (blockCount must not be zero) */}
-            <InputNumber
-              value={blockCount}
-              onChange={setField("blockCount")}
-            />{" "}
+            <InputNumber value={blockCount} onChange={setField("blockCount")} />{" "}
             blocs (fixation : formol tamponné 4%, coloration:{" "}
             <Select
               options={COLORATION_OPTIONS}
@@ -132,6 +155,10 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             />
             )
           </Line>
+          <ValidationErrors
+            header="La section Macroscopie comporte les erreurs suivantes :"
+            errors={macroscopyErrors}
+          />
         </Section>
 
         <Section title="Microscopie" index={3}>
@@ -200,11 +227,13 @@ export const ProstateResectionForm = ({ formId }: Props) => {
           </Line>
         </Section>
 
-        <Summary
-          getContent={(language) =>
-            generateReport({ formId, ...state }, language)
-          }
-        />
+        {hasErrors ? undefined : (
+          <Summary
+            getContent={(language) =>
+              generateReport({ formId, ...state }, language)
+            }
+          />
+        )}
       </Stack>
     </FormPage>
   );
