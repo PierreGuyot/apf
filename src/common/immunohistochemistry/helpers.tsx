@@ -29,7 +29,6 @@ export type OtherAntibodies = {
 
 export type AntibodyData = StandardAntibody | OtherAntibodies;
 
-// FIXME: translate
 export type Antibody =
   // Composed
   | "P504S/P63"

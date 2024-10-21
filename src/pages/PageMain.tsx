@@ -31,7 +31,6 @@ export const PageMain = () => {
   return (
     <Page title="Bienvenue sur APF">
       <Stack spacing="lg">
-        {/* FIXME: add context here, aligned on the README file */}
         <Section>
           <Stack spacing="xs">
             <div>

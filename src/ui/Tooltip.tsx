@@ -10,8 +10,6 @@ import {
   useState,
 } from "react";
 
-// FIXME: completely rewrite using React Portal
-
 type Props = PropsWithChildren<{
   content: ReactNode;
   mode?: "click" | "hover";

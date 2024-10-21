@@ -1,4 +1,3 @@
-// FIXME: check naming in both French and English
 import { Option } from "../../../ui/helpers/options";
 import { DEFAULT_LANGUAGE, Language, translate } from "../../../ui/translation";
 import { DEFAULT_GLEASON_ITEM, GleasonItem, OtherLesionType } from "../helpers";
@@ -66,7 +65,7 @@ export const getLocationOptions = (
 ): Option<Location>[] =>
   LOCATIONS.map((location) => toOption(formId, location, DEFAULT_LANGUAGE));
 
-// FIXME: rename to "systematic" | "targeted"
+// TODO clean: rename to "systematic" | "targeted"
 export type ContainerType = "sextant" | "target";
 export const getContainerTypes = (
   formId: ProstateBiopsyFormId,
