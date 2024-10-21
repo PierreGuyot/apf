@@ -200,9 +200,10 @@ export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
     block.antibodies.forEach((antibody) => {
       if (antibody.type === "others") {
         antibody.values.forEach((value) => {
-          if (!value.name || !value.clone || !value.result) {
+          if (!value.name || !value.result) {
+            // Clone field is optional
             errors.push(
-              `Dans le bloc ${block.index}, les champs Nom, Clone et Résultat pour les anticorps autres doit être rempli.`,
+              `Dans le bloc ${block.index}, les champs Nom et Résultat pour les anticorps autres doit être remplis.`,
             );
           }
         });
