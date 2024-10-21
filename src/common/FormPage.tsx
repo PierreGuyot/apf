@@ -24,7 +24,6 @@ export const FormPage = ({
         isPrototype={form.isPrototype}
         onClear={onClear}
       />
-
       {children}
     </Page>
   );

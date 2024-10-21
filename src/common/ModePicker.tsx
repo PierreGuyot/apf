@@ -5,6 +5,8 @@ type Mode = "standard" | "expert";
 type Props = { onPick: (mode: Mode) => void };
 
 export const ModePicker = ({ onPick }: Props) => {
+  // FIXME: fix scrolling
+
   return (
     <Stack spacing="sm">
       <Line>Choisissez un mode pour le formulaire :</Line>
