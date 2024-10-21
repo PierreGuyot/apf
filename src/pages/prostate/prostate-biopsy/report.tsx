@@ -15,7 +15,6 @@ import {
   joinLines,
   joinSections,
   naturalJoin,
-  nest,
   pad,
   padSection,
 } from "../../../ui/helpers/text";
@@ -118,17 +117,14 @@ const renderAntibody = (antibody: AntibodyData, language: Language) => {
   const colon = t(COLON_CHARACTER);
 
   if (antibody.type === "others") {
-    return joinLines(
-      [
-        `${t("Autres")}${colon}`,
-        ...antibody.values
-          .map(
-            (value) =>
-              `${value.name} (clone ${value.clone})${colon} ${t(value.result)}`,
-          )
-          .map(pad),
-      ].map(nest(2)),
-    );
+    return joinLines([
+      ...antibody.values
+        .map(
+          (value) =>
+            `${value.name} (clone ${value.clone})${colon} ${t(value.result)}`,
+        )
+        .map(pad),
+    ]);
   }
 
   const { label } = getResultOption(antibody.result);
@@ -136,7 +132,7 @@ const renderAntibody = (antibody: AntibodyData, language: Language) => {
   return joinLines(
     [
       `${t(antibody.type)} (${t("clone")} ${antibody.clone})${colon} ${t(label).toLocaleLowerCase()}`,
-    ].map(nest(2)),
+    ].map(pad),
   );
 };
 
@@ -147,7 +143,6 @@ const renderBlock = (block: Block, language: Language, isLast: boolean) => {
   return joinLines([
     `${t("Bloc")} ${block.index}${colon}`,
     ...block.antibodies.map((antibody) => renderAntibody(antibody, language)),
-    ...(isLast ? [] : [""]), // Empty line
   ]);
 };
 
@@ -164,7 +159,6 @@ const getImmunohistochemistrySection = (
 
   return joinLines([
     `${t("Immunohistochimie")}${colon}`,
-    "", // Empty line
     ...form.ihc.blocks.map((block, index) =>
       renderBlock(block, language, index === form.ihc.blocks.length - 1),
     ),

@@ -536,18 +536,14 @@ Renseignements cliniques :
         PIRADS 3, apex droit (pot 9)
 
 Immunohistochimie :
-
 Bloc 1 :
-        P504S/P63 (clone M-13H4) : carcinome invasif
-        Autres :
-            other_1 (clone clone_1) : bénin
-            other_2 (clone clone_2) : malin
-
+    P504S/P63 (clone M-13H4) : carcinome invasif
+    other_1 (clone clone_1) : bénin
+    other_2 (clone clone_2) : malin
 Bloc 3 :
-        P63 (clone M-4A4) : bénin
-        CK14/CK15 (clone SP53) : lésion intra-épithéliale
-        Autres :
-            other_3 (clone clone_3) : bénin
+    P63 (clone M-4A4) : bénin
+    CK14/CK15 (clone SP53) : lésion intra-épithéliale
+    other_3 (clone clone_3) : bénin
 
 Remarques particulières :
     MOCK-specific-notes
@@ -575,18 +571,14 @@ Case summary:
         PIRADS 3, right apex (container 9)
 
 Immunohistochemistry:
-
 Block 1:
-        P504S/P63 (clone M-13H4): invasive carcinoma
-        Others:
-            other_1 (clone clone_1): bénin
-            other_2 (clone clone_2): malin
-
+    P504S/P63 (clone M-13H4): invasive carcinoma
+    other_1 (clone clone_1): bénin
+    other_2 (clone clone_2): malin
 Block 3:
-        P63 (clone M-4A4): begnin
-        CK14/CK15 (clone SP53): intraepithelial lesion
-        Others:
-            other_3 (clone clone_3): bénin
+    P63 (clone M-4A4): begnin
+    CK14/CK15 (clone SP53): intraepithelial lesion
+    other_3 (clone clone_3): bénin
 
 Other:
     MOCK-specific-notes
