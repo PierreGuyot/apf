@@ -18,7 +18,7 @@ export const joinLines = (lines: Array<string | undefined>) =>
   lines.filter(filterNullish).join(EMPTY_LINE);
 
 export const joinSections = (paragraphs: Array<string | undefined>) =>
-  paragraphs.filter(filterNullish).join(`\n\n`);
+  paragraphs.filter(filterEmpty).join(`\n\n`);
 
 export const naturalJoin = (
   items: Array<string | number>,

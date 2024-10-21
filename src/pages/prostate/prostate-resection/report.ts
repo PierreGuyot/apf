@@ -11,7 +11,7 @@ import {
 import { COLON_CHARACTER, Language, translate } from "../../../ui/translation";
 import {
   OTHER_LESION_GROUPS,
-  getGleasonSummary,
+  getGleasonConclusion,
   getTumorTypeOption,
 } from "../helpers";
 import { FormState } from "./ProstateResectionForm";
@@ -71,7 +71,7 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
       `${t(tumorTypeLabel)}.\n`, // We add an empty line for aesthetic purposes
       `${t("Conditions pré-existantes")} : ${t(priorConditionsLabel)}`,
       isApplicable(form.priorConditions)
-        ? `${t("Score de Gleason")} : ${getGleasonSummary(form.histologicalGrade, language)}`
+        ? `${t("Score de Gleason")} : ${getGleasonConclusion(form.histologicalGrade, language)}`
         : "",
       `${t("Estimation de la surface envahie")} : ${t(tumorQuantificationLabel)}`,
       `${t("Emboles vasculaires ou lymphatiques")} : ${toYesNo(form.hasLymphaticOrVascularInvasion, language)}`,

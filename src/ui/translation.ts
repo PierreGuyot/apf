@@ -143,6 +143,9 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Carcinome invasif": "Invasive carcinoma",
   Immunohistochimie: "Immunohistochemistry",
   PSA: "PSA", // Prostate Specific Antigen
+  "Biopsies ciblées": "Targeted biopsies",
+  "Biopsies systématiques": "Systematic biopsies",
+  Total: "Total",
 
   // Tranlations to review
 
@@ -155,7 +158,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   TEP: "Periprostatic Fat Invasion",
   // FIXME: confirm sample versus container
   Pots: "Containers",
-  pot: "Container",
+  pot: "container",
   Pot: "container",
 };
 

@@ -4,7 +4,7 @@ import {
 } from "../../common/immunohistochemistry/helpers";
 import { filterEmpty, findOption } from "../../ui/helpers/helpers";
 import { Option, OptionValue } from "../../ui/helpers/options";
-import { getPercentageValues, percent } from "../../ui/helpers/percent";
+import { getPercentageValues } from "../../ui/helpers/percent";
 import { Language, translate } from "../../ui/translation";
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
@@ -239,31 +239,62 @@ export const getCribriformPercentageOptions = (language: Language) => [
   })),
 ];
 
-export const getGleasonSummary = (
+// ISUP score: International Society of Urological Pathology score
+// See https://www.prostate.org.au/testing-and-diagnosis/grading-genetics/your-gleason-score-isup-grade
+export const getIsupScore = ({
+  a,
+  b,
+}: Pick<GleasonItem, "a" | "b">): number => {
+  if (a + b === 6) {
+    return 1;
+  }
+
+  if (a + b === 7) {
+    if (a === 3) {
+      return 2;
+    }
+
+    return 4;
+  }
+
+  if (a + b === 8) {
+    return 4;
+  }
+
+  return 5;
+};
+
+export const getGleasonConclusion = (
   { a, b, percentage, cribriformPercentage }: GleasonItem,
   language: Language,
 ) => {
-  const match = getCribriformPercentageOptions(language).find(
-    (item) => item.value === cribriformPercentage,
-  );
-  if (!match) {
-    throw new Error("Invalid value");
-  }
+  const isupScore = getIsupScore({ a, b });
+  const maxScore = Math.max(a, b);
+  const p = a === b ? 100 : maxScore === a ? percentage : 100 - percentage;
+  const partTotal = `${a + b} (${a} + ${b})`;
 
-  // CAUTION: this should be aligned on the non-readonly case
-  const items = [
-    a,
-    a === b ? undefined : `à ${percent(percentage)}`,
-    a === 4 && b !== 4 ? match.label : undefined,
-    "+",
-    b,
-    a === b ? undefined : `à ${percent(100 - percentage)}`,
-    b === 4 ? match.label : undefined,
-  ]
+  // TODO CLEAN: use translation functions
+  const partMaxScore =
+    maxScore === 4
+      ? language === "FR"
+        ? `avec ${p}% de score ${maxScore}`
+        : `with ${p}% of score ${maxScore}`
+      : "";
+  const partCribriformPercentage = cribriformPercentage
+    ? language === "FR"
+      ? `dont ${cribriformPercentage}% de cribriforme`
+      : `of which ${cribriformPercentage}% cribriform`
+    : "";
+  const partIsup =
+    language === "FR"
+      ? `soit un score ISUP de ${isupScore}.`
+      : `i.e. an ISUP score of ${isupScore}.`;
+
+  const gleasonSummary = [partTotal, partMaxScore, partCribriformPercentage]
     .filter(filterEmpty)
     .join(" ");
 
-  return `${a + b} (${items})`;
+  return `${gleasonSummary}, ${partIsup}`;
 };
 
 const CONCLUSIONS_SEVERITY = [

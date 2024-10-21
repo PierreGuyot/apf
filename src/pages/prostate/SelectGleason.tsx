@@ -3,15 +3,43 @@ import {
   getPercentageOptions,
   Language,
   Option,
+  percent,
   Select,
   Stack,
   toOption,
 } from "../../ui";
 import { GLEASON_SCORES, GleasonItem, GleasonScore } from "./helpers";
 
-import { getCribriformPercentageOptions, getGleasonSummary } from "./helpers";
+import { getCribriformPercentageOptions } from "./helpers";
 
 const Plus = () => <span>+</span>;
+
+const getGleasonSummary = (
+  { a, b, percentage, cribriformPercentage }: GleasonItem,
+  language: Language,
+) => {
+  const match = getCribriformPercentageOptions(language).find(
+    (item) => item.value === cribriformPercentage,
+  );
+  if (!match) {
+    throw new Error("Invalid value");
+  }
+
+  // CAUTION: this should be aligned on the non-readonly case
+  const items = [
+    a,
+    a === b ? undefined : `à ${percent(percentage)}`,
+    a === 4 && b !== 4 ? match.label : undefined,
+    "+",
+    b,
+    a === b ? undefined : `à ${percent(100 - percentage)}`,
+    b === 4 ? match.label : undefined,
+  ]
+    .filter(filterEmpty)
+    .join(" ");
+
+  return items;
+};
 
 const GLEASON_SCORE_OPTIONS: Option<GleasonScore>[] =
   GLEASON_SCORES.map(toOption);

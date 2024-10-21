@@ -76,7 +76,7 @@ Inclusion en totalité en 5 blocs (fixation : formol tamponné 4%, coloration HE
 Adénocarcinome acinaire de type prostatique.
 
 Conditions pré-existantes : Absence de traitement antérieur
-Score de Gleason : 8 (4 + 4 dont 20% cribriformes)
+Score de Gleason : 8 (4 + 4) avec 100% de score 4 dont 20% de cribriforme, soit un score ISUP de 4.
 Estimation de la surface envahie : 5%
 Emboles vasculaires ou lymphatiques : Non
 Engainements périnerveux : Non
@@ -118,7 +118,7 @@ Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
 Acinar adenocarcinoma, conventional (usual).
 
 Pre-existing conditions : No presurgical therapy
-Gleason Score : 8 (4 + 4 including cribriform 20%)
+Gleason Score : 8 (4 + 4) with 100% of score 4 of which 20% cribriform, i.e. an ISUP score of 4.
 Tumor quantification : 5%
 Lympathic or vascular invasion : No
 Perineural Invasion : No

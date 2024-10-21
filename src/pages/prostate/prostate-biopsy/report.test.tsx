@@ -223,7 +223,7 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
         cribriformPercentage: 10,
       },
       tumorEpn: false,
-      tumorTep: false,
+      tumorTep: true,
       otherLesions: [],
       index: 0,
     },
@@ -241,7 +241,7 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
         cribriformPercentage: 0,
       },
       tumorEpn: false,
-      tumorTep: false,
+      tumorTep: true,
       otherLesions: [],
       index: 1,
     },
@@ -400,7 +400,7 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
       cribriformPercentage: 10,
     },
     tumorEpn: false,
-    tumorTep: false,
+    tumorTep: true,
   },
 };
 
@@ -437,6 +437,7 @@ const ihc: ReportParams["ihc"] = {
 const SAMPLE_WITHOUT_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques :
+
     PSA: 10 ng.mL⁻¹
     IRM: Oui
     Cibles :
@@ -445,6 +446,8 @@ Renseignements cliniques :
 
 Remarques particulières :
     MOCK-specific-notes
+
+Conclusion :
 
 Absence de foyer tumoral sur l'ensemble des 18 biopsies étudiées (36 mm).
 Adénomyome prostatique.`;
@@ -452,6 +455,7 @@ Adénomyome prostatique.`;
 const SAMPLE_WITH_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques :
+
     PSA: 10 ng.mL⁻¹
     IRM: Oui
     Cibles :
@@ -461,26 +465,34 @@ Renseignements cliniques :
 Remarques particulières :
     MOCK-specific-notes
 
-Adénocarcinome acinaire de type prostatique.
+Conclusion :
 
-Il présente un score de Gleason 9 (4 à 95% dont 10% cribriformes + 5 à 5%), soit un score ISUP de 5.
-Il est localisé sur 2 des 12 biopsies systématiques (5 mm sur 24 mm examinés, 21%) et sur 0 des 6 biopsies ciblées (0 mm sur 12 mm examinés, 0%).
-Il mesure 5 mm sur 36 mm examinés sur la totalité des biopsies examinées.
+Type de tumeur : adénocarcinome acinaire de type prostatique.
+
+Score de Gleason : 9 (4 + 5) dont 10% de cribriforme, soit un score ISUP de 5.
+
+Localisation :
+    Biopsies systématiques : 2 des 12 biopsies (5mm sur 24mm examinés, 21%)
+    Biopsies ciblées : 0 des 6 biopsies (0mm sur 12mm examinés, 0%)
+    Total : 5mm sur 36mm examinés
 
 Engainements périnerveux : Non
-Tissu extra-prostatique : Non`;
+Tissu extra-prostatique : Oui (pots base droite et milieu droit)`;
 
 const SAMPLE_WITHOUT_TUMOR_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
 Case summary:
+
     PSA: 10 ng.mL⁻¹
     MRI: Yes
     Targeted biopsies:
-        PIRADS 2, right base (Containers 6 and 7)
-        PIRADS 3, right apex (Container 8)
+        PIRADS 2, right base (containers 6 and 7)
+        PIRADS 3, right apex (container 8)
 
 Other:
     MOCK-specific-notes
+
+Conclusion:
 
 No tumor seen among the 18 studied biopsies (36 mm).
 Prostate adenomyoma.`;
@@ -488,27 +500,34 @@ Prostate adenomyoma.`;
 const SAMPLE_WITH_TUMOR_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
 Case summary:
+
     PSA: 10 ng.mL⁻¹
     MRI: Yes
     Targeted biopsies:
-        PIRADS 2, right base (Containers 6 and 7)
-        PIRADS 3, right apex (Container 8)
+        PIRADS 2, right base (containers 6 and 7)
+        PIRADS 3, right apex (container 8)
 
 Other:
     MOCK-specific-notes
 
-Acinar adenocarcinoma, conventional (usual).
+Conclusion:
 
-It has a Gleason score of 9 (4 à 95% including cribriform 10% + 5 à 5%), i.e. an ISUP score of 5.
-It is localized on 2 out of 6 systematic biopsies (5 mm out of 24 mm examined, 21%) and on 0 out of 3 targeted biopsies (0 mm out of 12 mm examined, 0%).
-It has a size of 5 mm out of 36 mm examined on all biopsies.
+Type de tumeur: adénocarcinome acinaire de type prostatique.
 
-Perineural Invasion : No
-Periprostatic Fat Invasion : No`;
+Gleason Score: 9 (4 + 5) of which 10% cribriform, i.e. an ISUP score of 5.
+
+Location:
+    Systematic biopsies: 2 out of 12 biopsies (5mm out of 24mm examined, 21%)
+    Targeted biopsies: 0 out of 6 biopsies (0mm out of 12mm examined, 0%)
+    Total: 5mm out of 36mm examined
+
+Perineural Invasion: No
+Periprostatic Fat Invasion: Yes (containers right base and right mid)`;
 
 const SAMPLE_WITH_IHC_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques :
+
     PSA: 10 ng.mL⁻¹
     IRM: Oui
     Cibles :
@@ -516,13 +535,14 @@ Renseignements cliniques :
         PIRADS 3, apex droit (pot 8)
 
 Immunohistochimie :
-    Bloc 1 :
+
+Bloc 1 :
         P504S/P63 (clone M-13H4) : carcinome invasif
         Autres :
             other_1 (clone clone_1) : bénin
             other_2 (clone clone_2) : malin
 
-    Bloc 3 :
+Bloc 3 :
         P63 (clone M-4A4) : bénin
         CK14/CK15 (clone SP53) : lésion intra-épithéliale
         Autres :
@@ -531,32 +551,39 @@ Immunohistochimie :
 Remarques particulières :
     MOCK-specific-notes
 
-Adénocarcinome acinaire de type prostatique.
+Conclusion :
 
-Il présente un score de Gleason 9 (4 à 95% dont 10% cribriformes + 5 à 5%), soit un score ISUP de 5.
-Il est localisé sur 2 des 12 biopsies systématiques (5 mm sur 24 mm examinés, 21%) et sur 0 des 6 biopsies ciblées (0 mm sur 12 mm examinés, 0%).
-Il mesure 5 mm sur 36 mm examinés sur la totalité des biopsies examinées.
+Type de tumeur : adénocarcinome acinaire de type prostatique.
+
+Score de Gleason : 9 (4 + 5) dont 10% de cribriforme, soit un score ISUP de 5.
+
+Localisation :
+    Biopsies systématiques : 2 des 12 biopsies (5mm sur 24mm examinés, 21%)
+    Biopsies ciblées : 0 des 6 biopsies (0mm sur 12mm examinés, 0%)
+    Total : 5mm sur 36mm examinés
 
 Engainements périnerveux : Non
-Tissu extra-prostatique : Non`;
+Tissu extra-prostatique : Oui (pots base droite et milieu droit)`;
 
 const SAMPLE_WITH_IHC_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
 Case summary:
+
     PSA: 10 ng.mL⁻¹
     MRI: Yes
     Targeted biopsies:
-        PIRADS 2, right base (Containers 6 and 7)
-        PIRADS 3, right apex (Container 8)
+        PIRADS 2, right base (containers 6 and 7)
+        PIRADS 3, right apex (container 8)
 
 Immunohistochemistry:
-    Block 1:
+
+Block 1:
         P504S/P63 (clone M-13H4): invasive carcinoma
         Others:
             other_1 (clone clone_1): bénin
             other_2 (clone clone_2): malin
-            
-    Block 3:
+
+Block 3:
         P63 (clone M-4A4): begnin
         CK14/CK15 (clone SP53): intraepithelial lesion
         Others:
@@ -565,14 +592,19 @@ Immunohistochemistry:
 Other:
     MOCK-specific-notes
 
-Acinar adenocarcinoma, conventional (usual).
+Conclusion:
 
-It has a Gleason score of 9 (4 à 95% including cribriform 10% + 5 à 5%), i.e. an ISUP score of 5.
-It is localized on 2 out of 6 systematic biopsies (5 mm out of 24 mm examined, 21%) and on 0 out of 3 targeted biopsies (0 mm out of 12 mm examined, 0%).
-It has a size of 5 mm out of 36 mm examined on all biopsies.
+Type de tumeur: adénocarcinome acinaire de type prostatique.
 
-Perineural Invasion : No
-Periprostatic Fat Invasion : No`;
+Gleason Score: 9 (4 + 5) of which 10% cribriform, i.e. an ISUP score of 5.
+
+Location:
+    Systematic biopsies: 2 out of 12 biopsies (5mm out of 24mm examined, 21%)
+    Targeted biopsies: 0 out of 6 biopsies (0mm out of 12mm examined, 0%)
+    Total: 5mm out of 36mm examined
+
+Perineural Invasion: No
+Periprostatic Fat Invasion: Yes (containers right base and right mid)`;
 
 describe("generateReport", () => {
   it("should generate a clean report without a tumor (FR)", () => {
