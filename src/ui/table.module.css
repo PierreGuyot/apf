@@ -33,10 +33,6 @@
   font-weight: bold;
 }
 
-.footer--left {
-  padding-left: var(--spacing-sm);
-}
-
 .footer--center {
   justify-content: center;
 }
