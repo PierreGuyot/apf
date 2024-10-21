@@ -31,12 +31,12 @@ const LOCATION_LABELS_TRANSRECTAL: Record<Location, string> = {
 };
 
 const LOCATION_LABELS_TRANSPERINEAL: Record<Location, string> = {
-  "base-right": "Zone périphérique latérale droite",
-  "medium-right": "Zone périphérique para-médiane droite",
-  "apex-right": "Zone périphérique médiane droite",
-  "base-left": "Zone périphérique latérale gauche",
-  "medium-left": "Zone périphérique para-médiane gauche",
-  "apex-left": "Zone périphérique médiane gauche",
+  "base-right": "Latérale droite",
+  "medium-right": "Para-médiane droite",
+  "apex-right": "Médiane droite",
+  "base-left": "Latérale gauche",
+  "medium-left": "Para-médiane gauche",
+  "apex-left": "Médiane gauche",
 };
 
 const getLocations = (formId: ProstateBiopsyFormId) => {

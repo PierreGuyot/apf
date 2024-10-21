@@ -404,6 +404,11 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
   },
 };
 
+const MOCK_DATA_WITH_TUMOR_TRANSPERINEAL: ReportParams = {
+  ...MOCK_DATA_WITH_TUMOR,
+  formId: "prostate-biopsy-transperineal",
+};
+
 const ihc: ReportParams["ihc"] = {
   hasIhc: true,
   blocks: [
@@ -468,16 +473,14 @@ Remarques particulières :
 Conclusion :
 
 Type de tumeur : adénocarcinome acinaire de type prostatique.
-
 Score de Gleason : 9 (4 + 5) dont 10% de cribriforme, soit un score ISUP de 5.
-
 Localisation :
     Biopsies systématiques : 2 des 12 biopsies (5mm sur 24mm examinés, 21%)
     Biopsies ciblées : 0 des 6 biopsies (0mm sur 12mm examinés, 0%)
-    Total : 5mm sur 36mm examinés
+    Total : 5mm sur 36mm examinés (base droite et milieu droit)
 
 Engainements périnerveux : Non
-Tissu extra-prostatique : Oui (pots base droite et milieu droit)`;
+Tissu extra-prostatique : Oui (base droite et milieu droit)`;
 
 const SAMPLE_WITHOUT_TUMOR_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
@@ -513,16 +516,14 @@ Other:
 Conclusion:
 
 Type de tumeur: adénocarcinome acinaire de type prostatique.
-
 Gleason Score: 9 (4 + 5) of which 10% cribriform, i.e. an ISUP score of 5.
-
 Location:
     Systematic biopsies: 2 out of 12 biopsies (5mm out of 24mm examined, 21%)
     Targeted biopsies: 0 out of 6 biopsies (0mm out of 12mm examined, 0%)
-    Total: 5mm out of 36mm examined
+    Total: 5mm out of 36mm examined (right base and right mid)
 
 Perineural Invasion: No
-Periprostatic Fat Invasion: Yes (containers right base and right mid)`;
+Periprostatic Fat Invasion: Yes (right base and right mid)`;
 
 const SAMPLE_WITH_IHC_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
@@ -554,16 +555,14 @@ Remarques particulières :
 Conclusion :
 
 Type de tumeur : adénocarcinome acinaire de type prostatique.
-
 Score de Gleason : 9 (4 + 5) dont 10% de cribriforme, soit un score ISUP de 5.
-
 Localisation :
     Biopsies systématiques : 2 des 12 biopsies (5mm sur 24mm examinés, 21%)
     Biopsies ciblées : 0 des 6 biopsies (0mm sur 12mm examinés, 0%)
-    Total : 5mm sur 36mm examinés
+    Total : 5mm sur 36mm examinés (base droite et milieu droit)
 
 Engainements périnerveux : Non
-Tissu extra-prostatique : Oui (pots base droite et milieu droit)`;
+Tissu extra-prostatique : Oui (base droite et milieu droit)`;
 
 const SAMPLE_WITH_IHC_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
@@ -595,16 +594,64 @@ Other:
 Conclusion:
 
 Type de tumeur: adénocarcinome acinaire de type prostatique.
-
 Gleason Score: 9 (4 + 5) of which 10% cribriform, i.e. an ISUP score of 5.
-
 Location:
     Systematic biopsies: 2 out of 12 biopsies (5mm out of 24mm examined, 21%)
     Targeted biopsies: 0 out of 6 biopsies (0mm out of 12mm examined, 0%)
-    Total: 5mm out of 36mm examined
+    Total: 5mm out of 36mm examined (right base and right mid)
 
 Perineural Invasion: No
-Periprostatic Fat Invasion: Yes (containers right base and right mid)`;
+Periprostatic Fat Invasion: Yes (right base and right mid)`;
+
+const SAMPLE_WITH_TUMOR_TRANSPERINEAL_FR = `BIOPSIES PROSTATIQUES TRANSPÉRINÉALES ÉCHO-GUIDÉES
+
+Renseignements cliniques :
+
+    PSA: 10 ng.mL⁻¹
+    IRM: Oui
+    Cibles :
+        PIRADS 2, latérale droite (pots 7 et 8)
+        PIRADS 3, médiane droite (pot 9)
+
+Remarques particulières :
+    MOCK-specific-notes
+
+Conclusion :
+
+Type de tumeur : adénocarcinome acinaire de type prostatique.
+Score de Gleason : 9 (4 + 5) dont 10% de cribriforme, soit un score ISUP de 5.
+Localisation :
+    Biopsies systématiques : 2 des 12 biopsies (5mm sur 24mm examinés, 21%)
+    Biopsies ciblées : 0 des 6 biopsies (0mm sur 12mm examinés, 0%)
+    Total : 5mm sur 36mm examinés (latérale droite et para-médiane droite)
+
+Engainements périnerveux : Non
+Tissu extra-prostatique : Oui (latérale droite et para-médiane droite)`;
+
+const SAMPLE_WITH_TUMOR_TRANSPERINEAL_EN = `TRANSPERINEAL PROSTATE NEEDLE BIOPSIES
+
+Case summary:
+
+    PSA: 10 ng.mL⁻¹
+    MRI: Yes
+    Targeted biopsies:
+        PIRADS 2, right lateral (containers 7 and 8)
+        PIRADS 3, right median (container 9)
+
+Other:
+    MOCK-specific-notes
+
+Conclusion:
+
+Type de tumeur: adénocarcinome acinaire de type prostatique.
+Gleason Score: 9 (4 + 5) of which 10% cribriform, i.e. an ISUP score of 5.
+Location:
+    Systematic biopsies: 2 out of 12 biopsies (5mm out of 24mm examined, 21%)
+    Targeted biopsies: 0 out of 6 biopsies (0mm out of 12mm examined, 0%)
+    Total: 5mm out of 36mm examined (right lateral and right paramedian)
+
+Perineural Invasion: No
+Periprostatic Fat Invasion: Yes (right lateral and right paramedian)`;
 
 describe("generateReport", () => {
   it("should generate a clean report without a tumor (FR)", () => {
@@ -671,5 +718,27 @@ describe("generateReport", () => {
       />,
     );
     expect(container.textContent).toEqual(SAMPLE_WITH_IHC_EN);
+  });
+
+  it("should generate a clean report for transperineal prostate biopsy (FR)", () => {
+    const { container } = render(
+      <Report
+        form={MOCK_DATA_WITH_TUMOR_TRANSPERINEAL}
+        language={"FR"}
+        isExpertMode={true}
+      />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_WITH_TUMOR_TRANSPERINEAL_FR);
+  });
+
+  it("should generate a clean report for transperineal prostate biopsy (EN)", () => {
+    const { container } = render(
+      <Report
+        form={MOCK_DATA_WITH_TUMOR_TRANSPERINEAL}
+        language={"EN"}
+        isExpertMode={true}
+      />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_WITH_TUMOR_TRANSPERINEAL_EN);
   });
 });

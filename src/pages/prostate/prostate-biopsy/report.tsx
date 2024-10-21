@@ -3,7 +3,12 @@ import {
   Block,
 } from "../../../common/immunohistochemistry/helpers";
 import { getFormTitle } from "../../../ui/helpers/forms";
-import { filterEmpty, sum, sumOnField } from "../../../ui/helpers/helpers";
+import {
+  filterEmpty,
+  filterNullish,
+  sum,
+  sumOnField,
+} from "../../../ui/helpers/helpers";
 import { toYesNo } from "../../../ui/helpers/options";
 import { pluralize } from "../../../ui/helpers/plural";
 import {
@@ -192,7 +197,28 @@ const getTumorLocation = (rows: Row[], language: Language) => {
     : `${tumorCount} out of ${totalCount} biopsies (${tumorSize}mm out of ${totalSize}mm examined, ${percentage}%)`;
 };
 
-const getLocationSection = (rows: Row[], language: Language) => {
+const formatLocations = (
+  formId: "prostate-biopsy-transrectal" | "prostate-biopsy-transperineal",
+  language: Language,
+  rows: Row[],
+) => {
+  return naturalJoin(
+    Array.from(
+      new Set(
+        rows.map((row) =>
+          getLocationLabel(formId, row.location, language).toLocaleLowerCase(),
+        ),
+      ),
+    ),
+    language,
+  );
+};
+
+const getLocationSection = (
+  formId: "prostate-biopsy-transrectal" | "prostate-biopsy-transperineal",
+  rows: Row[],
+  language: Language,
+) => {
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
 
@@ -200,6 +226,12 @@ const getLocationSection = (rows: Row[], language: Language) => {
   const targets = rows.filter((row) => row.type === "target");
   const tumorSize = sum(rows.map((item) => sum(item.tumorSize)));
   const totalSize = sum(rows.map((item) => sum(item.biopsySize)));
+
+  const containerLocations = formatLocations(
+    formId,
+    language,
+    rows.filter((row) => row.tumorCount > 0),
+  );
 
   return joinLines([
     `${t("Localisation")}${colon}`,
@@ -209,8 +241,8 @@ const getLocationSection = (rows: Row[], language: Language) => {
         ? `${t("Biopsies ciblées")}${colon} ${getTumorLocation(targets, language)}`
         : undefined, // Targets are optional
       language === "FR"
-        ? `${t("Total")}${colon} ${tumorSize}mm sur ${totalSize}mm examinés`
-        : `${t("Total")}${colon} ${tumorSize}mm out of ${totalSize}mm examined`,
+        ? `${t("Total")}${colon} ${tumorSize}mm sur ${totalSize}mm examinés (${containerLocations})`
+        : `${t("Total")}${colon} ${tumorSize}mm out of ${totalSize}mm examined (${containerLocations})`,
     ]
       .filter(filterEmpty)
       .map(pad),
@@ -226,25 +258,20 @@ const getPartTep = (
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
 
-  const locations = Array.from(
-    new Set(
-      rows
-        .filter((row) => !!row.tumorTep)
-        .map((row) =>
-          getLocationLabel(formId, row.location, language).toLocaleLowerCase(),
-        ),
-    ),
+  const locations = formatLocations(
+    formId,
+    language,
+    rows.filter((row) => !!row.tumorTep),
   );
+  const locationPart = score.tumorTep ? ` (${locations})` : "";
 
-  const locationPart = score.tumorTep
-    ? ` (${pluralize(locations.length, t("pot"))} ${naturalJoin(locations, language)})`
-    : "";
   return `${t("Tissu extra-prostatique")}${colon} ${toYesNo(score.tumorTep ?? false, language)}${locationPart}`;
 };
 
 const getConclusionContent = (
   { formId, rows, score, tumorType }: ReportParams,
   language: Language,
+  isExpertMode: boolean,
 ) => {
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
@@ -266,21 +293,21 @@ Prostate adenomyoma.`;
   const { label: tumorTypeLabel } = getTumorTypeOption(tumorType);
   const maxGleasonItem = score.tumorGleason ?? DEFAULT_GLEASON_ITEM;
   const lineGleason = `${t("Score de Gleason")}${colon} ${getGleasonConclusion(maxGleasonItem, language)}`;
-  const locationSection = getLocationSection(rows, language);
+  const locationSection = getLocationSection(formId, rows, language);
 
   const partEpn = `${t("Engainements périnerveux")}${colon} ${toYesNo(score.tumorEpn ?? false, language)}`;
 
   const partTep = getPartTep(formId, rows, score, language);
-  return joinLines([
-    `${t("Type de tumeur")}${colon} ${t(tumorTypeLabel.toLocaleLowerCase())}.`,
-    "", // Empty line
-    lineGleason,
-    "", // Empty line
-    locationSection,
-    "", // Empty line
-    partEpn,
-    partTep,
-  ]);
+  return joinLines(
+    [
+      `${t("Type de tumeur")}${colon} ${t(tumorTypeLabel.toLocaleLowerCase())}.`,
+      lineGleason,
+      isExpertMode ? locationSection : undefined,
+      "", // Empty line
+      partEpn,
+      partTep,
+    ].filter(filterNullish),
+  );
 };
 
 const getConclusionSection = (
@@ -294,7 +321,7 @@ const getConclusionSection = (
   return joinLines([
     `${t("Conclusion")}${colon}`,
     "", // Empty line
-    getConclusionContent(params, language),
+    getConclusionContent(params, language, isExpertMode),
   ]);
 };
 
