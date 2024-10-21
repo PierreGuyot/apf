@@ -245,7 +245,7 @@ const getInitialState = (): FormState => ({
   rows: getRows(),
   tumorType: "acinar-adenocarcinoma-conventional",
   ihc: {
-    hasIhc: true,
+    hasIhc: false,
     blocks: [],
   },
   comment: "",
@@ -328,7 +328,7 @@ const ProstateBiopsyFormContent = ({
     rows: visibleRows,
     piradsItems: visiblePiradsItems,
   });
-  const ihcErrors = validateIhc({ ihc });
+  const ihcErrors = validateIhc({ ihc, hasMultipleBlocks: true });
 
   const hasErrors = !!biopsyTableErrors.length || !!ihcErrors.length;
 

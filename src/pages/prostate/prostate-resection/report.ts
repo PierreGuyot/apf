@@ -14,6 +14,7 @@ import {
   getGleasonConclusion,
   getTumorTypeOption,
 } from "../helpers";
+import { getImmunohistochemistrySection } from "../report";
 import { FormState } from "./ProstateResectionForm";
 import {
   ProstateResectionFormId,
@@ -146,6 +147,7 @@ export const generateReport = (
     getFormTitle(form.formId, language),
     getCaseSummarySection(form, language),
     getMacroscopySection(form, language),
+    getImmunohistochemistrySection(form.ihc, language, false),
     getConclusionSection(form, language),
     getOtherLesionsSection(form, language),
   ]);

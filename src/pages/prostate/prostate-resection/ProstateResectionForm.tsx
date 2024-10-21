@@ -1,5 +1,10 @@
 import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
+import {
+  IhcState,
+  validateIhc,
+} from "../../../common/immunohistochemistry/helpers";
+import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
 import { SelectLymphaticOrVascularInvasion } from "../../../common/SelectLymphaticOrVascularInvasion";
 import { SelectPerineuralInvasion } from "../../../common/SelectPerineuralInvasion";
 import {
@@ -19,6 +24,8 @@ import {
   GleasonItem,
   OTHER_LESION_GROUPS,
   OtherLesionType,
+  PROSTATE_ANTIBODY_GROUPS,
+  PROSTATE_ANTIBODY_PROPERTIES,
   TUMOR_TYPES,
   TumorType,
 } from "../helpers";
@@ -53,6 +60,7 @@ export type FormState = {
   hasLymphaticOrVascularInvasion: boolean;
   hasEpn: boolean;
   otherLesions: OtherLesionType[];
+  ihc: IhcState;
 };
 
 const getInitialState = (): FormState => ({
@@ -69,6 +77,15 @@ const getInitialState = (): FormState => ({
   hasLymphaticOrVascularInvasion: false,
   hasEpn: false,
   otherLesions: [],
+  ihc: {
+    hasIhc: false,
+    blocks: [
+      {
+        index: 1,
+        antibodies: [],
+      },
+    ],
+  },
 });
 
 type Props = {
@@ -113,13 +130,15 @@ export const ProstateResectionForm = ({ formId }: Props) => {
     hasLymphaticOrVascularInvasion,
     hasEpn,
     otherLesions,
+    ihc,
   } = state;
 
   const macroscopyErrors = validateMacroscopy({
     chipWeight,
     blockCount,
   });
-  const hasErrors = !!macroscopyErrors.length;
+  const ihcErrors = validateIhc({ ihc, hasMultipleBlocks: false });
+  const hasErrors = !!macroscopyErrors.length || !!ihcErrors!.length;
 
   return (
     <FormPage formId={formId} onClear={clearState}>
@@ -164,7 +183,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
         <Section title="Microscopie" index={3}>
           <Line>
             <Select
-              label="Quelle est le type de la lésion principale ?"
+              label="Quel est le type de la lésion principale ?"
               options={MAIN_LESION_TYPES}
               value={mainLesionType}
               onChange={setField("mainLesionType")}
@@ -218,13 +237,27 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             </>
           ) : undefined}
           <Line>
-            Autres lésions
             <SelectList
+              label="Autres lésions"
               values={otherLesions}
               groups={OTHER_LESION_GROUPS}
               onChange={setField("otherLesions")}
             />
           </Line>
+        </Section>
+
+        <Section title="Immunohistochimie" index={4}>
+          <Immunohistochemistry
+            groups={PROSTATE_ANTIBODY_GROUPS}
+            properties={PROSTATE_ANTIBODY_PROPERTIES}
+            state={ihc}
+            setState={setField("ihc")}
+          />
+
+          <ValidationErrors
+            header="La section Immunohistochimie comporte les erreurs suivantes :"
+            errors={ihcErrors}
+          />
         </Section>
 
         {hasErrors ? undefined : (

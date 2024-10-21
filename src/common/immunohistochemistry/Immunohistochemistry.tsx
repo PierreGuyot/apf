@@ -22,7 +22,7 @@ import {
 } from "./helpers";
 
 type Props = {
-  containerCount: number;
+  containerCount?: number;
   groups: AntibodyGroup[];
   properties: PropertiesByAntibody;
   state: IhcState;
@@ -51,7 +51,9 @@ export const Immunohistochemistry = ({
     [blocks],
   );
 
-  const blockOptions = getBlockOptions(containerCount);
+  const hasMultipleBlocks = typeof containerCount === "number";
+
+  const blockOptions = getBlockOptions(containerCount ?? 1);
   const blockGroups = useMemo(
     () => [
       {
@@ -81,15 +83,17 @@ export const Immunohistochemistry = ({
       </Line>
       {hasIhc ? (
         <>
-          <Line>
-            <SelectList
-              label="Sur quels blocs avez-vous réalisé une immunohistochimie ?"
-              groups={blockGroups}
-              values={selectedBlocks}
-              hasList={false}
-              onChange={onSelectBlocks}
-            />
-          </Line>
+          {hasMultipleBlocks ? (
+            <Line>
+              <SelectList
+                label="Sur quels blocs avez-vous réalisé une immunohistochimie ?"
+                groups={blockGroups}
+                values={selectedBlocks}
+                hasList={false}
+                onChange={onSelectBlocks}
+              />
+            </Line>
+          ) : undefined}
           {blocks.map((block, index) => {
             const setBlock = (value: Block) => {
               const updatedBlocks = patchArray(blocks, index, () => value);
@@ -102,6 +106,7 @@ export const Immunohistochemistry = ({
                 antibodyGroups={antibodyGroups}
                 block={block}
                 properties={properties}
+                isNested={hasMultipleBlocks}
                 setBlock={setBlock}
               />
             );
@@ -116,11 +121,13 @@ const BlockSection = ({
   block,
   properties,
   antibodyGroups,
+  isNested,
   setBlock,
 }: {
   block: Block;
   properties: PropertiesByAntibody;
   antibodyGroups: AntibodyGroup[];
+  isNested: boolean;
   setBlock: (value: Block) => void;
 }) => {
   const { antibodies } = block;
@@ -150,40 +157,38 @@ const BlockSection = ({
     [antibodyGroups],
   );
 
-  return (
-    <>
-      <SubSection title={`Bloc ${block.index}`}>
-        <Stack spacing="md">
-          <Line>
-            <SelectList
-              label="Quels sont les anticorps utilisés ?"
-              groups={groups}
-              values={selectedAntibodies}
-              hasList={false}
-              onChange={onSelectAntibodies}
-            />
-          </Line>
-          {antibodies.map((antibody, index) => {
-            const setAntibody = (value: AntibodyData) => {
-              const updatedAntibodies = patchArray(
-                antibodies,
-                index,
-                () => value,
-              );
-              setField("antibodies")(updatedAntibodies);
-            };
+  const content = (
+    <Stack spacing="md">
+      <Line>
+        <SelectList
+          label="Quels sont les anticorps utilisés ?"
+          groups={groups}
+          values={selectedAntibodies}
+          hasList={false}
+          onChange={onSelectAntibodies}
+        />
+      </Line>
+      {antibodies.map((antibody, index) => {
+        const setAntibody = (value: AntibodyData) => {
+          const updatedAntibodies = patchArray(antibodies, index, () => value);
+          setField("antibodies")(updatedAntibodies);
+        };
 
-            return (
-              <AntibodySection
-                key={index}
-                properties={properties}
-                state={antibody}
-                setState={setAntibody}
-              />
-            );
-          })}
-        </Stack>
-      </SubSection>
-    </>
+        return (
+          <AntibodySection
+            key={index}
+            properties={properties}
+            state={antibody}
+            setState={setAntibody}
+          />
+        );
+      })}
+    </Stack>
+  );
+
+  return isNested ? (
+    <SubSection title={`Bloc ${block.index}`}>{content}</SubSection>
+  ) : (
+    content
   );
 };

@@ -1,8 +1,11 @@
 import { render } from "@testing-library/react";
 import { Report, ReportParams } from "./report";
+import { aMockIhcState } from "../../../common/fixtures";
 
 // TODO clean: test functions to compute scores
 // TODO clean: test functions to compute errors
+
+const ihc = aMockIhcState();
 
 const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
   formId: "prostate-biopsy-transrectal",
@@ -407,36 +410,6 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
 const MOCK_DATA_WITH_TUMOR_TRANSPERINEAL: ReportParams = {
   ...MOCK_DATA_WITH_TUMOR,
   formId: "prostate-biopsy-transperineal",
-};
-
-const ihc: ReportParams["ihc"] = {
-  hasIhc: true,
-  blocks: [
-    {
-      index: 1,
-      antibodies: [
-        { type: "P504S/P63", clone: "M-13H4", result: "invasive-carcinoma" },
-        {
-          type: "others",
-          values: [
-            { name: "other_1", clone: "clone_1", result: "bénin" },
-            { name: "other_2", clone: "clone_2", result: "malin" },
-          ],
-        },
-      ],
-    },
-    {
-      index: 3,
-      antibodies: [
-        { type: "P63", clone: "M-4A4", result: "begnin" },
-        { type: "CK14/CK15", clone: "SP53", result: "intraepithelial-lesion" },
-        {
-          type: "others",
-          values: [{ name: "other_3", clone: "clone_3", result: "bénin" }],
-        },
-      ],
-    },
-  ],
 };
 
 const SAMPLE_WITHOUT_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES

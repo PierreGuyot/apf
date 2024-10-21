@@ -1,7 +1,3 @@
-import {
-  AntibodyData,
-  Block,
-} from "../../../common/immunohistochemistry/helpers";
 import { getFormTitle } from "../../../ui/helpers/forms";
 import {
   filterEmpty,
@@ -23,9 +19,9 @@ import { COLON_CHARACTER, Language, translate } from "../../../ui/translation";
 import {
   DEFAULT_GLEASON_ITEM,
   getGleasonConclusion,
-  getResultOption,
   getTumorTypeOption,
 } from "../helpers";
+import { getImmunohistochemistrySection } from "../report";
 import { FormState } from "./ProstateBiopsyForm";
 import {
   getLocationLabel,
@@ -109,59 +105,6 @@ const getClinicalInformationSection = (
     `${t("Renseignements cliniques")}${colon}`,
     "", // Empty line
     content,
-  ]);
-};
-
-const renderAntibody = (antibody: AntibodyData, language: Language) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  if (antibody.type === "others") {
-    return joinLines([
-      ...antibody.values
-        .map(
-          (value) =>
-            `${value.name} (clone ${value.clone})${colon} ${t(value.result)}`,
-        )
-        .map(pad),
-    ]);
-  }
-
-  const { label } = getResultOption(antibody.result);
-
-  return joinLines(
-    [
-      `${t(antibody.type)} (${t("clone")} ${antibody.clone})${colon} ${t(label).toLocaleLowerCase()}`,
-    ].map(pad),
-  );
-};
-
-const renderBlock = (block: Block, language: Language, isLast: boolean) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  return joinLines([
-    `${t("Bloc")} ${block.index}${colon}`,
-    ...block.antibodies.map((antibody) => renderAntibody(antibody, language)),
-  ]);
-};
-
-const getImmunohistochemistrySection = (
-  form: ReportParams,
-  language: Language,
-) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  if (!form.ihc.hasIhc) {
-    return undefined;
-  }
-
-  return joinLines([
-    `${t("Immunohistochimie")}${colon}`,
-    ...form.ihc.blocks.map((block, index) =>
-      renderBlock(block, language, index === form.ihc.blocks.length - 1),
-    ),
   ]);
 };
 
@@ -327,7 +270,7 @@ export const generateReport = (
   return joinSections([
     getFormTitle(form.formId, language),
     getClinicalInformationSection(form, language, isExpertMode),
-    getImmunohistochemistrySection(form, language),
+    getImmunohistochemistrySection(form.ihc, language, true),
     getCommentSection(form, language),
     getConclusionSection(form, language, isExpertMode),
   ]);

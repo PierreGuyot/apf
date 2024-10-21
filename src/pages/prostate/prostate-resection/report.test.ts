@@ -1,4 +1,10 @@
+import { aMockBlock1 } from "../../../common/fixtures";
 import { ReportParams, generateReport } from "./report";
+
+const ihc = {
+  hasIhc: true,
+  blocks: [aMockBlock1()],
+};
 
 const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
   formId: "prostate-transurethral-resection",
@@ -20,6 +26,7 @@ const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
   hasLymphaticOrVascularInvasion: false,
   hasEpn: false,
   otherLesions: ["prostate-adenomyoma", "ASAP"],
+  ihc,
 };
 
 const MOCK_DATA_WITH_TUMOR: ReportParams = {
@@ -42,6 +49,7 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
   hasLymphaticOrVascularInvasion: false,
   hasEpn: false,
   otherLesions: ["prostate-adenomyoma", "ASAP"],
+  ihc,
 };
 
 describe("generateReport", () => {
@@ -54,6 +62,11 @@ Renseignements cliniques :
 
 Poids des copeaux : 10g
 Inclusion en totalité en 5 blocs (fixation : formol tamponné 4%, coloration HES)
+
+Immunohistochimie :
+    P504S/P63 (clone M-13H4) : carcinome invasif
+    other_1 (clone clone_1) : bénin
+    other_2 (clone clone_2) : malin
 
 On observe des glandes prostatiques nombreuses souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse. Absence de foyer carcinomateux.
 
@@ -72,6 +85,11 @@ Renseignements cliniques :
 
 Poids des copeaux : 10g
 Inclusion en totalité en 5 blocs (fixation : formol tamponné 4%, coloration HES)
+
+Immunohistochimie :
+    P504S/P63 (clone M-13H4) : carcinome invasif
+    other_1 (clone clone_1) : bénin
+    other_2 (clone clone_2) : malin
 
 Adénocarcinome acinaire de type prostatique.
 
@@ -97,6 +115,11 @@ Case summary:
 Total chip weight : 10g
 Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
 
+Immunohistochemistry:
+    P504S/P63 (clone M-13H4): invasive carcinoma
+    other_1 (clone clone_1): bénin
+    other_2 (clone clone_2): malin
+
 Numerous prostate glands, often grouped into nodules, are found within a smooth muscular prostatic stroma. No carcinomatous focus.
 
 Other lesions:
@@ -114,6 +137,11 @@ Case summary:
 
 Total chip weight : 10g
 Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
+
+Immunohistochemistry:
+    P504S/P63 (clone M-13H4): invasive carcinoma
+    other_1 (clone clone_1): bénin
+    other_2 (clone clone_2): malin
 
 Acinar adenocarcinoma, conventional (usual).
 

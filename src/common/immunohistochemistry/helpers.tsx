@@ -179,7 +179,13 @@ export type PropertiesByAntibody = Partial<
 >;
 
 // TODO clean: test extensively
-export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
+export const validateIhc = ({
+  ihc,
+  hasMultipleBlocks,
+}: {
+  ihc: IhcState;
+  hasMultipleBlocks: boolean;
+}) => {
   if (!ihc.hasIhc) {
     return [];
   }
@@ -193,7 +199,9 @@ export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
   ihc.blocks.forEach((block) => {
     if (block.antibodies.length === 0) {
       errors.push(
-        `Aucun anticorps n'est sélectionné pour le bloc ${block.index}.`,
+        hasMultipleBlocks
+          ? `Aucun anticorps n'est sélectionné pour le bloc ${block.index}.`
+          : `Aucun anticorps n'est sélectionné.`,
       );
     }
 
@@ -203,7 +211,9 @@ export const validateIhc = ({ ihc }: { ihc: IhcState }) => {
           if (!value.name || !value.result) {
             // Clone field is optional
             errors.push(
-              `Dans le bloc ${block.index}, les champs Nom et Résultat pour les anticorps autres doit être remplis.`,
+              hasMultipleBlocks
+                ? `Dans le bloc ${block.index}, les champs Nom et Résultat pour les anticorps autres doit être remplis.`
+                : `Les champs Nom et Résultat pour les anticorps autres doit être remplis.`,
             );
           }
         });
