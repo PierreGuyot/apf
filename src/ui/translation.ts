@@ -162,6 +162,11 @@ export const DICTIONARY_EN: Record<string, string> = {
   Pot: "container",
 };
 
+const IS_DEBUG = false;
+const DICTIONARIES_PER_LANGUAGE = {
+  EN: DICTIONARY_EN,
+} as const;
+
 export const translate = (value: string, language: Language) => {
   // FR (default)
   if (language === DEFAULT_LANGUAGE) {
@@ -169,8 +174,15 @@ export const translate = (value: string, language: Language) => {
   }
 
   // EN
-  const translation = DICTIONARY_EN[value];
+  const dictionary = DICTIONARIES_PER_LANGUAGE[language];
+  const translation = dictionary[value];
+
+  // Translation is missing
   if (!translation) {
+    if (IS_DEBUG) {
+      throw new Error(`Translation for value '${value}' cannot be found.`);
+    }
+
     return value;
   }
 
