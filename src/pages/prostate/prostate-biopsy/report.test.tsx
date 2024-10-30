@@ -195,7 +195,7 @@ const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
     blocks: [],
     hasIhc: false,
   },
-  comment: "MOCK-specific-notes",
+  comments: "MOCK-specific-notes",
   score: {
     biopsyCount: 18,
     biopsySize: 36,
@@ -390,7 +390,7 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
     blocks: [],
     hasIhc: false,
   },
-  comment: "MOCK-specific-notes",
+  comments: "MOCK-specific-notes",
   score: {
     biopsyCount: 18,
     biopsySize: 36,

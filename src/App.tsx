@@ -2,6 +2,7 @@ import { isFeatureFlagEnabled } from "./feature-flags";
 import { PageMain } from "./pages/PageMain";
 import { DesignPage } from "./pages/_PageDesign";
 import { DermatologyForm } from "./pages/dermatology/DermatologyForm";
+import { BladderResectionForm } from "./pages/prostate/bladder-resection/BladderResectionForm";
 import { ProstateBiopsyForm } from "./pages/prostate/prostate-biopsy/ProstateBiopsyForm";
 import { ProstateResectionForm } from "./pages/prostate/prostate-resection/ProstateResectionForm";
 import {
@@ -43,6 +44,8 @@ export const App = () => {
       return <ProstateResectionForm formId={hash} />;
     case "prostate-holmium-laser-enucleation":
       return <ProstateResectionForm formId={hash} />;
+    case "bladder-transurethral-resection":
+      return <BladderResectionForm formId={hash} />;
 
     // Home page
     case "":

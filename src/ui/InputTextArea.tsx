@@ -27,16 +27,11 @@ export const InputTextArea = ({
   const onInput: OnInput<HTMLTextAreaElement> = (e) => {
     // CAUTION: this cast is type-unsafe
     const inputEvent = e.target as HTMLTextAreaElement;
-
-    // Match the size of the text area with the number of lines it contains
-    inputEvent.style.height = "inherit";
-    inputEvent.style.height = `${inputEvent.scrollHeight}px`;
-
     onChange(inputEvent.value);
   };
 
   return (
-    <Stack>
+    <Stack spacing="xs">
       {label ? <Label label={label} placement="above" /> : undefined}
       {isReadOnly ? (
         value

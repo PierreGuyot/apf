@@ -34,7 +34,6 @@ import {
 export type ReportParams = FormState & {
   formId: ProstateBiopsyFormId;
   score: Score;
-  comment: string;
 };
 
 const renderPiradsItem = (
@@ -108,16 +107,16 @@ const getClinicalInformationSection = (
   ]);
 };
 
-const getCommentSection = (form: { comment: string }, language: Language) => {
+const getCommentSection = (form: { comments: string }, language: Language) => {
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
 
-  const comment = form.comment.trim();
+  const comments = form.comments.trim();
 
-  return comment
+  return comments
     ? joinLines([
         `${t("Remarques particulières")}${colon}`,
-        padSection(comment),
+        padSection(comments),
       ])
     : undefined;
 };
@@ -227,6 +226,8 @@ Prostate adenomyoma.`;
     }
   }
 
+  // Tumor presence
+
   const { label: tumorTypeLabel } = getTumorTypeOption(tumorType);
   const maxGleasonItem = score.tumorGleason ?? DEFAULT_GLEASON_ITEM;
   const lineGleason = `${t("Score de Gleason")}${colon} ${getGleasonConclusion(maxGleasonItem, language)}`;
@@ -276,6 +277,7 @@ export const generateReport = (
   ]);
 };
 
+// TODO CLEAN: centralize joinLines
 // TODO CLEAN: use to refactor generateReport into TSX
 export const Report = ({
   form,

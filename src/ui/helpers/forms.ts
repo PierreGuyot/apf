@@ -3,15 +3,18 @@ import { Language, translate } from "../translation";
 import skinPath from "./../../images-who/skin.png";
 import uroPath from "./../../images-who/uro.png";
 
+// For a good reading experience, line width must be capped
 export const FORM_MAX_WIDTH = "800px";
 
-type Category = "prostate" | "skin";
+// TODO CLEAN: clarify naming conventions
+type Category = "maleGenitalia" | "skin";
 
 export const FORM_IDS = [
   "prostate-biopsy-transrectal",
   "prostate-biopsy-transperineal",
   "prostate-transurethral-resection",
   "prostate-holmium-laser-enucleation",
+  "bladder-transurethral-resection",
   "dermatology",
 ] as const;
 
@@ -31,25 +34,31 @@ export const FORMS: Record<
 > = {
   "prostate-biopsy-transrectal": {
     title: "Biopsies prostatiques transrectales écho-guidées",
-    category: "prostate",
+    category: "maleGenitalia",
     isPrototype: true,
     lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
   },
   "prostate-biopsy-transperineal": {
     title: "Biopsies prostatiques transpérinéales écho-guidées",
-    category: "prostate",
+    category: "maleGenitalia",
     isPrototype: true,
     lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
   },
   "prostate-transurethral-resection": {
     title: "Résection transurétrale de prostate",
-    category: "prostate",
+    category: "maleGenitalia",
     isPrototype: true,
     lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
   },
   "prostate-holmium-laser-enucleation": {
     title: "Enucléation au laser holnium de la prostate",
-    category: "prostate",
+    category: "maleGenitalia",
+    isPrototype: true,
+    lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
+  },
+  "bladder-transurethral-resection": {
+    title: "Résection transurétrale de vessie",
+    category: "maleGenitalia",
     isPrototype: true,
     lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
   },
@@ -62,8 +71,9 @@ export const FORMS: Record<
 };
 
 const getFormCategories = () => {
+  // TODO CLEAN: generate from a list of categories
   const categories: Record<Category, FormId[]> = {
-    prostate: [],
+    maleGenitalia: [],
     skin: [],
   };
 
@@ -89,8 +99,8 @@ const PROPS_BY_CATEGORY: Record<
   Category,
   { label: string; imagePath: string }
 > = {
-  skin: { label: "Dermatologie", imagePath: skinPath },
-  prostate: { label: "Prostate", imagePath: uroPath },
+  skin: { label: "Peau", imagePath: skinPath },
+  maleGenitalia: { label: "Appareil urogénital masculin", imagePath: uroPath },
 };
 
 export const getCategoryProps = (category: Category) =>

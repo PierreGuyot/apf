@@ -1,19 +1,20 @@
-import { Language } from "../../ui/translation";
-import { FormState } from "./DermatologyForm";
+import { FormId, Language } from "../../../ui";
+import { FormState } from "./BladderResectionForm";
+
+export type ReportParams = FormState & {
+  formId: Extract<FormId, "bladder-transurethral-resection">;
+};
 
 // FIXME: un-mock
 
-type ReportParams = FormState & {
-  formId: "dermatology";
-};
-
 const mockGetContent = (form: ReportParams) =>
-  `${JSON.stringify(form, null, 2).slice(0, 50)}...`;
+  ["TODO: un-mock summary", "", JSON.stringify(form, null, 2)].join("\n");
 
 // TODO clean: test extensively
 export const generateReport = (
   form: ReportParams,
   language: Language,
+  _isExpertMode: boolean,
 ): string => {
   switch (language) {
     case "FR": {

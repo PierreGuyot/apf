@@ -17,7 +17,7 @@ export const LOCATIONS = [
   "base-left",
   "medium-left",
   "apex-left",
-];
+] as const;
 
 export type Location = (typeof LOCATIONS)[number];
 

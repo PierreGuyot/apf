@@ -1,3 +1,4 @@
+import { getSamplingTypeOption } from "../../../common/resection.helpers";
 import { getSelectedOptions } from "../../../ui/SelectList";
 import { getFormTitle } from "../../../ui/helpers/forms";
 import { assertUnreachable } from "../../../ui/helpers/helpers";
@@ -19,7 +20,6 @@ import { FormState } from "./ProstateResectionForm";
 import {
   ProstateResectionFormId,
   getPriorConditionOption,
-  getSamplingTypeOption,
   getTumorQuantificationOption,
   isApplicable,
 } from "./helpers";

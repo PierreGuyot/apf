@@ -3,7 +3,6 @@ import { AdditionalRemarks } from "../../common/AdditionalRemarks";
 import { ClinicalInfo } from "../../common/ClinicalInfo";
 import { FormPage } from "../../common/FormPage";
 import {
-  FormId,
   InputNumber,
   Line,
   Section,
@@ -95,7 +94,7 @@ export type FormState = {
   clinicalInfo: string;
   containerCount: number;
   operations: OperationState[];
-  comment: string;
+  comments: string;
 };
 
 const anEmptyTumor = (): TumorData => ({
@@ -151,11 +150,11 @@ const getInitialState = (): FormState => ({
   clinicalInfo: "",
   containerCount: 1,
   operations: range(MAX_OPERATION_COUNT).map(getOperation),
-  comment: "",
+  comments: "",
 });
 
 type Props = {
-  formId: FormId;
+  formId: "dermatology";
 };
 
 export const DermatologyForm = ({ formId }: Props) => {
@@ -201,13 +200,13 @@ export const DermatologyForm = ({ formId }: Props) => {
 
         <AdditionalRemarks
           index={containerCount + 1}
-          value={state.comment}
-          onChange={setField("comment")}
+          value={state.comments}
+          onChange={setField("comments")}
         />
 
         <Summary
           getContent={(language) =>
-            generateReport({ ...state, formId, language })
+            generateReport({ ...state, formId }, language)
           }
         />
       </Stack>

@@ -5,11 +5,16 @@ import {
   validateIhc,
 } from "../../../common/immunohistochemistry/helpers";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
+import {
+  ColorationType,
+  SamplingType,
+  validateMacroscopy,
+} from "../../../common/resection.helpers";
+import { ResectionMacroscopy } from "../../../common/ResectionMacroscopy";
 import { SelectLymphaticOrVascularInvasion } from "../../../common/SelectLymphaticOrVascularInvasion";
 import { SelectPerineuralInvasion } from "../../../common/SelectPerineuralInvasion";
 import {
   DEFAULT_LANGUAGE,
-  InputNumber,
   Line,
   Section,
   Select,
@@ -31,18 +36,14 @@ import {
 } from "../helpers";
 import { CellGleason } from "../prostate-biopsy/cells";
 import {
-  COLORATION_OPTIONS,
-  ColorationType,
+  isApplicable,
   MAIN_LESION_TYPES,
   MainLesionType,
   PRIOR_CONDITION_OPTIONS,
   PriorCondition,
   ProstateResectionFormId,
-  SAMPLING_TYPES,
-  SamplingType,
   TUMOR_QUANTIFICATION_OPTIONS,
   TumorQuantification,
-  isApplicable,
 } from "./helpers";
 import { generateReport } from "./report";
 
@@ -92,36 +93,13 @@ type Props = {
   formId: ProstateResectionFormId;
 };
 
-// TODO clean: test extensively
-const validateMacroscopy = ({
-  chipWeight,
-  blockCount,
-}: {
-  chipWeight: number;
-  blockCount: number;
-}) => {
-  const errors: string[] = [];
-
-  if (!chipWeight) {
-    errors.push("Le poids des copeaux est égal à 0.");
-  }
-
-  if (!blockCount) {
-    errors.push("Le nombre de blocs est égal à 0.");
-  }
-
-  return errors;
-};
-
 export const ProstateResectionForm = ({ formId }: Props) => {
   // State
-  const { state, setField, clearState } = useForm(getInitialState);
+  const { state, setField, clearState, setState } = useForm(getInitialState);
   const {
     caseSummary,
     chipWeight,
     blockCount,
-    coloration,
-    samplingType,
     mainLesionType,
     tumorType,
     priorConditions,
@@ -133,10 +111,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
     ihc,
   } = state;
 
-  const macroscopyErrors = validateMacroscopy({
-    chipWeight,
-    blockCount,
-  });
+  const macroscopyErrors = validateMacroscopy({ chipWeight, blockCount });
   const ihcErrors = validateIhc({ ihc, hasMultipleBlocks: false });
   const hasErrors = !!macroscopyErrors.length || !!ihcErrors!.length;
 
@@ -149,36 +124,12 @@ export const ProstateResectionForm = ({ formId }: Props) => {
           onChange={setField("caseSummary")}
         />
 
-        <Section title="Macroscopie" index={2}>
-          <Line>
-            <InputNumber
-              label="Poids des copeaux :"
-              value={chipWeight}
-              unit="g"
-              isDecimal
-              onChange={setField("chipWeight")}
-            />
-          </Line>
-          <Line>
-            <Select
-              options={SAMPLING_TYPES}
-              value={samplingType}
-              onChange={setField("samplingType")}
-            />{" "}
-            <InputNumber value={blockCount} onChange={setField("blockCount")} />{" "}
-            blocs (fixation : formol tamponné 4%, coloration:{" "}
-            <Select
-              options={COLORATION_OPTIONS}
-              value={coloration}
-              onChange={setField("coloration")}
-            />
-            )
-          </Line>
-          <ValidationErrors
-            header="La section Macroscopie comporte les erreurs suivantes :"
-            errors={macroscopyErrors}
-          />
-        </Section>
+        <ResectionMacroscopy
+          index={1}
+          state={state}
+          setState={(value) => setState({ ...state, ...value })}
+          errors={macroscopyErrors}
+        />
 
         <Section title="Microscopie" index={3}>
           <Line>

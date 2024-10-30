@@ -48,6 +48,8 @@ export const DICTIONARY_EN: Record<string, string> = {
   Standard: "Standard",
   expert: "expert",
   Expert: "Expert",
+  "Autre (précisez)": "Other (specify)",
+  "Non-précisé": "Unspecified",
 
   // Specialized
   "Biopsies prostatiques transrectales écho-guidées":
@@ -57,6 +59,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Résection transurétrale de prostate": "Transurethral Prostatic Resection",
   "Enucléation au laser holnium de la prostate":
     "Holmium laser prostatic enucleation of the prostate",
+  "Résection transurétrale de vessie": "TODO",
   Sextant: "Systematic biopsy",
   Cible: "Targeted biopsy",
   Cibles: "Targeted biopsies",
@@ -146,6 +149,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Biopsies ciblées": "Targeted biopsies",
   "Biopsies systématiques": "Systematic biopsies",
   Total: "Total",
+  Musculeuse: "Muscularis Propria",
 
   // Tranlations to review
 

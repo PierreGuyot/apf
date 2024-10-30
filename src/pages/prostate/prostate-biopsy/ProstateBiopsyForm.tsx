@@ -217,7 +217,7 @@ export type FormState = {
   ihc: IhcState;
 
   // Additional comments
-  comment: string;
+  comments: string;
 };
 
 const getPiradsItems = () => range(MAX_TARGET_COUNT).map(anEmptyPiradsItem);
@@ -248,13 +248,14 @@ const getInitialState = (): FormState => ({
     hasIhc: false,
     blocks: [],
   },
-  comment: "",
+  comments: "",
 });
 
 type Props = {
   formId: ProstateBiopsyFormId;
 };
 
+// TODO CLEAN: refactor ModePicker
 export const ProstateBiopsyForm = ({ formId }: Props) => {
   const [mode, setMode] = useState<Mode>();
 
@@ -292,7 +293,7 @@ const ProstateBiopsyFormContent = ({
     targetCount,
     tumorType,
     ihc,
-    comment,
+    comments,
   } = state;
 
   const rows: RowWithMetadata[] = useMemo(
@@ -422,8 +423,8 @@ const ProstateBiopsyFormContent = ({
 
         <AdditionalRemarks
           index={4}
-          value={comment}
-          onChange={setField("comment")}
+          value={comments}
+          onChange={setField("comments")}
         />
 
         {hasErrors ? undefined : (

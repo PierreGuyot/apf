@@ -5,20 +5,6 @@ export type ProstateResectionFormId =
   | "prostate-transurethral-resection"
   | "prostate-holmium-laser-enucleation";
 
-export type SamplingType = "full" | "partial";
-export const SAMPLING_TYPES: Option<SamplingType>[] = [
-  { value: "full", label: "Inclusion en totalité" },
-  { value: "partial", label: "Échantillonnage" },
-];
-
-export const getSamplingTypeOption = findOption(SAMPLING_TYPES);
-
-export type ColorationType = "HES" | "HE";
-export const COLORATION_OPTIONS: Option<ColorationType>[] = [
-  { value: "HES", label: "HES" },
-  { value: "HE", label: "HE" },
-];
-
 export type MainLesionType =
   | "prostate-adenomyoma"
   | "prostate-adenomyoma-and-granulomatous-inflammation"

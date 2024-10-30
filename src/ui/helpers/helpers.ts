@@ -60,7 +60,7 @@ export const patchArray = <T>(
   updater: (item: T) => T,
 ) => items.map((row, i) => (i === index ? updater(row) : row));
 
-export const toOption = <T extends number = number>(value: T) => ({
+export const toOption = <T extends number | string = string>(value: T) => ({
   value,
   label: String(value),
 });

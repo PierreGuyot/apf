@@ -133,7 +133,7 @@ export const InkingSection = ({ state, setState }: Props) => {
   );
 };
 
-export const InkingItem = ({
+const InkingItem = ({
   label,
   state,
   setState,
