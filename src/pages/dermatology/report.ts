@@ -1,4 +1,4 @@
-import { Language } from "../../ui/translation";
+import { Language } from "../../ui";
 import { FormState } from "./DermatologyForm";
 
 // FIXME: un-mock

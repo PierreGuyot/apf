@@ -1,5 +1,4 @@
-import { Option } from "../../../ui/helpers/options";
-import { DEFAULT_LANGUAGE, Language, translate } from "../../../ui/translation";
+import { DEFAULT_LANGUAGE, Language, Option, translate } from "../../../ui";
 import { DEFAULT_GLEASON_ITEM, GleasonItem, OtherLesionType } from "../helpers";
 
 export type ProstateBiopsyFormId =

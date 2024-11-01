@@ -1,15 +1,17 @@
 import { getSamplingTypeOption } from "../../../common/resection.helpers";
-import { getSelectedOptions } from "../../../ui/SelectList";
-import { getFormTitle } from "../../../ui/helpers/forms";
-import { assertUnreachable } from "../../../ui/helpers/helpers";
-import { toYesNo } from "../../../ui/helpers/options";
 import {
+  COLON_CHARACTER,
+  Language,
+  assertUnreachable,
+  getFormTitle,
+  getSelectedOptions,
   joinLines,
   joinSections,
   pad,
   padSection,
-} from "../../../ui/helpers/text";
-import { COLON_CHARACTER, Language, translate } from "../../../ui/translation";
+  toYesNo,
+  translate,
+} from "../../../ui";
 import {
   OTHER_LESION_GROUPS,
   getGleasonConclusion,

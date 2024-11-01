@@ -2,10 +2,15 @@ import {
   AntibodyGroup,
   PropertiesByAntibody,
 } from "../../common/immunohistochemistry/helpers";
-import { filterEmpty, findOption } from "../../ui/helpers/helpers";
-import { Option, OptionValue } from "../../ui/helpers/options";
-import { getPercentageValues } from "../../ui/helpers/percent";
-import { Language, translate } from "../../ui/translation";
+import {
+  filterEmpty,
+  findOption,
+  getPercentageValues,
+  Language,
+  Option,
+  OptionValue,
+  translate,
+} from "../../ui";
 
 export const GLEASON_SCORES = [3, 4, 5] as const;
 export type GleasonScore = (typeof GLEASON_SCORES)[number];

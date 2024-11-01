@@ -1,4 +1,4 @@
-import { Option } from "../../ui/helpers/options";
+import { Option } from "../../ui";
 
 // FIXME: translate
 export type BiopsyType = "punch" | "fuseau";

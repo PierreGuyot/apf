@@ -1,5 +1,4 @@
-import { findOption } from "../../../ui/helpers/helpers";
-import { Option } from "../../../ui/helpers/options";
+import { findOption, Option } from "../../../ui";
 
 export type ProstateResectionFormId =
   | "prostate-transurethral-resection"

@@ -3,6 +3,7 @@ import {
   Button,
   FORMS,
   FormId,
+  InfoBox,
   ONE_DAY,
   Stack,
   formatDate,
@@ -10,7 +11,6 @@ import {
   goToIndex,
   joinLines,
 } from "../ui";
-import { InfoBox } from "../ui/InfoBox";
 import { FormDisclaimer } from "./FormDisclaimer";
 import { ISSUE_LINK, REPOSITORY_LINK } from "./links";
 
