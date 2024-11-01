@@ -2,7 +2,7 @@ import { Text } from "./Text";
 import css from "./validation-errors.module.css";
 
 type Props = {
-  header: string;
+  header?: string;
   errors: string[];
 };
 
@@ -14,7 +14,7 @@ export const ValidationErrors = ({ header, errors }: Props) => {
   return (
     <div className={css.main}>
       <Text size="sm" color="warning">
-        <div>{header}</div>
+        {header ? <div>{header}</div> : undefined}
         {errors.map((error, index) => (
           <li key={index}>{error}</li>
         ))}

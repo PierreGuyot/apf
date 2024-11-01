@@ -34,6 +34,9 @@ const validate = ({
   return !regex.test(value);
 };
 
+// TODO CLEAN: handle an `isDisabled` prop
+// FIXME: max prop is not working properly
+
 export const InputNumber = ({
   value,
   label,

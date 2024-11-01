@@ -12,6 +12,8 @@ import {
   validateMacroscopy,
 } from "../../../common/resection.helpers";
 import {
+  Checkbox,
+  HelpIcon,
   InputNumber,
   InputText,
   InputTextArea,
@@ -24,17 +26,24 @@ import {
   SelectList,
   SelectTroolean,
   Stack,
+  sum,
   Summary,
   Text,
   Troolean,
   useForm,
+  ValidationErrors,
 } from "../../../ui";
 import {
   BladderResectionFormId,
+  DEFAULT_FULL_LOCATION,
+  DEFAULT_FULL_TUMOR_TYPE,
+  FullLocation,
+  FullTumorType,
   getGradeOptions,
+  getSublocationOptions,
+  getTumorSubtypeOptions,
   LESION_ASPECT_OPTIONS,
   LesionAspect,
-  Location,
   LOCATION_OPTIONS,
   NON_TUMORAL_RESULT_GROUPS,
   Treatment,
@@ -63,11 +72,13 @@ export type FormState = {
 
   // Expert mode
   medicalHistory: Troolean;
-  previousTumorType: TumorType;
-  location: Location;
+  previousTumorType: FullTumorType;
+
+  location: FullLocation;
   hadPreviousTreatment: Troolean;
   previousTreatment: Treatment;
   lesionAspect: LesionAspect;
+  otherLesionAspect: string;
 
   // Macroscopy
   chipWeight: number; // In grams
@@ -76,8 +87,9 @@ export type FormState = {
   coloration: ColorationType;
 
   // Microscopy
-  tumorType: TumorType;
+  tumorType: FullTumorType;
   grade: string;
+  tumoralExtension: TumoralExtension;
   hasLymphaticOrVascularInvasion: boolean;
   muscularisPropria: MuscularisPropria;
   otherResults: OtherResults;
@@ -93,11 +105,12 @@ const getInitialState = (): FormState => ({
 
   // Expert mode
   medicalHistory: "unspecified",
-  previousTumorType: TUMOR_TYPE_OPTIONS[0].value,
-  location: LOCATION_OPTIONS[0].value,
+  previousTumorType: DEFAULT_FULL_TUMOR_TYPE,
+  location: DEFAULT_FULL_LOCATION,
   hadPreviousTreatment: "unspecified",
   previousTreatment: TREATMENT_OPTIONS[0].value,
   lesionAspect: LESION_ASPECT_OPTIONS[0].value,
+  otherLesionAspect: "",
 
   // Macroscopy
   chipWeight: 0,
@@ -106,8 +119,9 @@ const getInitialState = (): FormState => ({
   coloration: "HES",
 
   // Microscopy
-  tumorType: TUMOR_TYPE_OPTIONS[0].value,
+  tumorType: DEFAULT_FULL_TUMOR_TYPE,
   grade: "",
+  tumoralExtension: {},
   hasLymphaticOrVascularInvasion: false,
   muscularisPropria: {
     isPresent: "unspecified",
@@ -125,6 +139,46 @@ const getInitialState = (): FormState => ({
 
 type Props = {
   formId: BladderResectionFormId;
+};
+
+// TODO clean: add tests
+const validateTumoralExtension = ({
+  tumorType,
+  tumoralExtension,
+}: {
+  tumorType: TumorType;
+  tumoralExtension: TumoralExtension;
+}) => {
+  if (hasTumoralExtensionSection(tumorType)) {
+    return [];
+  }
+
+  const errors: string[] = [];
+
+  const totalPercentage = sum(
+    Object.values(tumoralExtension).map((item) => item.percentage),
+  );
+  if (totalPercentage !== 100) {
+    errors.push(
+      `Le pourcentage total d'extension tumorale doit être égal à 100% (${totalPercentage} actuellement).`,
+    );
+  }
+
+  return errors;
+};
+
+const validateMicroscopy = ({
+  tumorType,
+  tumoralExtension,
+}: {
+  tumorType: FullTumorType;
+  tumoralExtension: TumoralExtension;
+}) => {
+  const errors = validateTumoralExtension({
+    tumorType: tumorType.type,
+    tumoralExtension,
+  });
+  return { tumoralExtension: errors };
 };
 
 // TODO CLEAN: refactor ModePicker
@@ -154,7 +208,10 @@ export const BladderResectionFormContent = ({
   const isExpertMode = mode === "expert";
 
   const macroscopyErrors = validateMacroscopy(state);
-  const hasErrors = !!macroscopyErrors.length;
+  const microscopyErrors = validateMicroscopy(state);
+  const hasErrors =
+    !!macroscopyErrors.length ||
+    sum(Object.values(microscopyErrors).map((errors) => errors.length));
 
   return (
     <FormPage formId={formId} onClear={clearState}>
@@ -183,6 +240,7 @@ export const BladderResectionFormContent = ({
           index={3}
           state={state}
           setState={(value) => setState({ ...state, ...value })}
+          errors={microscopyErrors}
         />
 
         <AdditionalRemarks
@@ -211,6 +269,7 @@ type ClinicalInfoState = Pick<
   | "hadPreviousTreatment"
   | "previousTreatment"
   | "lesionAspect"
+  | "otherLesionAspect"
 >;
 const ClinicalInfoExpert = ({
   state,
@@ -232,22 +291,14 @@ const ClinicalInfoExpert = ({
       </Line>
       {state.medicalHistory === "yes" ? (
         <>
-          <Line>
-            <Select
-              label="Type histologique de la tumeur"
-              options={TUMOR_TYPE_OPTIONS}
-              value={state.previousTumorType}
-              onChange={setField("previousTumorType")}
-            />
-          </Line>
-          <Line>
-            <Select
-              label="Localisation"
-              options={LOCATION_OPTIONS}
-              value={state.location}
-              onChange={setField("location")}
-            />
-          </Line>
+          <TumorTypeInput
+            state={state.previousTumorType}
+            setState={setField("previousTumorType")}
+          />
+          <LocationInput
+            state={state.location}
+            setState={setField("location")}
+          />
           <Line>
             <SelectTroolean
               label="Traitements antérieurs"
@@ -272,6 +323,13 @@ const ClinicalInfoExpert = ({
               options={LESION_ASPECT_OPTIONS}
               onChange={setField("lesionAspect")}
             />
+            {state.lesionAspect === "other" ? (
+              <InputText
+                // No label
+                value={state.otherLesionAspect}
+                onChange={setField("otherLesionAspect")}
+              />
+            ) : undefined}
           </Line>
         </>
       ) : undefined}
@@ -283,6 +341,7 @@ type MicroscopyState = Pick<
   FormState,
   | "tumorType"
   | "grade"
+  | "tumoralExtension"
   | "hasLymphaticOrVascularInvasion"
   | "muscularisPropria"
   | "otherResults"
@@ -291,50 +350,39 @@ const MicroscopySection = ({
   index,
   state,
   setState,
+  errors,
 }: {
   index: number;
   state: MicroscopyState;
   setState: (value: MicroscopyState) => void;
+  errors: { tumoralExtension: string[] };
 }) => {
   const setField = patchState(state, setState);
 
   const gradeOptions = useMemo(
-    () => getGradeOptions(state.tumorType),
+    () => getGradeOptions(state.tumorType.type),
     [state.tumorType],
   );
 
   // When grade options change, reset grade to first available value
   useEffect(
     () => {
-      setField("grade")(gradeOptions[0].value ?? "");
+      setField("grade")(gradeOptions[0]?.value ?? "");
     },
+    // TODO CLEAN: find a way to clean this
     // CAUTION: we disable the check on setField (which is unstable by nature) here
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [gradeOptions],
+    [state.tumorType.type],
   );
 
   return (
     <Section index={index} title="Microscopie">
-      <Line>
-        <Select
-          label="Type histologique de la tumeur"
-          options={TUMOR_TYPE_OPTIONS}
-          value={state.tumorType}
-          onChange={setField("tumorType")}
-        />
-      </Line>
-      <Line>
-        <div
-          style={{
-            backgroundColor: "pink",
-            margin: "0.5rem 0",
-            padding: "0.5rem",
-          }}
-        >
-          TODO: tumoral sub-type (to be discussed with Louis)
-        </div>
-      </Line>
-      {state.tumorType === "other" ? (
+      <TumorTypeInput
+        state={state.tumorType}
+        setState={setField("tumorType")}
+      />
+      {/* TODO CLEAN: nest and restyle after grade has been moved to InputTumorType */}
+      {state.tumorType.type === "other" ? (
         <InputText
           label="Grade tumoral"
           value={state.grade}
@@ -348,22 +396,17 @@ const MicroscopySection = ({
           onChange={setField("grade")}
         />
       )}
-      <Line>
-        <div
-          style={{
-            backgroundColor: "pink",
-            margin: "0.5rem 0",
-            padding: "0.5rem",
-          }}
-        >
-          TODO: tumoral extension (to be discussed with Louis)
-        </div>
-      </Line>
+      <InputTumoralExtension
+        tumorType={state.tumorType.type}
+        state={state.tumoralExtension}
+        setState={setField("tumoralExtension")}
+        errors={errors.tumoralExtension}
+      />
+
       <SelectLymphaticOrVascularInvasion
         value={state.hasLymphaticOrVascularInvasion}
         onChange={setField("hasLymphaticOrVascularInvasion")}
       />
-
       <InputMuscularisPropria
         state={state.muscularisPropria}
         setState={setField("muscularisPropria")}
@@ -447,6 +490,238 @@ const InputOtherResults = ({
           />
         </Line>
       </NestedItem>
+    </Stack>
+  );
+};
+
+// TODO CLEAN: move tumorGrade inside this component
+const TumorTypeInput = ({
+  state,
+  setState,
+}: {
+  state: FullTumorType;
+  setState: (value: FullTumorType) => void;
+}) => {
+  const setField = patchState(state, setState);
+  const subtypeOptions = getTumorSubtypeOptions(state.type);
+
+  // When tumor type options change, reset tumor subtype to first available value
+  useEffect(
+    () => {
+      const firstOption = subtypeOptions[0]?.value ?? "none";
+      setField("subtype")(firstOption);
+    },
+    // TODO CLEAN: find a way to clean this
+    // CAUTION: we disable the check on setField (which is unstable by nature) here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state.type],
+  );
+
+  return (
+    <>
+      <Line>
+        <Select
+          label="Type histologique de la tumeur"
+          options={TUMOR_TYPE_OPTIONS}
+          value={state.type}
+          onChange={setField("type")}
+        />
+      </Line>
+      {subtypeOptions.length ? (
+        <Select
+          label="Sous-type histologique de la tumeur"
+          options={subtypeOptions}
+          value={state.subtype}
+          onChange={setField("subtype")}
+        />
+      ) : undefined}
+      {state.type === "other" ? (
+        <InputText
+          label="Sous-type histologique de la tumeur"
+          value={state.otherSubtype}
+          onChange={setField("otherSubtype")}
+        />
+      ) : undefined}
+    </>
+  );
+};
+
+const LocationInput = ({
+  state,
+  setState,
+}: {
+  state: FullLocation;
+  setState: (value: FullLocation) => void;
+}) => {
+  const setField = patchState(state, setState);
+  const sublocationOptions = getSublocationOptions(state.location);
+
+  // When sublocation options change, reset sublocation to first available value
+  useEffect(
+    () => {
+      const firstOption = sublocationOptions[0]?.value ?? "none";
+      setField("sublocation")(firstOption);
+    },
+    // TODO CLEAN: find a way to clean this
+    // CAUTION: we disable the check on setField (which is unstable by nature) here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state.location],
+  );
+
+  return (
+    <>
+      <Line>
+        <Select
+          label="Localisation"
+          options={LOCATION_OPTIONS}
+          value={state.location}
+          onChange={setField("location")}
+        />
+        {sublocationOptions.length && state.location !== "unspecified" ? (
+          <Select
+            // No label
+            options={sublocationOptions}
+            value={state.sublocation}
+            onChange={setField("sublocation")}
+          />
+        ) : undefined}
+      </Line>
+    </>
+  );
+};
+
+// TODO CLEAN: move to helpers
+// pTNM (with this case) classification describes tumoral extension
+const PTNM_OPTIONS = [
+  {
+    value: "pT1a",
+    label: "pT1a",
+    tooltip: "invasion du chorion sans dépassement de la musculaire muqueuse.",
+  },
+  {
+    value: "pT1b",
+    label: "pT1b",
+    tooltip: "invasion du chorion avec dépassement de la musculaire muqueuse.",
+  },
+  {
+    value: "pT1",
+    label: "pT1",
+    tooltip: "invasion du chorion sans autre précision.",
+  },
+  { value: "pT2", label: "pT2", tooltip: "invasion de la musculeuse." },
+  {
+    value: "pT3a",
+    label: "pT3a",
+    tooltip:
+      "invasion de l'urètre, les canaux ou des acini prostatiques sans invasion stromale.",
+  },
+  {
+    value: "pT3b",
+    label: "pT3b",
+    tooltip: "invasion du tissu conjonctif sous-épithélial prostatique.",
+  },
+  {
+    value: "pT4",
+    label: "pT4",
+    tooltip: "invasion du stroma prostatique.",
+  },
+  { value: "other", label: "Impossible à déterminer", tooltip: "" },
+] as const;
+type Item = { isChecked: boolean; percentage: number };
+const DEFAULT_ITEM = { isChecked: false, percentage: 0 };
+type PtnmOptionType = (typeof PTNM_OPTIONS)[number]["value"];
+type PtnmOption = { value: PtnmOptionType; label: string; tooltip: string };
+type TumoralExtension = Partial<Record<PtnmOptionType, Item>>;
+
+// TODO CLEAN: improve visuals
+const PTNM_REFRESHER = (
+  <Stack minWidth="400px" spacing="sm">
+    {PTNM_OPTIONS.map((option) => {
+      if (!option.tooltip) {
+        return undefined;
+      }
+
+      return (
+        <div key={option.value}>
+          <Text variant="bold">{option.value}</Text> : {option.tooltip}
+        </div>
+      );
+    })}
+  </Stack>
+);
+
+const hasTumoralExtensionSection = (type: TumorType) =>
+  type === "Carcinome urothélial papillaire, non invasif" ||
+  type === "Carcinome urothélial in situ";
+
+const InputTumoralExtension = ({
+  tumorType,
+  state,
+  setState,
+  errors,
+}: {
+  tumorType: TumorType;
+  state: TumoralExtension;
+  setState: (value: TumoralExtension) => void;
+  errors: string[];
+}) => {
+  const setField = patchState(state, setState);
+
+  // For these types, tumoral extension is automatically inferred
+  if (hasTumoralExtensionSection(tumorType)) {
+    return undefined;
+  }
+
+  return (
+    <>
+      <Stack direction="row" spacing="md" alignItems="center">
+        <Text>Extension tumorale</Text>
+        <HelpIcon size="sm" content={PTNM_REFRESHER} />
+      </Stack>
+
+      <NestedItem depth={1}>
+        <Stack spacing="sm">
+          {PTNM_OPTIONS.map((option) => (
+            <TumoralExtensionItem
+              key={option.value}
+              option={option}
+              state={state[option.value] ?? DEFAULT_ITEM}
+              setState={setField(option.value)}
+            />
+          ))}
+        </Stack>
+      </NestedItem>
+      <ValidationErrors errors={errors} />
+    </>
+  );
+};
+
+const TumoralExtensionItem = ({
+  option,
+  state,
+  setState,
+}: {
+  option: PtnmOption;
+  state: Item;
+  setState: (value: Item) => void;
+}) => {
+  const setField = patchState(state, setState);
+
+  return (
+    <Stack direction="row" alignItems="center" spacing="md">
+      <div style={{ width: option.value === "other" ? undefined : "60px" }}>
+        <Checkbox
+          label={option.label}
+          isChecked={state.isChecked}
+          onChange={() => setField("isChecked")(!state.isChecked)}
+        />
+      </div>
+      <InputNumber
+        unit="percent"
+        max={100}
+        value={state.percentage}
+        onChange={setField("percentage")}
+      />
     </Stack>
   );
 };
