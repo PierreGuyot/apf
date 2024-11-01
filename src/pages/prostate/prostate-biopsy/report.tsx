@@ -1,21 +1,21 @@
-import { getFormTitle } from "../../../ui/helpers/forms";
+import { getCommentSection } from "../../../common/comment-section";
 import {
+  COLON_CHARACTER,
   filterEmpty,
   filterNullish,
-  sum,
-  sumOnField,
-} from "../../../ui/helpers/helpers";
-import { toYesNo } from "../../../ui/helpers/options";
-import { pluralize } from "../../../ui/helpers/plural";
-import {
+  formatWithUnit,
+  getFormTitle,
   joinLines,
   joinSections,
+  Language,
   naturalJoin,
   pad,
-  padSection,
-} from "../../../ui/helpers/text";
-import { formatWithUnit } from "../../../ui/helpers/units";
-import { COLON_CHARACTER, Language, translate } from "../../../ui/translation";
+  pluralize,
+  sum,
+  sumOnField,
+  toYesNo,
+  translate,
+} from "../../../ui";
 import {
   DEFAULT_GLEASON_ITEM,
   getGleasonConclusion,
@@ -105,20 +105,6 @@ const getClinicalInformationSection = (
     "", // Empty line
     content,
   ]);
-};
-
-const getCommentSection = (form: { comments: string }, language: Language) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  const comments = form.comments.trim();
-
-  return comments
-    ? joinLines([
-        `${t("Remarques particulières")}${colon}`,
-        padSection(comments),
-      ])
-    : undefined;
 };
 
 const getTumorLocation = (rows: Row[], language: Language) => {
