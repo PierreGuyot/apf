@@ -1,6 +1,19 @@
 import { DEFAULT_LANGUAGE, Language, translate } from "../translation";
 import { findOption } from "./helpers";
 
+// Standardized items
+
+export const YES_ITEM = { value: "yes", label: "Oui" } as const;
+export const NO_ITEM = { value: "no", label: "Non" } as const;
+export const OTHER_ITEM = {
+  value: "other",
+  label: "Autre (précisez)",
+} as const;
+export const UNSPECIFIED_ITEM = {
+  value: "unspecified",
+  label: "Non-précisé",
+} as const;
+
 export type OptionValue = string | number | boolean;
 
 export type Option<T extends OptionValue> = {
@@ -13,16 +26,13 @@ export type OptionGroup<T extends OptionValue> = {
   readonly options: Option<T>[];
 };
 
-export const YES_NO_OPTIONS: Option<boolean>[] = [
-  { value: true, label: "Oui" },
-  { value: false, label: "Non" },
-];
+export const YES_NO_OPTIONS = [YES_ITEM, NO_ITEM] as const;
 
 const getYesNoOption = findOption(YES_NO_OPTIONS);
 export const toYesNo = (
   value: boolean,
   language: Language = DEFAULT_LANGUAGE,
 ) => {
-  const { label } = getYesNoOption(value);
+  const { label } = getYesNoOption(value ? "yes" : "no");
   return translate(label, language);
 };

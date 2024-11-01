@@ -9,7 +9,7 @@ import { Text } from "./Text";
 
 type Props<T extends OptionValue> = {
   language?: Language;
-  options: Option<T>[] | OptionGroup<T>[];
+  options: readonly Option<T>[] | readonly OptionGroup<T>[];
   value: T;
   onChange: (value: T) => void;
 
@@ -22,7 +22,7 @@ type Props<T extends OptionValue> = {
 
 function isGroupedOptions<T extends OptionValue>(
   options: Props<T>["options"],
-): options is OptionGroup<T>[] {
+): options is readonly OptionGroup<T>[] {
   return "options" in options[0];
 }
 
@@ -40,7 +40,7 @@ export function Select<T extends OptionValue>({
   const id = useMemo(anId, []);
 
   const flatOptions = useMemo(
-    (): Option<T>[] =>
+    (): readonly Option<T>[] =>
       isGroupedOptions(_options)
         ? _options.flatMap((group) => group.options)
         : _options,

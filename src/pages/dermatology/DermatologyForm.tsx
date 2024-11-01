@@ -7,11 +7,11 @@ import {
   Line,
   Section,
   Select,
+  SelectBoolean,
   SelectNumber,
   Stack,
   SubSection,
   Summary,
-  YES_NO_OPTIONS,
   patchArray,
   patchState,
   range,
@@ -357,10 +357,9 @@ const MacroExcisionForm = ({
         cm
       </Line>
       <Line>
-        <Select
+        <SelectBoolean
           label="La lésion est-elle visible ?"
           value={isLesionVisible}
-          options={YES_NO_OPTIONS}
           onChange={setField("isLesionVisible")}
         />
       </Line>
@@ -394,10 +393,9 @@ const MacroExcisionForm = ({
       ) : undefined}
 
       <Line>
-        <Select
+        <SelectBoolean
           label="Votre exérèse est-elle orientée ?"
           value={isOriented}
-          options={YES_NO_OPTIONS}
           onChange={setField("isOriented")}
         />
       </Line>

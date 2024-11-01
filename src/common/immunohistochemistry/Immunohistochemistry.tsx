@@ -4,11 +4,10 @@ import {
   patchArray,
   patchState,
   range,
-  Select,
+  SelectBoolean,
   SelectList,
   Stack,
   SubSection,
-  YES_NO_OPTIONS,
 } from "../../ui";
 import { AntibodySection } from "./_AntibodySection";
 import {
@@ -74,9 +73,8 @@ export const Immunohistochemistry = ({
   return (
     <>
       <Line>
-        <Select
+        <SelectBoolean
           value={hasIhc}
-          options={YES_NO_OPTIONS}
           label="Avez-vous réalisé une immunohistochimie ?"
           onChange={setField("hasIhc")}
         />

@@ -19,11 +19,11 @@ import {
   Option,
   Section,
   Select,
+  SelectBoolean,
   SelectNumber,
   Stack,
   Summary,
   ValidationErrors,
-  YES_NO_OPTIONS,
   count,
   filterNullish,
   isDebug,
@@ -478,9 +478,8 @@ const ClinicalInfoExpert = ({
   return (
     <Section title="Renseignements cliniques" index={index}>
       <Line>
-        <Select
+        <SelectBoolean
           value={hasInfo}
-          options={YES_NO_OPTIONS}
           label="Avez-vous des renseignements cliniques ?"
           onChange={setField("hasInfo")}
         />
@@ -498,9 +497,8 @@ const ClinicalInfoExpert = ({
             />
           </Line>
           <Line>
-            <Select
+            <SelectBoolean
               value={hasMri}
-              options={YES_NO_OPTIONS}
               label="Avez-vous une IRM ?"
               onChange={setField("hasMri")}
             />
@@ -508,9 +506,8 @@ const ClinicalInfoExpert = ({
           {hasMri ? (
             <>
               <Line>
-                <Select
+                <SelectBoolean
                   value={hasTarget}
-                  options={YES_NO_OPTIONS}
                   label="Avez-vous au moins une cible ?"
                   onChange={setField("hasTarget")}
                 />

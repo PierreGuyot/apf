@@ -4,9 +4,9 @@ import {
   Language,
   range,
   Select,
+  SelectBoolean,
   SelectList,
   Stack,
-  YES_NO_OPTIONS,
 } from "../../../ui";
 import { SelectGleason } from "../SelectGleason";
 import { GleasonItem, OTHER_LESION_GROUPS, OtherLesionType } from "../helpers";
@@ -25,7 +25,7 @@ export const CellYesNo = (props: {
   value: boolean;
   isReadOnly?: boolean;
   onChange: (value: boolean) => void;
-}) => <Select options={YES_NO_OPTIONS} {...props} />;
+}) => <SelectBoolean {...props} />;
 
 const Plus = () => <span>+</span>;
 

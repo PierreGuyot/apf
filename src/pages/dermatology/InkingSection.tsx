@@ -2,9 +2,9 @@ import {
   Line,
   Option,
   Select,
+  SelectBoolean,
   SelectList,
   SubSection,
-  YES_NO_OPTIONS,
   patchState,
 } from "../../ui";
 import {
@@ -84,10 +84,9 @@ export const InkingSection = ({ state, setState }: Props) => {
   return (
     <>
       <Line>
-        <Select
+        <SelectBoolean
           label="Avez vous réalisé un encrage"
           value={hasInking}
-          options={YES_NO_OPTIONS}
           onChange={setField("hasInking")}
         />
       </Line>

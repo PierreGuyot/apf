@@ -1,4 +1,4 @@
-import { Line, Select, YES_NO_OPTIONS } from "../ui";
+import { Line, SelectBoolean } from "../ui";
 
 type Props = {
   value: boolean;
@@ -11,9 +11,8 @@ export const SelectLymphaticOrVascularInvasion = ({
   onChange,
 }: Props) => (
   <Line>
-    <Select
+    <SelectBoolean
       value={value}
-      options={YES_NO_OPTIONS}
       label="Emboles vasculaires ou lymphatiques"
       onChange={onChange}
     />

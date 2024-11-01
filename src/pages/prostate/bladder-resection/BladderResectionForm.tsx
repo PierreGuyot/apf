@@ -1,5 +1,6 @@
 import { Mode } from "fs";
 import { useEffect, useMemo, useState } from "react";
+import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
 import { ModePicker } from "../../../common/ModePicker";
@@ -21,9 +22,11 @@ import {
   Section,
   Select,
   SelectList,
+  SelectTroolean,
   Stack,
   Summary,
   Text,
+  Troolean,
   useForm,
 } from "../../../ui";
 import {
@@ -36,14 +39,11 @@ import {
   NON_TUMORAL_RESULT_GROUPS,
   Treatment,
   TREATMENT_OPTIONS,
-  Troolean,
-  TROOLEAN_OPTIONS,
   TUMOR_TYPE_OPTIONS,
   TUMORAL_RESULT_GROUPS,
   TumorType,
 } from "./helpers";
 import { generateReport } from "./report";
-import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 
 type MuscularisPropria = {
   isPresent: Troolean;
@@ -224,9 +224,8 @@ const ClinicalInfoExpert = ({
   return (
     <Section title="Renseignements cliniques" index={1}>
       <Line>
-        <Select
+        <SelectTroolean
           label="Antécédents de maladie des voies urinaires ou de métastases à distance"
-          options={TROOLEAN_OPTIONS}
           value={state.medicalHistory}
           onChange={setField("medicalHistory")}
         />
@@ -250,9 +249,8 @@ const ClinicalInfoExpert = ({
             />
           </Line>
           <Line>
-            <Select
+            <SelectTroolean
               label="Traitements antérieurs"
-              options={TROOLEAN_OPTIONS}
               value={state.hadPreviousTreatment}
               onChange={setField("hadPreviousTreatment")}
             />
@@ -390,9 +388,8 @@ const InputMuscularisPropria = ({
   return (
     <>
       <Line>
-        <Select
+        <SelectTroolean
           label="Copeaux de résection présentant de la musculeuse"
-          options={TROOLEAN_OPTIONS}
           value={state.isPresent}
           onChange={setField("isPresent")}
         />

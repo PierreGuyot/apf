@@ -104,7 +104,7 @@ export const assertUnreachable = (x: never): never => {
 };
 
 export const findOption =
-  <T extends OptionValue>(options: Option<T>[]) =>
+  <T extends OptionValue>(options: readonly Option<T>[]) =>
   (value: T) => {
     const match = options.find((item) => item.value === value);
     if (!match) {
