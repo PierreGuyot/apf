@@ -125,7 +125,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
         />
 
         <ResectionMacroscopy
-          index={1}
+          index={2}
           state={state}
           setState={(value) => setState({ ...state, ...value })}
           errors={macroscopyErrors}
