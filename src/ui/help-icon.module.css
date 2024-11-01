@@ -1,7 +1,7 @@
 @import "./constants.css";
 
 .main {
-  height: var(--height-md);
+  height: var(--height);
   aspect-ratio: 1;
   display: flex;
   justify-content: center;
@@ -11,4 +11,16 @@
   color: var(--text-knockout);
   background-color: var(--background-info);
   cursor: pointer;
+}
+
+.sm {
+  --height: var(--height-sm);
+}
+
+.md {
+  --height: var(--height-md);
+}
+
+.content {
+  min-width: 200px;
 }
