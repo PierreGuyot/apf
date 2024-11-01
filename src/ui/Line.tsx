@@ -9,7 +9,7 @@ export const Line = ({ children }: Props) => (
     direction="row"
     alignItems="center"
     spacing="sm"
-    height={"var(--height-md)"}
+    minHeight={"var(--height-md)"}
   >
     {children}
   </Stack>

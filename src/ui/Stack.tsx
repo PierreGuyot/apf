@@ -26,8 +26,10 @@ type Props = PropsWithChildren<{
 
   // Free strings
   width?: string;
+  minWidth?: string;
   maxWidth?: string;
   height?: string;
+  minHeight?: string;
   maxHeight?: string;
 
   // Callbacks
@@ -56,8 +58,10 @@ export const Stack = ({
 
   // Free strings
   width,
+  minWidth,
   maxWidth,
   height,
+  minHeight,
   maxHeight,
 
   onClick,
@@ -87,8 +91,10 @@ export const Stack = ({
 
       // Free strings
       width,
+      minWidth,
       maxWidth,
       height,
+      minHeight,
       maxHeight,
 
       cursor: onClick ? "pointer" : undefined,
