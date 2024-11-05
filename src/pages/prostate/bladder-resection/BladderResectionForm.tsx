@@ -36,15 +36,20 @@ import {
   getGradeOptions,
   getSublocationOptions,
   getTumorSubtypeOptions,
+  Item,
   LESION_ASPECT_OPTIONS,
   LesionAspect,
   LOCATION_OPTIONS,
   NON_TUMORAL_RESULT_GROUPS,
+  PTNM_OPTIONS,
   Treatment,
   TREATMENT_OPTIONS,
   TUMOR_TYPE_OPTIONS,
   TUMORAL_RESULT_GROUPS,
+  TumoralExtension,
   TumorType,
+  PtnmOption,
+  DEFAULT_TUMORAL_EXTENSION_ITEM,
 } from "./helpers";
 import { generateReport } from "./report";
 import {
@@ -591,49 +596,6 @@ const LocationInput = ({
   );
 };
 
-// TODO CLEAN: move to helpers
-// pTNM (with this case) classification describes tumoral extension
-const PTNM_OPTIONS = [
-  {
-    value: "pT1a",
-    label: "pT1a",
-    tooltip: "invasion du chorion sans dépassement de la musculaire muqueuse.",
-  },
-  {
-    value: "pT1b",
-    label: "pT1b",
-    tooltip: "invasion du chorion avec dépassement de la musculaire muqueuse.",
-  },
-  {
-    value: "pT1",
-    label: "pT1",
-    tooltip: "invasion du chorion sans autre précision.",
-  },
-  { value: "pT2", label: "pT2", tooltip: "invasion de la musculeuse." },
-  {
-    value: "pT3a",
-    label: "pT3a",
-    tooltip:
-      "invasion de l'urètre, les canaux ou des acini prostatiques sans invasion stromale.",
-  },
-  {
-    value: "pT3b",
-    label: "pT3b",
-    tooltip: "invasion du tissu conjonctif sous-épithélial prostatique.",
-  },
-  {
-    value: "pT4",
-    label: "pT4",
-    tooltip: "invasion du stroma prostatique.",
-  },
-  { value: "other", label: "Impossible à déterminer", tooltip: "" },
-] as const;
-type Item = { isChecked: boolean; percentage: number };
-const DEFAULT_ITEM = { isChecked: false, percentage: 0 };
-type PtnmOptionType = (typeof PTNM_OPTIONS)[number]["value"];
-type PtnmOption = { value: PtnmOptionType; label: string; tooltip: string };
-type TumoralExtension = Partial<Record<PtnmOptionType, Item>>;
-
 // TODO CLEAN: improve visuals
 const PTNM_REFRESHER = (
   <Stack minWidth="400px" spacing="sm">
@@ -686,7 +648,7 @@ const InputTumoralExtension = ({
             <TumoralExtensionItem
               key={option.value}
               option={option}
-              state={state[option.value] ?? DEFAULT_ITEM}
+              state={state[option.value] ?? DEFAULT_TUMORAL_EXTENSION_ITEM}
               setState={setField(option.value)}
             />
           ))}

@@ -218,6 +218,58 @@ export const getGradeOptions = (tumorType: TumorType): Option<string>[] => {
   }
 };
 
+/** Tumoral extension */
+
+// pTNM (with this case) classification describes tumoral extension
+export const PTNM_OPTIONS = [
+  {
+    value: "pT1a",
+    label: "pT1a",
+    tooltip: "invasion du chorion sans dépassement de la musculaire muqueuse.",
+  },
+  {
+    value: "pT1b",
+    label: "pT1b",
+    tooltip: "invasion du chorion avec dépassement de la musculaire muqueuse.",
+  },
+  {
+    value: "pT1",
+    label: "pT1",
+    tooltip: "invasion du chorion sans autre précision.",
+  },
+  { value: "pT2", label: "pT2", tooltip: "invasion de la musculeuse." },
+  {
+    value: "pT3a",
+    label: "pT3a",
+    tooltip:
+      "invasion de l'urètre, les canaux ou des acini prostatiques sans invasion stromale.",
+  },
+  {
+    value: "pT3b",
+    label: "pT3b",
+    tooltip: "invasion du tissu conjonctif sous-épithélial prostatique.",
+  },
+  {
+    value: "pT4",
+    label: "pT4",
+    tooltip: "invasion du stroma prostatique.",
+  },
+  { value: "other", label: "Impossible à déterminer", tooltip: "" },
+] as const;
+// TODO clean: resolve naming conflict between type and component
+export type Item = { isChecked: boolean; percentage: number };
+export const DEFAULT_TUMORAL_EXTENSION_ITEM = {
+  isChecked: false,
+  percentage: 0,
+};
+type PtnmOptionType = (typeof PTNM_OPTIONS)[number]["value"];
+export type PtnmOption = {
+  value: PtnmOptionType;
+  label: string;
+  tooltip: string;
+};
+export type TumoralExtension = Partial<Record<PtnmOptionType, Item>>;
+
 /** Other results */
 
 export const TUMORAL_RESULT_GROUPS = [
