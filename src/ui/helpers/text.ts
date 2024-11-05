@@ -6,6 +6,13 @@ const PADDING = " ".repeat(4);
 
 export const pad = (value: string) => `${PADDING}${value}`;
 
+// Simple helper for name-value items
+export const item = (name: string, value: string, language: Language) => {
+  const t = (value: string) => translate(value, language);
+  const colon = t(COLON_CHARACTER);
+  return `${t(name)}${colon} ${t(value)}`;
+};
+
 export const formatList = ({
   title,
   items,

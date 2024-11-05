@@ -1,6 +1,6 @@
-import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
-import { getConclusionInvasion } from "../../../common/invasion/report";
 import { getConclusionEpn } from "../../../common/epn/report";
+import { getConclusionInvasion } from "../../../common/invasion/report";
+import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
 import {
   COLON_CHARACTER,
   Language,
@@ -8,6 +8,7 @@ import {
   formatList,
   getFormTitle,
   getSelectedOptions,
+  item,
   joinLines,
   joinSections,
   padSection,
@@ -46,7 +47,6 @@ const getCaseSummarySection = (form: ReportParams, language: Language) => {
 // NOTE: inline translation
 const getConclusionSection = (form: ReportParams, language: Language) => {
   const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
 
   // Tumor presence
   if (form.mainLesionType === "tumor") {
@@ -58,14 +58,21 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
       form.tumorQuantification,
     );
 
-    // TODO clean: extract simple helper for key value items
     return joinLines([
       `${t(tumorTypeLabel)}.\n`, // We add an empty line for aesthetic purposes
-      `${t("Conditions pré-existantes")}${colon} ${t(priorConditionsLabel)}`,
+      item("Conditions pré-existantes", priorConditionsLabel, language),
       isApplicable(form.priorConditions)
-        ? `${t("Score de Gleason")}${colon} ${getGleasonConclusion(form.histologicalGrade, language)}`
+        ? item(
+            "Score de Gleason",
+            getGleasonConclusion(form.histologicalGrade, language),
+            language,
+          )
         : "",
-      `${t("Estimation de la surface envahie")}${colon} ${t(tumorQuantificationLabel)}`,
+      item(
+        "Estimation de la surface envahie",
+        tumorQuantificationLabel,
+        language,
+      ),
       getConclusionInvasion(form.hasLymphaticOrVascularInvasion, language),
       getConclusionEpn(form.hasEpn, language),
     ]);
