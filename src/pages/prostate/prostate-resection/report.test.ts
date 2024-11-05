@@ -145,11 +145,11 @@ Immunohistochemistry:
 
 Acinar adenocarcinoma, conventional (usual).
 
-Pre-existing conditions : No presurgical therapy
-Gleason Score : 8 (4 + 4) with 100% of score 4 of which 20% cribriform, i.e. an ISUP score of 4.
-Tumor quantification : 5%
-Lympathic or vascular invasion : No
-Perineural Invasion : No
+Pre-existing conditions: No presurgical therapy
+Gleason Score: 8 (4 + 4) with 100% of score 4 of which 20% cribriform, i.e. an ISUP score of 4.
+Tumor quantification: 5%
+Lympathic or vascular invasion: No
+Perineural Invasion: No
 
 Other lesions:
      - Atypical small acinar proliferation

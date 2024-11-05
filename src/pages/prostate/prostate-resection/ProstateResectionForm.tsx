@@ -1,18 +1,18 @@
 import { ClinicalInfo } from "../../../common/ClinicalInfo";
+import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
 import {
   IhcState,
   validateIhc,
 } from "../../../common/immunohistochemistry/helpers";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
+import { HasInvasion } from "../../../common/invasion/HasInvasion";
+import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
 import {
   ColorationType,
   SamplingType,
   validateMacroscopy,
-} from "../../../common/resection.helpers";
-import { ResectionMacroscopy } from "../../../common/ResectionMacroscopy";
-import { SelectLymphaticOrVascularInvasion } from "../../../common/SelectLymphaticOrVascularInvasion";
-import { SelectPerineuralInvasion } from "../../../common/SelectPerineuralInvasion";
+} from "../../../common/resection-macroscopy/validation";
 import {
   DEFAULT_LANGUAGE,
   Line,
@@ -177,14 +177,11 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                   onChange={setField("tumorQuantification")}
                 />
               </Line>
-              <SelectLymphaticOrVascularInvasion
+              <HasInvasion
                 value={hasLymphaticOrVascularInvasion}
                 onChange={setField("hasLymphaticOrVascularInvasion")}
               />
-              <SelectPerineuralInvasion
-                value={hasEpn}
-                onChange={setField("hasEpn")}
-              />
+              <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
             </>
           ) : undefined}
           <Line>

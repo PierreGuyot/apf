@@ -4,13 +4,7 @@ import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
 import { ModePicker } from "../../../common/ModePicker";
-import { ResectionMacroscopy } from "../../../common/ResectionMacroscopy";
-import { SelectLymphaticOrVascularInvasion } from "../../../common/SelectLymphaticOrVascularInvasion";
-import {
-  ColorationType,
-  SamplingType,
-  validateMacroscopy,
-} from "../../../common/resection.helpers";
+
 import {
   Checkbox,
   HelpIcon,
@@ -53,6 +47,13 @@ import {
   TumorType,
 } from "./helpers";
 import { generateReport } from "./report";
+import {
+  ColorationType,
+  SamplingType,
+  validateMacroscopy,
+} from "../../../common/resection-macroscopy/validation";
+import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
+import { HasInvasion } from "../../../common/invasion/HasInvasion";
 
 type MuscularisPropria = {
   isPresent: Troolean;
@@ -403,7 +404,7 @@ const MicroscopySection = ({
         errors={errors.tumoralExtension}
       />
 
-      <SelectLymphaticOrVascularInvasion
+      <HasInvasion
         value={state.hasLymphaticOrVascularInvasion}
         onChange={setField("hasLymphaticOrVascularInvasion")}
       />

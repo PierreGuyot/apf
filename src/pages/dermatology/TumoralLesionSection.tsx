@@ -1,5 +1,5 @@
-import { SelectLymphaticOrVascularInvasion } from "../../common/SelectLymphaticOrVascularInvasion";
-import { SelectPerineuralInvasion } from "../../common/SelectPerineuralInvasion";
+import { HasInvasion } from "../../common/invasion/HasInvasion";
+import { HasEpn } from "../../common/epn/HasEpn";
 import { InputNumber, Line, patchState, Select, SubSection } from "../../ui";
 import { TumorData } from "./DermatologyForm";
 import { SelectClarkInfiltrationLevel } from "./SelectClarkInfiltrationLevel";
@@ -109,7 +109,7 @@ export const TumoralLesionSection = ({
 
       {hasSelectLymphaticOrVascularInvasion ? (
         <Line>
-          <SelectLymphaticOrVascularInvasion
+          <HasInvasion
             value={hasLymphaticOrVascularInvasion}
             onChange={setField("hasLymphaticOrVascularInvasion")}
           />
@@ -117,10 +117,7 @@ export const TumoralLesionSection = ({
       ) : undefined}
       {hasSelectPerineuralInvasion ? (
         <Line>
-          <SelectPerineuralInvasion
-            value={hasEpn}
-            onChange={setField("hasEpn")}
-          />
+          <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
         </Line>
       ) : undefined}
       {hasSelectClarkInfiltrationLevel ? (

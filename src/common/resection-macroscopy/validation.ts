@@ -1,4 +1,4 @@
-import { findOption, Option } from "../ui";
+import { findOption, Option } from "../../ui";
 
 export type SamplingType = "full" | "partial";
 export const SAMPLING_TYPES: Option<SamplingType>[] = [

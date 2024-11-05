@@ -1,15 +1,16 @@
-import { getSamplingTypeOption } from "../../../common/resection.helpers";
+import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
+import { getConclusionInvasion } from "../../../common/invasion/report";
+import { getConclusionEpn } from "../../../common/epn/report";
 import {
   COLON_CHARACTER,
   Language,
   assertUnreachable,
+  formatList,
   getFormTitle,
   getSelectedOptions,
   joinLines,
   joinSections,
-  pad,
   padSection,
-  toYesNo,
   translate,
 } from "../../../ui";
 import {
@@ -42,23 +43,10 @@ const getCaseSummarySection = (form: ReportParams, language: Language) => {
     : undefined;
 };
 
-const getMacroscopySection = (form: ReportParams, language: Language) => {
-  const t = (value: string) => translate(value, language);
-
-  const { label: samplingTypeLabel } = getSamplingTypeOption(form.samplingType);
-
-  return joinLines([
-    `${t("Poids des copeaux")} : ${form.chipWeight}g`,
-    // NOTE: inline translation
-    language === "FR"
-      ? `${t(samplingTypeLabel)} en ${form.blockCount} blocs (fixation : formol tamponné 4%, coloration ${form.coloration})`
-      : `${t(samplingTypeLabel)} in ${form.blockCount} blocks (fixation : buffered formalin 4%, stain ${form.coloration})`,
-  ]);
-};
-
 // NOTE: inline translation
 const getConclusionSection = (form: ReportParams, language: Language) => {
   const t = (value: string) => translate(value, language);
+  const colon = t(COLON_CHARACTER);
 
   // Tumor presence
   if (form.mainLesionType === "tumor") {
@@ -70,15 +58,16 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
       form.tumorQuantification,
     );
 
+    // TODO clean: extract simple helper for key value items
     return joinLines([
       `${t(tumorTypeLabel)}.\n`, // We add an empty line for aesthetic purposes
-      `${t("Conditions pré-existantes")} : ${t(priorConditionsLabel)}`,
+      `${t("Conditions pré-existantes")}${colon} ${t(priorConditionsLabel)}`,
       isApplicable(form.priorConditions)
-        ? `${t("Score de Gleason")} : ${getGleasonConclusion(form.histologicalGrade, language)}`
+        ? `${t("Score de Gleason")}${colon} ${getGleasonConclusion(form.histologicalGrade, language)}`
         : "",
-      `${t("Estimation de la surface envahie")} : ${t(tumorQuantificationLabel)}`,
-      `${t("Emboles vasculaires ou lymphatiques")} : ${toYesNo(form.hasLymphaticOrVascularInvasion, language)}`,
-      `${t("Engainements périnerveux")} : ${toYesNo(form.hasEpn, language)}`,
+      `${t("Estimation de la surface envahie")}${colon} ${t(tumorQuantificationLabel)}`,
+      getConclusionInvasion(form.hasLymphaticOrVascularInvasion, language),
+      getConclusionEpn(form.hasEpn, language),
     ]);
   }
 
@@ -122,22 +111,18 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
 };
 
 const getOtherLesionsSection = (form: ReportParams, language: Language) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
   const selectedItems = getSelectedOptions({
     values: form.otherLesions,
     groups: OTHER_LESION_GROUPS,
-  });
+  }).map((item) => item.label);
 
-  if (!selectedItems.length) {
-    return undefined;
-  }
-
-  return joinLines([
-    `${t("Autres lésions")}${colon}`,
-    ...selectedItems.map((item) => pad(` - ${t(item.label)}`)),
-  ]);
+  return joinLines(
+    formatList({
+      title: "Autres lésions",
+      items: selectedItems,
+      language,
+    }),
+  );
 };
 
 // TODO clean: test extensively
@@ -148,7 +133,7 @@ export const generateReport = (
   return joinSections([
     getFormTitle(form.formId, language),
     getCaseSummarySection(form, language),
-    getMacroscopySection(form, language),
+    joinLines(getResectionMacroscopySection(form, language)),
     getImmunohistochemistrySection(form.ihc, language, false),
     getConclusionSection(form, language),
     getOtherLesionsSection(form, language),

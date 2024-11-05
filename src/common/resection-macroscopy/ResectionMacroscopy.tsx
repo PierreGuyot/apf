@@ -5,14 +5,14 @@ import {
   Section,
   Select,
   ValidationErrors,
-} from "../ui";
+} from "../../ui";
 
 import {
   COLORATION_OPTIONS,
   ColorationType,
   SAMPLING_TYPES,
   SamplingType,
-} from "./resection.helpers";
+} from "./validation";
 
 type MacroscopyState = {
   chipWeight: number; // In grams

@@ -1,4 +1,5 @@
 import { getCommentSection } from "../../../common/comment-section";
+import { getConclusionEpn } from "../../../common/epn/report";
 import {
   COLON_CHARACTER,
   filterEmpty,
@@ -219,11 +220,11 @@ Prostate adenomyoma.`;
   const lineGleason = `${t("Score de Gleason")}${colon} ${getGleasonConclusion(maxGleasonItem, language)}`;
   const locationSection = getLocationSection(formId, rows, language);
 
-  const partEpn = `${t("Engainements périnerveux")}${colon} ${toYesNo(score.tumorEpn ?? false, language)}`;
-
+  const partEpn = getConclusionEpn(score.tumorEpn ?? false, language);
   const partTep = getPartTep(formId, rows, score, language);
   return joinLines(
     [
+      // TODO clean: only lowercase first letter (for safety)
       `${t("Type de tumeur")}${colon} ${t(tumorTypeLabel.toLocaleLowerCase())}.`,
       lineGleason,
       isExpertMode ? locationSection : undefined,
