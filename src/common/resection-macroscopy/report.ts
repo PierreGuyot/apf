@@ -1,4 +1,4 @@
-import { Language, translate } from "../../ui";
+import { COLON_CHARACTER, Language, translate } from "../../ui";
 import {
   ColorationType,
   getSamplingTypeOption,
@@ -15,11 +15,12 @@ export const getResectionMacroscopySection = (
   language: Language,
 ) => {
   const t = (value: string) => translate(value, language);
+  const colon = t(COLON_CHARACTER);
 
   const { label: samplingTypeLabel } = getSamplingTypeOption(form.samplingType);
 
   return [
-    `${t("Poids des copeaux")} : ${form.chipWeight}g`,
+    `${t("Poids des copeaux")}${colon} ${form.chipWeight}g`,
     // NOTE: inline translation
     language === "FR"
       ? `${t(samplingTypeLabel)} en ${form.blockCount} blocs (fixation : formol tamponné 4%, coloration ${form.coloration})`

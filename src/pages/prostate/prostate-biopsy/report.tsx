@@ -9,6 +9,7 @@ import {
   joinLines,
   joinSections,
   Language,
+  lowercaseFirstLetter,
   naturalJoin,
   pad,
   pluralize,
@@ -188,7 +189,7 @@ const getPartTep = (
   );
   const locationPart = score.tumorTep ? ` (${locations})` : "";
 
-  return `${t("Tissu extra-prostatique")}${colon} ${toYesNo(score.tumorTep ?? false, language)}${locationPart}`;
+  return `${t("Tissu extra-prostatique")}${colon} ${lowercaseFirstLetter(toYesNo(score.tumorTep ?? false, language))}${locationPart}`;
 };
 
 const getConclusionContent = (

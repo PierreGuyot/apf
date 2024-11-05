@@ -5,6 +5,13 @@ import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
 import { ModePicker } from "../../../common/ModePicker";
 
+import { HasInvasion } from "../../../common/invasion/HasInvasion";
+import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
+import {
+  ColorationType,
+  SamplingType,
+  validateMacroscopy,
+} from "../../../common/resection-macroscopy/validation";
 import {
   Checkbox,
   HelpIcon,
@@ -31,34 +38,28 @@ import {
   BladderResectionFormId,
   DEFAULT_FULL_LOCATION,
   DEFAULT_FULL_TUMOR_TYPE,
+  DEFAULT_TUMORAL_EXTENSION_ITEM,
   FullLocation,
   FullTumorType,
   getGradeOptions,
   getSublocationOptions,
   getTumorSubtypeOptions,
+  hasTumoralExtensionSection,
   Item,
   LESION_ASPECT_OPTIONS,
   LesionAspect,
   LOCATION_OPTIONS,
   NON_TUMORAL_RESULT_GROUPS,
   PTNM_OPTIONS,
+  PtnmOption,
   Treatment,
   TREATMENT_OPTIONS,
   TUMOR_TYPE_OPTIONS,
   TUMORAL_RESULT_GROUPS,
   TumoralExtension,
   TumorType,
-  PtnmOption,
-  DEFAULT_TUMORAL_EXTENSION_ITEM,
 } from "./helpers";
 import { generateReport } from "./report";
-import {
-  ColorationType,
-  SamplingType,
-  validateMacroscopy,
-} from "../../../common/resection-macroscopy/validation";
-import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
-import { HasInvasion } from "../../../common/invasion/HasInvasion";
 
 type MuscularisPropria = {
   isPresent: Troolean;
@@ -155,7 +156,7 @@ const validateTumoralExtension = ({
   tumorType: TumorType;
   tumoralExtension: TumoralExtension;
 }) => {
-  if (hasTumoralExtensionSection(tumorType)) {
+  if (!hasTumoralExtensionSection(tumorType)) {
     return [];
   }
 
@@ -613,10 +614,6 @@ const PTNM_REFRESHER = (
   </Stack>
 );
 
-const hasTumoralExtensionSection = (type: TumorType) =>
-  type === "Carcinome urothélial papillaire, non invasif" ||
-  type === "Carcinome urothélial in situ";
-
 const InputTumoralExtension = ({
   tumorType,
   state,
@@ -631,7 +628,7 @@ const InputTumoralExtension = ({
   const setField = patchState(state, setState);
 
   // For these types, tumoral extension is automatically inferred
-  if (hasTumoralExtensionSection(tumorType)) {
+  if (!hasTumoralExtensionSection(tumorType)) {
     return undefined;
   }
 

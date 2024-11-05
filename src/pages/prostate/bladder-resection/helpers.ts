@@ -183,18 +183,21 @@ export const getLesionAspectOption = findOption(LESION_ASPECT_OPTIONS);
 
 /** Tumor grade */
 
-const GRADE_UROTHELIAL_CARCINOMA = [
+const GRADE_OPTIONS = [
   { value: "high-grade", label: "Haut grade" },
   { value: "low-grade", label: "Bas grade" },
-];
-const GRADE_OPTIONS_G = [
   { value: "g1", label: "G1 (bien différencié)" },
   { value: "g2", label: "G2 (modérément différencié)" },
   { value: "g3", label: "G3 (peu différencié)" },
+  { value: "TODO", label: "TODO" },
 ];
-const GRADE_OPTIONS_NEUROENDOCRINE = [{ value: "TODO", label: "TODO" }];
+export const getGradeOption = findOption(GRADE_OPTIONS);
+const GRADE_UROTHELIAL_CARCINOMA = ["high-grade", "low-grade"].map(
+  getGradeOption,
+);
+const GRADE_OPTIONS_G = ["g1", "g2", "g3"].map(getGradeOption);
+const GRADE_OPTIONS_NEUROENDOCRINE = ["TODO"].map(getGradeOption);
 const GRADE_OPTIONS_OTHER: Option<string>[] = [];
-
 export const getGradeOptions = (tumorType: TumorType): Option<string>[] => {
   switch (tumorType) {
     case "Carcinome urothélial papillaire, non invasif":
@@ -262,13 +265,19 @@ export const DEFAULT_TUMORAL_EXTENSION_ITEM = {
   isChecked: false,
   percentage: 0,
 };
-type PtnmOptionType = (typeof PTNM_OPTIONS)[number]["value"];
+export type PtnmOptionType = (typeof PTNM_OPTIONS)[number]["value"];
 export type PtnmOption = {
   value: PtnmOptionType;
   label: string;
   tooltip: string;
 };
 export type TumoralExtension = Partial<Record<PtnmOptionType, Item>>;
+
+export const getPtnmOption = findOption(PTNM_OPTIONS);
+
+export const hasTumoralExtensionSection = (type: TumorType) =>
+  type !== "Carcinome urothélial papillaire, non invasif" &&
+  type !== "Carcinome urothélial in situ";
 
 /** Other results */
 

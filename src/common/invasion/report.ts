@@ -1,11 +1,12 @@
-import { COLON_CHARACTER, Language, toYesNo, translate } from "../../ui";
+import { item, Language, toYesNo } from "../../ui";
 
 export const getConclusionInvasion = (
   hasLymphaticOrVascularInvasion: boolean,
   language: Language,
 ) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  return `${t("Emboles vasculaires ou lymphatiques")}${colon} ${toYesNo(hasLymphaticOrVascularInvasion, language)}`;
+  return item(
+    "Emboles vasculaires ou lymphatiques",
+    toYesNo(hasLymphaticOrVascularInvasion),
+    language,
+  );
 };

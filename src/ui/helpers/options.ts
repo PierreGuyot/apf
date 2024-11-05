@@ -1,4 +1,5 @@
 import { DEFAULT_LANGUAGE, Language, translate } from "../translation";
+import { Troolean } from "../troolean";
 import { findOption } from "./helpers";
 
 // Standardized items
@@ -28,11 +29,22 @@ export type OptionGroup<T extends OptionValue> = {
 
 export const YES_NO_OPTIONS = [YES_ITEM, NO_ITEM] as const;
 
-const getYesNoOption = findOption(YES_NO_OPTIONS);
+const getBooleanOption = findOption(YES_NO_OPTIONS);
 export const toYesNo = (
   value: boolean,
+  // TODO clean: remove translation at this level
   language: Language = DEFAULT_LANGUAGE,
 ) => {
-  const { label } = getYesNoOption(value ? "yes" : "no");
+  const { label } = getBooleanOption(value ? "yes" : "no");
+  return translate(label, language);
+};
+
+const getTrooleanOption = findOption([...YES_NO_OPTIONS, UNSPECIFIED_ITEM]);
+export const toOptionalYesNo = (
+  value: Troolean,
+  // TODO clean: remove translation at this level
+  language: Language = DEFAULT_LANGUAGE,
+) => {
+  const { label } = getTrooleanOption(value);
   return translate(label, language);
 };

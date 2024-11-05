@@ -6,11 +6,15 @@ const PADDING = " ".repeat(4);
 
 export const pad = (value: string) => `${PADDING}${value}`;
 
+export const lowercaseFirstLetter = (value: string) => {
+  return value.charAt(0).toLowerCase() + value.slice(1);
+};
+
 // Simple helper for name-value items
 export const item = (name: string, value: string, language: Language) => {
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
-  return `${t(name)}${colon} ${t(value)}`;
+  return `${t(name)}${colon} ${lowercaseFirstLetter(t(value))}`;
 };
 
 export const formatList = ({

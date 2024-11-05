@@ -452,8 +452,8 @@ Localisation :
     Biopsies ciblées : 0 des 6 biopsies (0mm sur 12mm examinés, 0%)
     Total : 5mm sur 36mm examinés (base droite et milieu droit)
 
-Engainements périnerveux : Non
-Tissu extra-prostatique : Oui (base droite et milieu droit)`;
+Engainements périnerveux : non
+Tissu extra-prostatique : oui (base droite et milieu droit)`;
 
 const SAMPLE_WITHOUT_TUMOR_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
@@ -495,8 +495,8 @@ Location:
     Targeted biopsies: 0 out of 6 biopsies (0mm out of 12mm examined, 0%)
     Total: 5mm out of 36mm examined (right base and right mid)
 
-Perineural Invasion: No
-Periprostatic Fat Invasion: Yes (right base and right mid)`;
+Perineural Invasion: no
+Periprostatic Fat Invasion: yes (right base and right mid)`;
 
 const SAMPLE_WITH_IHC_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
@@ -530,8 +530,8 @@ Localisation :
     Biopsies ciblées : 0 des 6 biopsies (0mm sur 12mm examinés, 0%)
     Total : 5mm sur 36mm examinés (base droite et milieu droit)
 
-Engainements périnerveux : Non
-Tissu extra-prostatique : Oui (base droite et milieu droit)`;
+Engainements périnerveux : non
+Tissu extra-prostatique : oui (base droite et milieu droit)`;
 
 const SAMPLE_WITH_IHC_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 
@@ -565,8 +565,8 @@ Location:
     Targeted biopsies: 0 out of 6 biopsies (0mm out of 12mm examined, 0%)
     Total: 5mm out of 36mm examined (right base and right mid)
 
-Perineural Invasion: No
-Periprostatic Fat Invasion: Yes (right base and right mid)`;
+Perineural Invasion: no
+Periprostatic Fat Invasion: yes (right base and right mid)`;
 
 const SAMPLE_WITH_TUMOR_TRANSPERINEAL_FR = `BIOPSIES PROSTATIQUES TRANSPÉRINÉALES ÉCHO-GUIDÉES
 
@@ -590,8 +590,8 @@ Localisation :
     Biopsies ciblées : 0 des 6 biopsies (0mm sur 12mm examinés, 0%)
     Total : 5mm sur 36mm examinés (latérale droite et para-médiane droite)
 
-Engainements périnerveux : Non
-Tissu extra-prostatique : Oui (latérale droite et para-médiane droite)`;
+Engainements périnerveux : non
+Tissu extra-prostatique : oui (latérale droite et para-médiane droite)`;
 
 const SAMPLE_WITH_TUMOR_TRANSPERINEAL_EN = `TRANSPERINEAL PROSTATE NEEDLE BIOPSIES
 
@@ -615,8 +615,8 @@ Location:
     Targeted biopsies: 0 out of 6 biopsies (0mm out of 12mm examined, 0%)
     Total: 5mm out of 36mm examined (right lateral and right paramedian)
 
-Perineural Invasion: No
-Periprostatic Fat Invasion: Yes (right lateral and right paramedian)`;
+Perineural Invasion: no
+Periprostatic Fat Invasion: yes (right lateral and right paramedian)`;
 
 describe("generateReport", () => {
   it("should generate a clean report without a tumor (FR)", () => {

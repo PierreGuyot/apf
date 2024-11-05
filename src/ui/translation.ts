@@ -59,7 +59,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Résection transurétrale de prostate": "Transurethral Prostatic Resection",
   "Enucléation au laser holnium de la prostate":
     "Holmium laser prostatic enucleation of the prostate",
-  "Résection transurétrale de vessie": "TODO",
+  "Résection transurétrale de vessie": "Transurethral Bladder Resection",
   Sextant: "Systematic biopsy",
   Cible: "Targeted biopsy",
   Cibles: "Targeted biopsies",

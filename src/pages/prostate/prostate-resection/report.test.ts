@@ -93,11 +93,11 @@ Immunohistochimie :
 
 Adénocarcinome acinaire de type prostatique.
 
-Conditions pré-existantes : Absence de traitement antérieur
+Conditions pré-existantes : absence de traitement antérieur
 Score de Gleason : 8 (4 + 4) avec 100% de score 4 dont 20% de cribriforme, soit un score ISUP de 4.
 Estimation de la surface envahie : 5%
-Emboles vasculaires ou lymphatiques : Non
-Engainements périnerveux : Non
+Emboles vasculaires ou lymphatiques : non
+Engainements périnerveux : non
 
 Autres lésions :
      - Prolifération acinaire atypique
@@ -112,7 +112,7 @@ Autres lésions :
 Case summary:
     MOCK-clinical-info
 
-Total chip weight : 10g
+Total chip weight: 10g
 Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
 
 Immunohistochemistry:
@@ -135,7 +135,7 @@ Other lesions:
 Case summary:
     MOCK-clinical-info
 
-Total chip weight : 10g
+Total chip weight: 10g
 Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
 
 Immunohistochemistry:
@@ -145,11 +145,11 @@ Immunohistochemistry:
 
 Acinar adenocarcinoma, conventional (usual).
 
-Pre-existing conditions: No presurgical therapy
+Pre-existing conditions: no presurgical therapy
 Gleason Score: 8 (4 + 4) with 100% of score 4 of which 20% cribriform, i.e. an ISUP score of 4.
 Tumor quantification: 5%
-Lympathic or vascular invasion: No
-Perineural Invasion: No
+Lympathic or vascular invasion: no
+Perineural Invasion: no
 
 Other lesions:
      - Atypical small acinar proliferation
