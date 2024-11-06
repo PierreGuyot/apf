@@ -126,7 +126,7 @@ Antécédents de maladie des voies urinaires ou de métastases à distance : oui
 Type histologique de la tumeur : other
 Sous-type histologique de la tumeur : mock_subtype
 Localisation : urètre masculin
-Traitements antérieurs : oui (Résection transurétrale de vessie)
+Traitements antérieurs : oui (résection transurétrale de vessie)
 Aspect cystoscopique de la lésion actuelle : polypoïde
 
 Macroscopie :
@@ -159,7 +159,7 @@ Remarques particulières :
     MOCK_COMMENTS`);
   });
 
-  it.only("should generate a clean report in expert mode (EN)", () => {
+  it("should generate a clean report in expert mode (EN)", () => {
     expect(generateReport(MOCK_DATA, "EN", true))
       .toEqual(`TRANSURETHRAL BLADDER RESECTION
 
