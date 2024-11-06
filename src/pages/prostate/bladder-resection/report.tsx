@@ -189,3 +189,15 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
     ...content.map((line) => (line ? pad(line) : "")),
   ]);
 };
+
+export const Report = ({
+  form,
+  language,
+  isExpertMode,
+}: {
+  form: ReportParams;
+  language: Language;
+  isExpertMode: boolean;
+}) => {
+  return <div>{generateReport(form, language, isExpertMode)}</div>;
+};

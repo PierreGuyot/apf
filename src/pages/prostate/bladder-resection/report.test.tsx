@@ -1,4 +1,5 @@
-import { generateReport, ReportParams } from "./report";
+import { render } from "@testing-library/react";
+import { Report, ReportParams } from "./report";
 
 const MOCK_DATA: ReportParams = {
   clinicalInfo: "MOCK_CLINICAL_INFO",
@@ -41,12 +42,7 @@ const MOCK_DATA: ReportParams = {
   formId: "bladder-transurethral-resection",
 };
 
-// TODO: handle translation
-
-describe("generateReport", () => {
-  it("should generate a clean report in standard mode (FR)", () => {
-    expect(generateReport(MOCK_DATA, "FR", false))
-      .toEqual(`RÉSECTION TRANSURÉTRALE DE VESSIE
+const SAMPLE_STANDARD_MODE_FR = `RÉSECTION TRANSURÉTRALE DE VESSIE
 
 Renseignements cliniques :
     MOCK_CLINICAL_INFO
@@ -78,12 +74,9 @@ Microscopie :
              - Bilharziose
 
 Remarques particulières :
-    MOCK_COMMENTS`);
-  });
+    MOCK_COMMENTS`;
 
-  it("should generate a clean report in standard mode (EN)", () => {
-    expect(generateReport(MOCK_DATA, "EN", false))
-      .toEqual(`TRANSURETHRAL BLADDER RESECTION
+const SAMPLE_STANDARD_MODE_EN = `TRANSURETHRAL BLADDER RESECTION
 
 Case summary:
     MOCK_CLINICAL_INFO
@@ -115,12 +108,9 @@ Microscopy:
              - Bilharziose
 
 Other:
-    MOCK_COMMENTS`);
-  });
+    MOCK_COMMENTS`;
 
-  it("should generate a clean report in expert mode (FR)", () => {
-    expect(generateReport(MOCK_DATA, "FR", true))
-      .toEqual(`RÉSECTION TRANSURÉTRALE DE VESSIE
+const SAMPLE_EXPERT_MODE_FR = `RÉSECTION TRANSURÉTRALE DE VESSIE
 
 Antécédents de maladie des voies urinaires ou de métastases à distance : oui
 Type histologique de la tumeur : other
@@ -156,12 +146,9 @@ Microscopie :
              - Bilharziose
 
 Remarques particulières :
-    MOCK_COMMENTS`);
-  });
+    MOCK_COMMENTS`;
 
-  it("should generate a clean report in expert mode (EN)", () => {
-    expect(generateReport(MOCK_DATA, "EN", true))
-      .toEqual(`TRANSURETHRAL BLADDER RESECTION
+const SAMPLE_EXPERT_MODE_EN = `TRANSURETHRAL BLADDER RESECTION
 
 Antécédents de maladie des voies urinaires ou de métastases à distance: yes
 Type histologique de la tumeur: other
@@ -197,6 +184,36 @@ Microscopy:
              - Bilharziose
 
 Other:
-    MOCK_COMMENTS`);
+    MOCK_COMMENTS`;
+
+// TODO: handle translation
+
+describe("generateReport", () => {
+  it("should generate a clean report in standard mode (FR)", () => {
+    const { container } = render(
+      <Report form={MOCK_DATA} language={"FR"} isExpertMode={false} />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_STANDARD_MODE_FR);
+  });
+
+  it("should generate a clean report in standard mode (EN)", () => {
+    const { container } = render(
+      <Report form={MOCK_DATA} language={"EN"} isExpertMode={false} />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_STANDARD_MODE_EN);
+  });
+
+  it("should generate a clean report in expert mode (FR)", () => {
+    const { container } = render(
+      <Report form={MOCK_DATA} language={"FR"} isExpertMode={true} />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_EXPERT_MODE_FR);
+  });
+
+  it("should generate a clean report in expert mode (EN)", () => {
+    const { container } = render(
+      <Report form={MOCK_DATA} language={"EN"} isExpertMode={true} />,
+    );
+    expect(container.textContent).toEqual(SAMPLE_EXPERT_MODE_EN);
   });
 });
