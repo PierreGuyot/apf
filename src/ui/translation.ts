@@ -62,7 +62,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Carcinome neuroendocrine à petites cellules":
     "Small cell neuroendocrine carcinoma",
   "Conditions pré-existantes": "Pre-existing conditions",
-  "Emboles vasculaires ou lymphatiques": "Lympathic or vascular invasion",
+  "Emboles vasculaires ou lymphatiques": "Lymphatic or vascular invasion",
   "Engainements périnerveux": "Perineural Invasion",
   "Enucléation au laser holnium de la prostate":
     "Holmium laser prostatic enucleation of the prostate",

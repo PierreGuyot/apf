@@ -96,7 +96,7 @@ Microscopy:
          - pT1b: 80%
          - TODO: 10%
 
-    Lympathic or vascular invasion: yes
+    Lymphatic or vascular invasion: yes
 
     TODO: yes
     TODO: 10
@@ -172,7 +172,7 @@ Microscopy:
          - pT1b: 80%
          - TODO: 10%
 
-    Lympathic or vascular invasion: yes
+    Lymphatic or vascular invasion: yes
 
     TODO: yes
     TODO: 10

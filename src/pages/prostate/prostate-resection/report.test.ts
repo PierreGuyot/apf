@@ -148,7 +148,7 @@ Acinar adenocarcinoma, conventional (usual).
 Pre-existing conditions: no presurgical therapy
 Gleason Score: 8 (4 + 4) with 100% of score 4 of which 20% cribriform, i.e. an ISUP score of 4.
 Tumor quantification: 5%
-Lympathic or vascular invasion: no
+Lymphatic or vascular invasion: no
 Perineural Invasion: no
 
 Other lesions:
