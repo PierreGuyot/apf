@@ -37,7 +37,6 @@ import {
   DEFAULT_TUMOR,
   FullLocation,
   getSublocationOptions,
-  hasTumoralExtensionSection,
   LESION_ASPECT_OPTIONS,
   LesionAspect,
   LOCATION_OPTIONS,
@@ -49,6 +48,7 @@ import {
 } from "./helpers";
 import { generateReport } from "./report";
 import { TumorInput } from "./TumorInput";
+import { validateTumorInput } from "./validate-tumor-input";
 
 type MuscularisPropria = {
   isPresent: Troolean;
@@ -131,26 +131,6 @@ const getInitialState = (): FormState => ({
 
 type Props = {
   formId: BladderResectionFormId;
-};
-
-// TODO clean: add tests
-const validateTumorInput = ({ type, extension }: Tumor) => {
-  if (!hasTumoralExtensionSection(type)) {
-    return [];
-  }
-
-  const errors: string[] = [];
-
-  const totalPercentage = sum(
-    Object.values(extension).map((item) => item.percentage),
-  );
-  if (totalPercentage !== 100) {
-    errors.push(
-      `Le pourcentage total d'extension tumorale doit être égal à 100% (${totalPercentage} actuellement).`,
-    );
-  }
-
-  return errors;
 };
 
 const validateMicroscopy = ({ tumor }: { tumor: Tumor }) => {
