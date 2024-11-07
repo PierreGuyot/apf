@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 import {
-  Checkbox,
   HelpIcon,
   InputNumber,
   InputText,
@@ -14,11 +13,9 @@ import {
   ValidationErrors,
 } from "../../../ui";
 import {
-  DEFAULT_TUMORAL_EXTENSION_ITEM,
   getGradeOptions,
   getTumorSubtypeOptions,
   hasTumoralExtensionSection,
-  Item,
   PTNM_OPTIONS,
   PtnmOption,
   Tumor,
@@ -143,8 +140,8 @@ const InputTumoralExtension = ({
             <TumoralExtensionItem
               key={option.value}
               option={option}
-              state={state[option.value] ?? DEFAULT_TUMORAL_EXTENSION_ITEM}
-              setState={setField(option.value)}
+              value={state[option.value] ?? 0}
+              onChange={setField(option.value)}
             />
           ))}
         </Stack>
@@ -156,30 +153,20 @@ const InputTumoralExtension = ({
 
 const TumoralExtensionItem = ({
   option,
-  state,
-  setState,
+  value,
+  onChange,
 }: {
   option: PtnmOption;
-  state: Item;
-  setState: (value: Item) => void;
+  value: number;
+  onChange: (value: number) => void;
 }) => {
-  const setField = patchState(state, setState);
-
   return (
     <Stack direction="row" alignItems="center" spacing="md">
-      <div style={{ width: option.value === "other" ? undefined : "60px" }}>
-        <Checkbox
-          label={option.label}
-          isChecked={state.isChecked}
-          onChange={() => setField("isChecked")(!state.isChecked)}
-        />
+      {/* TODO CLEAN: consider having a prop for the label width of inputs  */}
+      <div style={{ width: option.value === "other" ? undefined : "40px" }}>
+        {option.label}
       </div>
-      <InputNumber
-        unit="percent"
-        max={100}
-        value={state.percentage}
-        onChange={setField("percentage")}
-      />
+      <InputNumber unit="percent" max={100} value={value} onChange={onChange} />
     </Stack>
   );
 };

@@ -9,9 +9,7 @@ export const validateTumorInput = ({ type, extension }: Tumor) => {
 
   const errors: string[] = [];
 
-  const totalPercentage = sum(
-    Object.values(extension).map((item) => item.percentage),
-  );
+  const totalPercentage = sum(Object.values(extension));
   if (totalPercentage !== 100) {
     errors.push(
       `Le pourcentage total d'extension tumorale doit être égal à 100% (${totalPercentage} actuellement).`,

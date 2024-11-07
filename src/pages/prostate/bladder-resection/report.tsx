@@ -141,11 +141,11 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
       ? formatList({
           title: "Extension tumorale",
           items: Object.entries(form.tumor.extension)
-            .filter(([_key, value]) => value.percentage > 0)
-            .map(([key, value]) => {
+            .filter(([_key, percentage]) => percentage > 0)
+            .map(([key, percentage]) => {
               // CAUTION: this cast is type-unsafe
               const { label } = getPtnmOption(key as PtnmOptionType);
-              return `${t(label)}${colon} ${value.percentage}%`;
+              return `${t(label)}${colon} ${percentage}%`;
             }),
           language,
         })

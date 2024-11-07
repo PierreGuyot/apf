@@ -272,18 +272,13 @@ export const PTNM_OPTIONS = [
   },
 ] as const;
 // TODO clean: resolve naming conflict between type and component
-export type Item = { isChecked: boolean; percentage: number };
-export const DEFAULT_TUMORAL_EXTENSION_ITEM = {
-  isChecked: false,
-  percentage: 0,
-};
 export type PtnmOptionType = (typeof PTNM_OPTIONS)[number]["value"];
 export type PtnmOption = {
   value: PtnmOptionType;
   label: string;
   tooltip: string;
 };
-export type TumoralExtension = Partial<Record<PtnmOptionType, Item>>;
+export type TumoralExtension = Partial<Record<PtnmOptionType, number>>;
 
 export const getPtnmOption = findOption(PTNM_OPTIONS);
 

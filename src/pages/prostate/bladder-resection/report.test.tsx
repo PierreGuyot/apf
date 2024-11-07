@@ -28,9 +28,9 @@ const MOCK_DATA: ReportParams = {
     otherSubtype: "",
     grade: "high-grade",
     extension: {
-      pT1a: { isChecked: true, percentage: 10 },
-      pT1b: { isChecked: true, percentage: 80 },
-      other: { isChecked: false, percentage: 10 },
+      pT1a: 10,
+      pT1b: 80,
+      other: 10,
     },
   },
   hasLymphaticOrVascularInvasion: true,
