@@ -95,7 +95,7 @@ const getClinicalInfoSection = (
             ),
             `${t("Traitements antérieurs")}${colon} ${lowercaseFirstLetter(t(getTrooleanOption(form.hadPreviousTreatment).label))}${
               form.hadPreviousTreatment
-                ? ` (${lowercaseFirstLetter(getTreatmentOption(form.previousTreatment).label)})`
+                ? ` (${lowercaseFirstLetter(t(getTreatmentOption(form.previousTreatment).label))})`
                 : undefined
             }`,
             item(
@@ -145,7 +145,7 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
             .map(([key, value]) => {
               // CAUTION: this cast is type-unsafe
               const { label } = getPtnmOption(key as PtnmOptionType);
-              return `${label}${colon} ${value.percentage}%`;
+              return `${t(label)}${colon} ${value.percentage}%`;
             }),
           language,
         })
@@ -171,7 +171,7 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
         ? item("Commentaire", form.muscularisPropria.notes, language)
         : undefined,
     "", // Empty line
-    "Autres résultats",
+    t("Autres résultats"),
     ...formatList({
       title: "Tumoraux",
       items: form.otherResults.tumoral,

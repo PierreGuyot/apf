@@ -1,6 +1,8 @@
 import { render } from "@testing-library/react";
 import { Report, ReportParams } from "./report";
 
+// TODO: handle translation
+
 const MOCK_DATA: ReportParams = {
   clinicalInfo: "MOCK_CLINICAL_INFO",
   medicalHistory: "yes",
@@ -86,26 +88,26 @@ Macroscopy:
     Sampling in 2 blocks (fixation : buffered formalin 4%, stain HE)
 
 Microscopy:
-    Type histologique de la tumeur: malpighien
-    Sous-type histologique de la tumeur: carcinome urothélial conventionnel
-    Grade tumoral: g1 (bien différencié)
-    Extension tumorale:
+    TODO: tODO
+    TODO: tODO
+    TODO: tODO
+    TODO:
          - pT1a: 10%
          - pT1b: 80%
-         - Impossible à déterminer: 10%
+         - TODO: 10%
 
     Lympathic or vascular invasion: yes
 
-    Copeaux de résection présentant de la musculeuse: yes
-    Nombre de copeaux: 10
+    TODO: yes
+    TODO: 10
 
-    Autres résultats
-        Tumoraux:
-             - Papillome urothélial, type inversé
-             - Néoplasme urothélial papillaire à faible potentiel de malignité
-        Non-tumoraux:
-             - Métaplasie intestinale
-             - Bilharziose
+    TODO
+        TODO:
+             - TODO
+             - TODO
+        TODO:
+             - TODO
+             - TODO
 
 Other:
     MOCK_COMMENTS`;
@@ -150,43 +152,41 @@ Remarques particulières :
 
 const SAMPLE_EXPERT_MODE_EN = `TRANSURETHRAL BLADDER RESECTION
 
-Antécédents de maladie des voies urinaires ou de métastases à distance: yes
-Type histologique de la tumeur: other
-Sous-type histologique de la tumeur: mock_subtype
-Location: urètre masculin
-Traitements antérieurs: yes (résection transurétrale de vessie)
-Aspect cystoscopique de la lésion actuelle: polypoïde
+TODO: yes
+TODO: other
+TODO: mock_subtype
+Location: tODO
+TODO: yes (transurethral bladder resection)
+TODO: tODO
 
 Macroscopy:
     Total chip weight: 2g
     Sampling in 2 blocks (fixation : buffered formalin 4%, stain HE)
 
 Microscopy:
-    Type histologique de la tumeur: malpighien
-    Sous-type histologique de la tumeur: carcinome urothélial conventionnel
-    Grade tumoral: g1 (bien différencié)
-    Extension tumorale:
+    TODO: tODO
+    TODO: tODO
+    TODO: tODO
+    TODO:
          - pT1a: 10%
          - pT1b: 80%
-         - Impossible à déterminer: 10%
+         - TODO: 10%
 
     Lympathic or vascular invasion: yes
 
-    Copeaux de résection présentant de la musculeuse: yes
-    Nombre de copeaux: 10
+    TODO: yes
+    TODO: 10
 
-    Autres résultats
-        Tumoraux:
-             - Papillome urothélial, type inversé
-             - Néoplasme urothélial papillaire à faible potentiel de malignité
-        Non-tumoraux:
-             - Métaplasie intestinale
-             - Bilharziose
+    TODO
+        TODO:
+             - TODO
+             - TODO
+        TODO:
+             - TODO
+             - TODO
 
 Other:
     MOCK_COMMENTS`;
-
-// TODO: handle translation
 
 describe("generateReport", () => {
   it("should generate a clean report in standard mode (FR)", () => {
