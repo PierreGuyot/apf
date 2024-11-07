@@ -22,7 +22,6 @@ import {
 } from "../../../ui";
 import { FormState } from "./BladderResectionForm";
 import {
-  FullTumorType,
   getGradeOption,
   getLesionAspectOption,
   getLocationOption,
@@ -31,6 +30,7 @@ import {
   getTumorSubtypeOptions,
   hasTumoralExtensionSection,
   PtnmOptionType,
+  Tumor,
 } from "./helpers";
 
 export type ReportParams = FormState & {
@@ -51,7 +51,7 @@ export const generateReport = (
   ]);
 };
 
-const getTumorTypeSection = (tumorType: FullTumorType, language: Language) => {
+const getTumorTypeSection = (tumorType: Tumor, language: Language) => {
   const tumorSubtypeOptions = getTumorSubtypeOptions(tumorType.type);
 
   return [
@@ -129,18 +129,18 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
   const colon = t(COLON_CHARACTER);
 
   const content = [
-    ...getTumorTypeSection(form.tumorType, language),
+    ...getTumorTypeSection(form.tumor, language),
     item(
       "Grade tumoral",
-      form.tumorType.type === "other"
-        ? form.grade
-        : getGradeOption(form.grade).label,
+      form.tumor.type === "other"
+        ? form.tumor.grade
+        : getGradeOption(form.tumor.grade).label,
       language,
     ),
-    ...(hasTumoralExtensionSection(form.tumorType.type)
+    ...(hasTumoralExtensionSection(form.tumor.type)
       ? formatList({
           title: "Extension tumorale",
-          items: Object.entries(form.tumoralExtension)
+          items: Object.entries(form.tumor.extension)
             .filter(([_key, value]) => value.percentage > 0)
             .map(([key, value]) => {
               // CAUTION: this cast is type-unsafe

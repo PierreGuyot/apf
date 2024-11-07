@@ -10,6 +10,8 @@ const MOCK_DATA: ReportParams = {
     type: "other",
     subtype: "Adénocarcinome de type digestif",
     otherSubtype: "mock_subtype",
+    grade: "high-grade",
+    extension: {},
   },
   location: { location: "Urètre masculin", sublocation: "Urètre pénien" },
   hadPreviousTreatment: "yes",
@@ -20,16 +22,16 @@ const MOCK_DATA: ReportParams = {
   samplingType: "partial",
   blockCount: 2,
   coloration: "HE",
-  tumorType: {
+  tumor: {
     type: "Malpighien",
     subtype: "Carcinome urothélial conventionnel",
     otherSubtype: "",
-  },
-  grade: "g1",
-  tumoralExtension: {
-    pT1a: { isChecked: true, percentage: 10 },
-    pT1b: { isChecked: true, percentage: 80 },
-    other: { isChecked: false, percentage: 10 },
+    grade: "high-grade",
+    extension: {
+      pT1a: { isChecked: true, percentage: 10 },
+      pT1b: { isChecked: true, percentage: 80 },
+      other: { isChecked: false, percentage: 10 },
+    },
   },
   hasLymphaticOrVascularInvasion: true,
   muscularisPropria: { isPresent: "yes", chipCount: 10, notes: "" },
@@ -56,7 +58,7 @@ Macroscopie :
 Microscopie :
     Type histologique de la tumeur : malpighien
     Sous-type histologique de la tumeur : carcinome urothélial conventionnel
-    Grade tumoral : g1 (bien différencié)
+    Grade tumoral : haut grade
     Extension tumorale :
          - pT1a : 10%
          - pT1b : 80%
@@ -128,7 +130,7 @@ Macroscopie :
 Microscopie :
     Type histologique de la tumeur : malpighien
     Sous-type histologique de la tumeur : carcinome urothélial conventionnel
-    Grade tumoral : g1 (bien différencié)
+    Grade tumoral : haut grade
     Extension tumorale :
          - pT1a : 10%
          - pT1b : 80%

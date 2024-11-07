@@ -76,15 +76,19 @@ export const TUMOR_TYPE_OPTIONS: Option<TumorType>[] = [
 ];
 export const getTumorTypeOption = findOption(TUMOR_TYPE_OPTIONS);
 type TumorSubtype = ValueOf<Flatten<typeof TUMOR_SUBTYPES>>;
-export type FullTumorType = {
+export type Tumor = {
   type: TumorType;
   subtype: TumorSubtype;
   otherSubtype: string;
+  grade: string;
+  extension: TumoralExtension;
 };
-export const DEFAULT_FULL_TUMOR_TYPE: FullTumorType = {
+export const DEFAULT_TUMOR: Tumor = {
   type: "Carcinome urothélial papillaire, non invasif",
   subtype: "Carcinome urothélial conventionnel",
   otherSubtype: "",
+  grade: "",
+  extension: {},
 };
 export const getTumorSubtypeOptions = (
   type: TumorType,
@@ -240,7 +244,11 @@ export const PTNM_OPTIONS = [
     label: "pT1",
     tooltip: "invasion du chorion sans autre précision.",
   },
-  { value: "pT2", label: "pT2", tooltip: "invasion de la musculeuse." },
+  {
+    value: "pT2",
+    label: "pT2",
+    tooltip: "invasion de la musculeuse.",
+  },
   {
     value: "pT3a",
     label: "pT3a",
@@ -257,7 +265,11 @@ export const PTNM_OPTIONS = [
     label: "pT4",
     tooltip: "invasion du stroma prostatique.",
   },
-  { value: "other", label: "Impossible à déterminer", tooltip: "" },
+  {
+    value: "other",
+    label: "Impossible à déterminer",
+    tooltip: "",
+  },
 ] as const;
 // TODO clean: resolve naming conflict between type and component
 export type Item = { isChecked: boolean; percentage: number };
@@ -294,6 +306,7 @@ export const TUMORAL_RESULT_GROUPS = [
     ].map(toOption),
   },
 ];
+
 export const NON_TUMORAL_RESULT_GROUPS = [
   {
     title: "",
