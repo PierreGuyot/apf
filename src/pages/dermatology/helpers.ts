@@ -135,7 +135,7 @@ export const TUMOR_PROPERTIES: Record<
   },
   "Carcinome basocellulaire sclérodermiforme": {
     description:
-      "Le prélèvment est centré par une prolifération tumorale basaloïde appendue à l'épiderme constituée d'amas et de travées tumoraux infiltrant le derme, avec une disposition palissadique en périphérie. On observe des fines travées étirées sur le front d'invasion entourées par un stroma fibro-hyalin. Les cellules ont un cytoplasme peu abondant, et un noyau ovalaire basophile. ",
+      "Le prélèvment est centré par une prolifération tumorale basaloïde appendue à l'épiderme constituée d'amas et de travées tumoraux infiltrant le derme, avec une disposition palissadique en périphérie. On observe des fines travées étirées sur le front d'invasion entourées par un stroma fibro-hyalin. Les cellules ont un cytoplasme peu abondant, et un noyau ovalaire basophile.",
     hasSelectPerineuralInvasion: true,
     hasSelectClarkInfiltrationLevel: true,
   },
@@ -168,7 +168,7 @@ export const TUMOR_PROPERTIES: Record<
   },
   "Kératose pré-carcinomateuse lichénoïde": {
     description:
-      "L'étude microscopique montre un épiderme discrètement acanthosique, recouvert par une couche cornée parakératosique. Cet épiderme contient des kératinocytes atypiques, tassés les uns contre les autres avec quelques mitoses. Ces modifications intéressent les couches inférieures de l'épiderme. Le derme sous-jacent est remanié par un infiltrat inflammatoire mononucléé lichénoïde en bande sous épidermique. ",
+      "L'étude microscopique montre un épiderme discrètement acanthosique, recouvert par une couche cornée parakératosique. Cet épiderme contient des kératinocytes atypiques, tassés les uns contre les autres avec quelques mitoses. Ces modifications intéressent les couches inférieures de l'épiderme. Le derme sous-jacent est remanié par un infiltrat inflammatoire mononucléé lichénoïde en bande sous épidermique.",
   },
   "Kératose séborrhéique classique": {
     description:
@@ -204,7 +204,7 @@ export const TUMOR_PROPERTIES: Record<
   },
   "Kyste épidermique complètement détruit": {
     description:
-      "Le derme est le siège d'importants remaniements inflammatoires, comportant des lymphocytes, des polynucléaires neutrophiles formant par place des foyers suppurées et des cellules géantes entourant et phagocytant des lamelles de kératine. Absence de structure kystique. ",
+      "Le derme est le siège d'importants remaniements inflammatoires, comportant des lymphocytes, des polynucléaires neutrophiles formant par place des foyers suppurées et des cellules géantes entourant et phagocytant des lamelles de kératine. Absence de structure kystique.",
   },
   "Léiomyome pilaire": {
     description: `On observe une lésion nodulaire composée de nombreux faisceaux plexiformes, composés de cellules musculaires lisses enchevêtrées les uns aux autres sans atypie cytonucléaire ni mitose. Le stroma peu abondant est fibreux et vascularisé.

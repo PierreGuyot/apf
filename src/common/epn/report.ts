@@ -1,5 +1,9 @@
-import { item, Language, toYesNo } from "../../ui";
+import { Language, reportBoolean } from "../../ui";
 
-export const getConclusionEpn = (hasEpn: boolean, language: Language) => {
-  return item("Engainements périnerveux", toYesNo(hasEpn), language);
+export const reportEpn = (hasEpn: boolean, language: Language) => {
+  return reportBoolean({
+    label: "Engainements périnerveux",
+    value: hasEpn,
+    language,
+  });
 };

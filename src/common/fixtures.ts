@@ -17,7 +17,7 @@ export const aMockBlock1 = (): Block => ({
 export const aMockBlock2 = (): Block => ({
   index: 3,
   antibodies: [
-    { type: "P63", clone: "M-4A4", result: "begnin" },
+    { type: "P63", clone: "M-4A4", result: "benign" },
     { type: "CK14/CK15", clone: "SP53", result: "intraepithelial-lesion" },
     {
       type: "others",

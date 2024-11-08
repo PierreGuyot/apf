@@ -1,4 +1,4 @@
-import { Line, Select } from "../../ui";
+import { Select } from "../../ui";
 import { CLARK_INFILTRATION_LEVELS, ClarkInfiltrationLevel } from "./helpers";
 
 type Props = {
@@ -8,12 +8,10 @@ type Props = {
 };
 
 export const SelectClarkInfiltrationLevel = ({ value, onChange }: Props) => (
-  <Line>
-    <Select
-      label="Niveau d'infiltration selon Clark"
-      options={CLARK_INFILTRATION_LEVELS}
-      value={value}
-      onChange={onChange}
-    />
-  </Line>
+  <Select
+    label="Niveau d'infiltration selon Clark"
+    options={CLARK_INFILTRATION_LEVELS}
+    value={value}
+    onChange={onChange}
+  />
 );

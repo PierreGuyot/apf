@@ -3,43 +3,47 @@ import {
   Block,
   IhcState,
 } from "../../common/immunohistochemistry/helpers";
-import { COLON_CHARACTER, joinLines, Language, pad, translate } from "../../ui";
+import {
+  COLON_CHARACTER,
+  Language,
+  Lines,
+  pad,
+  reportSection,
+  translate,
+} from "../../ui";
 import { getResultOption } from "./helpers";
 
-export const getImmunohistochemistrySection = (
+export const reportImmunohistochemistry = (
   ihc: IhcState,
   language: Language,
   hasMultipleBlocks: boolean,
-) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
+): Lines => {
   if (!ihc.hasIhc) {
-    return undefined;
+    return [];
   }
 
-  return joinLines([
-    `${t("Immunohistochimie")}${colon}`,
-    ...ihc.blocks.flatMap((block) =>
+  return reportSection(
+    "Immunohistochimie",
+    language,
+    ihc.blocks.flatMap((block) =>
       renderBlock(block, language, hasMultipleBlocks),
     ),
-  ]);
+  );
 };
 
-const renderBlock = (
-  block: Block,
-  language: Language,
-  hasMultipleBlocks: boolean,
-) => {
+const renderBlock = (block: Block, language: Language, hasTitle: boolean) => {
+  const antibodies = block.antibodies.flatMap((antibody) =>
+    renderAntibody(antibody, language),
+  );
+
+  if (!hasTitle) {
+    return antibodies;
+  }
+
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
 
-  return [
-    hasMultipleBlocks ? `${t("Bloc")} ${block.index}${colon}` : undefined,
-    ...block.antibodies
-      .flatMap((antibody) => renderAntibody(antibody, language))
-      .map(pad),
-  ];
+  return [`${t("Bloc")} ${block.index}${colon}`, ...antibodies.map(pad)];
 };
 
 const renderAntibody = (antibody: AntibodyData, language: Language) => {

@@ -25,8 +25,10 @@ import {
   Page,
   Pill,
   Select,
+  SelectBoolean,
   SelectList,
   SelectNumber,
+  SelectTroolean,
   size,
   Size,
   SIZES,
@@ -37,8 +39,8 @@ import {
   TextBlock,
   Title,
   Tooltip,
+  Troolean,
   ValidationErrors,
-  YesOrNo,
 } from "../ui";
 
 // Fixtures
@@ -98,6 +100,8 @@ export const DesignPage = () => {
         <EntrySelect />
         <EntrySelectList />
         <EntrySelectNumber />
+        <EntrySelectBoolean />
+        <EntrySelectTroolean />
 
         <EntryBanner />
         <EntryButton />
@@ -113,7 +117,6 @@ export const DesignPage = () => {
         <EntryTextBlock />
         <EntryTooltip />
         <EntryValidationErrors />
-        <EntryYesOrNo />
         <EntryText />
         <EntryTitle />
 
@@ -450,7 +453,7 @@ const EntrySelectList = () => {
 };
 
 const EntrySelectNumber = () => {
-  const [value, onChange] = useState<number>(0);
+  const [value, setValue] = useState<number>(0);
 
   return (
     <DocumentationEntry name="SelectNumber">
@@ -461,13 +464,41 @@ const EntrySelectNumber = () => {
         label="An example number selection"
         max={5}
         value={value}
-        onChange={onChange}
+        onChange={setValue}
       />
       <SelectNumber
         isReadOnly
         label="A read-only number selection"
         max={5}
         value={3}
+        onChange={setValue}
+      />
+    </DocumentationEntry>
+  );
+};
+
+const EntrySelectBoolean = () => {
+  const [value, setValue] = useState<boolean>(false);
+
+  return (
+    <DocumentationEntry name="SelectBoolean">
+      <SelectBoolean
+        label="An example boolean selection"
+        value={value}
+        onChange={setValue}
+      />
+    </DocumentationEntry>
+  );
+};
+
+const EntrySelectTroolean = () => {
+  const [value, onChange] = useState<Troolean>("yes");
+
+  return (
+    <DocumentationEntry name="SelectTroolean">
+      <SelectTroolean
+        label="An example troolean selection (yes, no, or unspecified)"
+        value={value}
         onChange={onChange}
       />
     </DocumentationEntry>
@@ -546,19 +577,19 @@ const EntryErrorMessage = () => {
 };
 
 const EntryHelpIcon = () => {
+  const CONTENT = (
+    <>
+      <div>Content of the tooltip goes here.</div>
+      <div>
+        It can be <b>formatted</b>.
+      </div>
+    </>
+  );
+
   return (
     <DocumentationEntry name="HelpIcon">
-      <HelpIcon
-        content={
-          <>
-            <div>Content of the tooltip goes here.</div>
-            <div>
-              {" "}
-              It can be <b>formatted</b>.
-            </div>
-          </>
-        }
-      />
+      <HelpIcon size="sm" content={CONTENT} />
+      <HelpIcon content={CONTENT} />
     </DocumentationEntry>
   );
 };
@@ -733,21 +764,6 @@ const EntryValidationErrors = () => {
         header="The input data is invalid:"
         errors={["An error.", "Another error.", "Yet another error."]}
       />
-    </DocumentationEntry>
-  );
-};
-
-const EntryYesOrNo = () => {
-  return (
-    <DocumentationEntry name="YesOrNo">
-      <div>
-        FR: <YesOrNo value={true} language="FR" />{" "}
-        <YesOrNo value={false} language="FR" />
-      </div>
-      <div>
-        EN: <YesOrNo value={true} language="EN" />{" "}
-        <YesOrNo value={false} language="EN" />
-      </div>
     </DocumentationEntry>
   );
 };

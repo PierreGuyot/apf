@@ -39,15 +39,13 @@ export const ResectionMacroscopy = ({
 
   return (
     <Section title="Macroscopie" index={index}>
-      <Line>
-        <InputNumber
-          label="Poids des copeaux :"
-          value={chipWeight}
-          unit="g"
-          isDecimal
-          onChange={setField("chipWeight")}
-        />
-      </Line>
+      <InputNumber
+        label="Poids des copeaux :"
+        value={chipWeight}
+        unit="g"
+        isDecimal
+        onChange={setField("chipWeight")}
+      />
       <Line>
         <Select
           options={SAMPLING_TYPES}

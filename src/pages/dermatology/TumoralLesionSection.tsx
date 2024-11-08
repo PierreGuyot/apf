@@ -1,6 +1,13 @@
 import { HasInvasion } from "../../common/invasion/HasInvasion";
 import { HasEpn } from "../../common/epn/HasEpn";
-import { InputNumber, Line, patchState, Select, SubSection } from "../../ui";
+import {
+  InputNumber,
+  Line,
+  patchState,
+  Select,
+  SubSection,
+  Text,
+} from "../../ui";
 import { TumorData } from "./DermatologyForm";
 import { SelectClarkInfiltrationLevel } from "./SelectClarkInfiltrationLevel";
 import {
@@ -47,32 +54,28 @@ export const TumoralLesionSection = ({
     <SubSection>
       {/* TODO clean: improve styling */}
       <Line>
-        <b>Lésion {index + 1}</b>
+        <Text as="div" variant="bold">
+          Lésion {index + 1}
+        </Text>
       </Line>
-      <Line>
-        <Select
-          label="Quel est le type de la tumeur cutanée principale ?"
-          value={mainTumorType}
-          options={TUMOR_TYPE_OPTIONS}
-          onChange={setField("mainTumorType")}
-        />
-      </Line>
-      <Line>
-        <Select
-          label="Quel est le type des tumeurs cutanées adjacentes ?"
-          value={secondaryTumorType}
-          options={TUMOR_TYPE_OPTIONS}
-          onChange={setField("secondaryTumorType")}
-        />
-      </Line>
-      <Line>
-        <Select
-          label="Préciser l'exérèse de la lésion :"
-          value={excisionType}
-          options={EXCISION_TYPES}
-          onChange={setField("excisionType")}
-        />
-      </Line>
+      <Select
+        label="Quel est le type de la tumeur cutanée principale ?"
+        value={mainTumorType}
+        options={TUMOR_TYPE_OPTIONS}
+        onChange={setField("mainTumorType")}
+      />
+      <Select
+        label="Quel est le type des tumeurs cutanées adjacentes ?"
+        value={secondaryTumorType}
+        options={TUMOR_TYPE_OPTIONS}
+        onChange={setField("secondaryTumorType")}
+      />
+      <Select
+        label="Préciser l'exérèse de la lésion :"
+        value={excisionType}
+        options={EXCISION_TYPES}
+        onChange={setField("excisionType")}
+      />
 
       {/*
         Only display this section if the:
@@ -96,37 +99,29 @@ export const TumoralLesionSection = ({
               />
             ) : undefined}
           </Line>
-          <Line>
-            <InputNumber
-              label="Préciser la marge profonde minimale"
-              value={minSideMargin}
-              onChange={setField("minSideMargin")}
-              unit="mm"
-            />
-          </Line>
+          <InputNumber
+            label="Préciser la marge profonde minimale"
+            value={minSideMargin}
+            onChange={setField("minSideMargin")}
+            unit="mm"
+          />
         </>
       ) : undefined}
 
       {hasSelectLymphaticOrVascularInvasion ? (
-        <Line>
-          <HasInvasion
-            value={hasLymphaticOrVascularInvasion}
-            onChange={setField("hasLymphaticOrVascularInvasion")}
-          />
-        </Line>
+        <HasInvasion
+          value={hasLymphaticOrVascularInvasion}
+          onChange={setField("hasLymphaticOrVascularInvasion")}
+        />
       ) : undefined}
       {hasSelectPerineuralInvasion ? (
-        <Line>
-          <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
-        </Line>
+        <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
       ) : undefined}
       {hasSelectClarkInfiltrationLevel ? (
-        <Line>
-          <SelectClarkInfiltrationLevel
-            value={infiltrationLevel}
-            onChange={setField("infiltrationLevel")}
-          />
-        </Line>
+        <SelectClarkInfiltrationLevel
+          value={infiltrationLevel}
+          onChange={setField("infiltrationLevel")}
+        />
       ) : undefined}
     </SubSection>
   );

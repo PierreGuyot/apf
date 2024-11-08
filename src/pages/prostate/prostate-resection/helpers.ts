@@ -42,22 +42,22 @@ export const PRIOR_CONDITION_OPTIONS: Option<PriorCondition>[] = [
   {
     value: "non-applicable-radiotherapy",
     label:
-      "Non applicable en raison de modification histologiques majeures liées à un traitement antérieur (radiothérapie) ",
+      "Non applicable en raison de modifications histologiques majeures liées à un traitement antérieur (radiothérapie)",
   },
   {
     value: "non-applicable-hormonotherapy-chimiotherapy",
     label:
-      "Non applicable en raison de modification histologiques majeures liées à un traitement antérieur (hormonothérapie ou chimiothérapie) ",
+      "Non applicable en raison de modifications histologiques majeures liées à un traitement antérieur (hormonothérapie ou chimiothérapie)",
   },
   {
     value: "applicable-radiotherapy",
     label:
-      "Applicable en raison de modification histologiques mineures liées à un traitement antérieur (radiothérapie) ",
+      "Applicable en raison de modifications histologiques mineures liées à un traitement antérieur (radiothérapie)",
   },
   {
     value: "hormonotherapy-chimiotherapy",
     label:
-      "Applicable en raison de modification histologiques mineures liées à un traitement antérieur (hormonothérapie ou chimiothérapie) ",
+      "Applicable en raison de modifications histologiques mineures liées à un traitement antérieur (hormonothérapie ou chimiothérapie)",
   },
 ];
 

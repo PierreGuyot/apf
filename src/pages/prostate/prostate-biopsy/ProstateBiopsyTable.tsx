@@ -4,8 +4,8 @@ import {
   Option,
   Select,
   Table,
-  YesOrNo,
   noop,
+  reportBoolean,
   toOption,
   translate,
 } from "../../../ui";
@@ -216,7 +216,7 @@ export const ProstateBiopsyTable = ({
           return undefined;
         }
 
-        return <YesOrNo language={language} value={score.tumorEpn} />;
+        return reportBoolean({ value: score.tumorEpn, language });
       },
     },
     {
@@ -236,7 +236,7 @@ export const ProstateBiopsyTable = ({
           return undefined;
         }
 
-        return <YesOrNo language={language} value={score.tumorTep} />;
+        return reportBoolean({ value: score.tumorTep, language });
       },
     },
     {

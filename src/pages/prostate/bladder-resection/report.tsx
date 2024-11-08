@@ -1,24 +1,19 @@
+import { reportAdditionalRemarks } from "../../../common/additional-remarks.report";
+import { reportCaseSummary } from "../../../common/case-summary.report";
+import { reportInvasion } from "../../../common/invasion/report";
+import { reportResectionMacroscopy } from "../../../common/resection-macroscopy/report";
 import {
-  getCommentSection,
-  getParagraphSection,
-} from "../../../common/comment-section";
-import { getConclusionInvasion } from "../../../common/invasion/report";
-import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
-import {
-  COLON_CHARACTER,
   filterNullish,
-  formatList,
   FormId,
-  getFormTitle,
-  getTrooleanOption,
   item,
-  joinLines,
-  joinSections,
+  join,
   Language,
-  lowercaseFirstLetter,
-  pad,
-  toOptionalYesNo,
-  translate,
+  Lines,
+  reportCheckboxList,
+  reportSection,
+  reportTroolean,
+  reportValue,
+  reportStructure,
 } from "../../../ui";
 import { FormState } from "./BladderResectionForm";
 import {
@@ -26,7 +21,7 @@ import {
   getLocationOption,
   getTreatmentOption,
 } from "./helpers";
-import { getTumorTypeSection } from "./tumor-input/report";
+import { reportTumor } from "./tumor-input/report";
 
 export type ReportParams = FormState & {
   formId: Extract<FormId, "bladder-transurethral-resection">;
@@ -37,12 +32,11 @@ export const generateReport = (
   language: Language,
   isExpertMode: boolean,
 ): string => {
-  return joinSections([
-    getFormTitle(form.formId, language),
+  return reportStructure(form.formId, language, [
     getClinicalInfoSection(form, language, isExpertMode),
     getMacroscopySection(form, language),
     getMicroscopySection(form, language),
-    getCommentSection(form, language),
+    reportAdditionalRemarks(form, language),
   ]);
 };
 
@@ -50,31 +44,36 @@ const getClinicalInfoSection = (
   form: ReportParams,
   language: Language,
   isExpertMode: boolean,
-) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
+): Lines => {
   // Expert mode
   if (isExpertMode) {
-    return joinLines([
-      item(
-        "Antécédents de maladie des voies urinaires ou de métastases à distance",
-        getTrooleanOption(form.medicalHistory).label,
+    const partPreviousTreatment = join(
+      reportTroolean({
+        label: "Traitements antérieurs",
+        value: form.hadPreviousTreatment,
         language,
-      ),
+      }),
+      form.hadPreviousTreatment
+        ? `(${reportValue(getTreatmentOption(form.previousTreatment).label, language)})`
+        : undefined,
+    );
+
+    return [
+      reportTroolean({
+        label:
+          "Antécédents de maladie des voies urinaires ou de métastases à distance",
+        value: form.medicalHistory,
+        language,
+      }),
       ...(form.medicalHistory === "yes"
         ? [
-            ...getTumorTypeSection({ tumor: form.previousTumor, language }),
+            ...reportTumor({ tumor: form.previousTumor, language }),
             item(
               "Localisation",
               getLocationOption(form.location.location).label,
               language,
             ),
-            `${t("Traitements antérieurs")}${colon} ${lowercaseFirstLetter(t(getTrooleanOption(form.hadPreviousTreatment).label))}${
-              form.hadPreviousTreatment
-                ? ` (${lowercaseFirstLetter(t(getTreatmentOption(form.previousTreatment).label))})`
-                : undefined
-            }`,
+            partPreviousTreatment,
             item(
               "Aspect cystoscopique de la lésion actuelle",
               getLesionAspectOption(form.lesionAspect).label,
@@ -82,80 +81,71 @@ const getClinicalInfoSection = (
             ),
           ]
         : []),
-    ]);
+    ];
   }
 
   // Standard mode
-  return getParagraphSection(
-    "Renseignements cliniques",
-    form.clinicalInfo,
-    language,
-  );
+  return reportCaseSummary(form.clinicalInfo, language);
 };
 
-const getMacroscopySection = (form: ReportParams, language: Language) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  const content = getResectionMacroscopySection(form, language);
-  return joinLines([`${t("Macroscopie")}${colon}`, ...content.map(pad)]);
+const getMacroscopySection = (
+  form: ReportParams,
+  language: Language,
+): Lines => {
+  const content = reportResectionMacroscopy(form, language);
+  return reportSection("Macroscopie", language, content);
 };
 
-const getMicroscopySection = (form: ReportParams, language: Language) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  const otherResults = [
-    ...formatList({
+const getMicroscopySection = (
+  form: ReportParams,
+  language: Language,
+): Lines => {
+  const otherResults = reportSection("Autres résultats", language, [
+    ...reportCheckboxList({
       title: "Tumoraux",
       items: form.otherResults.tumoral,
       language,
-    }).map(pad),
-    ...formatList({
+    }),
+    ...reportCheckboxList({
       title: "Non-tumoraux",
       items: form.otherResults.nonTumoral,
       language,
-    }).map(pad),
-  ];
-
-  const hasExtension = true;
-  const hasGrade = true;
+    }),
+  ]);
 
   const content = [
-    ...getTumorTypeSection({
+    ...reportTumor({
       tumor: form.tumor,
       language,
-      hasGrade,
-      hasExtension,
+      hasGrade: true,
+      hasExtension: true,
     }),
 
     "", // Empty line
-    getConclusionInvasion(form.hasLymphaticOrVascularInvasion, language),
+    reportInvasion(form.hasLymphaticOrVascularInvasion, language),
 
     "", // Empty line
-    item(
-      "Copeaux de résection présentant de la musculeuse",
-      toOptionalYesNo(form.muscularisPropria.isPresent),
+    reportTroolean({
+      label: "Copeaux de résection présentant de la musculeuse",
+      value: form.muscularisPropria.isPresent,
       language,
-    ),
+    }),
     form.muscularisPropria.isPresent === "yes"
-      ? item(
+      ? // FIXME: will break translate on debug
+        item(
           "Nombre de copeaux",
           String(form.muscularisPropria.chipCount),
           language,
         )
-      : form.muscularisPropria.isPresent === "unspecified"
+      : // FIXME: will break translate on debug
+        form.muscularisPropria.isPresent === "unspecified"
         ? item("Commentaire", form.muscularisPropria.notes, language)
         : undefined,
     "", // Empty line
-    otherResults ? t("Autres résultats") : undefined,
     ...otherResults,
   ].filter(filterNullish);
 
-  return joinLines([
-    `${t("Microscopie")}${colon}`,
-    ...content.map((line) => (line ? pad(line) : "")),
-  ]);
+  return reportSection("Microscopie", language, content);
 };
 
 export const Report = ({

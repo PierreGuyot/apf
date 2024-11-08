@@ -171,15 +171,13 @@ export const DermatologyForm = ({ formId }: Props) => {
 
         <Section>
           {/* TODO clean: use SelectNumber? */}
-          <Line>
-            Combien de pots avez-vous ?{}
-            <InputNumber
-              value={containerCount}
-              min={1}
-              max={MAX_CONTAINER_COUNT}
-              onChange={setField("containerCount")}
-            />
-          </Line>
+          <InputNumber
+            label="Combien de pots avez-vous ?"
+            value={containerCount}
+            min={1}
+            max={MAX_CONTAINER_COUNT}
+            onChange={setField("containerCount")}
+          />
         </Section>
 
         {operations.slice(0, containerCount).map((operation, index) => {
@@ -250,14 +248,12 @@ const OperationForm = ({
 
   return (
     <Section title={title} index={index + 1}>
-      <Line>
-        <Select
-          label="Quel est le type d'opération ?"
-          value={operation.type}
-          options={OPERATION_TYPES}
-          onChange={setField("type")}
-        />
-      </Line>
+      <Select
+        label="Quel est le type d'opération ?"
+        value={operation.type}
+        options={OPERATION_TYPES}
+        onChange={setField("type")}
+      />
 
       <SubSection title="Macroscopie">
         <Component operation={operation} setOperation={setOperation} />
@@ -321,8 +317,8 @@ const MacroExcisionForm = ({
     <>
       <Line>
         {/* FIXME: check unit and translation with Louis */}
-        Combien mesure le lambeau cutané ?
         <InputNumber
+          label=" Combien mesure le lambeau cutané ?"
           value={skinFlapDimensions[0]}
           onChange={(value) =>
             setField("skinFlapDimensions")([
@@ -356,24 +352,20 @@ const MacroExcisionForm = ({
         />{" "}
         cm
       </Line>
-      <Line>
-        <SelectBoolean
-          label="La lésion est-elle visible ?"
-          value={isLesionVisible}
-          onChange={setField("isLesionVisible")}
-        />
-      </Line>
+      <SelectBoolean
+        label="La lésion est-elle visible ?"
+        value={isLesionVisible}
+        onChange={setField("isLesionVisible")}
+      />
 
       {isLesionVisible ? (
         <>
-          <Line>
-            <Select
-              label="Quel est l'aspect de la lésion ?"
-              value={lesionAspectType}
-              options={LESION_ASPECT_TYPES}
-              onChange={setField("lesionAspectType")}
-            />
-          </Line>
+          <Select
+            label="Quel est l'aspect de la lésion ?"
+            value={lesionAspectType}
+            options={LESION_ASPECT_TYPES}
+            onChange={setField("lesionAspectType")}
+          />
           <Line>
             Quelle est la limite au plus proche ? Située à{" "}
             <InputNumber
@@ -392,13 +384,11 @@ const MacroExcisionForm = ({
         </>
       ) : undefined}
 
-      <Line>
-        <SelectBoolean
-          label="Votre exérèse est-elle orientée ?"
-          value={isOriented}
-          onChange={setField("isOriented")}
-        />
-      </Line>
+      <SelectBoolean
+        label="Votre exérèse est-elle orientée ?"
+        value={isOriented}
+        onChange={setField("isOriented")}
+      />
 
       {isOriented ? (
         <Line>
@@ -418,30 +408,24 @@ const MacroExcisionForm = ({
         </Line>
       ) : undefined}
 
-      <Line>
-        <SelectNumber
-          label="Combien de cassettes avez-vous réalisées sur cette pièce ?"
-          value={cassetteCount}
-          max={10}
-          onChange={setField("cassetteCount")}
-        />
-      </Line>
-      <Line>
-        <Select
-          label="La pièce a-t-elle été incluse en totalité ?"
-          value={inclusionType}
-          options={INCLUSION_TYPES}
-          onChange={setField("inclusionType")}
-        />
-      </Line>
-      <Line>
-        <Select
-          label="Comment le prélèvement a-t-il été inclus ?"
-          value={cutType}
-          options={getCutTypes(isOriented)}
-          onChange={setField("cutType")}
-        />
-      </Line>
+      <SelectNumber
+        label="Combien de cassettes avez-vous réalisées sur cette pièce ?"
+        value={cassetteCount}
+        max={10}
+        onChange={setField("cassetteCount")}
+      />
+      <Select
+        label="La pièce a-t-elle été incluse en totalité ?"
+        value={inclusionType}
+        options={INCLUSION_TYPES}
+        onChange={setField("inclusionType")}
+      />
+      <Select
+        label="Comment le prélèvement a-t-il été inclus ?"
+        value={cutType}
+        options={getCutTypes(isOriented)}
+        onChange={setField("cutType")}
+      />
 
       <InkingSection state={inkings} setState={setField("inkings")} />
     </>
@@ -475,26 +459,22 @@ const MicroscopyForm = ({
 
   return (
     <>
-      <Line>
-        <Select
-          label="Quel est le type de lésion ?"
-          value={lesionType}
-          options={LESION_TYPES}
-          onChange={setField("lesionType")}
-        />
-      </Line>
+      <Select
+        label="Quel est le type de lésion ?"
+        value={lesionType}
+        options={LESION_TYPES}
+        onChange={setField("lesionType")}
+      />
 
       {lesionType === "tumor" ? (
         <>
-          <Line>
-            <InputNumber
-              label="Combien de lésions sont présentes sur le prélèvement ?"
-              value={lesionCount}
-              min={1}
-              max={MAX_LESION_COUNT}
-              onChange={setField("lesionCount")}
-            />
-          </Line>
+          <InputNumber
+            label="Combien de lésions sont présentes sur le prélèvement ?"
+            value={lesionCount}
+            min={1}
+            max={MAX_LESION_COUNT}
+            onChange={setField("lesionCount")}
+          />
 
           {tumors.slice(0, lesionCount).map((tumor, index) => (
             <TumoralLesionSection
@@ -513,14 +493,12 @@ const MicroscopyForm = ({
         </>
       ) : lesionType === "inflammation" ? (
         <>
-          <Line>
-            <Select
-              label="Quel est le type de maladie cutanée ?"
-              value={cutaneousDiseaseType}
-              options={CUTANEOUS_DISEASE_TYPES}
-              onChange={setField("cutaneousDiseaseType")}
-            />
-          </Line>
+          <Select
+            label="Quel est le type de maladie cutanée ?"
+            value={cutaneousDiseaseType}
+            options={CUTANEOUS_DISEASE_TYPES}
+            onChange={setField("cutaneousDiseaseType")}
+          />
           <>FIXME: complete Inflammation</>
         </>
       ) : (

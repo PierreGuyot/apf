@@ -5,8 +5,8 @@ import {
   toOption,
   UNSPECIFIED_ITEM,
   ValueOf,
+  Flatten,
 } from "../../../ui";
-import { Flatten } from "../../../ui/helpers/types";
 
 export type BladderResectionFormId = "bladder-transurethral-resection";
 

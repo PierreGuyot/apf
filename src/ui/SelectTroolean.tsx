@@ -7,7 +7,6 @@ type Props = {
   onChange: (value: Troolean) => void;
 };
 
-// TODO CLEAN: add example to design documentation
 export const SelectTroolean = ({ label, value, onChange }: Props) => {
   return (
     <Select

@@ -1,11 +1,11 @@
 import {
   findOption,
+  Flatten,
   Option,
   OTHER_ITEM,
   toOption,
   ValueOf,
 } from "../../../../ui";
-import { Flatten } from "../../../../ui/helpers/types";
 
 export type BladderResectionFormId = "bladder-transurethral-resection";
 
@@ -29,10 +29,10 @@ const TUMOR_SUBTYPES = {
     "Carcinome urothélial peu différencié",
     "Carcinome urothélial riche en lipides",
     "Carcinome urothélial à cellules claires (riche en glycogène)",
-    "Carcinome urothélial à différenciation malpighienne ",
+    "Carcinome urothélial à différenciation malpighienne",
     "Carcinome urothélial à différenciation glandulaire",
     "Carcinome urothélial avec différenciation trophoblastique",
-    "Carcinome urothélial à différenciation müllérienne ",
+    "Carcinome urothélial à différenciation müllérienne",
   ],
   Malpighien: [
     "Carcinome épidermoïde",
@@ -44,7 +44,7 @@ const TUMOR_SUBTYPES = {
     "Adénocarcinome de type digestif",
     "Adénocarcinome mucineux",
     "Adénocarcinome mixte",
-    "Adénocarcinome à cellules indépendante ",
+    "Adénocarcinome à cellules indépendante",
     "Adénocarcinome in situ (pas de carcinome invasif identifié)",
   ],
   Mullérien: ["Adénocarcinome à cellules claires", "Carcinome endométrioïde"],

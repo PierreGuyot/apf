@@ -14,7 +14,6 @@ import {
   FORM_MAX_WIDTH,
   InputNumber,
   Language,
-  Line,
   NestedItem,
   Option,
   Section,
@@ -365,19 +364,17 @@ const ProstateBiopsyFormContent = ({
         )}
 
         <Section title="Biopsies" index={2}>
-          <Line>
-            {/* CAUTION:
+          {/* CAUTION:
           This question is redundant with some previous questions but it is on
           done on purpose, as info given to anatomical pathologists is not
           always standardized.
         */}
-            <Select
-              value={containerCount}
-              label="Combien de pots avez-vous ?"
-              options={CONTAINER_COUNT_OPTIONS}
-              onChange={setField("containerCount")}
-            />
-          </Line>
+          <Select
+            value={containerCount}
+            label="Combien de pots avez-vous ?"
+            options={CONTAINER_COUNT_OPTIONS}
+            onChange={setField("containerCount")}
+          />
         </Section>
 
         <Stack spacing="md">
@@ -477,51 +474,41 @@ const ClinicalInfoExpert = ({
 
   return (
     <Section title="Renseignements cliniques" index={index}>
-      <Line>
-        <SelectBoolean
-          value={hasInfo}
-          label="Avez-vous des renseignements cliniques ?"
-          onChange={setField("hasInfo")}
-        />
-      </Line>
+      <SelectBoolean
+        value={hasInfo}
+        label="Avez-vous des renseignements cliniques ?"
+        onChange={setField("hasInfo")}
+      />
       {hasInfo ? (
         <>
-          <Line>
-            <InputNumber
-              value={psaRate}
-              label="Taux de PSA"
-              unit="ng-per-mL"
-              size="lg"
-              isDecimal
-              onChange={setField("psaRate")}
-            />
-          </Line>
-          <Line>
-            <SelectBoolean
-              value={hasMri}
-              label="Avez-vous une IRM ?"
-              onChange={setField("hasMri")}
-            />
-          </Line>
+          <InputNumber
+            value={psaRate}
+            label="Taux de PSA"
+            unit="ng-per-mL"
+            size="lg"
+            isDecimal
+            onChange={setField("psaRate")}
+          />
+          <SelectBoolean
+            value={hasMri}
+            label="Avez-vous une IRM ?"
+            onChange={setField("hasMri")}
+          />
           {hasMri ? (
             <>
-              <Line>
-                <SelectBoolean
-                  value={hasTarget}
-                  label="Avez-vous au moins une cible ?"
-                  onChange={setField("hasTarget")}
-                />
-              </Line>
+              <SelectBoolean
+                value={hasTarget}
+                label="Avez-vous au moins une cible ?"
+                onChange={setField("hasTarget")}
+              />
               {hasTarget ? (
                 <>
-                  <Line>
-                    <SelectNumber
-                      value={targetCount}
-                      label="Nombre de cibles"
-                      max={MAX_TARGET_COUNT}
-                      onChange={setField("targetCount")}
-                    />
-                  </Line>
+                  <SelectNumber
+                    value={targetCount}
+                    label="Nombre de cibles"
+                    max={MAX_TARGET_COUNT}
+                    onChange={setField("targetCount")}
+                  />
                   {targetCount ? (
                     <NestedItem depth={1}>
                       <PiradsSelect

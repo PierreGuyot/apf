@@ -4,7 +4,6 @@ import css from "./help-icon.module.css";
 import { join } from "./helpers";
 import { Text } from "./Text";
 
-// TODO CLEAN: add size variants on design page
 type Props = {
   size?: "sm" | "md";
   content: ReactNode;

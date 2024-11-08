@@ -8,6 +8,8 @@ export * from "./navigation";
 export * from "./options";
 export * from "./percent";
 export * from "./plural";
+export * from "./report";
 export * from "./state";
 export * from "./text";
+export * from "./types";
 export * from "./units";

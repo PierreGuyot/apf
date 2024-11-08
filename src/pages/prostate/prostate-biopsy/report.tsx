@@ -1,29 +1,28 @@
-import { getCommentSection } from "../../../common/comment-section";
-import { getConclusionEpn } from "../../../common/epn/report";
+import { reportAdditionalRemarks } from "../../../common/additional-remarks.report";
+import { reportEpn } from "../../../common/epn/report";
 import {
   COLON_CHARACTER,
   filterEmpty,
   filterNullish,
   formatWithUnit,
-  getFormTitle,
-  joinLines,
-  joinSections,
+  item,
   Language,
-  lowercaseFirstLetter,
   naturalJoin,
-  pad,
   pluralize,
+  reportBoolean,
+  reportSection,
+  reportTextArea,
   sum,
   sumOnField,
-  toYesNo,
   translate,
+  reportStructure,
 } from "../../../ui";
 import {
   DEFAULT_GLEASON_ITEM,
   getGleasonConclusion,
   getTumorTypeOption,
 } from "../helpers";
-import { getImmunohistochemistrySection } from "../report";
+import { reportImmunohistochemistry } from "../report";
 import { FormState } from "./ProstateBiopsyForm";
 import {
   getLocationLabel,
@@ -38,6 +37,7 @@ export type ReportParams = FormState & {
   score: Score;
 };
 
+// TODO CLEAN: colocate with associated component
 const renderPiradsItem = (
   formId: ProstateBiopsyFormId,
   item: PiradsItem,
@@ -53,63 +53,45 @@ const renderPiradsItem = (
     ? ` (${pluralize(matches.length, t("pot"))} ${naturalJoin(matches, language)})`
     : undefined;
 
-  return pad(
-    `PIRADS ${item.score}, ${getLocationLabel(formId, item.location, language).toLocaleLowerCase()}${containerCount}`,
-  );
-};
-
-const getClinicalInformationContent = (
-  form: ReportParams,
-  language: Language,
-  isExpertMode: boolean,
-) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  if (!form.hasInfo) {
-    return undefined;
-  }
-
-  if (!isExpertMode) {
-    return form.clinicalInfo.trim();
-  }
-
-  return joinLines([
-    pad(`${t("PSA")}: ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
-    pad(`${t("IRM")}: ${toYesNo(form.hasMri, language)}`),
-    ...(form.piradsItems.length
-      ? [
-          `${t("Cibles")}${colon}`,
-          ...form.piradsItems.map((item) =>
-            renderPiradsItem(form.formId, item, form.rows, language),
-          ),
-        ].map(pad)
-      : []),
-  ]);
+  return `PIRADS ${item.score}, ${getLocationLabel(formId, item.location, language).toLocaleLowerCase()}${containerCount}`;
 };
 
 const getClinicalInformationSection = (
   form: ReportParams,
   language: Language,
   isExpertMode: boolean,
-) => {
+): string[] => {
+  if (!form.hasInfo) {
+    return [];
+  }
+
+  if (!isExpertMode) {
+    return reportTextArea(
+      "Renseignements cliniques",
+      form.clinicalInfo.trim(),
+      language,
+    );
+  }
+
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
 
-  const content = getClinicalInformationContent(form, language, isExpertMode);
+  const content = [
+    `${t("PSA")}${colon} ${formatWithUnit(form.psaRate, "ng-per-mL")}`,
+    reportBoolean({ label: "IRM", value: form.hasMri, language }),
+    ...reportSection(
+      "Cibles",
+      language,
+      form.piradsItems.map((item) =>
+        renderPiradsItem(form.formId, item, form.rows, language),
+      ),
+    ),
+  ];
 
-  if (!content) {
-    return undefined;
-  }
-
-  return joinLines([
-    `${t("Renseignements cliniques")}${colon}`,
-    "", // Empty line
-    content,
-  ]);
+  return reportSection("Renseignements cliniques", language, content, true);
 };
 
-const getTumorLocation = (rows: Row[], language: Language) => {
+const getLocations = (rows: Row[], language: Language) => {
   const tumorCount = sumOnField("tumorCount", rows);
   const totalCount = sumOnField("biopsyCount", rows);
   const tumorSize = sum(rows.map((item) => sum(item.tumorSize)));
@@ -157,30 +139,30 @@ const getLocationSection = (
     rows.filter((row) => row.tumorCount > 0),
   );
 
-  return joinLines([
-    `${t("Localisation")}${colon}`,
-    ...[
-      `${t("Biopsies systématiques")}${colon} ${getTumorLocation(sextants, language)}`, // Systematic biopsies are mandatory
-      targets.length
-        ? `${t("Biopsies ciblées")}${colon} ${getTumorLocation(targets, language)}`
-        : undefined, // Targets are optional
-      language === "FR"
-        ? `${t("Total")}${colon} ${tumorSize}mm sur ${totalSize}mm examinés (${containerLocations})`
-        : `${t("Total")}${colon} ${tumorSize}mm out of ${totalSize}mm examined (${containerLocations})`,
-    ]
-      .filter(filterEmpty)
-      .map(pad),
-  ]);
+  const content = [
+    `${t("Biopsies systématiques")}${colon} ${getLocations(sextants, language)}`, // Systematic biopsies are mandatory
+    targets.length
+      ? `${t("Biopsies ciblées")}${colon} ${getLocations(targets, language)}`
+      : undefined, // Targets are optional
+    language === "FR"
+      ? `${t("Total")}${colon} ${tumorSize}mm sur ${totalSize}mm examinés (${containerLocations})`
+      : `${t("Total")}${colon} ${tumorSize}mm out of ${totalSize}mm examined (${containerLocations})`,
+  ].filter(filterEmpty);
+
+  return reportSection("Localisation", language, content);
 };
 
-const getPartTep = (
+const reportTep = (
   formId: "prostate-biopsy-transrectal" | "prostate-biopsy-transperineal",
   rows: Row[],
   score: Score,
   language: Language,
 ) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
+  const valuePart = reportBoolean({
+    label: "Tissu extra-prostatique",
+    value: score.tumorTep ?? false,
+    language,
+  });
 
   const locations = formatLocations(
     formId,
@@ -189,7 +171,7 @@ const getPartTep = (
   );
   const locationPart = score.tumorTep ? ` (${locations})` : "";
 
-  return `${t("Tissu extra-prostatique")}${colon} ${lowercaseFirstLetter(toYesNo(score.tumorTep ?? false, language))}${locationPart}`;
+  return `${valuePart}${locationPart}`;
 };
 
 const getConclusionContent = (
@@ -204,13 +186,17 @@ const getConclusionContent = (
   if (score.tumorCount === 0) {
     // NOTE: inline translation
     if (language === "FR") {
-      return `Absence de foyer tumoral sur l'ensemble des ${score.biopsyCount} biopsies étudiées (${score.biopsySize} mm).
-Adénomyome prostatique.`;
+      return [
+        `Absence de foyer tumoral sur l'ensemble des ${score.biopsyCount} biopsies étudiées (${score.biopsySize} mm).`,
+        "Adénomyome prostatique.",
+      ];
     }
 
     if (language === "EN") {
-      return `No tumor seen among the ${score.biopsyCount} studied biopsies (${score.biopsySize} mm).
-Prostate adenomyoma.`;
+      return [
+        `No tumor seen among the ${score.biopsyCount} studied biopsies (${score.biopsySize} mm).`,
+        "Prostate adenomyoma.",
+      ];
     }
   }
 
@@ -221,34 +207,27 @@ Prostate adenomyoma.`;
   const lineGleason = `${t("Score de Gleason")}${colon} ${getGleasonConclusion(maxGleasonItem, language)}`;
   const locationSection = getLocationSection(formId, rows, language);
 
-  const partEpn = getConclusionEpn(score.tumorEpn ?? false, language);
-  const partTep = getPartTep(formId, rows, score, language);
-  return joinLines(
-    [
-      // TODO clean: only lowercase first letter (for safety)
-      `${t("Type de tumeur")}${colon} ${t(tumorTypeLabel.toLocaleLowerCase())}.`,
-      lineGleason,
-      isExpertMode ? locationSection : undefined,
-      "", // Empty line
-      partEpn,
-      partTep,
-    ].filter(filterNullish),
-  );
+  return [
+    `${item("Type de tumeur", tumorTypeLabel, language)}.`,
+    lineGleason,
+    ...(isExpertMode ? locationSection : []),
+    "", // Empty line
+    reportEpn(score.tumorEpn ?? false, language),
+    reportTep(formId, rows, score, language),
+  ].filter(filterNullish);
 };
 
 const getConclusionSection = (
   params: ReportParams,
   language: Language,
   isExpertMode: boolean,
-) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  return joinLines([
-    `${t("Conclusion")}${colon}`,
-    "", // Empty line
+): string[] => {
+  return reportSection(
+    "Conclusion",
+    language,
     getConclusionContent(params, language, isExpertMode),
-  ]);
+    true,
+  );
 };
 
 export const generateReport = (
@@ -256,16 +235,14 @@ export const generateReport = (
   language: Language,
   isExpertMode: boolean,
 ): string => {
-  return joinSections([
-    getFormTitle(form.formId, language),
+  return reportStructure(form.formId, language, [
     getClinicalInformationSection(form, language, isExpertMode),
-    getImmunohistochemistrySection(form.ihc, language, true),
-    getCommentSection(form, language),
+    reportImmunohistochemistry(form.ihc, language, true),
+    reportAdditionalRemarks(form, language),
     getConclusionSection(form, language, isExpertMode),
   ]);
 };
 
-// TODO CLEAN: centralize joinLines
 // TODO CLEAN: use to refactor generateReport into TSX
 export const Report = ({
   form,

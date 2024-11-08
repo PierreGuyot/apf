@@ -83,23 +83,19 @@ export const InkingSection = ({ state, setState }: Props) => {
 
   return (
     <>
-      <Line>
-        <SelectBoolean
-          label="Avez vous réalisé un encrage"
-          value={hasInking}
-          onChange={setField("hasInking")}
-        />
-      </Line>
+      <SelectBoolean
+        label="Avez vous réalisé un encrage"
+        value={hasInking}
+        onChange={setField("hasInking")}
+      />
       {hasInking ? (
         <>
-          <Line>
-            <SelectList
-              label="Quelles encres avez-vous utilisées ?"
-              groups={INKING_COLOR_GROUPS}
-              values={selectedInkings}
-              onChange={onSelectInkings}
-            />
-          </Line>
+          <SelectList
+            label="Quelles encres avez-vous utilisées ?"
+            groups={INKING_COLOR_GROUPS}
+            values={selectedInkings}
+            onChange={onSelectInkings}
+          />
           {/* TODO clean: fix spacing here */}
           {inkings.length ? (
             <>

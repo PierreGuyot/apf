@@ -1,12 +1,12 @@
-import { item, Language, toYesNo } from "../../ui";
+import { Language, reportBoolean } from "../../ui";
 
-export const getConclusionInvasion = (
+export const reportInvasion = (
   hasLymphaticOrVascularInvasion: boolean,
   language: Language,
 ) => {
-  return item(
-    "Emboles vasculaires ou lymphatiques",
-    toYesNo(hasLymphaticOrVascularInvasion),
+  return reportBoolean({
+    label: "Emboles vasculaires ou lymphatiques",
+    value: hasLymphaticOrVascularInvasion,
     language,
-  );
+  });
 };

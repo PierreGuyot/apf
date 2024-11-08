@@ -1,9 +1,10 @@
 import {
-  COLON_CHARACTER,
-  formatList,
+  filterNullish,
   item,
   Language,
-  translate,
+  Lines,
+  reportCheckboxList,
+  reportTitle,
 } from "../../../../ui";
 import {
   getGradeOption,
@@ -14,7 +15,7 @@ import {
   Tumor,
 } from "./helpers";
 
-export const getTumorTypeSection = ({
+export const reportTumor = ({
   tumor,
   language,
   hasGrade,
@@ -24,10 +25,7 @@ export const getTumorTypeSection = ({
   language: Language;
   hasGrade?: boolean;
   hasExtension?: boolean;
-}) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
+}): Lines => {
   const tumorSubtypeOptions = getTumorSubtypeOptions(tumor.type);
 
   return [
@@ -36,14 +34,16 @@ export const getTumorTypeSection = ({
       ? item("Sous-type histologique de la tumeur", tumor.subtype, language)
       : undefined,
     tumor.type === "other"
-      ? item(
+      ? // FIXME: will break translate on debug
+        item(
           "Sous-type histologique de la tumeur",
           tumor.otherSubtype,
           language,
         )
       : undefined,
     hasGrade
-      ? item(
+      ? // FIXME: will break translate on debug
+        item(
           "Grade tumoral",
           tumor.type === "other"
             ? tumor.grade
@@ -53,19 +53,20 @@ export const getTumorTypeSection = ({
       : undefined,
     ...(hasExtension
       ? hasTumoralExtensionSection(tumor.type)
-        ? formatList({
+        ? reportCheckboxList({
             title: "Extension tumorale",
             items: Object.entries(tumor.extension)
               .filter(([_key, percentage]) => percentage > 0)
               .map(([key, percentage]) => {
                 // CAUTION: this cast is type-unsafe
                 const { label } = getPtnmOption(key as PtnmOptionType);
-                return `${t(label)}${colon} ${percentage}%`;
+                // FIXME: will break translate on debug
+                return `${reportTitle(label, language)} ${percentage}%`;
               }),
             language,
           })
         : // TODO: int this case, value should automatically be inferred
           ["TODO: infer"]
       : []),
-  ];
+  ].filter(filterNullish);
 };
