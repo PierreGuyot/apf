@@ -25,14 +25,14 @@ export const filterNullish = <T>(item: T | null | undefined): item is T =>
  */
 export const filterEmpty = <T>(item: T | null | undefined): item is T => !!item;
 
-/** Helper to help join classNames when composing them
+/** Join a list of strings cleanly. Useful for joining class names or human readable sentences.
  * For instance:
  *   join('my-class-name', isLoading ? "is-loading" : undefined) should return
  *     'my-class-name is-loading' if isLoading is true
  *     'my-class-name' if isLoading is false
  */
-export const join = (...classNames: Array<string | undefined>) =>
-  classNames
+export const join = (...items: Array<string | undefined>) =>
+  items
     .map((item) => item?.trim())
     .filter(filterEmpty)
     .join(" ");

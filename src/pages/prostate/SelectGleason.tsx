@@ -1,6 +1,7 @@
 import {
   filterEmpty,
   getPercentageOptions,
+  join,
   Language,
   Option,
   percent,
@@ -26,17 +27,15 @@ const getGleasonSummary = (
   }
 
   // CAUTION: this should be aligned on the non-readonly case
-  const items = [
-    a,
+  const items = join(
+    String(a),
     a === b ? undefined : `à ${percent(percentage)}`,
     a === 4 && b !== 4 ? match.label : undefined,
     "+",
-    b,
+    String(b),
     a === b ? undefined : `à ${percent(100 - percentage)}`,
     b === 4 ? match.label : undefined,
-  ]
-    .filter(filterEmpty)
-    .join(" ");
+  );
 
   return items;
 };

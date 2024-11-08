@@ -3,9 +3,9 @@ import {
   PropertiesByAntibody,
 } from "../../common/immunohistochemistry/helpers";
 import {
-  filterEmpty,
   findOption,
   getPercentageValues,
+  join,
   Language,
   Option,
   OptionValue,
@@ -294,9 +294,11 @@ export const getGleasonConclusion = (
       ? `soit un score ISUP de ${isupScore}.`
       : `i.e. an ISUP score of ${isupScore}.`;
 
-  const gleasonSummary = [partTotal, partMaxScore, partCribriformPercentage]
-    .filter(filterEmpty)
-    .join(" ");
+  const gleasonSummary = join(
+    partTotal,
+    partMaxScore,
+    partCribriformPercentage,
+  );
 
   return `${gleasonSummary}, ${partIsup}`;
 };

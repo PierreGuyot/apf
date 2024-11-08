@@ -8,6 +8,7 @@ import {
   FormId,
   getFormTitle,
   item,
+  join,
   joinLines,
   joinSections,
   Language,
@@ -51,7 +52,7 @@ const getClinicalInfoSection = (
 ) => {
   // Expert mode
   if (isExpertMode) {
-    const partPreviousTreatment = [
+    const partPreviousTreatment = join(
       reportTroolean({
         label: "Traitements antérieurs",
         value: form.hadPreviousTreatment,
@@ -60,9 +61,7 @@ const getClinicalInfoSection = (
       form.hadPreviousTreatment
         ? `(${reportValue(getTreatmentOption(form.previousTreatment).label, language)})`
         : undefined,
-    ]
-      .filter(filterNullish)
-      .join(" ");
+    );
 
     return joinLines([
       reportTroolean({
