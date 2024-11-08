@@ -49,8 +49,6 @@ const getClinicalInfoSection = (
   language: Language,
   isExpertMode: boolean,
 ) => {
-  const t = (value: string) => translate(value, language);
-
   // Expert mode
   if (isExpertMode) {
     const partPreviousTreatment = [
