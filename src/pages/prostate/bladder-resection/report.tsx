@@ -128,6 +128,19 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
 
+  const otherResults = [
+    ...formatList({
+      title: "Tumoraux",
+      items: form.otherResults.tumoral,
+      language,
+    }).map(pad),
+    ...formatList({
+      title: "Non-tumoraux",
+      items: form.otherResults.nonTumoral,
+      language,
+    }).map(pad),
+  ];
+
   const content = [
     ...getTumorTypeSection(form.tumor, language),
     item(
@@ -171,17 +184,8 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
         ? item("Commentaire", form.muscularisPropria.notes, language)
         : undefined,
     "", // Empty line
-    t("Autres résultats"),
-    ...formatList({
-      title: "Tumoraux",
-      items: form.otherResults.tumoral,
-      language,
-    }).map(pad),
-    ...formatList({
-      title: "Non-tumoraux",
-      items: form.otherResults.nonTumoral,
-      language,
-    }).map(pad),
+    otherResults ? t("Autres résultats") : undefined,
+    ...otherResults,
   ].filter(filterNullish);
 
   return joinLines([
