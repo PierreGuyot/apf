@@ -108,7 +108,7 @@ export const findOption =
   (value: T) => {
     const match = options.find((item) => item.value === value);
     if (!match) {
-      throw new Error("Invalid value");
+      throw new Error(`Invalid value: ${value}`);
     }
 
     return match;

@@ -10,7 +10,7 @@ const MOCK_DATA: ReportParams = {
     type: "other",
     subtype: "Adénocarcinome de type digestif",
     otherSubtype: "mock_subtype",
-    grade: "high-grade",
+    grade: "",
     extension: {},
   },
   location: { location: "Urètre masculin", sublocation: "Urètre pénien" },
@@ -24,9 +24,9 @@ const MOCK_DATA: ReportParams = {
   coloration: "HE",
   tumor: {
     type: "Malpighien",
-    subtype: "Carcinome urothélial conventionnel",
+    subtype: "Carcinome épidermoïde",
     otherSubtype: "",
-    grade: "high-grade",
+    grade: "g1",
     extension: {
       pT1a: 10,
       pT1b: 80,
@@ -57,8 +57,8 @@ Macroscopie :
 
 Microscopie :
     Type histologique de la tumeur : malpighien
-    Sous-type histologique de la tumeur : carcinome urothélial conventionnel
-    Grade tumoral : haut grade
+    Sous-type histologique de la tumeur : carcinome épidermoïde
+    Grade tumoral : g1 (bien différencié)
     Extension tumorale :
          - pT1a : 10%
          - pT1b : 80%
@@ -91,7 +91,7 @@ Macroscopy:
 
 Microscopy:
     TODO: tODO
-    TODO: tODO
+    TODO: squamous cell carcinoma
     TODO: tODO
     TODO:
          - pT1a: 10%
@@ -129,8 +129,8 @@ Macroscopie :
 
 Microscopie :
     Type histologique de la tumeur : malpighien
-    Sous-type histologique de la tumeur : carcinome urothélial conventionnel
-    Grade tumoral : haut grade
+    Sous-type histologique de la tumeur : carcinome épidermoïde
+    Grade tumoral : g1 (bien différencié)
     Extension tumorale :
          - pT1a : 10%
          - pT1b : 80%
@@ -167,7 +167,7 @@ Macroscopy:
 
 Microscopy:
     TODO: tODO
-    TODO: tODO
+    TODO: squamous cell carcinoma
     TODO: tODO
     TODO:
          - pT1a: 10%

@@ -56,10 +56,17 @@ export const generateReport = (
 const getTumorTypeSection = ({
   tumor,
   language,
+  hasGrade,
+  hasExtension,
 }: {
   tumor: Tumor;
   language: Language;
+  hasGrade?: boolean;
+  hasExtension?: boolean;
 }) => {
+  const t = (value: string) => translate(value, language);
+  const colon = t(COLON_CHARACTER);
+
   const tumorSubtypeOptions = getTumorSubtypeOptions(tumor.type);
 
   return [
@@ -74,7 +81,32 @@ const getTumorTypeSection = ({
           language,
         )
       : undefined,
-  ].filter(filterNullish);
+    hasGrade
+      ? item(
+          "Grade tumoral",
+          tumor.type === "other"
+            ? tumor.grade
+            : getGradeOption(tumor.grade).label,
+          language,
+        )
+      : undefined,
+    ...(hasExtension
+      ? hasTumoralExtensionSection(tumor.type)
+        ? formatList({
+            title: "Extension tumorale",
+            items: Object.entries(tumor.extension)
+              .filter(([_key, percentage]) => percentage > 0)
+              .map(([key, percentage]) => {
+                // CAUTION: this cast is type-unsafe
+                const { label } = getPtnmOption(key as PtnmOptionType);
+                return `${t(label)}${colon} ${percentage}%`;
+              }),
+            language,
+          })
+        : // TODO: int this case, value should automatically be inferred
+          ["TODO: infer"]
+      : []),
+  ];
 };
 
 const getClinicalInfoSection = (
@@ -149,29 +181,16 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
     }).map(pad),
   ];
 
+  const hasExtension = true;
+  const hasGrade = true;
+
   const content = [
-    ...getTumorTypeSection({ tumor: form.tumor, language }),
-    item(
-      "Grade tumoral",
-      form.tumor.type === "other"
-        ? form.tumor.grade
-        : getGradeOption(form.tumor.grade).label,
+    ...getTumorTypeSection({
+      tumor: form.tumor,
       language,
-    ),
-    ...(hasTumoralExtensionSection(form.tumor.type)
-      ? formatList({
-          title: "Extension tumorale",
-          items: Object.entries(form.tumor.extension)
-            .filter(([_key, percentage]) => percentage > 0)
-            .map(([key, percentage]) => {
-              // CAUTION: this cast is type-unsafe
-              const { label } = getPtnmOption(key as PtnmOptionType);
-              return `${t(label)}${colon} ${percentage}%`;
-            }),
-          language,
-        })
-      : // TODO: int this case, value should automatically be inferred
-        ["TODO"]),
+      hasGrade,
+      hasExtension,
+    }),
 
     "", // Empty line
     getConclusionInvasion(form.hasLymphaticOrVascularInvasion, language),
