@@ -240,7 +240,6 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Sous-type histologique de la tumeur": "TODO",
   Trigone: "TODO",
   Tumoraux: "TODO",
-  "Type histologique de la tumeur": "TODO",
   Uretère: "TODO",
   "Urètre antérieur": "TODO",
   "Urètre postérieur": "TODO",
@@ -266,6 +265,10 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Antécédents de maladie des voies urinaires ou de métastases à distance":
     "TODO",
   "Traitements antérieurs": "TODO",
+
+  // FIXME: should these two items be merged?
+  "Type histologique de la tumeur": "TODO",
+  "Type de tumeur": "TODO",
 };
 
 const IS_DEBUG = false;

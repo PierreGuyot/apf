@@ -226,7 +226,7 @@ Prostate adenomyoma.`;
   return joinLines(
     [
       // TODO clean: only lowercase first letter (for safety)
-      `${t("Type de tumeur")}${colon} ${t(tumorTypeLabel.toLocaleLowerCase())}.`,
+      `${t("Type de tumeur")}${colon} ${t(tumorTypeLabel).toLocaleLowerCase()}.`,
       lineGleason,
       isExpertMode ? locationSection : undefined,
       "", // Empty line

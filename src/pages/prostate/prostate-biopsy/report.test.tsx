@@ -488,7 +488,7 @@ Other:
 
 Conclusion:
 
-Type de tumeur: adénocarcinome acinaire de type prostatique.
+TODO: acinar adenocarcinoma, conventional (usual).
 Gleason Score: 9 (4 + 5) of which 10% cribriform, i.e. an ISUP score of 5.
 Location:
     Systematic biopsies: 2 out of 12 biopsies (5mm out of 24mm examined, 21%)
@@ -558,7 +558,7 @@ Other:
 
 Conclusion:
 
-Type de tumeur: adénocarcinome acinaire de type prostatique.
+TODO: acinar adenocarcinoma, conventional (usual).
 Gleason Score: 9 (4 + 5) of which 10% cribriform, i.e. an ISUP score of 5.
 Location:
     Systematic biopsies: 2 out of 12 biopsies (5mm out of 24mm examined, 21%)
@@ -608,7 +608,7 @@ Other:
 
 Conclusion:
 
-Type de tumeur: adénocarcinome acinaire de type prostatique.
+TODO: acinar adenocarcinoma, conventional (usual).
 Gleason Score: 9 (4 + 5) of which 10% cribriform, i.e. an ISUP score of 5.
 Location:
     Systematic biopsies: 2 out of 12 biopsies (5mm out of 24mm examined, 21%)
