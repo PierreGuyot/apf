@@ -53,18 +53,24 @@ export const generateReport = (
   ]);
 };
 
-const getTumorTypeSection = (tumorType: Tumor, language: Language) => {
-  const tumorSubtypeOptions = getTumorSubtypeOptions(tumorType.type);
+const getTumorTypeSection = ({
+  tumor,
+  language,
+}: {
+  tumor: Tumor;
+  language: Language;
+}) => {
+  const tumorSubtypeOptions = getTumorSubtypeOptions(tumor.type);
 
   return [
-    item("Type histologique de la tumeur", tumorType.type, language),
+    item("Type histologique de la tumeur", tumor.type, language),
     tumorSubtypeOptions.length
-      ? item("Sous-type histologique de la tumeur", tumorType.subtype, language)
+      ? item("Sous-type histologique de la tumeur", tumor.subtype, language)
       : undefined,
-    tumorType.type === "other"
+    tumor.type === "other"
       ? item(
           "Sous-type histologique de la tumeur",
-          tumorType.otherSubtype,
+          tumor.otherSubtype,
           language,
         )
       : undefined,
@@ -89,7 +95,7 @@ const getClinicalInfoSection = (
       ),
       ...(form.medicalHistory === "yes"
         ? [
-            ...getTumorTypeSection(form.previousTumor, language),
+            ...getTumorTypeSection({ tumor: form.previousTumor, language }),
             item(
               "Localisation",
               getLocationOption(form.location.location).label,
@@ -144,7 +150,7 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
   ];
 
   const content = [
-    ...getTumorTypeSection(form.tumor, language),
+    ...getTumorTypeSection({ tumor: form.tumor, language }),
     item(
       "Grade tumoral",
       form.tumor.type === "other"
