@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import {
-  Line,
   patchArray,
   patchState,
   range,
@@ -72,25 +71,21 @@ export const Immunohistochemistry = ({
 
   return (
     <>
-      <Line>
-        <SelectBoolean
-          value={hasIhc}
-          label="Avez-vous réalisé une immunohistochimie ?"
-          onChange={setField("hasIhc")}
-        />
-      </Line>
+      <SelectBoolean
+        value={hasIhc}
+        label="Avez-vous réalisé une immunohistochimie ?"
+        onChange={setField("hasIhc")}
+      />
       {hasIhc ? (
         <>
           {hasMultipleBlocks ? (
-            <Line>
-              <SelectList
-                label="Sur quels blocs avez-vous réalisé une immunohistochimie ?"
-                groups={blockGroups}
-                values={selectedBlocks}
-                hasList={false}
-                onChange={onSelectBlocks}
-              />
-            </Line>
+            <SelectList
+              label="Sur quels blocs avez-vous réalisé une immunohistochimie ?"
+              groups={blockGroups}
+              values={selectedBlocks}
+              hasList={false}
+              onChange={onSelectBlocks}
+            />
           ) : undefined}
           {blocks.map((block, index) => {
             const setBlock = (value: Block) => {
@@ -157,15 +152,13 @@ const BlockSection = ({
 
   const content = (
     <Stack spacing="md">
-      <Line>
-        <SelectList
-          label="Quels sont les anticorps utilisés ?"
-          groups={groups}
-          values={selectedAntibodies}
-          hasList={false}
-          onChange={onSelectAntibodies}
-        />
-      </Line>
+      <SelectList
+        label="Quels sont les anticorps utilisés ?"
+        groups={groups}
+        values={selectedAntibodies}
+        hasList={false}
+        onChange={onSelectAntibodies}
+      />
       {antibodies.map((antibody, index) => {
         const setAntibody = (value: AntibodyData) => {
           const updatedAntibodies = patchArray(antibodies, index, () => value);

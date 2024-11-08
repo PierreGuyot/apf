@@ -237,13 +237,11 @@ const ClinicalInfoExpert = ({
 
   return (
     <Section title="Renseignements cliniques" index={1}>
-      <Line>
-        <SelectTroolean
-          label="Antécédents de maladie des voies urinaires ou de métastases à distance"
-          value={state.medicalHistory}
-          onChange={setField("medicalHistory")}
-        />
-      </Line>
+      <SelectTroolean
+        label="Antécédents de maladie des voies urinaires ou de métastases à distance"
+        value={state.medicalHistory}
+        onChange={setField("medicalHistory")}
+      />
       {state.medicalHistory === "yes" ? (
         <>
           <TumorInput
@@ -349,13 +347,11 @@ const InputMuscularisPropria = ({
 
   return (
     <>
-      <Line>
-        <SelectTroolean
-          label="Copeaux de résection présentant de la musculeuse"
-          value={state.isPresent}
-          onChange={setField("isPresent")}
-        />
-      </Line>
+      <SelectTroolean
+        label="Copeaux de résection présentant de la musculeuse"
+        value={state.isPresent}
+        onChange={setField("isPresent")}
+      />
       {state.isPresent === "yes" ? (
         <NestedItem depth={1}>
           <InputNumber
@@ -392,22 +388,18 @@ const InputOtherResults = ({
     <Stack spacing="md">
       <Text variant="bold">Autres résultats</Text>
       <NestedItem depth={1}>
-        <Line>
-          <SelectList
-            label="Tumoraux"
-            values={state.tumoral}
-            groups={TUMORAL_RESULT_GROUPS}
-            onChange={setField("tumoral")}
-          />
-        </Line>
-        <Line>
-          <SelectList
-            label="Non tumoraux"
-            values={state.nonTumoral}
-            groups={NON_TUMORAL_RESULT_GROUPS}
-            onChange={setField("nonTumoral")}
-          />
-        </Line>
+        <SelectList
+          label="Tumoraux"
+          values={state.tumoral}
+          groups={TUMORAL_RESULT_GROUPS}
+          onChange={setField("tumoral")}
+        />
+        <SelectList
+          label="Non tumoraux"
+          values={state.nonTumoral}
+          groups={NON_TUMORAL_RESULT_GROUPS}
+          onChange={setField("nonTumoral")}
+        />
       </NestedItem>
     </Stack>
   );

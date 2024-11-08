@@ -132,33 +132,27 @@ export const ProstateResectionForm = ({ formId }: Props) => {
         />
 
         <Section title="Microscopie" index={3}>
-          <Line>
-            <Select
-              label="Quel est le type de la lésion principale ?"
-              options={MAIN_LESION_TYPES}
-              value={mainLesionType}
-              onChange={setField("mainLesionType")}
-            />
-          </Line>
+          <Select
+            label="Quel est le type de la lésion principale ?"
+            options={MAIN_LESION_TYPES}
+            value={mainLesionType}
+            onChange={setField("mainLesionType")}
+          />
 
           {mainLesionType === "tumor" ? (
             <>
-              <Line>
-                <Select
-                  label="Type histologique de la tumeur"
-                  options={TUMOR_TYPES}
-                  value={tumorType}
-                  onChange={setField("tumorType")}
-                />
-              </Line>
-              <Line>
-                <Select
-                  label="Conditions pré-existantes"
-                  options={PRIOR_CONDITION_OPTIONS}
-                  value={priorConditions}
-                  onChange={setField("priorConditions")}
-                />
-              </Line>
+              <Select
+                label="Type histologique de la tumeur"
+                options={TUMOR_TYPES}
+                value={tumorType}
+                onChange={setField("tumorType")}
+              />
+              <Select
+                label="Conditions pré-existantes"
+                options={PRIOR_CONDITION_OPTIONS}
+                value={priorConditions}
+                onChange={setField("priorConditions")}
+              />
               {isApplicable(priorConditions) ? (
                 <Line>
                   Score de Gleason :{" "}
@@ -169,14 +163,12 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                   />
                 </Line>
               ) : undefined}
-              <Line>
-                <Select
-                  label="Estimation de la surface envahie"
-                  options={TUMOR_QUANTIFICATION_OPTIONS}
-                  value={tumorQuantification}
-                  onChange={setField("tumorQuantification")}
-                />
-              </Line>
+              <Select
+                label="Estimation de la surface envahie"
+                options={TUMOR_QUANTIFICATION_OPTIONS}
+                value={tumorQuantification}
+                onChange={setField("tumorQuantification")}
+              />
               <HasInvasion
                 value={hasLymphaticOrVascularInvasion}
                 onChange={setField("hasLymphaticOrVascularInvasion")}
@@ -184,14 +176,12 @@ export const ProstateResectionForm = ({ formId }: Props) => {
               <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
             </>
           ) : undefined}
-          <Line>
-            <SelectList
-              label="Autres lésions"
-              values={otherLesions}
-              groups={OTHER_LESION_GROUPS}
-              onChange={setField("otherLesions")}
-            />
-          </Line>
+          <SelectList
+            label="Autres lésions"
+            values={otherLesions}
+            groups={OTHER_LESION_GROUPS}
+            onChange={setField("otherLesions")}
+          />
         </Section>
 
         <Section title="Immunohistochimie" index={4}>

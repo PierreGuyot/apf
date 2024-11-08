@@ -4,7 +4,6 @@ import {
   HelpIcon,
   InputNumber,
   InputText,
-  Line,
   NestedItem,
   patchState,
   Select,
@@ -58,14 +57,12 @@ export const TumorInput = ({
 
   return (
     <>
-      <Line>
-        <Select
-          label="Type histologique de la tumeur"
-          options={TUMOR_TYPE_OPTIONS}
-          value={state.type}
-          onChange={setField("type")}
-        />
-      </Line>
+      <Select
+        label="Type histologique de la tumeur"
+        options={TUMOR_TYPE_OPTIONS}
+        value={state.type}
+        onChange={setField("type")}
+      />
       {subtypeOptions.length ? (
         <Select
           label="Sous-type histologique de la tumeur"
