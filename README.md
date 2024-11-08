@@ -36,6 +36,12 @@ TODO: principles of design (with related articles)
 - The content of the form is based on research
 - A user should be able to fill the form using only the keyboard (using the `Tab` and `Return` keys)
 - Wording must be consistent
+- Error messages must be as explicit as possible
+
+Note some of our design choices might be a bit unusual:
+
+- We use full labels instead of icons on buttons for clarity
+- We use yes/no dropdowns for isolated boolean fields, rather than a toggle or a checkbox (for lists, we still use a list of checkboxes)
 
 ## How to contribute?
 
