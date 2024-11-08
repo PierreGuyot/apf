@@ -156,7 +156,7 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
   ].filter(filterNullish);
 
   return joinLines([
-    reportTitle("Microscopie", language), 
+    reportTitle("Microscopie", language),
     ...content.map((line) => (line ? pad(line) : "")),
   ]);
 };
