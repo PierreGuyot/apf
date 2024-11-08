@@ -1,11 +1,17 @@
 export const LANGUAGES = ["FR", "EN"] as const;
 
 export type Language = (typeof LANGUAGES)[number];
+
 export const DEFAULT_LANGUAGE = "FR" satisfies Language;
 
-// TODO clean: have a refactoring pass on internationalization
-
+// CAUTION: the colon character has a leading space in French but not in English
+// This is why we treat it as a translation item
 export const COLON_CHARACTER = " :";
+
+// We use the French version as a key in dictionaries.
+// We do this for two reasons:
+// - Priority is given to French as the app is intended for French-speaking practitioners first
+// - We avoid creating key names for all these items
 
 export const DICTIONARY_EN: Record<string, string> = {
   // Special characters
@@ -277,6 +283,8 @@ const DICTIONARIES_PER_LANGUAGE = {
 } as const;
 
 export const translate = (value: string, language: Language) => {
+  // TODO clean: ignore stringified numbers here
+
   // FR (default)
   if (language === DEFAULT_LANGUAGE) {
     return value;

@@ -7,15 +7,14 @@ import {
   filterNullish,
   FormId,
   getFormTitle,
-  getTrooleanOption,
   item,
   joinLines,
   joinSections,
   Language,
-  lowercaseFirstLetter,
   pad,
   reportCheckboxList,
   reportTroolean,
+  reportValue,
   translate,
 } from "../../../ui";
 import { FormState } from "./BladderResectionForm";
@@ -50,16 +49,29 @@ const getClinicalInfoSection = (
   isExpertMode: boolean,
 ) => {
   const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
 
   // Expert mode
   if (isExpertMode) {
-    return joinLines([
-      item(
-        "Antécédents de maladie des voies urinaires ou de métastases à distance",
-        getTrooleanOption(form.medicalHistory).label,
+    const partPreviousTreatment = [
+      reportTroolean({
+        label: "Traitements antérieurs",
+        value: form.hadPreviousTreatment,
         language,
-      ),
+      }),
+      form.hadPreviousTreatment
+        ? `(${reportValue(getTreatmentOption(form.previousTreatment).label, language)})`
+        : undefined,
+    ]
+      .filter(filterNullish)
+      .join(" ");
+
+    return joinLines([
+      reportTroolean({
+        label:
+          "Antécédents de maladie des voies urinaires ou de métastases à distance",
+        value: form.medicalHistory,
+        language,
+      }),
       ...(form.medicalHistory === "yes"
         ? [
             ...getTumorTypeSection({ tumor: form.previousTumor, language }),
@@ -68,11 +80,7 @@ const getClinicalInfoSection = (
               getLocationOption(form.location.location).label,
               language,
             ),
-            `${t("Traitements antérieurs")}${colon} ${lowercaseFirstLetter(t(getTrooleanOption(form.hadPreviousTreatment).label))}${
-              form.hadPreviousTreatment
-                ? ` (${lowercaseFirstLetter(t(getTreatmentOption(form.previousTreatment).label))})`
-                : undefined
-            }`,
+            partPreviousTreatment,
             item(
               "Aspect cystoscopique de la lésion actuelle",
               getLesionAspectOption(form.lesionAspect).label,
@@ -104,13 +112,13 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
       title: "Tumoraux",
       items: form.otherResults.tumoral,
       language,
-    }).map(pad),
+    }),
     ...reportCheckboxList({
       title: "Non-tumoraux",
       items: form.otherResults.nonTumoral,
       language,
-    }).map(pad),
-  ];
+    }),
+  ].map(pad);
 
   const hasExtension = true;
   const hasGrade = true;

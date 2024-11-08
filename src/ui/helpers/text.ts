@@ -22,10 +22,15 @@ export const item = (
   const colon = t(COLON_CHARACTER);
   return [
     name ? `${t(name)}${colon}` : undefined, // Optional label
-    lowercaseFirstLetter(t(value)), // Value
+    reportValue(value, language), // Value
   ]
     .filter(filterEmpty)
     .join(" ");
+};
+
+export const reportValue = (value: string, language: Language) => {
+  const t = (value: string) => translate(value, language);
+  return lowercaseFirstLetter(t(value));
 };
 
 export const nest =

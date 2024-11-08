@@ -6,6 +6,7 @@ import {
   filterNullish,
   formatWithUnit,
   getFormTitle,
+  item,
   joinLines,
   joinSections,
   Language,
@@ -107,7 +108,7 @@ const getClinicalInformationSection = (
   ]);
 };
 
-const reportLocation = (rows: Row[], language: Language) => {
+const getLocations = (rows: Row[], language: Language) => {
   const tumorCount = sumOnField("tumorCount", rows);
   const totalCount = sumOnField("biopsyCount", rows);
   const tumorSize = sum(rows.map((item) => sum(item.tumorSize)));
@@ -157,11 +158,10 @@ const getLocationSection = (
 
   return joinLines([
     reportTitle("Localisation", language),
-    // TODO CLEAN: use `item`
     ...[
-      `${t("Biopsies systématiques")}${colon} ${reportLocation(sextants, language)}`, // Systematic biopsies are mandatory
+      `${t("Biopsies systématiques")}${colon} ${getLocations(sextants, language)}`, // Systematic biopsies are mandatory
       targets.length
-        ? `${t("Biopsies ciblées")}${colon} ${reportLocation(targets, language)}`
+        ? `${t("Biopsies ciblées")}${colon} ${getLocations(targets, language)}`
         : undefined, // Targets are optional
       language === "FR"
         ? `${t("Total")}${colon} ${tumorSize}mm sur ${totalSize}mm examinés (${containerLocations})`
@@ -225,8 +225,7 @@ Prostate adenomyoma.`;
 
   return joinLines(
     [
-      // TODO clean: only lowercase first letter (for safety)
-      `${t("Type de tumeur")}${colon} ${t(tumorTypeLabel).toLocaleLowerCase()}.`,
+      `${item("Type de tumeur", tumorTypeLabel, language)}.`,
       lineGleason,
       isExpertMode ? locationSection : undefined,
       "", // Empty line
