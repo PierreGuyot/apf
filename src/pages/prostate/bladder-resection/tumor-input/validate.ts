@@ -1,4 +1,4 @@
-import { sum } from "../../../ui";
+import { sum } from "../../../../ui";
 import { hasTumoralExtensionSection, Tumor } from "./helpers";
 
 // TODO clean: add tests

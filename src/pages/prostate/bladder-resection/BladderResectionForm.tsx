@@ -34,7 +34,6 @@ import {
 import {
   BladderResectionFormId,
   DEFAULT_FULL_LOCATION,
-  DEFAULT_TUMOR,
   FullLocation,
   getSublocationOptions,
   LESION_ASPECT_OPTIONS,
@@ -43,12 +42,12 @@ import {
   NON_TUMORAL_RESULT_GROUPS,
   Treatment,
   TREATMENT_OPTIONS,
-  Tumor,
   TUMORAL_RESULT_GROUPS,
 } from "./helpers";
 import { generateReport } from "./report";
-import { TumorInput } from "./TumorInput";
-import { validateTumorInput } from "./validate-tumor-input";
+import { TumorInput } from "./tumor-input/TumorInput";
+import { DEFAULT_TUMOR, Tumor } from "./tumor-input/helpers";
+import { validateTumorInput } from "./tumor-input/validate";
 
 type MuscularisPropria = {
   isPresent: Troolean;

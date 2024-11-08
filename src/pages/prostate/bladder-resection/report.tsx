@@ -22,16 +22,18 @@ import {
 } from "../../../ui";
 import { FormState } from "./BladderResectionForm";
 import {
-  getGradeOption,
   getLesionAspectOption,
   getLocationOption,
-  getPtnmOption,
   getTreatmentOption,
+} from "./helpers";
+import {
+  getGradeOption,
+  getPtnmOption,
   getTumorSubtypeOptions,
   hasTumoralExtensionSection,
   PtnmOptionType,
   Tumor,
-} from "./helpers";
+} from "./tumor-input/helpers";
 
 export type ReportParams = FormState & {
   formId: Extract<FormId, "bladder-transurethral-resection">;

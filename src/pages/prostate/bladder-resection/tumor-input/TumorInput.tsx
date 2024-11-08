@@ -11,7 +11,7 @@ import {
   Stack,
   Text,
   ValidationErrors,
-} from "../../../ui";
+} from "../../../../ui";
 import {
   getGradeOptions,
   getTumorSubtypeOptions,
