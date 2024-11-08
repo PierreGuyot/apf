@@ -5,7 +5,7 @@ import {
   SamplingType,
 } from "./validation";
 
-export const getResectionMacroscopySection = (
+export const reportResectionMacroscopy = (
   form: {
     chipWeight: number; // In grams
     blockCount: number;

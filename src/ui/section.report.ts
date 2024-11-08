@@ -1,4 +1,4 @@
-import { pad } from "./helpers";
+import { Lines, pad } from "./helpers";
 import { reportTitle } from "./title.report";
 import { Language } from "./translation";
 
@@ -7,7 +7,7 @@ export const reportSection = (
   language: Language,
   content: string[],
   hasSeparationLine?: boolean,
-): string[] => {
+): Lines => {
   if (!content.length) {
     return [];
   }

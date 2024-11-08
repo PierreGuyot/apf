@@ -1,7 +1,7 @@
 import { reportAdditionalRemarks } from "../../../common/additional-remarks.report";
 import { reportCaseSummary } from "../../../common/case-summary.report";
 import { reportInvasion } from "../../../common/invasion/report";
-import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
+import { reportResectionMacroscopy } from "../../../common/resection-macroscopy/report";
 import {
   filterNullish,
   FormId,
@@ -11,6 +11,7 @@ import {
   joinLines,
   joinSections,
   Language,
+  Lines,
   reportCheckboxList,
   reportSection,
   reportTroolean,
@@ -22,7 +23,7 @@ import {
   getLocationOption,
   getTreatmentOption,
 } from "./helpers";
-import { getTumorTypeSection } from "./tumor-input/report";
+import { reportTumor } from "./tumor-input/report";
 
 export type ReportParams = FormState & {
   formId: Extract<FormId, "bladder-transurethral-resection">;
@@ -35,10 +36,10 @@ export const generateReport = (
 ): string => {
   return joinSections([
     getFormTitle(form.formId, language),
-    getClinicalInfoSection(form, language, isExpertMode),
-    getMacroscopySection(form, language),
-    getMicroscopySection(form, language),
-    reportAdditionalRemarks(form, language),
+    joinLines(getClinicalInfoSection(form, language, isExpertMode)),
+    joinLines(getMacroscopySection(form, language)),
+    joinLines(getMicroscopySection(form, language)),
+    joinLines(reportAdditionalRemarks(form, language)),
   ]);
 };
 
@@ -46,7 +47,7 @@ const getClinicalInfoSection = (
   form: ReportParams,
   language: Language,
   isExpertMode: boolean,
-) => {
+): Lines => {
   // Expert mode
   if (isExpertMode) {
     const partPreviousTreatment = join(
@@ -60,7 +61,7 @@ const getClinicalInfoSection = (
         : undefined,
     );
 
-    return joinLines([
+    return [
       reportTroolean({
         label:
           "Antécédents de maladie des voies urinaires ou de métastases à distance",
@@ -69,7 +70,7 @@ const getClinicalInfoSection = (
       }),
       ...(form.medicalHistory === "yes"
         ? [
-            ...getTumorTypeSection({ tumor: form.previousTumor, language }),
+            ...reportTumor({ tumor: form.previousTumor, language }),
             item(
               "Localisation",
               getLocationOption(form.location.location).label,
@@ -83,19 +84,25 @@ const getClinicalInfoSection = (
             ),
           ]
         : []),
-    ]);
+    ];
   }
 
   // Standard mode
   return reportCaseSummary(form.clinicalInfo, language);
 };
 
-const getMacroscopySection = (form: ReportParams, language: Language) => {
-  const content = getResectionMacroscopySection(form, language);
-  return joinLines(reportSection("Macroscopie", language, content));
+const getMacroscopySection = (
+  form: ReportParams,
+  language: Language,
+): Lines => {
+  const content = reportResectionMacroscopy(form, language);
+  return reportSection("Macroscopie", language, content);
 };
 
-const getMicroscopySection = (form: ReportParams, language: Language) => {
+const getMicroscopySection = (
+  form: ReportParams,
+  language: Language,
+): Lines => {
   const otherResults = reportSection("Autres résultats", language, [
     ...reportCheckboxList({
       title: "Tumoraux",
@@ -110,7 +117,7 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
   ]);
 
   const content = [
-    ...getTumorTypeSection({
+    ...reportTumor({
       tumor: form.tumor,
       language,
       hasGrade: true,
@@ -141,7 +148,7 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
     ...otherResults,
   ].filter(filterNullish);
 
-  return joinLines(reportSection("Microscopie", language, content));
+  return reportSection("Microscopie", language, content);
 };
 
 export const Report = ({

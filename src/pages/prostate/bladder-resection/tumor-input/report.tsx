@@ -1,6 +1,8 @@
 import {
+  filterNullish,
   item,
   Language,
+  Lines,
   reportCheckboxList,
   reportTitle,
 } from "../../../../ui";
@@ -13,7 +15,7 @@ import {
   Tumor,
 } from "./helpers";
 
-export const getTumorTypeSection = ({
+export const reportTumor = ({
   tumor,
   language,
   hasGrade,
@@ -23,7 +25,7 @@ export const getTumorTypeSection = ({
   language: Language;
   hasGrade?: boolean;
   hasExtension?: boolean;
-}) => {
+}): Lines => {
   const tumorSubtypeOptions = getTumorSubtypeOptions(tumor.type);
 
   return [
@@ -66,5 +68,5 @@ export const getTumorTypeSection = ({
         : // TODO: int this case, value should automatically be inferred
           ["TODO: infer"]
       : []),
-  ];
+  ].filter(filterNullish);
 };

@@ -1,9 +1,10 @@
 import { reportCaseSummary } from "../../../common/case-summary.report";
 import { reportEpn } from "../../../common/epn/report";
 import { reportInvasion } from "../../../common/invasion/report";
-import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
+import { reportResectionMacroscopy } from "../../../common/resection-macroscopy/report";
 import {
   Language,
+  Lines,
   assertUnreachable,
   getFormTitle,
   getSelectedOptions,
@@ -18,7 +19,7 @@ import {
   getGleasonConclusion,
   getTumorTypeOption,
 } from "../helpers";
-import { getImmunohistochemistrySection } from "../report";
+import { reportImmunohistochemistry } from "../report";
 import { FormState } from "./ProstateResectionForm";
 import {
   ProstateResectionFormId,
@@ -31,15 +32,8 @@ export type ReportParams = FormState & {
   formId: ProstateResectionFormId;
 };
 
-const getCaseSummarySection = (
-  { caseSummary }: ReportParams,
-  language: Language,
-) => {
-  return caseSummary ? reportCaseSummary(caseSummary, language) : undefined;
-};
-
 // NOTE: inline translation
-const getConclusionSection = (form: ReportParams, language: Language) => {
+const reportConclusion = (form: ReportParams, language: Language): Lines => {
   const t = (value: string) => translate(value, language);
 
   // Tumor presence
@@ -52,7 +46,7 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
       form.tumorQuantification,
     );
 
-    return joinLines([
+    return [
       `${t(tumorTypeLabel)}.\n`, // We add an empty line for aesthetic purposes
       item("Conditions pré-existantes", priorConditionsLabel, language),
       isApplicable(form.priorConditions)
@@ -70,7 +64,7 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
       ),
       reportInvasion(form.hasLymphaticOrVascularInvasion, language),
       reportEpn(form.hasEpn, language),
-    ]);
+    ];
   }
 
   // Tumor absence
@@ -78,10 +72,14 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
   if (form.mainLesionType === "prostate-adenomyoma") {
     switch (language) {
       case "FR":
-        return "On observe des glandes prostatiques nombreuses souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse. Absence de foyer carcinomateux.";
+        return [
+          "On observe des glandes prostatiques nombreuses souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse. Absence de foyer carcinomateux.",
+        ];
 
       case "EN":
-        return "Numerous prostate glands, often grouped into nodules, are found within a smooth muscular prostatic stroma. No carcinomatous focus.";
+        return [
+          "Numerous prostate glands, often grouped into nodules, are found within a smooth muscular prostatic stroma. No carcinomatous focus.",
+        ];
     }
   }
 
@@ -90,10 +88,14 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
   ) {
     switch (language) {
       case "FR":
-        return "On observe des glandes prostatiques nombreuses autour desquelles s'organisent des granulomes macrophagiques avec cellules épithélioïdes et cellules géantes centrées par de la nécrose et des polynucléaires. Les glandes sont souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse inflammatoire. Absence de foyer carcinomateux.";
+        return [
+          "On observe des glandes prostatiques nombreuses autour desquelles s'organisent des granulomes macrophagiques avec cellules épithélioïdes et cellules géantes centrées par de la nécrose et des polynucléaires. Les glandes sont souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse inflammatoire. Absence de foyer carcinomateux.",
+        ];
 
       case "EN":
-        return "Numerous prostate glands are present, surrounded by macrophagic granulomas with epithelioid cells and giant cells, centered by necrosis and neutrophils. Glands are often grouped in nodules, within an inflammatory smooth muscle prostatic stroma. No carcinomatous focus.";
+        return [
+          "Numerous prostate glands are present, surrounded by macrophagic granulomas with epithelioid cells and giant cells, centered by necrosis and neutrophils. Glands are often grouped in nodules, within an inflammatory smooth muscle prostatic stroma. No carcinomatous focus.",
+        ];
     }
   }
 
@@ -102,29 +104,31 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
   ) {
     switch (language) {
       case "FR":
-        return "On observe des glandes prostatiques nombreuses souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse. Sur de nombreux copeaux, les glandes sont entourées d’un infiltrat lymphocytaire non spécifique. Absence de foyer carcinomateux.";
+        return [
+          "On observe des glandes prostatiques nombreuses souvent groupées en nodules, au sein d'un stroma prostatique musculaire lisse. Sur de nombreux copeaux, les glandes sont entourées d’un infiltrat lymphocytaire non spécifique. Absence de foyer carcinomateux.",
+        ];
 
       case "EN":
-        return "Numerous prostate glands, often grouped in nodules, are found within a smooth muscular prostatic stroma. On many chips, the glands are surrounded by a nonspecific lymphocytic infiltrate. No carcinomatous focus.";
+        return [
+          "Numerous prostate glands, often grouped in nodules, are found within a smooth muscular prostatic stroma. On many chips, the glands are surrounded by a nonspecific lymphocytic infiltrate. No carcinomatous focus.",
+        ];
     }
   }
 
   return assertUnreachable(form.mainLesionType);
 };
 
-const getOtherLesionsSection = (form: ReportParams, language: Language) => {
+const reportOtherLesions = (form: ReportParams, language: Language): Lines => {
   const selectedItems = getSelectedOptions({
     values: form.otherLesions,
     groups: OTHER_LESION_GROUPS,
   }).map((item) => item.label);
 
-  return joinLines(
-    reportCheckboxList({
-      title: "Autres lésions",
-      items: selectedItems,
-      language,
-    }),
-  );
+  return reportCheckboxList({
+    title: "Autres lésions",
+    items: selectedItems,
+    language,
+  });
 };
 
 // TODO clean: test extensively
@@ -134,14 +138,10 @@ export const generateReport = (
 ): string => {
   return joinSections([
     getFormTitle(form.formId, language),
-    getCaseSummarySection(form, language),
-    getMacroscopySection(form, language),
-    getImmunohistochemistrySection(form.ihc, language, false),
-    getConclusionSection(form, language),
-    getOtherLesionsSection(form, language),
+    joinLines(reportCaseSummary(form.caseSummary, language)),
+    joinLines(reportResectionMacroscopy(form, language)),
+    joinLines(reportImmunohistochemistry(form.ihc, language, false)),
+    joinLines(reportConclusion(form, language)),
+    joinLines(reportOtherLesions(form, language)),
   ]);
-};
-
-const getMacroscopySection = (form: ReportParams, language: Language) => {
-  return joinLines(getResectionMacroscopySection(form, language));
 };

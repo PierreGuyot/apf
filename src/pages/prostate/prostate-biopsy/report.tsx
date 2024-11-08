@@ -24,7 +24,7 @@ import {
   getGleasonConclusion,
   getTumorTypeOption,
 } from "../helpers";
-import { getImmunohistochemistrySection } from "../report";
+import { reportImmunohistochemistry } from "../report";
 import { FormState } from "./ProstateBiopsyForm";
 import {
   getLocationLabel,
@@ -62,9 +62,9 @@ const getClinicalInformationSection = (
   form: ReportParams,
   language: Language,
   isExpertMode: boolean,
-) => {
+): string[] => {
   if (!form.hasInfo) {
-    return undefined;
+    return [];
   }
 
   if (!isExpertMode) {
@@ -90,9 +90,7 @@ const getClinicalInformationSection = (
     ),
   ];
 
-  return joinLines(
-    reportSection("Renseignements cliniques", language, content, true),
-  );
+  return reportSection("Renseignements cliniques", language, content, true);
 };
 
 const getLocations = (rows: Row[], language: Language) => {
@@ -225,14 +223,12 @@ const getConclusionSection = (
   params: ReportParams,
   language: Language,
   isExpertMode: boolean,
-) => {
-  return joinLines(
-    reportSection(
-      "Conclusion",
-      language,
-      getConclusionContent(params, language, isExpertMode),
-      true,
-    ),
+): string[] => {
+  return reportSection(
+    "Conclusion",
+    language,
+    getConclusionContent(params, language, isExpertMode),
+    true,
   );
 };
 
@@ -243,14 +239,13 @@ export const generateReport = (
 ): string => {
   return joinSections([
     getFormTitle(form.formId, language),
-    getClinicalInformationSection(form, language, isExpertMode),
-    getImmunohistochemistrySection(form.ihc, language, true),
-    reportAdditionalRemarks(form, language),
-    getConclusionSection(form, language, isExpertMode),
+    joinLines(getClinicalInformationSection(form, language, isExpertMode)),
+    joinLines(reportImmunohistochemistry(form.ihc, language, true)),
+    joinLines(reportAdditionalRemarks(form, language)),
+    joinLines(getConclusionSection(form, language, isExpertMode)),
   ]);
 };
 
-// TODO CLEAN: centralize joinLines
 // TODO CLEAN: use to refactor generateReport into TSX
 export const Report = ({
   form,

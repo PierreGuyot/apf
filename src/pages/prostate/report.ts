@@ -5,30 +5,28 @@ import {
 } from "../../common/immunohistochemistry/helpers";
 import {
   COLON_CHARACTER,
-  joinLines,
   Language,
+  Lines,
   pad,
   reportSection,
   translate,
 } from "../../ui";
 import { getResultOption } from "./helpers";
 
-export const getImmunohistochemistrySection = (
+export const reportImmunohistochemistry = (
   ihc: IhcState,
   language: Language,
   hasMultipleBlocks: boolean,
-) => {
+): Lines => {
   if (!ihc.hasIhc) {
-    return undefined;
+    return [];
   }
 
-  return joinLines(
-    reportSection(
-      "Immunohistochimie",
-      language,
-      ihc.blocks.flatMap((block) =>
-        renderBlock(block, language, hasMultipleBlocks),
-      ),
+  return reportSection(
+    "Immunohistochimie",
+    language,
+    ihc.blocks.flatMap((block) =>
+      renderBlock(block, language, hasMultipleBlocks),
     ),
   );
 };

@@ -2,6 +2,8 @@ import { reportTitle } from "../title.report";
 import { Language, translate } from "../translation";
 import { filterEmpty, filterNullish, join } from "./helpers";
 
+export type Lines = string[];
+
 export const EMPTY_LINE = "\n";
 const PADDING = " ".repeat(4);
 
