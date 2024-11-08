@@ -2,8 +2,6 @@ import { ReactNode } from "react";
 import { join, patchArray } from "./helpers/helpers";
 import css from "./table.module.css";
 
-export type ValueOf<Row> = Row[keyof Row];
-
 type Alignment = "left" | "center";
 
 type BaseColumn<Key, Value, Row> = {

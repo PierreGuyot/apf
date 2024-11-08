@@ -2,12 +2,11 @@ import {
   getCommentSection,
   getParagraphSection,
 } from "../../../common/comment-section";
-import { getConclusionInvasion } from "../../../common/invasion/report";
+import { reportInvasion } from "../../../common/invasion/report";
 import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
 import {
   COLON_CHARACTER,
   filterNullish,
-  formatList,
   FormId,
   getFormTitle,
   getTrooleanOption,
@@ -17,7 +16,8 @@ import {
   Language,
   lowercaseFirstLetter,
   pad,
-  toOptionalYesNo,
+  reportCheckboxList,
+  reportTroolean,
   translate,
 } from "../../../ui";
 import { FormState } from "./BladderResectionForm";
@@ -106,12 +106,12 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
   const colon = t(COLON_CHARACTER);
 
   const otherResults = [
-    ...formatList({
+    ...reportCheckboxList({
       title: "Tumoraux",
       items: form.otherResults.tumoral,
       language,
     }).map(pad),
-    ...formatList({
+    ...reportCheckboxList({
       title: "Non-tumoraux",
       items: form.otherResults.nonTumoral,
       language,
@@ -130,14 +130,14 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
     }),
 
     "", // Empty line
-    getConclusionInvasion(form.hasLymphaticOrVascularInvasion, language),
+    reportInvasion(form.hasLymphaticOrVascularInvasion, language),
 
     "", // Empty line
-    item(
-      "Copeaux de résection présentant de la musculeuse",
-      toOptionalYesNo(form.muscularisPropria.isPresent),
+    reportTroolean({
+      label: "Copeaux de résection présentant de la musculeuse",
+      value: form.muscularisPropria.isPresent,
       language,
-    ),
+    }),
     form.muscularisPropria.isPresent === "yes"
       ? item(
           "Nombre de copeaux",
@@ -153,6 +153,7 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
   ].filter(filterNullish);
 
   return joinLines([
+    // TODO CLEAN: extract a title.report.ts
     `${t("Microscopie")}${colon}`,
     ...content.map((line) => (line ? pad(line) : "")),
   ]);

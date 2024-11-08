@@ -38,7 +38,6 @@ import {
   Title,
   Tooltip,
   ValidationErrors,
-  YesOrNo,
 } from "../ui";
 
 // Fixtures
@@ -113,7 +112,6 @@ export const DesignPage = () => {
         <EntryTextBlock />
         <EntryTooltip />
         <EntryValidationErrors />
-        <EntryYesOrNo />
         <EntryText />
         <EntryTitle />
 
@@ -733,21 +731,6 @@ const EntryValidationErrors = () => {
         header="The input data is invalid:"
         errors={["An error.", "Another error.", "Yet another error."]}
       />
-    </DocumentationEntry>
-  );
-};
-
-const EntryYesOrNo = () => {
-  return (
-    <DocumentationEntry name="YesOrNo">
-      <div>
-        FR: <YesOrNo value={true} language="FR" />{" "}
-        <YesOrNo value={false} language="FR" />
-      </div>
-      <div>
-        EN: <YesOrNo value={true} language="EN" />{" "}
-        <YesOrNo value={false} language="EN" />
-      </div>
     </DocumentationEntry>
   );
 };

@@ -417,7 +417,7 @@ const SAMPLE_WITHOUT_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUID�
 Renseignements cliniques :
 
     PSA: 10 ng.mL⁻¹
-    IRM: Oui
+    IRM : oui
     Cibles :
         PIRADS 2, base droite (pots 7 et 8)
         PIRADS 3, apex droit (pot 9)
@@ -435,7 +435,7 @@ const SAMPLE_WITH_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 Renseignements cliniques :
 
     PSA: 10 ng.mL⁻¹
-    IRM: Oui
+    IRM : oui
     Cibles :
         PIRADS 2, base droite (pots 7 et 8)
         PIRADS 3, apex droit (pot 9)
@@ -460,7 +460,7 @@ const SAMPLE_WITHOUT_TUMOR_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 Case summary:
 
     PSA: 10 ng.mL⁻¹
-    MRI: Yes
+    MRI: yes
     Targeted biopsies:
         PIRADS 2, right base (containers 7 and 8)
         PIRADS 3, right apex (container 9)
@@ -478,7 +478,7 @@ const SAMPLE_WITH_TUMOR_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 Case summary:
 
     PSA: 10 ng.mL⁻¹
-    MRI: Yes
+    MRI: yes
     Targeted biopsies:
         PIRADS 2, right base (containers 7 and 8)
         PIRADS 3, right apex (container 9)
@@ -503,7 +503,7 @@ const SAMPLE_WITH_IHC_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 Renseignements cliniques :
 
     PSA: 10 ng.mL⁻¹
-    IRM: Oui
+    IRM : oui
     Cibles :
         PIRADS 2, base droite (pots 7 et 8)
         PIRADS 3, apex droit (pot 9)
@@ -538,7 +538,7 @@ const SAMPLE_WITH_IHC_EN = `TRANSRECTAL PROSTATE NEEDLE BIOPSIES
 Case summary:
 
     PSA: 10 ng.mL⁻¹
-    MRI: Yes
+    MRI: yes
     Targeted biopsies:
         PIRADS 2, right base (containers 7 and 8)
         PIRADS 3, right apex (container 9)
@@ -573,7 +573,7 @@ const SAMPLE_WITH_TUMOR_TRANSPERINEAL_FR = `BIOPSIES PROSTATIQUES TRANSPÉRINÉA
 Renseignements cliniques :
 
     PSA: 10 ng.mL⁻¹
-    IRM: Oui
+    IRM : oui
     Cibles :
         PIRADS 2, latérale droite (pots 7 et 8)
         PIRADS 3, médiane droite (pot 9)
@@ -598,7 +598,7 @@ const SAMPLE_WITH_TUMOR_TRANSPERINEAL_EN = `TRANSPERINEAL PROSTATE NEEDLE BIOPSI
 Case summary:
 
     PSA: 10 ng.mL⁻¹
-    MRI: Yes
+    MRI: yes
     Targeted biopsies:
         PIRADS 2, right lateral (containers 7 and 8)
         PIRADS 3, right median (container 9)

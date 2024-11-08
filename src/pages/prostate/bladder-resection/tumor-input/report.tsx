@@ -1,8 +1,8 @@
 import {
   COLON_CHARACTER,
-  formatList,
   item,
   Language,
+  reportCheckboxList,
   translate,
 } from "../../../../ui";
 import {
@@ -53,7 +53,7 @@ export const getTumorTypeSection = ({
       : undefined,
     ...(hasExtension
       ? hasTumoralExtensionSection(tumor.type)
-        ? formatList({
+        ? reportCheckboxList({
             title: "Extension tumorale",
             items: Object.entries(tumor.extension)
               .filter(([_key, percentage]) => percentage > 0)

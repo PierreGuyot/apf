@@ -6,37 +6,26 @@ const PADDING = " ".repeat(4);
 
 export const pad = (value: string) => `${PADDING}${value}`;
 
+// TODO clean: this won't work if the items like "G1" (where G needs to stay capitalized)
 export const lowercaseFirstLetter = (value: string) => {
   return value.charAt(0).toLowerCase() + value.slice(1);
 };
 
+// TODO CLEAN: extract as reportItem or reportSelect
 // Simple helper for name-value items
-export const item = (name: string, value: string, language: Language) => {
+export const item = (
+  name: string | undefined,
+  value: string,
+  language: Language,
+) => {
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
-  return `${t(name)}${colon} ${lowercaseFirstLetter(t(value))}`;
-};
-
-export const formatList = ({
-  title,
-  items,
-  language,
-}: {
-  title: string;
-  items: string[];
-  language: Language;
-}) => {
-  if (!items.length) {
-    return [];
-  }
-
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
   return [
-    `${t(title)}${colon}`,
-    ...items.map(t).map((item) => pad(` - ${item}`)),
-  ];
+    name ? `${t(name)}${colon}` : undefined, // Optional label
+    lowercaseFirstLetter(t(value)), // Value
+  ]
+    .filter(filterEmpty)
+    .join(" ");
 };
 
 export const nest =

@@ -1,17 +1,17 @@
-import { getConclusionEpn } from "../../../common/epn/report";
-import { getConclusionInvasion } from "../../../common/invasion/report";
+import { reportEpn } from "../../../common/epn/report";
+import { reportInvasion } from "../../../common/invasion/report";
 import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
 import {
   COLON_CHARACTER,
   Language,
   assertUnreachable,
-  formatList,
   getFormTitle,
   getSelectedOptions,
   item,
   joinLines,
   joinSections,
   padSection,
+  reportCheckboxList,
   translate,
 } from "../../../ui";
 import {
@@ -73,8 +73,8 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
         tumorQuantificationLabel,
         language,
       ),
-      getConclusionInvasion(form.hasLymphaticOrVascularInvasion, language),
-      getConclusionEpn(form.hasEpn, language),
+      reportInvasion(form.hasLymphaticOrVascularInvasion, language),
+      reportEpn(form.hasEpn, language),
     ]);
   }
 
@@ -124,7 +124,7 @@ const getOtherLesionsSection = (form: ReportParams, language: Language) => {
   }).map((item) => item.label);
 
   return joinLines(
-    formatList({
+    reportCheckboxList({
       title: "Autres lésions",
       items: selectedItems,
       language,

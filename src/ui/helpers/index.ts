@@ -10,4 +10,5 @@ export * from "./percent";
 export * from "./plural";
 export * from "./state";
 export * from "./text";
+export * from "./types";
 export * from "./units";

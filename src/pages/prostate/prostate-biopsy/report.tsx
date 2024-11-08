@@ -1,5 +1,5 @@
 import { getCommentSection } from "../../../common/comment-section";
-import { getConclusionEpn } from "../../../common/epn/report";
+import { reportEpn } from "../../../common/epn/report";
 import {
   COLON_CHARACTER,
   filterEmpty,
@@ -9,13 +9,12 @@ import {
   joinLines,
   joinSections,
   Language,
-  lowercaseFirstLetter,
   naturalJoin,
   pad,
   pluralize,
+  reportBoolean,
   sum,
   sumOnField,
-  toYesNo,
   translate,
 } from "../../../ui";
 import {
@@ -38,6 +37,7 @@ export type ReportParams = FormState & {
   score: Score;
 };
 
+// TODO CLEAN: colocate with associated component
 const renderPiradsItem = (
   formId: ProstateBiopsyFormId,
   item: PiradsItem,
@@ -75,10 +75,12 @@ const getClinicalInformationContent = (
   }
 
   return joinLines([
+    // TODO CLEAN: fix colon translation
     pad(`${t("PSA")}: ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
-    pad(`${t("IRM")}: ${toYesNo(form.hasMri, language)}`),
+    pad(reportBoolean({ label: "IRM", value: form.hasMri, language })),
     ...(form.piradsItems.length
       ? [
+          // TODO CLEAN: use reportTitle when available
           `${t("Cibles")}${colon}`,
           ...form.piradsItems.map((item) =>
             renderPiradsItem(form.formId, item, form.rows, language),
@@ -173,14 +175,17 @@ const getLocationSection = (
   ]);
 };
 
-const getPartTep = (
+const reportTep = (
   formId: "prostate-biopsy-transrectal" | "prostate-biopsy-transperineal",
   rows: Row[],
   score: Score,
   language: Language,
 ) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
+  const valuePart = reportBoolean({
+    label: "Tissu extra-prostatique",
+    value: score.tumorTep ?? false,
+    language,
+  });
 
   const locations = formatLocations(
     formId,
@@ -189,7 +194,7 @@ const getPartTep = (
   );
   const locationPart = score.tumorTep ? ` (${locations})` : "";
 
-  return `${t("Tissu extra-prostatique")}${colon} ${lowercaseFirstLetter(toYesNo(score.tumorTep ?? false, language))}${locationPart}`;
+  return `${valuePart}${locationPart}`;
 };
 
 const getConclusionContent = (
@@ -221,8 +226,8 @@ Prostate adenomyoma.`;
   const lineGleason = `${t("Score de Gleason")}${colon} ${getGleasonConclusion(maxGleasonItem, language)}`;
   const locationSection = getLocationSection(formId, rows, language);
 
-  const partEpn = getConclusionEpn(score.tumorEpn ?? false, language);
-  const partTep = getPartTep(formId, rows, score, language);
+  const partEpn = reportEpn(score.tumorEpn ?? false, language);
+  const partTep = reportTep(formId, rows, score, language);
   return joinLines(
     [
       // TODO clean: only lowercase first letter (for safety)
