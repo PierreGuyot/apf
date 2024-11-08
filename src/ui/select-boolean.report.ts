@@ -1,5 +1,5 @@
 import { findOption, item, YES_NO_OPTIONS } from "./helpers";
-import { Language, translate } from "./translation";
+import { Language } from "./translation";
 
 const getBooleanOption = findOption(YES_NO_OPTIONS);
 
@@ -13,5 +13,5 @@ export const reportBoolean = ({
   language: Language;
 }) => {
   const option = getBooleanOption(value ? "yes" : "no");
-  return item(label, translate(option.label, language), language);
+  return item(label, option.label, language);
 };

@@ -68,6 +68,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Carcinome neuroendocrine à petites cellules":
     "Small cell neuroendocrine carcinoma",
   "Conditions pré-existantes": "Pre-existing conditions",
+  Conclusion: "Conclusion",
   "Emboles vasculaires ou lymphatiques": "Lymphatic or vascular invasion",
   "Engainements périnerveux": "Perineural Invasion",
   "Enucléation au laser holnium de la prostate":
@@ -283,7 +284,13 @@ const DICTIONARIES_PER_LANGUAGE = {
 } as const;
 
 export const translate = (value: string, language: Language) => {
-  // TODO clean: ignore stringified numbers here
+  // Ignore stringified numbers here
+  if (IS_DEBUG) {
+    const valueAsNumber = Number(value);
+    if (!isNaN(valueAsNumber)) {
+      return value;
+    }
+  }
 
   // FR (default)
   if (language === DEFAULT_LANGUAGE) {

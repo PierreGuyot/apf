@@ -1,5 +1,5 @@
 import { item } from "./helpers";
-import { Language, translate } from "./translation";
+import { Language } from "./translation";
 import { getTrooleanOption, Troolean } from "./troolean";
 
 export const reportTroolean = ({
@@ -12,5 +12,5 @@ export const reportTroolean = ({
   language: Language;
 }) => {
   const option = getTrooleanOption(value);
-  return item(label, translate(option.label, language), language);
+  return item(label, option.label, language);
 };
