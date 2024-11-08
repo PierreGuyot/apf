@@ -6,12 +6,10 @@ import {
   Language,
   Lines,
   assertUnreachable,
-  getFormTitle,
   getSelectedOptions,
   item,
-  joinLines,
-  joinSections,
   reportCheckboxList,
+  reportStructure,
   translate,
 } from "../../../ui";
 import {
@@ -136,12 +134,11 @@ export const generateReport = (
   form: ReportParams,
   language: Language,
 ): string => {
-  return joinSections([
-    getFormTitle(form.formId, language),
-    joinLines(reportCaseSummary(form.caseSummary, language)),
-    joinLines(reportResectionMacroscopy(form, language)),
-    joinLines(reportImmunohistochemistry(form.ihc, language, false)),
-    joinLines(reportConclusion(form, language)),
-    joinLines(reportOtherLesions(form, language)),
+  return reportStructure(form.formId, language, [
+    reportCaseSummary(form.caseSummary, language),
+    reportResectionMacroscopy(form, language),
+    reportImmunohistochemistry(form.ihc, language, false),
+    reportConclusion(form, language),
+    reportOtherLesions(form, language),
   ]);
 };

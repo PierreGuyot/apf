@@ -5,10 +5,7 @@ import {
   filterEmpty,
   filterNullish,
   formatWithUnit,
-  getFormTitle,
   item,
-  joinLines,
-  joinSections,
   Language,
   naturalJoin,
   pluralize,
@@ -18,6 +15,7 @@ import {
   sum,
   sumOnField,
   translate,
+  reportStructure,
 } from "../../../ui";
 import {
   DEFAULT_GLEASON_ITEM,
@@ -237,12 +235,11 @@ export const generateReport = (
   language: Language,
   isExpertMode: boolean,
 ): string => {
-  return joinSections([
-    getFormTitle(form.formId, language),
-    joinLines(getClinicalInformationSection(form, language, isExpertMode)),
-    joinLines(reportImmunohistochemistry(form.ihc, language, true)),
-    joinLines(reportAdditionalRemarks(form, language)),
-    joinLines(getConclusionSection(form, language, isExpertMode)),
+  return reportStructure(form.formId, language, [
+    getClinicalInformationSection(form, language, isExpertMode),
+    reportImmunohistochemistry(form.ihc, language, true),
+    reportAdditionalRemarks(form, language),
+    getConclusionSection(form, language, isExpertMode),
   ]);
 };
 

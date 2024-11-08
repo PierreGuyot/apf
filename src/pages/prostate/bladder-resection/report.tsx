@@ -5,17 +5,15 @@ import { reportResectionMacroscopy } from "../../../common/resection-macroscopy/
 import {
   filterNullish,
   FormId,
-  getFormTitle,
   item,
   join,
-  joinLines,
-  joinSections,
   Language,
   Lines,
   reportCheckboxList,
   reportSection,
   reportTroolean,
   reportValue,
+  reportStructure,
 } from "../../../ui";
 import { FormState } from "./BladderResectionForm";
 import {
@@ -34,12 +32,11 @@ export const generateReport = (
   language: Language,
   isExpertMode: boolean,
 ): string => {
-  return joinSections([
-    getFormTitle(form.formId, language),
-    joinLines(getClinicalInfoSection(form, language, isExpertMode)),
-    joinLines(getMacroscopySection(form, language)),
-    joinLines(getMicroscopySection(form, language)),
-    joinLines(reportAdditionalRemarks(form, language)),
+  return reportStructure(form.formId, language, [
+    getClinicalInfoSection(form, language, isExpertMode),
+    getMacroscopySection(form, language),
+    getMicroscopySection(form, language),
+    reportAdditionalRemarks(form, language),
   ]);
 };
 
