@@ -32,14 +32,16 @@ export const getTumorTypeSection = ({
       ? item("Sous-type histologique de la tumeur", tumor.subtype, language)
       : undefined,
     tumor.type === "other"
-      ? item(
+      ? // FIXME: will break translate on debug
+        item(
           "Sous-type histologique de la tumeur",
           tumor.otherSubtype,
           language,
         )
       : undefined,
     hasGrade
-      ? item(
+      ? // FIXME: will break translate on debug
+        item(
           "Grade tumoral",
           tumor.type === "other"
             ? tumor.grade
@@ -56,6 +58,7 @@ export const getTumorTypeSection = ({
               .map(([key, percentage]) => {
                 // CAUTION: this cast is type-unsafe
                 const { label } = getPtnmOption(key as PtnmOptionType);
+                // FIXME: will break translate on debug
                 return `${reportTitle(label, language)} ${percentage}%`;
               }),
             language,

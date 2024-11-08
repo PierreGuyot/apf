@@ -56,7 +56,8 @@ const getConclusionSection = (form: ReportParams, language: Language) => {
       `${t(tumorTypeLabel)}.\n`, // We add an empty line for aesthetic purposes
       item("Conditions pré-existantes", priorConditionsLabel, language),
       isApplicable(form.priorConditions)
-        ? item(
+        ? // FIXME: will break translate on debug
+          item(
             "Score de Gleason",
             getGleasonConclusion(form.histologicalGrade, language),
             language,
@@ -134,9 +135,13 @@ export const generateReport = (
   return joinSections([
     getFormTitle(form.formId, language),
     getCaseSummarySection(form, language),
-    joinLines(getResectionMacroscopySection(form, language)),
+    getMacroscopySection(form, language),
     getImmunohistochemistrySection(form.ihc, language, false),
     getConclusionSection(form, language),
     getOtherLesionsSection(form, language),
   ]);
+};
+
+const getMacroscopySection = (form: ReportParams, language: Language) => {
+  return joinLines(getResectionMacroscopySection(form, language));
 };

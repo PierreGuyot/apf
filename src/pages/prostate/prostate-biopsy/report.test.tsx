@@ -546,12 +546,12 @@ Case summary:
 Immunohistochemistry:
     Block 1:
         P504S/P63 (clone M-13H4): invasive carcinoma
-        other_1 (clone clone_1): bénin
-        other_2 (clone clone_2): malin
+        other_1 (clone clone_1): benign
+        other_2 (clone clone_2): malignant
     Block 3:
-        P63 (clone M-4A4): begnin
+        P63 (clone M-4A4): benign
         CK14/CK15 (clone SP53): intraepithelial lesion
-        other_3 (clone clone_3): bénin
+        other_3 (clone clone_3): benign
 
 Other:
     MOCK-specific-notes

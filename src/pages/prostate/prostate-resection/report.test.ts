@@ -117,8 +117,8 @@ Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
 
 Immunohistochemistry:
     P504S/P63 (clone M-13H4): invasive carcinoma
-    other_1 (clone clone_1): bénin
-    other_2 (clone clone_2): malin
+    other_1 (clone clone_1): benign
+    other_2 (clone clone_2): malignant
 
 Numerous prostate glands, often grouped into nodules, are found within a smooth muscular prostatic stroma. No carcinomatous focus.
 
@@ -140,8 +140,8 @@ Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
 
 Immunohistochemistry:
     P504S/P63 (clone M-13H4): invasive carcinoma
-    other_1 (clone clone_1): bénin
-    other_2 (clone clone_2): malin
+    other_1 (clone clone_1): benign
+    other_2 (clone clone_2): malignant
 
 Acinar adenocarcinoma, conventional (usual).
 

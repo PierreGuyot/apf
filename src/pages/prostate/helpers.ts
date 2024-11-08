@@ -304,7 +304,7 @@ export const getGleasonConclusion = (
 };
 
 const CONCLUSIONS_SEVERITY = [
-  { value: "begnin", label: "Bénin" },
+  { value: "benign", label: "Bénin" },
   { value: "intraepithelial-lesion", label: "Lésion intra-épithéliale" },
   { value: "invasive-carcinoma", label: "Carcinome invasif" },
 ];

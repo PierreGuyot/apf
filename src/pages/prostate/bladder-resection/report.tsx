@@ -127,12 +127,14 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
       language,
     }),
     form.muscularisPropria.isPresent === "yes"
-      ? item(
+      ? // FIXME: will break translate on debug
+        item(
           "Nombre de copeaux",
           String(form.muscularisPropria.chipCount),
           language,
         )
-      : form.muscularisPropria.isPresent === "unspecified"
+      : // FIXME: will break translate on debug
+        form.muscularisPropria.isPresent === "unspecified"
         ? item("Commentaire", form.muscularisPropria.notes, language)
         : undefined,
     "", // Empty line
