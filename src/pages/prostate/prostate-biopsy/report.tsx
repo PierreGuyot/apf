@@ -66,6 +66,7 @@ const getClinicalInformationContent = (
   isExpertMode: boolean,
 ) => {
   const t = (value: string) => translate(value, language);
+  const colon = t(COLON_CHARACTER);
 
   if (!form.hasInfo) {
     return undefined;
@@ -76,8 +77,7 @@ const getClinicalInformationContent = (
   }
 
   return joinLines([
-    // TODO CLEAN: fix colon translation
-    pad(`${t("PSA")}: ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
+    pad(`${t("PSA")}${colon} ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
     pad(reportBoolean({ label: "IRM", value: form.hasMri, language })),
     ...(form.piradsItems.length
       ? [

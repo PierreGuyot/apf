@@ -416,7 +416,7 @@ const SAMPLE_WITHOUT_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUID�
 
 Renseignements cliniques :
 
-    PSA: 10 ng.mL⁻¹
+    PSA : 10 ng.mL⁻¹
     IRM : oui
     Cibles :
         PIRADS 2, base droite (pots 7 et 8)
@@ -434,7 +434,7 @@ const SAMPLE_WITH_TUMOR_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques :
 
-    PSA: 10 ng.mL⁻¹
+    PSA : 10 ng.mL⁻¹
     IRM : oui
     Cibles :
         PIRADS 2, base droite (pots 7 et 8)
@@ -502,7 +502,7 @@ const SAMPLE_WITH_IHC_FR = `BIOPSIES PROSTATIQUES TRANSRECTALES ÉCHO-GUIDÉES
 
 Renseignements cliniques :
 
-    PSA: 10 ng.mL⁻¹
+    PSA : 10 ng.mL⁻¹
     IRM : oui
     Cibles :
         PIRADS 2, base droite (pots 7 et 8)
@@ -572,7 +572,7 @@ const SAMPLE_WITH_TUMOR_TRANSPERINEAL_FR = `BIOPSIES PROSTATIQUES TRANSPÉRINÉA
 
 Renseignements cliniques :
 
-    PSA: 10 ng.mL⁻¹
+    PSA : 10 ng.mL⁻¹
     IRM : oui
     Cibles :
         PIRADS 2, latérale droite (pots 7 et 8)
