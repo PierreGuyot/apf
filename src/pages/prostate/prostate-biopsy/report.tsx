@@ -107,7 +107,7 @@ const getClinicalInformationSection = (
   ]);
 };
 
-const getTumorLocation = (rows: Row[], language: Language) => {
+const reportLocation = (rows: Row[], language: Language) => {
   const tumorCount = sumOnField("tumorCount", rows);
   const totalCount = sumOnField("biopsyCount", rows);
   const tumorSize = sum(rows.map((item) => sum(item.tumorSize)));
@@ -159,9 +159,9 @@ const getLocationSection = (
     reportTitle("Localisation", language),
     // TODO CLEAN: use `item`
     ...[
-      `${t("Biopsies systématiques")}${colon} ${getTumorLocation(sextants, language)}`, // Systematic biopsies are mandatory
+      `${t("Biopsies systématiques")}${colon} ${reportLocation(sextants, language)}`, // Systematic biopsies are mandatory
       targets.length
-        ? `${t("Biopsies ciblées")}${colon} ${getTumorLocation(targets, language)}`
+        ? `${t("Biopsies ciblées")}${colon} ${reportLocation(targets, language)}`
         : undefined, // Targets are optional
       language === "FR"
         ? `${t("Total")}${colon} ${tumorSize}mm sur ${totalSize}mm examinés (${containerLocations})`
@@ -223,8 +223,6 @@ Prostate adenomyoma.`;
   const lineGleason = `${t("Score de Gleason")}${colon} ${getGleasonConclusion(maxGleasonItem, language)}`;
   const locationSection = getLocationSection(formId, rows, language);
 
-  const partEpn = reportEpn(score.tumorEpn ?? false, language);
-  const partTep = reportTep(formId, rows, score, language);
   return joinLines(
     [
       // TODO clean: only lowercase first letter (for safety)
@@ -232,8 +230,8 @@ Prostate adenomyoma.`;
       lineGleason,
       isExpertMode ? locationSection : undefined,
       "", // Empty line
-      partEpn,
-      partTep,
+      reportEpn(score.tumorEpn ?? false, language),
+      reportTep(formId, rows, score, language),
     ].filter(filterNullish),
   );
 };

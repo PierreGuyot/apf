@@ -1,12 +1,12 @@
 import { COLON_CHARACTER, Language, translate } from "../translation";
 import { filterEmpty, filterNullish } from "./helpers";
 
-export const EMPTY_LINE = "\n";
+const EMPTY_LINE = "\n";
 const PADDING = " ".repeat(4);
 
 export const pad = (value: string) => `${PADDING}${value}`;
 
-// TODO clean: this won't work if the items like "G1" (where G needs to stay capitalized)
+// TODO clean: this won't work for items like "G1" (where G needs to stay capitalized)
 export const lowercaseFirstLetter = (value: string) => {
   return value.charAt(0).toLowerCase() + value.slice(1);
 };

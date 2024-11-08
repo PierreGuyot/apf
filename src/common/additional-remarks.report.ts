@@ -1,5 +1,4 @@
-import { Language } from "../ui";
-import { reportTextArea } from "../ui/text-area.report";
+import { Language, reportTextArea } from "../ui";
 
 export const reportAdditionalRemarks = (
   form: { comments: string },
