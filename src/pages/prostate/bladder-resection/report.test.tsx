@@ -6,7 +6,7 @@ import { Report, ReportParams } from "./report";
 const MOCK_DATA: ReportParams = {
   clinicalInfo: "MOCK_CLINICAL_INFO",
   medicalHistory: "yes",
-  previousTumorType: {
+  previousTumor: {
     type: "other",
     subtype: "Adénocarcinome de type digestif",
     otherSubtype: "mock_subtype",

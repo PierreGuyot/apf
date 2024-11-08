@@ -28,13 +28,13 @@ export const TumorInput = ({
   state,
   setState,
   hasGrade,
-  hasTumoralExtension,
+  hasExtension,
   errors,
 }: {
   state: Tumor;
   setState: (value: Tumor) => void;
   hasGrade?: boolean;
-  hasTumoralExtension?: boolean;
+  hasExtension?: boolean;
   errors: string[];
 }) => {
   const setField = patchState(state, setState);
@@ -97,7 +97,7 @@ export const TumorInput = ({
           onChange={setField("grade")}
         />
       )}
-      {hasTumoralExtension ? (
+      {hasExtension ? (
         <InputTumoralExtension
           tumorType={state.type}
           state={state.extension}

@@ -68,7 +68,7 @@ export type FormState = {
 
   // Expert mode
   medicalHistory: Troolean;
-  previousTumorType: Tumor;
+  previousTumor: Tumor;
 
   location: FullLocation;
   hadPreviousTreatment: Troolean;
@@ -99,7 +99,7 @@ const getInitialState = (): FormState => ({
 
   // Expert mode
   medicalHistory: "unspecified",
-  previousTumorType: DEFAULT_TUMOR,
+  previousTumor: DEFAULT_TUMOR,
   location: DEFAULT_FULL_LOCATION,
   hadPreviousTreatment: "unspecified",
   previousTreatment: TREATMENT_OPTIONS[0].value,
@@ -221,7 +221,7 @@ export const BladderResectionFormContent = ({
 type ClinicalInfoState = Pick<
   FormState,
   | "medicalHistory"
-  | "previousTumorType"
+  | "previousTumor"
   | "location"
   | "hadPreviousTreatment"
   | "previousTreatment"
@@ -249,8 +249,8 @@ const ClinicalInfoExpert = ({
       {state.medicalHistory === "yes" ? (
         <>
           <TumorInput
-            state={state.previousTumorType}
-            setState={setField("previousTumorType")}
+            state={state.previousTumor}
+            setState={setField("previousTumor")}
             errors={[]}
           />
           <LocationInput
@@ -321,7 +321,7 @@ const MicroscopySection = ({
         state={state.tumor}
         setState={setField("tumor")}
         hasGrade
-        hasTumoralExtension
+        hasExtension
         errors={errors.tumor}
       />
       <HasInvasion

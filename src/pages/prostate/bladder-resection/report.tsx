@@ -87,7 +87,7 @@ const getClinicalInfoSection = (
       ),
       ...(form.medicalHistory === "yes"
         ? [
-            ...getTumorTypeSection(form.previousTumorType, language),
+            ...getTumorTypeSection(form.previousTumor, language),
             item(
               "Localisation",
               getLocationOption(form.location.location).label,
