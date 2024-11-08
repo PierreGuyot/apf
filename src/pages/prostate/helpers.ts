@@ -278,7 +278,6 @@ export const getGleasonConclusion = (
   const p = a === b ? 100 : maxScore === a ? percentage : 100 - percentage;
   const partTotal = `${a + b} (${a} + ${b})`;
 
-  // TODO CLEAN: use translation functions
   const partMaxScore =
     maxScore === 4
       ? language === "FR"

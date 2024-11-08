@@ -13,6 +13,8 @@ export const COLON_CHARACTER = " :";
 // - Priority is given to French as the app is intended for French-speaking practitioners first
 // - We avoid creating key names for all these items
 
+// TODO CLEAN: consider using translation functions
+
 export const DICTIONARY_EN: Record<string, string> = {
   // Special characters
 

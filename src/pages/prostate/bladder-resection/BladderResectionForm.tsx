@@ -137,7 +137,6 @@ const validateMicroscopy = ({ tumor }: { tumor: Tumor }) => {
   return { tumor: errors };
 };
 
-// TODO CLEAN: refactor ModePicker
 export const BladderResectionForm = ({ formId }: Props) => {
   const [mode, setMode] = useState<Mode>();
 

@@ -13,6 +13,7 @@ import {
   Language,
   pad,
   reportCheckboxList,
+  reportTitle,
   reportTroolean,
   reportValue,
   translate,
@@ -155,8 +156,7 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
   ].filter(filterNullish);
 
   return joinLines([
-    // TODO CLEAN: extract a title.report.ts
-    `${t("Microscopie")}${colon}`,
+    reportTitle("Microscopie", language), 
     ...content.map((line) => (line ? pad(line) : "")),
   ]);
 };
