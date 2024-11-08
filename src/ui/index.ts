@@ -38,3 +38,5 @@ export * from "./Tooltip";
 export * from "./translation";
 export * from "./troolean";
 export * from "./ValidationErrors";
+export * from "./title.report";
+export * from "./text-area.report";

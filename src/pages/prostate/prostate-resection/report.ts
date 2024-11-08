@@ -1,8 +1,8 @@
+import { reportCaseSummary } from "../../../common/case-summary.report";
 import { reportEpn } from "../../../common/epn/report";
 import { reportInvasion } from "../../../common/invasion/report";
 import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
 import {
-  COLON_CHARACTER,
   Language,
   assertUnreachable,
   getFormTitle,
@@ -10,7 +10,6 @@ import {
   item,
   joinLines,
   joinSections,
-  padSection,
   reportCheckboxList,
   translate,
 } from "../../../ui";
@@ -32,16 +31,11 @@ export type ReportParams = FormState & {
   formId: ProstateResectionFormId;
 };
 
-const getCaseSummarySection = (form: ReportParams, language: Language) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  return form.caseSummary
-    ? joinLines([
-        `${t("Renseignements cliniques")}${colon}`,
-        padSection(form.caseSummary),
-      ])
-    : undefined;
+const getCaseSummarySection = (
+  { caseSummary }: ReportParams,
+  language: Language,
+) => {
+  return caseSummary ? reportCaseSummary(caseSummary, language) : undefined;
 };
 
 // NOTE: inline translation

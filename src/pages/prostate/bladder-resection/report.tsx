@@ -1,7 +1,5 @@
-import {
-  getCommentSection,
-  getParagraphSection,
-} from "../../../common/comment-section";
+import { reportAdditionalRemarks } from "../../../common/additional-remarks.report";
+import { reportCaseSummary } from "../../../common/case-summary.report";
 import { reportInvasion } from "../../../common/invasion/report";
 import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
 import {
@@ -42,7 +40,7 @@ export const generateReport = (
     getClinicalInfoSection(form, language, isExpertMode),
     getMacroscopySection(form, language),
     getMicroscopySection(form, language),
-    getCommentSection(form, language),
+    reportAdditionalRemarks(form, language),
   ]);
 };
 
@@ -86,11 +84,7 @@ const getClinicalInfoSection = (
   }
 
   // Standard mode
-  return getParagraphSection(
-    "Renseignements cliniques",
-    form.clinicalInfo,
-    language,
-  );
+  return reportCaseSummary(form.clinicalInfo, language);
 };
 
 const getMacroscopySection = (form: ReportParams, language: Language) => {

@@ -1,5 +1,6 @@
 import { pad } from "./helpers";
-import { COLON_CHARACTER, Language, translate } from "./translation";
+import { reportTitle } from "./title.report";
+import { Language, translate } from "./translation";
 
 export const reportCheckboxList = ({
   title,
@@ -15,10 +16,9 @@ export const reportCheckboxList = ({
   }
 
   const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
 
   return [
-    `${t(title)}${colon}`,
+    reportTitle(title, language),
     ...items.map(t).map((item) => pad(` - ${item}`)),
   ];
 };

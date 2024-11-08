@@ -3,7 +3,14 @@ import {
   Block,
   IhcState,
 } from "../../common/immunohistochemistry/helpers";
-import { COLON_CHARACTER, joinLines, Language, pad, translate } from "../../ui";
+import {
+  COLON_CHARACTER,
+  joinLines,
+  Language,
+  pad,
+  reportTitle,
+  translate,
+} from "../../ui";
 import { getResultOption } from "./helpers";
 
 export const getImmunohistochemistrySection = (
@@ -11,15 +18,12 @@ export const getImmunohistochemistrySection = (
   language: Language,
   hasMultipleBlocks: boolean,
 ) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
   if (!ihc.hasIhc) {
     return undefined;
   }
 
   return joinLines([
-    `${t("Immunohistochimie")}${colon}`,
+    reportTitle("Immunohistochimie", language),
     ...ihc.blocks.flatMap((block) =>
       renderBlock(block, language, hasMultipleBlocks),
     ),

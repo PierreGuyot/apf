@@ -1,4 +1,4 @@
-import { getCommentSection } from "../../../common/comment-section";
+import { reportAdditionalRemarks } from "../../../common/additional-remarks.report";
 import { reportEpn } from "../../../common/epn/report";
 import {
   COLON_CHARACTER,
@@ -13,6 +13,7 @@ import {
   pad,
   pluralize,
   reportBoolean,
+  reportTitle,
   sum,
   sumOnField,
   translate,
@@ -64,7 +65,6 @@ const getClinicalInformationContent = (
   isExpertMode: boolean,
 ) => {
   const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
 
   if (!form.hasInfo) {
     return undefined;
@@ -80,8 +80,7 @@ const getClinicalInformationContent = (
     pad(reportBoolean({ label: "IRM", value: form.hasMri, language })),
     ...(form.piradsItems.length
       ? [
-          // TODO CLEAN: use reportTitle when available
-          `${t("Cibles")}${colon}`,
+          reportTitle("Cibles", language),
           ...form.piradsItems.map((item) =>
             renderPiradsItem(form.formId, item, form.rows, language),
           ),
@@ -95,9 +94,6 @@ const getClinicalInformationSection = (
   language: Language,
   isExpertMode: boolean,
 ) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
   const content = getClinicalInformationContent(form, language, isExpertMode);
 
   if (!content) {
@@ -105,7 +101,7 @@ const getClinicalInformationSection = (
   }
 
   return joinLines([
-    `${t("Renseignements cliniques")}${colon}`,
+    reportTitle("Renseignements cliniques", language),
     "", // Empty line
     content,
   ]);
@@ -160,7 +156,8 @@ const getLocationSection = (
   );
 
   return joinLines([
-    `${t("Localisation")}${colon}`,
+    reportTitle("Localisation", language),
+    // TODO CLEAN: use `item`
     ...[
       `${t("Biopsies systématiques")}${colon} ${getTumorLocation(sextants, language)}`, // Systematic biopsies are mandatory
       targets.length
@@ -246,11 +243,8 @@ const getConclusionSection = (
   language: Language,
   isExpertMode: boolean,
 ) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
   return joinLines([
-    `${t("Conclusion")}${colon}`,
+    reportTitle("Conclusion", language),
     "", // Empty line
     getConclusionContent(params, language, isExpertMode),
   ]);
@@ -265,7 +259,7 @@ export const generateReport = (
     getFormTitle(form.formId, language),
     getClinicalInformationSection(form, language, isExpertMode),
     getImmunohistochemistrySection(form.ihc, language, true),
-    getCommentSection(form, language),
+    reportAdditionalRemarks(form, language),
     getConclusionSection(form, language, isExpertMode),
   ]);
 };
