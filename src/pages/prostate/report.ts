@@ -8,7 +8,7 @@ import {
   joinLines,
   Language,
   pad,
-  reportTitle,
+  reportSection,
   translate,
 } from "../../ui";
 import { getResultOption } from "./helpers";
@@ -22,28 +22,30 @@ export const getImmunohistochemistrySection = (
     return undefined;
   }
 
-  return joinLines([
-    reportTitle("Immunohistochimie", language),
-    ...ihc.blocks.flatMap((block) =>
-      renderBlock(block, language, hasMultipleBlocks),
+  return joinLines(
+    reportSection(
+      "Immunohistochimie",
+      language,
+      ihc.blocks.flatMap((block) =>
+        renderBlock(block, language, hasMultipleBlocks),
+      ),
     ),
-  ]);
+  );
 };
 
-const renderBlock = (
-  block: Block,
-  language: Language,
-  hasMultipleBlocks: boolean,
-) => {
+const renderBlock = (block: Block, language: Language, hasTitle: boolean) => {
+  const antibodies = block.antibodies.flatMap((antibody) =>
+    renderAntibody(antibody, language),
+  );
+
+  if (!hasTitle) {
+    return antibodies;
+  }
+
   const t = (value: string) => translate(value, language);
   const colon = t(COLON_CHARACTER);
 
-  return [
-    hasMultipleBlocks ? `${t("Bloc")} ${block.index}${colon}` : undefined,
-    ...block.antibodies
-      .flatMap((antibody) => renderAntibody(antibody, language))
-      .map(pad),
-  ];
+  return [`${t("Bloc")} ${block.index}${colon}`, ...antibodies.map(pad)];
 };
 
 const renderAntibody = (antibody: AntibodyData, language: Language) => {

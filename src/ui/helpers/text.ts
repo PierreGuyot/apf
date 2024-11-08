@@ -1,4 +1,5 @@
-import { COLON_CHARACTER, Language, translate } from "../translation";
+import { reportTitle } from "../title.report";
+import { Language, translate } from "../translation";
 import { filterEmpty, filterNullish, join } from "./helpers";
 
 const EMPTY_LINE = "\n";
@@ -18,10 +19,8 @@ export const item = (
   value: string,
   language: Language,
 ) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
   return join(
-    name ? `${t(name)}${colon}` : undefined, // Optional label
+    name ? reportTitle(name, language) : undefined, // Optional label
     reportValue(value, language), // Value
   );
 };

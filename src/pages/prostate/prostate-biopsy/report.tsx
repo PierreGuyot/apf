@@ -11,10 +11,10 @@ import {
   joinSections,
   Language,
   naturalJoin,
-  pad,
   pluralize,
   reportBoolean,
-  reportTitle,
+  reportSection,
+  reportTextArea,
   sum,
   sumOnField,
   translate,
@@ -55,39 +55,7 @@ const renderPiradsItem = (
     ? ` (${pluralize(matches.length, t("pot"))} ${naturalJoin(matches, language)})`
     : undefined;
 
-  return pad(
-    `PIRADS ${item.score}, ${getLocationLabel(formId, item.location, language).toLocaleLowerCase()}${containerCount}`,
-  );
-};
-
-const getClinicalInformationContent = (
-  form: ReportParams,
-  language: Language,
-  isExpertMode: boolean,
-) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  if (!form.hasInfo) {
-    return undefined;
-  }
-
-  if (!isExpertMode) {
-    return form.clinicalInfo.trim();
-  }
-
-  return joinLines([
-    pad(`${t("PSA")}${colon} ${formatWithUnit(form.psaRate, "ng-per-mL")}`),
-    pad(reportBoolean({ label: "IRM", value: form.hasMri, language })),
-    ...(form.piradsItems.length
-      ? [
-          reportTitle("Cibles", language),
-          ...form.piradsItems.map((item) =>
-            renderPiradsItem(form.formId, item, form.rows, language),
-          ),
-        ].map(pad)
-      : []),
-  ]);
+  return `PIRADS ${item.score}, ${getLocationLabel(formId, item.location, language).toLocaleLowerCase()}${containerCount}`;
 };
 
 const getClinicalInformationSection = (
@@ -95,17 +63,36 @@ const getClinicalInformationSection = (
   language: Language,
   isExpertMode: boolean,
 ) => {
-  const content = getClinicalInformationContent(form, language, isExpertMode);
-
-  if (!content) {
+  if (!form.hasInfo) {
     return undefined;
   }
 
-  return joinLines([
-    reportTitle("Renseignements cliniques", language),
-    "", // Empty line
-    content,
-  ]);
+  if (!isExpertMode) {
+    return reportTextArea(
+      "Renseignements cliniques",
+      form.clinicalInfo.trim(),
+      language,
+    );
+  }
+
+  const t = (value: string) => translate(value, language);
+  const colon = t(COLON_CHARACTER);
+
+  const content = [
+    `${t("PSA")}${colon} ${formatWithUnit(form.psaRate, "ng-per-mL")}`,
+    reportBoolean({ label: "IRM", value: form.hasMri, language }),
+    ...reportSection(
+      "Cibles",
+      language,
+      form.piradsItems.map((item) =>
+        renderPiradsItem(form.formId, item, form.rows, language),
+      ),
+    ),
+  ];
+
+  return joinLines(
+    reportSection("Renseignements cliniques", language, content, true),
+  );
 };
 
 const getLocations = (rows: Row[], language: Language) => {
@@ -156,20 +143,17 @@ const getLocationSection = (
     rows.filter((row) => row.tumorCount > 0),
   );
 
-  return joinLines([
-    reportTitle("Localisation", language),
-    ...[
-      `${t("Biopsies systématiques")}${colon} ${getLocations(sextants, language)}`, // Systematic biopsies are mandatory
-      targets.length
-        ? `${t("Biopsies ciblées")}${colon} ${getLocations(targets, language)}`
-        : undefined, // Targets are optional
-      language === "FR"
-        ? `${t("Total")}${colon} ${tumorSize}mm sur ${totalSize}mm examinés (${containerLocations})`
-        : `${t("Total")}${colon} ${tumorSize}mm out of ${totalSize}mm examined (${containerLocations})`,
-    ]
-      .filter(filterEmpty)
-      .map(pad),
-  ]);
+  const content = [
+    `${t("Biopsies systématiques")}${colon} ${getLocations(sextants, language)}`, // Systematic biopsies are mandatory
+    targets.length
+      ? `${t("Biopsies ciblées")}${colon} ${getLocations(targets, language)}`
+      : undefined, // Targets are optional
+    language === "FR"
+      ? `${t("Total")}${colon} ${tumorSize}mm sur ${totalSize}mm examinés (${containerLocations})`
+      : `${t("Total")}${colon} ${tumorSize}mm out of ${totalSize}mm examined (${containerLocations})`,
+  ].filter(filterEmpty);
+
+  return reportSection("Localisation", language, content);
 };
 
 const reportTep = (
@@ -206,13 +190,17 @@ const getConclusionContent = (
   if (score.tumorCount === 0) {
     // NOTE: inline translation
     if (language === "FR") {
-      return `Absence de foyer tumoral sur l'ensemble des ${score.biopsyCount} biopsies étudiées (${score.biopsySize} mm).
-Adénomyome prostatique.`;
+      return [
+        `Absence de foyer tumoral sur l'ensemble des ${score.biopsyCount} biopsies étudiées (${score.biopsySize} mm).`,
+        "Adénomyome prostatique.",
+      ];
     }
 
     if (language === "EN") {
-      return `No tumor seen among the ${score.biopsyCount} studied biopsies (${score.biopsySize} mm).
-Prostate adenomyoma.`;
+      return [
+        `No tumor seen among the ${score.biopsyCount} studied biopsies (${score.biopsySize} mm).`,
+        "Prostate adenomyoma.",
+      ];
     }
   }
 
@@ -223,16 +211,14 @@ Prostate adenomyoma.`;
   const lineGleason = `${t("Score de Gleason")}${colon} ${getGleasonConclusion(maxGleasonItem, language)}`;
   const locationSection = getLocationSection(formId, rows, language);
 
-  return joinLines(
-    [
-      `${item("Type de tumeur", tumorTypeLabel, language)}.`,
-      lineGleason,
-      isExpertMode ? locationSection : undefined,
-      "", // Empty line
-      reportEpn(score.tumorEpn ?? false, language),
-      reportTep(formId, rows, score, language),
-    ].filter(filterNullish),
-  );
+  return [
+    `${item("Type de tumeur", tumorTypeLabel, language)}.`,
+    lineGleason,
+    ...(isExpertMode ? locationSection : []),
+    "", // Empty line
+    reportEpn(score.tumorEpn ?? false, language),
+    reportTep(formId, rows, score, language),
+  ].filter(filterNullish);
 };
 
 const getConclusionSection = (
@@ -240,11 +226,14 @@ const getConclusionSection = (
   language: Language,
   isExpertMode: boolean,
 ) => {
-  return joinLines([
-    reportTitle("Conclusion", language),
-    "", // Empty line
-    getConclusionContent(params, language, isExpertMode),
-  ]);
+  return joinLines(
+    reportSection(
+      "Conclusion",
+      language,
+      getConclusionContent(params, language, isExpertMode),
+      true,
+    ),
+  );
 };
 
 export const generateReport = (

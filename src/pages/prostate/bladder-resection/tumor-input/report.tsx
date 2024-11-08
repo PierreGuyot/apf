@@ -1,9 +1,8 @@
 import {
-  COLON_CHARACTER,
   item,
   Language,
   reportCheckboxList,
-  translate,
+  reportTitle,
 } from "../../../../ui";
 import {
   getGradeOption,
@@ -25,9 +24,6 @@ export const getTumorTypeSection = ({
   hasGrade?: boolean;
   hasExtension?: boolean;
 }) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
   const tumorSubtypeOptions = getTumorSubtypeOptions(tumor.type);
 
   return [
@@ -60,7 +56,7 @@ export const getTumorTypeSection = ({
               .map(([key, percentage]) => {
                 // CAUTION: this cast is type-unsafe
                 const { label } = getPtnmOption(key as PtnmOptionType);
-                return `${t(label)}${colon} ${percentage}%`;
+                return `${reportTitle(label, language)} ${percentage}%`;
               }),
             language,
           })

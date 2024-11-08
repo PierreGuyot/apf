@@ -1,5 +1,4 @@
-import { pad } from "./helpers";
-import { reportTitle } from "./title.report";
+import { reportSection } from "./section.report";
 import { Language, translate } from "./translation";
 
 export const reportCheckboxList = ({
@@ -11,14 +10,11 @@ export const reportCheckboxList = ({
   items: string[];
   language: Language;
 }) => {
-  if (!items.length) {
-    return [];
-  }
-
   const t = (value: string) => translate(value, language);
 
-  return [
-    reportTitle(title, language),
-    ...items.map(t).map((item) => pad(` - ${item}`)),
-  ];
+  return reportSection(
+    title,
+    language,
+    items.map(t).map((item) => ` - ${item}`),
+  );
 };

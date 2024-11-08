@@ -3,7 +3,6 @@ import { reportCaseSummary } from "../../../common/case-summary.report";
 import { reportInvasion } from "../../../common/invasion/report";
 import { getResectionMacroscopySection } from "../../../common/resection-macroscopy/report";
 import {
-  COLON_CHARACTER,
   filterNullish,
   FormId,
   getFormTitle,
@@ -12,12 +11,10 @@ import {
   joinLines,
   joinSections,
   Language,
-  pad,
   reportCheckboxList,
-  reportTitle,
+  reportSection,
   reportTroolean,
   reportValue,
-  translate,
 } from "../../../ui";
 import { FormState } from "./BladderResectionForm";
 import {
@@ -94,18 +91,12 @@ const getClinicalInfoSection = (
 };
 
 const getMacroscopySection = (form: ReportParams, language: Language) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
   const content = getResectionMacroscopySection(form, language);
-  return joinLines([`${t("Macroscopie")}${colon}`, ...content.map(pad)]);
+  return joinLines(reportSection("Macroscopie", language, content));
 };
 
 const getMicroscopySection = (form: ReportParams, language: Language) => {
-  const t = (value: string) => translate(value, language);
-  const colon = t(COLON_CHARACTER);
-
-  const otherResults = [
+  const otherResults = reportSection("Autres résultats", language, [
     ...reportCheckboxList({
       title: "Tumoraux",
       items: form.otherResults.tumoral,
@@ -116,17 +107,14 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
       items: form.otherResults.nonTumoral,
       language,
     }),
-  ].map(pad);
-
-  const hasExtension = true;
-  const hasGrade = true;
+  ]);
 
   const content = [
     ...getTumorTypeSection({
       tumor: form.tumor,
       language,
-      hasGrade,
-      hasExtension,
+      hasGrade: true,
+      hasExtension: true,
     }),
 
     "", // Empty line
@@ -148,14 +136,10 @@ const getMicroscopySection = (form: ReportParams, language: Language) => {
         ? item("Commentaire", form.muscularisPropria.notes, language)
         : undefined,
     "", // Empty line
-    otherResults ? t("Autres résultats") : undefined,
     ...otherResults,
   ].filter(filterNullish);
 
-  return joinLines([
-    reportTitle("Microscopie", language),
-    ...content.map((line) => (line ? pad(line) : "")),
-  ]);
+  return joinLines(reportSection("Microscopie", language, content));
 };
 
 export const Report = ({

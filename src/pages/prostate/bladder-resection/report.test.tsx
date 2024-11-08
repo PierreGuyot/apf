@@ -69,7 +69,7 @@ Microscopie :
     Copeaux de résection présentant de la musculeuse : oui
     Nombre de copeaux : 10
 
-    Autres résultats
+    Autres résultats :
         Tumoraux :
              - Papillome urothélial, type inversé
              - Néoplasme urothélial papillaire à faible potentiel de malignité
@@ -103,7 +103,7 @@ Microscopy:
     TODO: yes
     TODO: 10
 
-    TODO
+    TODO:
         TODO:
              - TODO
              - TODO
@@ -141,7 +141,7 @@ Microscopie :
     Copeaux de résection présentant de la musculeuse : oui
     Nombre de copeaux : 10
 
-    Autres résultats
+    Autres résultats :
         Tumoraux :
              - Papillome urothélial, type inversé
              - Néoplasme urothélial papillaire à faible potentiel de malignité
@@ -179,7 +179,7 @@ Microscopy:
     TODO: yes
     TODO: 10
 
-    TODO
+    TODO:
         TODO:
              - TODO
              - TODO

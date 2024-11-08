@@ -40,3 +40,4 @@ export * from "./troolean";
 export * from "./ValidationErrors";
 export * from "./title.report";
 export * from "./text-area.report";
+export * from "./section.report";
