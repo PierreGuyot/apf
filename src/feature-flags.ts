@@ -5,7 +5,7 @@ const FEATURE_FLAGS = {
   "prostate-transurethral-resection": true,
   "prostate-holmium-laser-enucleation": true,
   "bladder-transurethral-resection": true,
-  dermatology: false,
+  dermatology: true,
 } as const;
 
 type FeatureFlag = keyof typeof FEATURE_FLAGS;

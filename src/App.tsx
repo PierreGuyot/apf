@@ -5,6 +5,7 @@ import { DermatologyForm } from "./pages/dermatology/DermatologyForm";
 import { BladderResectionForm } from "./pages/prostate/bladder-resection/BladderResectionForm";
 import { ProstateBiopsyForm } from "./pages/prostate/prostate-biopsy/ProstateBiopsyForm";
 import { ProstateResectionForm } from "./pages/prostate/prostate-resection/ProstateResectionForm";
+import { useIsLogged } from "./session";
 import {
   assertUnreachable,
   INDEX_ROUTE,
@@ -30,6 +31,11 @@ const isEnabledRoute = (value: string): value is Route => {
 export const App = () => {
   const { hash: rawHash } = useHash();
   const hash = isEnabledRoute(rawHash) ? rawHash : INDEX_ROUTE;
+  const isLogged = useIsLogged();
+
+  if (!isLogged) {
+    return <PageMain />;
+  }
 
   switch (hash) {
     // Forms

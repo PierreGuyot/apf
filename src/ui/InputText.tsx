@@ -6,13 +6,18 @@ import { InputProps, OnInput } from "./input.types";
 import { useBoolean } from "./helpers/state";
 import { Stack } from "./Stack";
 
+type InputType = "text" | "password";
+
 type Props = InputProps<string> & {
+  type?: InputType;
   placeholder?: string;
   labelSize?: "sm" | "md";
   isFullWidth?: boolean;
+  onReturn?: () => void;
 };
 
 export const InputText = ({
+  type = "text",
   value,
   label,
   labelSize = "md",
@@ -22,6 +27,7 @@ export const InputText = ({
   isSubmitted,
   isReadOnly,
   onChange,
+  onReturn,
 }: Props) => {
   const [isTouched, setIsTouched] = useBoolean(false);
   const onBlur = () => setIsTouched(true);
@@ -44,11 +50,16 @@ export const InputText = ({
               css.input,
               isFullWidth ? css.isFullWidth : undefined,
             )}
-            type="text"
+            type={type}
             placeholder={placeholder}
             value={value}
             onBlur={onBlur}
             onInput={onInput}
+            onKeyDown={(e) => {
+              if (onReturn && e.key === "Enter") {
+                onReturn();
+              }
+            }}
           />
           {isTouched || isSubmitted ? (
             <ErrorMessage errorMessage={errorMessage} />

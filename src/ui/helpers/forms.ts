@@ -28,6 +28,7 @@ export const FORMS: Record<
     title: string;
     category: Category;
     isPrototype: boolean;
+    isWip?: boolean;
     lastUpdate: number; // Timestamp in milliseconds
   }
 > = {
@@ -59,27 +60,29 @@ export const FORMS: Record<
     title: "Résection transurétrale de vessie",
     category: "maleGenitalia",
     isPrototype: true,
+    isWip: true,
     lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
   },
   dermatology: {
     title: "Dermatologie",
     category: "skin",
     isPrototype: true,
+    isWip: true,
     lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
   },
 };
 
 const getFormCategories = () => {
   // TODO CLEAN: generate from a list of categories
-  const categories: Record<Category, FormId[]> = {
+  const categories: Record<Category, Array<{ id: FormId; isWip: boolean }>> = {
     maleGenitalia: [],
     skin: [],
   };
 
   for (const id in FORMS) {
     if (isFormId(id) && isFeatureFlagEnabled(id)) {
-      const { category } = FORMS[id];
-      categories[category].push(id);
+      const { category, isWip = false } = FORMS[id];
+      categories[category].push({ id, isWip });
     }
   }
 
