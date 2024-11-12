@@ -101,8 +101,8 @@ export const TUMORAL_RESULT_GROUPS = [
   {
     title: "",
     options: [
-      // FIXME: discuss this item
-      "Carcinome urothélial in situ (préciser focal / multifocal)",
+      "Carcinome urothélial in situ (focal)",
+      "Carcinome urothélial in situ (multifocal)",
       "Papillome urothélial",
       "Papillome urothélial, type inversé",
       "Néoplasme urothélial papillaire à faible potentiel de malignité",
