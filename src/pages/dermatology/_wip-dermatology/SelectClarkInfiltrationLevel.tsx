@@ -1,4 +1,4 @@
-import { Select } from "../../ui";
+import { Select } from "../../../ui";
 import { CLARK_INFILTRATION_LEVELS, ClarkInfiltrationLevel } from "./helpers";
 
 type Props = {

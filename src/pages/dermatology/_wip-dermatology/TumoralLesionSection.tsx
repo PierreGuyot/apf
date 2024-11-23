@@ -1,5 +1,5 @@
-import { HasInvasion } from "../../common/invasion/HasInvasion";
-import { HasEpn } from "../../common/epn/HasEpn";
+import { HasInvasion } from "../../../common/invasion/HasInvasion";
+import { HasEpn } from "../../../common/epn/HasEpn";
 import {
   InputNumber,
   Line,
@@ -7,7 +7,7 @@ import {
   Select,
   SubSection,
   Text,
-} from "../../ui";
+} from "../../../ui";
 import { TumorData } from "./DermatologyForm";
 import { SelectClarkInfiltrationLevel } from "./SelectClarkInfiltrationLevel";
 import {

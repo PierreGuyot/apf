@@ -1,4 +1,4 @@
-import { Option, findOption } from "../../ui";
+import { Option, findOption } from "../../../ui";
 import { LIMIT_OPTIONS, Limit } from "./helpers";
 
 // FIXME: translate everything below

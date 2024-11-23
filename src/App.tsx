@@ -1,7 +1,7 @@
 import { isFeatureFlagEnabled } from "./feature-flags";
 import { PageMain } from "./pages/PageMain";
 import { DesignPage } from "./pages/_PageDesign";
-import { DermatologyForm } from "./pages/dermatology/DermatologyForm";
+import { DermatologyForm } from "./pages/dermatology/_wip-dermatology/DermatologyForm";
 import { BladderResectionForm } from "./pages/prostate/bladder-resection/BladderResectionForm";
 import { ProstateBiopsyForm } from "./pages/prostate/prostate-biopsy/ProstateBiopsyForm";
 import { ProstateResectionForm } from "./pages/prostate/prostate-resection/ProstateResectionForm";

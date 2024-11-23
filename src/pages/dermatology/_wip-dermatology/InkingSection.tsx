@@ -6,7 +6,7 @@ import {
   SelectList,
   SubSection,
   patchState,
-} from "../../ui";
+} from "../../../ui";
 import {
   INKING_COLORS_OPTIONS,
   INKING_COLOR_GROUPS,

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { AdditionalRemarks } from "../../common/AdditionalRemarks";
-import { ClinicalInfo } from "../../common/ClinicalInfo";
-import { FormPage } from "../../common/FormPage";
+import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
+import { ClinicalInfo } from "../../../common/ClinicalInfo";
+import { FormPage } from "../../../common/FormPage";
 import {
   InputNumber,
   Line,
@@ -16,7 +16,7 @@ import {
   patchState,
   range,
   useForm,
-} from "../../ui";
+} from "../../../ui";
 import { InkingSection, InkingState } from "./InkingSection";
 import { TumoralLesionSection } from "./TumoralLesionSection";
 import {
