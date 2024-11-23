@@ -1,6 +1,7 @@
 import { isFeatureFlagEnabled } from "./feature-flags";
 import { PageMain } from "./pages/PageMain";
 import { DesignPage } from "./pages/_PageDesign";
+import { InvasiveMelanomaForm } from "./pages/dermatology/invasive-melanoma/InvasiveMelanomaForm";
 import { DermatologyForm } from "./pages/dermatology/_wip-dermatology/DermatologyForm";
 import { BladderResectionForm } from "./pages/prostate/bladder-resection/BladderResectionForm";
 import { ProstateBiopsyForm } from "./pages/prostate/prostate-biopsy/ProstateBiopsyForm";
@@ -52,6 +53,8 @@ export const App = () => {
       return <ProstateResectionForm formId={hash} />;
     case "bladder-transurethral-resection":
       return <BladderResectionForm formId={hash} />;
+    case "invasive-melanoma":
+      return <InvasiveMelanomaForm formId={hash} />;
 
     // Home page
     case "":

@@ -1,8 +1,8 @@
-import { FormId, Language, reportStructure } from "../../ui";
-import { FormState } from "./TemplateComponent";
+import { FormId, Language, reportStructure } from "../../../ui";
+import { FormState } from "./InvasiveMelanomaForm";
 
 export type ReportParams = FormState & {
-  formId: Extract<FormId, "TODO: replace id">;
+  formId: Extract<FormId, "invasive-melanoma">;
 };
 
 export const generateReport = ({
@@ -12,9 +12,9 @@ export const generateReport = ({
   form: ReportParams;
   language: Language;
 }): string => {
-  return reportStructure(form.formId, language, [
-    // TODO: add sections
-  ]);
+  // FIXME: un-mock
+  const sections = [[JSON.stringify(form, null, 2)]];
+  return reportStructure(form.formId, language, sections);
 };
 
 export const Report = ({

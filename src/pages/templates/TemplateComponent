@@ -4,36 +4,36 @@ import { Stack, Summary, useForm } from "../../ui";
 import { generateReport } from "./template-report";
 
 export type FormState = {
-  // TODO NOW: complete state
+  // TODO: complete state
   comments: string;
 };
 
 const getInitialState = (): FormState => ({
-  // TODO NOW: complete state
+  // TODO: complete state
   comments: "",
 });
 
 type Props = {
-  formId: "TODO NOW: replace id";
+  formId: "TODO: replace id";
 };
 
 export const TemplateForm = ({ formId }: Props) => {
   const { state, clearState, setField } = useForm(getInitialState);
-  const hasErrors = false; // TODO NOW: add validations
+  const hasErrors = false; // TODO: add validations
 
   return (
     <FormPage formId={formId} onClear={clearState}>
       <Stack spacing="lg">
-        {/* TODO NOW: add sections */}
+        {/* TODO: add sections */}
 
-        {/* TODO NOW: update index */}
+        {/* TODO: update index */}
         <AdditionalRemarks
           index={1}
           value={state.comments}
           onChange={setField("comments")}
         />
 
-        {/* TODO NOW: add conclusion */}
+        {/* TODO: add conclusion */}
         {hasErrors ? undefined : (
           <Summary
             getContent={(language) =>

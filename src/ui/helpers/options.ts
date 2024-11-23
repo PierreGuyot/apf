@@ -10,6 +10,10 @@ export const UNSPECIFIED_ITEM = {
   value: "unspecified",
   label: "Non-précisé",
 } as const;
+export const SPECIFIED_ITEM = {
+  value: "specified",
+  label: "Précisé",
+} as const;
 
 export type OptionValue = string | number | boolean;
 
@@ -24,3 +28,5 @@ export type OptionGroup<T extends OptionValue> = {
 };
 
 export const YES_NO_OPTIONS = [YES_ITEM, NO_ITEM] as const;
+
+export type OptionOrGroup<T extends OptionValue> = Option<T> | OptionGroup<T>;

@@ -2,19 +2,16 @@ import { useMemo } from "react";
 import { Checkbox } from "./Checkbox";
 import { Option, OptionValue } from "./helpers/options";
 import { Label } from "./Label";
-import { Language, translate } from "./translation";
 
 type Props<T extends OptionValue> = {
-  language: Language;
   title?: string;
-  options: Option<T>[];
+  options: readonly Option<T>[];
   values: T[];
   onChange: (values: T[]) => void;
   // TODO clean: handle isReadOnly prop
 };
 
 export function CheckboxList<T extends OptionValue>({
-  language,
   title,
   values,
   options,
@@ -25,11 +22,7 @@ export function CheckboxList<T extends OptionValue>({
   return (
     <div>
       {title ? (
-        <Label
-          label={translate(title, language)}
-          placement="above"
-          variant="bold"
-        ></Label>
+        <Label label={title} placement="above" variant="bold"></Label>
       ) : undefined}
       <div>
         {options.map((item) => {
@@ -51,7 +44,7 @@ export function CheckboxList<T extends OptionValue>({
             <Checkbox
               key={String(item.value)}
               isChecked={isChecked}
-              label={translate(item.label, language)}
+              label={item.label}
               onChange={onChange}
             />
           );

@@ -1,15 +1,20 @@
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { anId, join } from "./helpers/helpers";
-import { Option, OptionGroup, OptionValue } from "./helpers/options";
+import {
+  Option,
+  OptionGroup,
+  OptionOrGroup,
+  OptionValue,
+} from "./helpers/options";
 
-import { DEFAULT_LANGUAGE, Language, translate } from "./translation";
 import css from "./select.module.css";
 import { Stack } from "./Stack";
 import { Text } from "./Text";
+import { DEFAULT_LANGUAGE, Language, translate } from "./translation";
 
 type Props<T extends OptionValue> = {
   language?: Language;
-  options: readonly Option<T>[] | readonly OptionGroup<T>[];
+  options: readonly OptionOrGroup<T>[];
   value: T;
   onChange: (value: T) => void;
 
@@ -20,10 +25,10 @@ type Props<T extends OptionValue> = {
   width?: string; // Free string
 };
 
-function isGroupedOptions<T extends OptionValue>(
-  options: Props<T>["options"],
-): options is readonly OptionGroup<T>[] {
-  return "options" in options[0];
+function isOptionGroup<T extends OptionValue>(
+  option: OptionOrGroup<T>,
+): option is OptionGroup<T> {
+  return "options" in option;
 }
 
 export function Select<T extends OptionValue>({
@@ -41,9 +46,7 @@ export function Select<T extends OptionValue>({
 
   const flatOptions = useMemo(
     (): readonly Option<T>[] =>
-      isGroupedOptions(_options)
-        ? _options.flatMap((group) => group.options)
-        : _options,
+      _options.flatMap((item) => (isOptionGroup(item) ? item.options : [item])),
     [_options],
   );
 
@@ -51,17 +54,6 @@ export function Select<T extends OptionValue>({
     () =>
       Object.fromEntries(flatOptions.map((option) => [option.value, option])),
     [flatOptions],
-  );
-
-  const renderOption = useCallback(
-    (option: Option<T>) => (
-      <OptionItem
-        key={String(option.value)}
-        option={option}
-        language={language}
-      />
-    ),
-    [language],
   );
 
   const content = useMemo(() => {
@@ -88,16 +80,25 @@ export function Select<T extends OptionValue>({
         id={id}
         onChange={onChange}
       >
-        {isGroupedOptions(_options)
-          ? _options.map((group) => (
-              <optgroup
-                key={group.title}
-                label={translate(group.title, language)}
-              >
-                {group.options.map(renderOption)}
-              </optgroup>
-            ))
-          : _options.map(renderOption)}
+        {_options.map((item) =>
+          isOptionGroup(item) ? (
+            <optgroup key={item.title} label={translate(item.title, language)}>
+              {item.options.map((option) => (
+                <OptionItem
+                  key={String(option.value)}
+                  option={option}
+                  language={language}
+                />
+              ))}
+            </optgroup>
+          ) : (
+            <OptionItem
+              key={String(item.value)}
+              option={item}
+              language={language}
+            />
+          ),
+        )}
       </select>
     );
   }, [
@@ -108,7 +109,6 @@ export function Select<T extends OptionValue>({
     id,
     isReadOnly,
     language,
-    renderOption,
     value,
     width,
     variant,

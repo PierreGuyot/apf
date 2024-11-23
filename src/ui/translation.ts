@@ -293,6 +293,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   Tumoraux: "TODO",
   Uretère: "TODO",
   Vessie: "TODO",
+  Précisé: "TODO",
 
   // Translations to review
 

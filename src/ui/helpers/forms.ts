@@ -15,6 +15,7 @@ export const FORM_IDS = [
   "prostate-holmium-laser-enucleation",
   "bladder-transurethral-resection",
   "dermatology",
+  "invasive-melanoma",
 ] as const;
 
 export type FormId = (typeof FORM_IDS)[number];
@@ -69,6 +70,13 @@ export const FORMS: Record<
     isPrototype: true,
     isWip: true,
     lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
+  },
+  "invasive-melanoma": {
+    title: "Invasive Melanoma", // TODO translate
+    category: "skin",
+    isPrototype: true,
+    isWip: true,
+    lastUpdate: new Date(String("Sat Nov 23 2024")).getTime(),
   },
 };
 

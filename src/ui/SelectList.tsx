@@ -1,20 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "./Button";
 import { CheckboxList } from "./CheckboxList";
+import { noop } from "./helpers/helpers";
+import { OptionGroup, OptionValue } from "./helpers/options";
 import { Label } from "./Label";
 import { Pill } from "./Pill";
-import { Text } from "./Text";
-import { Tooltip } from "./Tooltip";
-import { noop } from "./helpers/helpers";
-import { Option, OptionValue } from "./helpers/options";
-import { DEFAULT_LANGUAGE, Language, translate } from "./translation";
 import css from "./select-list.module.css";
 import { Stack } from "./Stack";
-
-export type ItemGroup<T extends OptionValue> = {
-  title: string;
-  options: Option<T>[];
-};
+import { Text } from "./Text";
+import { Tooltip } from "./Tooltip";
+import { DEFAULT_LANGUAGE, Language, translate } from "./translation";
 
 type Props<T extends OptionValue> = {
   values: T[];
@@ -24,14 +19,16 @@ type Props<T extends OptionValue> = {
   emptyState?: string;
   hasList?: boolean;
   language?: Language;
-  groups: ItemGroup<T>[];
+  // TODO: use OptionOrGroup instead
+  groups: OptionGroup<T>[];
 };
 
 export function getSelectedOptions<T extends OptionValue>({
   groups,
   values,
 }: {
-  groups: ItemGroup<T>[];
+  // TODO: use OptionOrGroup instead
+  groups: OptionGroup<T>[];
   values: T[];
 }) {
   return groups
@@ -75,7 +72,6 @@ export function SelectList<T extends OptionValue>({
             <Stack spacing="md">
               {groups.map((group) => (
                 <CheckboxList
-                  language={language}
                   key={group.title}
                   title={group.title}
                   options={group.options}

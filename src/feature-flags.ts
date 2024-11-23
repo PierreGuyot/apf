@@ -5,6 +5,7 @@ const FEATURE_FLAGS = {
   "prostate-transurethral-resection": true,
   "prostate-holmium-laser-enucleation": true,
   "bladder-transurethral-resection": true,
+  "invasive-melanoma": true,
   dermatology: true,
 } as const;
 

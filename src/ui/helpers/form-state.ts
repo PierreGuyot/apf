@@ -17,6 +17,7 @@ import { useCallback, useMemo, useState } from "react";
  * It allows for way cleaner form syntax, especially when composing them.
  */
 // TODO CLEAN: consider renaming
+// TODO CLEAN: explore nested update (hard to implement has it requires recursive types)
 export const patchState =
   <State>(state: State, setState: (value: State) => void): SetState<State> =>
   (key) =>

@@ -252,6 +252,7 @@ export const CUTANEOUS_DISEASE_TYPES: Option<CutaneousDiseaseType>[] = [
 ];
 
 // FIXME: translate
+// TODO: align on InvasiveMelanomaForm
 export type ClarkInfiltrationLevel = 1 | 2 | 3 | 4 | 5;
 export const CLARK_INFILTRATION_LEVELS: Option<ClarkInfiltrationLevel>[] = [
   { value: 1, label: "I (épiderme)" },

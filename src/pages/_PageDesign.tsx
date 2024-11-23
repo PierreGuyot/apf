@@ -18,10 +18,10 @@ import {
   InputNumber,
   InputText,
   InputTextArea,
-  ItemGroup,
   Label,
   Language,
   Option,
+  OptionGroup,
   Page,
   Pill,
   Select,
@@ -61,7 +61,7 @@ const MOCK_OPTIONS: Option<Value>[] = [
   { value: "option-c", label: "Option C" },
 ];
 
-const MOCK_GROUPS: ItemGroup<Value>[] = [
+const MOCK_GROUPS: OptionGroup<Value>[] = [
   {
     title: "Group 1",
     options: [
@@ -275,7 +275,6 @@ const EntryCheckboxList = () => {
   return (
     <DocumentationEntry name="CheckboxList">
       <CheckboxList
-        language="FR"
         title="An optional title for the list"
         options={MOCK_OPTIONS}
         values={values}

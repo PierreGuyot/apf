@@ -99,7 +99,7 @@ export const getLesionAspectOption = findOption(LESION_ASPECT_OPTIONS);
 
 export const TUMORAL_RESULT_GROUPS = [
   {
-    title: "",
+    title: "", // TODO clean: fix API
     options: [
       "Carcinome urothélial in situ (focal)",
       "Carcinome urothélial in situ (multifocal)",
@@ -113,7 +113,7 @@ export const TUMORAL_RESULT_GROUPS = [
 
 export const NON_TUMORAL_RESULT_GROUPS = [
   {
-    title: "",
+    title: "", // TODO clean: fix API
     options: [
       "Inflammation / changements régénératifs",
       "Changements liés à la thérapie",
