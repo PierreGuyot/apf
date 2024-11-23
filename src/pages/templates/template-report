@@ -1,0 +1,28 @@
+import { FormId, Language, reportStructure } from "../../ui";
+import { FormState } from "./TemplateComponent";
+
+export type ReportParams = FormState & {
+  formId: Extract<FormId, "TODO NOW: replace id">;
+};
+
+export const generateReport = ({
+  form,
+  language,
+}: {
+  form: ReportParams;
+  language: Language;
+}): string => {
+  return reportStructure(form.formId, language, [
+    // TODO NOW: add sections
+  ]);
+};
+
+export const Report = ({
+  form,
+  language,
+}: {
+  form: ReportParams;
+  language: Language;
+}) => {
+  return <div>{generateReport({ form, language })}</div>;
+};
