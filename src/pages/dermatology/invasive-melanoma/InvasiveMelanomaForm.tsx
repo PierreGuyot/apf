@@ -354,6 +354,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
         />
 
         <Select
+          label="Other lesion(s)"
           options={PRESENCE_OPTIONS}
           value={state.otherLesions.value}
           onChange={(value) =>
@@ -510,6 +511,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
         />
 
         <Select
+          label="Tumor-infiltrating lymphocites"
           options={LYMPHOCITE_OPTIONS}
           value={state.lymphocites}
           onChange={setField("lymphocites")}
@@ -995,6 +997,7 @@ const InputPathologicalStaging = ({
 
   return (
     <>
+      {/* TODO: this should be inferred from other data */}
       <Title title="Pathological staging" />
       <CheckboxList
         title="TNM descriptors"
@@ -1009,7 +1012,7 @@ const InputPathologicalStaging = ({
         onChange={setField("pt")}
       />
       <Select
-        label="Primary tumor (pT)"
+        label="Regional lymph nodes (pN)"
         options={PN_GROUPS}
         value={state.pn}
         onChange={setField("pn")}
