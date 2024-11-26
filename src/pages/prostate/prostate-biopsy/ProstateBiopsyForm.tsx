@@ -15,7 +15,6 @@ import {
   InputNumber,
   Language,
   NestedItem,
-  Option,
   Section,
   Select,
   SelectBoolean,
@@ -32,7 +31,6 @@ import {
   range,
   sum,
   sumArrays,
-  toOption,
   useForm,
 } from "../../../ui";
 import {
@@ -45,6 +43,7 @@ import {
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
 import {
+  CONTAINER_COUNT_OPTIONS,
   LOCATIONS,
   MAX_TARGET_COUNT,
   PiradsItem,
@@ -58,9 +57,6 @@ import {
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
-
-const CONTAINER_COUNT = [6, 7, 8, 9] as const;
-const CONTAINER_COUNT_OPTIONS: Option<number>[] = CONTAINER_COUNT.map(toOption);
 
 // TODO clean: test extensively
 // CAUTION: be very cautious about counting only visible items

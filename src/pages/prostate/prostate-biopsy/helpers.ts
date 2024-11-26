@@ -1,4 +1,11 @@
-import { DEFAULT_LANGUAGE, Language, Option, translate } from "../../../ui";
+import {
+  DEFAULT_LANGUAGE,
+  Language,
+  Option,
+  range,
+  toOption,
+  translate,
+} from "../../../ui";
 import { DEFAULT_GLEASON_ITEM, GleasonItem, OtherLesionType } from "../helpers";
 
 export type ProstateBiopsyFormId =
@@ -6,7 +13,13 @@ export type ProstateBiopsyFormId =
   | "prostate-biopsy-transperineal";
 
 export const SEXTANT_COUNT = 6;
-export const MAX_TARGET_COUNT = 3;
+export const MAX_TARGET_COUNT = 9;
+export const CONTAINER_COUNT = range(
+  SEXTANT_COUNT,
+  SEXTANT_COUNT + MAX_TARGET_COUNT,
+);
+export const CONTAINER_COUNT_OPTIONS: Option<number>[] =
+  CONTAINER_COUNT.map(toOption);
 
 // FIXME: rename to be agnostic from transrectal/transperineal
 export const LOCATIONS = [
@@ -50,7 +63,7 @@ export const getLocationLabel = (
   language: Language,
 ) => translate(getLocations(formId)[location], language);
 
-const toOption = (
+const toLocationOption = (
   formId: ProstateBiopsyFormId,
   location: Location,
   language: Language,
@@ -62,7 +75,9 @@ const toOption = (
 export const getLocationOptions = (
   formId: ProstateBiopsyFormId,
 ): Option<Location>[] =>
-  LOCATIONS.map((location) => toOption(formId, location, DEFAULT_LANGUAGE));
+  LOCATIONS.map((location) =>
+    toLocationOption(formId, location, DEFAULT_LANGUAGE),
+  );
 
 // TODO clean: rename to "systematic" | "targeted"
 export type ContainerType = "sextant" | "target";
