@@ -48,10 +48,23 @@ export const PageMain = () => {
                   compte-rendu standardisé pour l'anatomopathologie.
                 </div>
                 <div>
-                  Il est conçu par <Text variant="bold">Louis Vaquier</Text>{" "}
-                  (interne en anatomopathologie) et{" "}
-                  <Text variant="bold">Pierre Guyot</Text> (ingénieur en
-                  informatique).
+                  Il est conçu par:
+                  <ul>
+                    <Stack spacing="sm">
+                      <li>
+                        <Text variant="bold">Louis Vaquier</Text> (interne en
+                        anatomopathologie)
+                      </li>
+                      <li>
+                        <Text variant="bold">Yu Tian</Text> (assistant en
+                        anatomopathologie)
+                      </li>
+                      <li>
+                        <Text variant="bold">Pierre Guyot</Text> (ingénieur en
+                        informatique)
+                      </li>
+                    </Stack>
+                  </ul>
                 </div>
                 <div>
                   Le code du projet est disponible{" "}
