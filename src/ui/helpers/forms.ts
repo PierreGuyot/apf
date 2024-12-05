@@ -6,7 +6,7 @@ import uroPath from "./../../images-who/uro.png";
 export const FORM_MAX_WIDTH = "800px";
 
 // TODO CLEAN: clarify naming conventions
-type Category = "maleGenitalia" | "skin";
+type Category = "maleGenitalia" | "skin" | "thyroid";
 
 export const FORM_IDS = [
   "prostate-biopsy-transrectal",
@@ -16,6 +16,7 @@ export const FORM_IDS = [
   "bladder-transurethral-resection",
   "dermatology",
   "invasive-melanoma",
+  "thyroid", // FIXME: rename to thyroid carcinoma?
 ] as const;
 
 export type FormId = (typeof FORM_IDS)[number];
@@ -78,6 +79,13 @@ export const FORMS: Record<
     isWip: true,
     lastUpdate: new Date(String("Sat Nov 23 2024")).getTime(),
   },
+  thyroid: {
+    title: "Thyroïde",
+    category: "thyroid",
+    isPrototype: true,
+    isWip: true,
+    lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
+  },
 };
 
 const getFormCategories = () => {
@@ -85,6 +93,7 @@ const getFormCategories = () => {
   const categories: Record<Category, Array<{ id: FormId; isWip: boolean }>> = {
     maleGenitalia: [],
     skin: [],
+    thyroid: [],
   };
 
   for (const id in FORMS) {
@@ -111,6 +120,8 @@ const PROPS_BY_CATEGORY: Record<
 > = {
   skin: { label: "Peau", imagePath: skinPath },
   maleGenitalia: { label: "Appareil urogénital masculin", imagePath: uroPath },
+  // FIXME: un-mock category and image
+  thyroid: { label: "Thyroide", imagePath: skinPath },
 };
 
 export const getCategoryProps = (category: Category) =>

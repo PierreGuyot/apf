@@ -15,6 +15,7 @@ import {
   Route,
   useHash,
 } from "./ui";
+import { ThyroidForm } from "./pages/dermatology/thyroid/ThyroidForm";
 
 const isEnabledRoute = (value: string): value is Route => {
   if (!isRoute(value)) {
@@ -55,6 +56,8 @@ export const App = () => {
       return <BladderResectionForm formId={hash} />;
     case "invasive-melanoma":
       return <InvasiveMelanomaForm formId={hash} />;
+    case "thyroid":
+      return <ThyroidForm formId={hash} />;
 
     // Home page
     case "":
