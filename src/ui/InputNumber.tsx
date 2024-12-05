@@ -15,6 +15,7 @@ type Props = InputProps<number> & {
   max?: number;
   unit?: Unit;
   size?: "md" | "lg";
+  isInline?: boolean;
   isDecimal?: boolean;
 };
 
@@ -46,6 +47,7 @@ export const InputNumber = ({
   size = "md",
   isDecimal = false,
   isSubmitted,
+  isInline,
   isReadOnly,
   onChange,
 }: Props) => {
@@ -96,12 +98,12 @@ export const InputNumber = ({
 
   return (
     // TODO clean: mutualize style with other inputs and selects
-    <Stack direction="row" alignItems="center" spacing="sm">
+    <Stack direction="row" alignItems="center" isInline={isInline} spacing="sm">
       {label ? <Label label={label} /> : undefined}
       {isReadOnly ? (
         value
       ) : (
-        <>
+        <Stack direction="row" isInline>
           <input
             className={join(
               css.input,
@@ -121,8 +123,13 @@ export const InputNumber = ({
             onBlur={onBlur}
             onInput={onInput}
           />
-          {unit ? <InlineCode>{getUnitLabel(unit)}</InlineCode> : undefined}
-        </>
+          {unit ? (
+            // CAUTION: the margin is required because isInline: true will cancel the effect of the spacing prop on the parent Stack
+            <Stack isInline marginLeft="xs">
+              <InlineCode>{getUnitLabel(unit)}</InlineCode>
+            </Stack>
+          ) : undefined}
+        </Stack>
       )}
     </Stack>
   );

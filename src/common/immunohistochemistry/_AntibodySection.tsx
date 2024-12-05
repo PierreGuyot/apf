@@ -68,13 +68,22 @@ const AntibodyForm = ({
         value={state.clone}
         onChange={setField("clone")}
       />
-      <Select
-        label="Résultat"
-        labelSize="sm"
-        options={resultOptions}
-        value={state.result}
-        onChange={setField("result")}
-      />
+      {typeof resultOptions === "undefined" ? (
+        <InputText
+          label="Résultat"
+          labelSize="sm"
+          value={state.result}
+          onChange={setField("result")}
+        />
+      ) : (
+        <Select
+          label="Résultat"
+          labelSize="sm"
+          options={resultOptions}
+          value={state.result}
+          onChange={setField("result")}
+        />
+      )}
     </Stack>
   );
 };
@@ -106,6 +115,7 @@ const OtherAntibodySection = ({
           {state.values.map((value, index) => (
             <OtherAntibodyItem
               key={index}
+              itemCount={state.values.length}
               state={value}
               setState={(newValue) => {
                 const newValues = [...state.values];
@@ -125,10 +135,12 @@ const OtherAntibodySection = ({
 const OtherAntibodyItem = ({
   state,
   setState,
+  itemCount,
   onDelete,
 }: {
   state: OtherAntibody;
   setState: (value: OtherAntibody) => void;
+  itemCount: number;
   onDelete: () => void;
 }) => {
   const setField = patchState(state, setState);
@@ -153,7 +165,9 @@ const OtherAntibodyItem = ({
         value={state.result}
         onChange={setField("result")}
       />
-      <Button label="Supprimer" onClick={onDelete} />
+      {itemCount === 1 ? undefined : (
+        <Button label="Supprimer" onClick={onDelete} />
+      )}
     </Stack>
   );
 };

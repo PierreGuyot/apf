@@ -5,7 +5,7 @@ export const reportInvasion = (
   language: Language,
 ) => {
   return reportBoolean({
-    label: "Emboles vasculaires ou lymphatiques",
+    label: "Invasion lymphatique ou vasculaire",
     value: hasLymphaticOrVascularInvasion,
     language,
   });

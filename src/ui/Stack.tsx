@@ -1,11 +1,13 @@
 import { PropsWithChildren } from "react";
 import { size, Size } from "./sizes";
 import css from "./stack.module.css";
+import { join } from "./helpers";
 
 // TODO clean: add marginX/marginY/paddingX/paddingY props
 
 type Props = PropsWithChildren<{
   direction?: "row" | "column";
+  isInline?: boolean;
 
   // Spacing props
   spacing?: Size | "none";
@@ -38,6 +40,7 @@ type Props = PropsWithChildren<{
 
 export const Stack = ({
   direction = "column",
+  isInline = false,
 
   // Spacing props
   spacing,
@@ -68,7 +71,7 @@ export const Stack = ({
   children,
 }: Props) => (
   <div
-    className={css.main}
+    className={join(css.main, isInline ? css.isInline : undefined)}
     style={{
       flexDirection: direction,
 

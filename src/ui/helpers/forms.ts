@@ -72,7 +72,7 @@ export const FORMS: Record<
     lastUpdate: new Date(String("Sat Oct 19 2024")).getTime(),
   },
   "invasive-melanoma": {
-    title: "Invasive Melanoma", // TODO translate
+    title: "Mélanome", // TODO translate
     category: "skin",
     isPrototype: true,
     isWip: true,

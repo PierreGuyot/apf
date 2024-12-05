@@ -1,11 +1,11 @@
 import {
   findOption,
+  Flatten,
   Option,
   OTHER_ITEM,
   toOption,
   UNSPECIFIED_ITEM,
   ValueOf,
-  Flatten,
 } from "../../../ui";
 
 export type BladderResectionFormId = "bladder-transurethral-resection";

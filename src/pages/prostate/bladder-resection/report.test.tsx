@@ -64,7 +64,7 @@ Microscopie :
          - pT1b : 80%
          - Impossible à déterminer : 10%
 
-    Emboles vasculaires ou lymphatiques : oui
+    Invasion lymphatique ou vasculaire : oui
 
     Copeaux de résection présentant de la musculeuse : oui
     Nombre de copeaux : 10
@@ -136,7 +136,7 @@ Microscopie :
          - pT1b : 80%
          - Impossible à déterminer : 10%
 
-    Emboles vasculaires ou lymphatiques : oui
+    Invasion lymphatique ou vasculaire : oui
 
     Copeaux de résection présentant de la musculeuse : oui
     Nombre de copeaux : 10

@@ -3,3 +3,7 @@
 .main {
   display: flex;
 }
+
+.isInline {
+  display: inline;
+}

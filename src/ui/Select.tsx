@@ -18,8 +18,10 @@ type Props<T extends OptionValue> = {
   value: T;
   onChange: (value: T) => void;
 
+  // TODO: make label mandatory to avoid forgetting it (label: string | undefined)
   label?: string;
   labelSize?: "sm" | "md";
+  isInline?: boolean;
   isReadOnly?: boolean;
   variant?: "field" | "neutral";
   width?: string; // Free string
@@ -38,6 +40,7 @@ export function Select<T extends OptionValue>({
   onChange: _onChange,
   label,
   labelSize = "md",
+  isInline,
   isReadOnly,
   variant = "field",
   width,
@@ -116,7 +119,14 @@ export function Select<T extends OptionValue>({
 
   return (
     // TODO clean: mutualize style with other inputs and selects
-    <Stack direction="row" alignItems="center" wrap="wrap" spacing="sm">
+    // TODO clean: in particular, align heights (for example, between TextInput and Select)
+    <Stack
+      isInline={isInline}
+      direction="row"
+      alignItems="center"
+      wrap="nowrap"
+      spacing="sm"
+    >
       {/* TODO clean: replace with Label */}
       {/* TODO clean: translate label */}
       {/* TODO clean: prevent unwanted wrapping */}

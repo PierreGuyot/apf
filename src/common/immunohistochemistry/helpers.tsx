@@ -11,7 +11,7 @@ export type Block = {
 };
 
 export type StandardAntibody = {
-  type: Antibody;
+  type: AntibodyType;
   clone: AntibodyClone;
   result: string;
 };
@@ -29,31 +29,44 @@ export type OtherAntibodies = {
 
 export type AntibodyData = StandardAntibody | OtherAntibodies;
 
-export type Antibody =
-  // Composed
-  | "P504S/P63"
-  // Base cells
-  | "P63"
+export type AntibodyType =
   | "BCC"
+  | "CK14/CK15"
   | "CK5/6"
   | "CK903"
-  | "CK14/CK15"
-  // Prostate neoplasia cells
-  | "P504S";
+  | "P504S"
+  | "P504S/P63"
+  | "P63"
+  | "BRAF"
+  | "HMB45"
+  | "Ki67"
+  | "Melan A"
+  | "P16"
+  | "PRAME"
+  | "PS100"
+  | "SOX10";
 
 export type AntibodyClone =
+  | "6F11"
+  | "A103"
+  | "EP268"
+  | "EP356"
+  | "HMB45"
+  | "M-13H4"
   | "M-13H4"
   | "M-4A4"
   | "M-4A4"
   | "M-D5/16B4"
-  | "SP53"
-  | "M-13H4"
-  | "polyclonal-ventana"
-  | "EP356"
-  | "M-SP52"
-  | "M-SP33"
-  | "M-L50-823"
   | "M-EP111"
+  | "M-L50-823"
+  | "M-SP33"
+  | "M-SP52"
+  | "MIB-1"
+  | "polyclonal-ventana"
+  | "polyclonal"
+  | "QR005"
+  | "SP53"
+  | "VE1"
 
   // FIXME: remove
   | "TODO";
@@ -73,7 +86,7 @@ export const aNewAntibody = ({
   type,
   properties,
 }: {
-  type: Antibody | "others";
+  type: AntibodyType | "others";
   properties: PropertiesByAntibody;
 }): AntibodyData => {
   if (type === "others") {
@@ -88,13 +101,10 @@ export const aNewAntibody = ({
     throw new Error("Missing antibody properties");
   }
   const { resultOptions } = antibodyProperties;
-  const defaultResult = resultOptions[0].value;
+  let result =
+    typeof resultOptions === "undefined" ? "" : resultOptions[0].value;
 
-  return {
-    type: type,
-    clone: defaultClone,
-    result: defaultResult,
-  };
+  return { type, clone: defaultClone, result };
 };
 
 export const aNewBlock = (index: number): Block => ({
@@ -103,8 +113,9 @@ export const aNewBlock = (index: number): Block => ({
 });
 
 // FIXME: add missing values
+// FIXME: fix data structure (labels should not be precised in multiple places)
 export const ANTIBODIES_PROPERTIES: Record<
-  Antibody,
+  AntibodyType,
   {
     label: string;
     clones: Option<AntibodyClone>[];
@@ -167,15 +178,47 @@ export const ANTIBODIES_PROPERTIES: Record<
       },
     ],
   },
+  BRAF: {
+    label: "BRAF",
+    clones: [{ value: "VE1", label: "VE1" }],
+  },
+  HMB45: {
+    label: "HMB45",
+    clones: [{ value: "HMB45", label: "HMB45" }],
+  },
+  Ki67: {
+    label: "Ki67",
+    clones: [{ value: "MIB-1", label: "MIB-1" }],
+  },
+  "Melan A": {
+    label: "Melan A",
+    clones: [{ value: "A103", label: "A103" }],
+  },
+  P16: {
+    label: "P16",
+    clones: [{ value: "6F11", label: "6F11" }],
+  },
+  PRAME: {
+    label: "PRAME",
+    clones: [{ value: "QR005", label: "QR005" }],
+  },
+  PS100: {
+    label: "PS100",
+    clones: [{ value: "polyclonal", label: "polyclonal" }],
+  },
+  SOX10: {
+    label: "SOX10",
+    clones: [{ value: "EP268", label: "EP268" }],
+  },
 };
 
 export type Result = string;
 
 export type ResultOptions = Option<Result>[];
-export type AntibodyGroup = OptionGroup<Antibody>;
-type AntibodyProperties = { resultOptions: ResultOptions };
+export type AntibodyGroup = OptionGroup<AntibodyType>;
+type AntibodyProperties = { resultOptions?: ResultOptions };
 export type PropertiesByAntibody = Partial<
-  Record<Antibody, AntibodyProperties>
+  Record<AntibodyType, AntibodyProperties>
 >;
 
 // TODO clean: test extensively

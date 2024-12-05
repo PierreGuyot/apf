@@ -7,6 +7,7 @@ import { Stack } from "./Stack";
 
 type Props = InputProps<string> & {
   placeholder?: string;
+  // TODO clean: use T-shirt sizes
   lineCount?: number;
 };
 

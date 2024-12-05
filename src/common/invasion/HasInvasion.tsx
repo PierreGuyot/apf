@@ -14,7 +14,7 @@ type Props =
       isReadOnly?: boolean; // TODO clean: implement
     };
 
-const LABEL = "Emboles vasculaires ou lymphatiques";
+const LABEL = "Invasion lymphatique ou vasculaire";
 
 // Lymphatic or vascular invasion
 export const HasInvasion = (props: Props) => {

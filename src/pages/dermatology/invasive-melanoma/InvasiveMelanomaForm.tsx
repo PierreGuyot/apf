@@ -1,305 +1,226 @@
+import { ReactNode, useEffect } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
+import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
+import { IhcState } from "../../../common/immunohistochemistry/helpers";
+import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
 import { HasInvasion } from "../../../common/invasion/HasInvasion";
 import {
-  Button,
-  CheckboxList,
   InputNumber,
   InputText,
   InputTextArea,
+  Line,
   NestedItem,
-  patchArray,
   patchState,
-  range,
+  Section,
   Select,
   SelectBoolean,
+  SelectList,
   SelectTroolean,
   Stack,
   Summary,
-  Title,
   Troolean,
   useForm,
 } from "../../../ui";
 import {
-  BRESLOW_THICKNESS_OPTIONS,
+  Aspect,
+  ASPECT_OPTIONS,
+  BRESLOW_THICKNESS_TYPE_OPTIONS,
+  BreslowThicknessType,
   CLARK_INFILTRATION_LEVELS,
   ClarkInfiltrationLevel,
-  DESMOPLASTIC_MELANOMA_OPTIONS,
-  DesmoplasticMelanomaOption,
-  DIMENSIONS_OPTIONS,
-  DimensionsType,
-  DISTANCE_OPTIONS,
-  DistanceOption,
-  Intent,
-  INTENT_OPTIONS,
-  IS_SPECIFIED_OPTIONS,
+  Dimension2d,
+  Dimension3d,
+  DIMENSION_2D_OPTIONS,
+  DIMENSION_3D_OPTIONS,
+  EXERESIS_POSITION_OPTIONS,
+  ExeresisPosition,
+  ExeresisType,
+  EXERIS_TYPE_OPTIONS_NOT_ORIENTED,
+  EXERIS_TYPE_OPTIONS_ORIENTED,
+  GROWTH_PHASE_OPTIONS,
+  GrowthPhase,
+  INVASIVE_MELANOMA_ANTIBODY_GROUPS,
+  INVASIVE_MELANOMA_ANTIBODY_PROPERTIES,
   Laterality,
   LATERALITY_OPTIONS,
-  LYMPH_NODE_OPTIONS,
-  LymphNodeOption,
-  LYMPHOCITE_OPTIONS,
-  LymphociteOption,
-  Margin,
-  MARGIN_OPTIONS,
-  METASTASIS_LOCATION_OPTIONS,
-  MetastasisLocation,
+  LYMPH_NODE_EXERESIS_OPTIONS,
+  LymphNodeExeresis,
+  LYMPHOCYTE_OPTIONS,
+  LymphocyteOption,
+  MARGIN_STATE_OPTIONS,
+  MarginState,
+  MELANOCYTIC_LESION_GROUPS,
+  MelanocyticLesion,
+  MOLECULAR_BIOLOGY_OPTIONS,
+  MolecularBiology,
+  Morphology,
+  MORPHOLOGY_OPTIONS,
   Orientation,
+  ORIENTATION_METHOD_OPTIONS,
   ORIENTATION_OPTIONS,
-  Pn,
-  PN_GROUPS,
+  OrientationMethod,
   Presence,
   PRESENCE_OPTIONS,
-  Pt,
-  PT_GROUPS,
+  SAMPLING_TYPE_OPTIONS,
+  SamplingType,
   Subtype,
   SUBTYPE_OPTIONS,
-  SURGICAL_MARGIN_OPTIONS,
-  SurgicalMargin,
-  TECHNIQUE_OPTIONS,
-  TechniqueOption,
-  ThicknessOption,
-  TNM_DESCRIPTOR_OPTIONS,
-  TnmDescriptor,
 } from "./helpers";
 import { generateReport } from "./report";
 
-const LINE_COUNT = 2;
-
-// FIXME: regroup content under sections (this should solve max width problems)
-// FIXME: improve styling (in particular, add nesting)
-
 export type FormState = {
-  tumorSite: { value: "specified" | "unspecified"; details: string };
-  intent: Intent;
-  specimen: Specimen;
-  primaryLesion: PrimaryLesion;
-  hasSatelliteLesions: Troolean;
-  otherLesions: {
-    value: Presence;
-    details: string;
-  };
-  surgicalMargin: {
-    option: SurgicalMargin;
-    distanceToClosestMargin: DistanceOption;
-    location: string;
-  };
-  breslowThickness: {
-    option: ThicknessOption;
-    value: number;
-  };
-  ulceration: {
-    presence: Presence;
-    value: number;
-  };
-  mitoticCount: {
-    option: "specified" | "unspecified";
-    value: number;
-  };
-  microSatellites: {
-    presence: Presence;
-    margins: Margin;
-  };
-  clarkInfiltationLevel: ClarkInfiltrationLevel;
-  // FIXME: rename to hasLymphoVascularInvasion (stay consistent everywhere)?
-  hasLymphaticOrVascularInvasion: Troolean;
-  lymphocites: LymphociteOption;
-  tumorRegression: {
-    presence: Presence;
-    margin: Margin;
-  };
-  hasNeurotropism: Troolean;
-  desmoplasticMelanomaComponent: {
-    presence: Presence;
-    value: DesmoplasticMelanomaOption;
-  };
-  associatedMelanocyticLesion: {
-    presence: Presence;
-    value: string;
-  };
-  lymphNodesStatus: LymphNodesStatus;
-  subtype: {
-    value: Subtype;
-    otherValue: string;
-  };
-  ancillaryStudies: AncillaryStudies;
-  pathologicalStaging: PathologicalStaging;
-  comments: string;
-};
-
-type Specimen = {
+  // Clinical info
+  lesionSite: string;
   laterality: Laterality;
-  technique: {
-    value: TechniqueOption;
-    details: string;
-  };
-  lymphNodes: {
-    value: LymphNodeOption;
-    details: string;
-  };
-  orientation: {
-    value: Orientation;
-    details: string;
-  };
-};
+  samplingType: SamplingType;
+  otherSamplingType: string;
+  lymphNodeExeresis: LymphNodeExeresis;
+  lymphNodeExeresisLocation: string;
 
-type PrimaryLesion = {
-  description: string;
-  dimensions: {
-    value: DimensionsType;
+  // Macroscopy
+  isSpecimenOriented: boolean;
+  orientationMethod: OrientationMethod;
+  orientation: Orientation;
+  orientationOther: string;
+  specimenDimensions: {
+    type: Dimension3d;
     length: number;
     width: number;
     depth: number;
   };
-};
-
-type LymphNodesStatusByType = {
-  count: number;
-  positiveCount: number;
-  extranodalExtension: Troolean;
-  maximumDimension: number;
-};
-
-type LymphNodesStatus = {
-  sentinelNodes: LymphNodesStatusByType & {
-    largestMetastasisLocation: MetastasisLocation;
+  lesionDimensions: {
+    type: Dimension2d;
+    length: number;
+    width: number;
+    depth: number;
   };
-  nonSentinelLymphNodes: LymphNodesStatusByType;
-  clinicallyApparentLymphNodes: LymphNodesStatusByType;
+  lesionAspect: Aspect;
+  otherLesionAspect: string;
+  hasSatelliteLesions: boolean;
+  hasOtherLesions: boolean;
+  otherLesionsDescription: string;
+  isIncludedInTotality: Troolean;
+  blockCount: number;
+  blockDescription: string;
+
+  // Microscopy
+  subtype: Subtype;
+  subtypeOther: string;
+  growthPhase: GrowthPhase;
+  thickness: Thickness;
+  hasUlceration: Presence;
+  mitoticActivity: number;
+  hasTumoralRegression: Presence;
+  intraTumoralLymphocytes: LymphocyteOption;
+  hasMicroSatellites: Presence;
+  microSatelliteMarginState: MarginState;
+  hasLymphaticOrVascularInvasion: boolean;
+  hasEpn: boolean;
+  otherMelanocyticLesions: MelanocyticLesion[];
+  specimenExeresis: SpecimenExeresis;
+
+  // Lymph node status
+  lymphNodeCount: number;
+  positiveLymphNodeCount: number;
+  hasExtranodalExtension: boolean;
+  largestMetastasisSize: number;
+
+  // Ancillary studies
+  ihc: IhcState;
+  hasMolecularBiology: boolean;
+  molecularBiology: MolecularBiology;
+
+  // Additional remarks
+  comments: string;
 };
 
-type Test = {
-  name: string;
-  result: string;
+type Thickness = {
+  clarkThickness: ClarkInfiltrationLevel;
+  breslowThickness: BreslowThickness;
 };
 
-type PathologicalStaging = {
-  tnmDescriptors: TnmDescriptor[];
-  pt: Pt;
-  pn: Pn;
+type BreslowThickness = {
+  type: BreslowThicknessType;
+  distance: number;
+  morphology: Morphology;
 };
 
-type AncillaryStudies = {
-  brafTesting: {
-    hasBeenPerformed: boolean;
-    methodology: string;
-    results: string;
-  };
-  others: Test[];
+type SpecimenExeresis = {
+  type: ExeresisType;
+  position: ExeresisPosition;
+  distanceLateral: number;
+  distanceDepth: number;
 };
 
 const getInitialState = (): FormState => ({
-  tumorSite: { value: "unspecified", details: "" },
-  intent: "unspecified",
-  specimen: {
-    laterality: "unspecified",
-    technique: {
-      value: "unspecified",
-      details: "",
-    },
-    lymphNodes: {
-      value: "not-submitted",
-      details: "",
-    },
-    orientation: {
-      value: "unspecified",
-      details: "",
-    },
+  lesionSite: "",
+  laterality: "unspecified",
+  samplingType: "exeresis",
+  otherSamplingType: "",
+  lymphNodeExeresis: "Ganglion sentinelle",
+  lymphNodeExeresisLocation: "",
+  isSpecimenOriented: true,
+  orientationMethod: "Fil",
+  orientation: "à 12H",
+  orientationOther: "",
+  specimenDimensions: {
+    type: "unspecified",
+    length: 0,
+    width: 0,
+    depth: 0,
   },
-  primaryLesion: {
-    description: "",
-    dimensions: {
-      value: "unspecified",
-      length: 0,
-      width: 0,
-      depth: 0,
-    },
+  lesionDimensions: {
+    type: "unspecified",
+    length: 0,
+    width: 0,
+    depth: 0,
   },
-  hasSatelliteLesions: "unspecified",
-  otherLesions: {
-    value: "not-identified",
-    details: "",
-  },
-  surgicalMargin: {
-    option: "Cannot be assessed",
-    distanceToClosestMargin: "",
-    location: "",
-  },
-  breslowThickness: {
-    option: "specified",
-    value: 0,
-  },
-  ulceration: {
-    presence: "not-identified",
-    value: 0,
-  },
-  mitoticCount: {
-    option: "specified",
-    value: 0,
-  },
-  microSatellites: {
-    presence: "not-identified",
-    margins: "Cannot be assessed",
-  },
-  clarkInfiltationLevel: 1,
-  hasLymphaticOrVascularInvasion: "unspecified",
-  lymphocites: "not-identified",
-  tumorRegression: {
-    presence: "not-identified",
-    margin: "Cannot be assessed",
-  },
-  hasNeurotropism: "unspecified",
-  desmoplasticMelanomaComponent: {
-    presence: "not-identified",
-    value: "",
-  },
-  associatedMelanocyticLesion: {
-    presence: "not-identified",
-    value: "",
-  },
-  lymphNodesStatus: {
-    sentinelNodes: {
-      count: 0,
-      positiveCount: 0,
-      extranodalExtension: "yes",
-      maximumDimension: 0,
-      largestMetastasisLocation: "Subcapsular",
-    },
-    nonSentinelLymphNodes: {
-      count: 0,
-      positiveCount: 0,
-      extranodalExtension: "yes",
-      maximumDimension: 0,
-    },
-    clinicallyApparentLymphNodes: {
-      count: 0,
-      positiveCount: 0,
-      extranodalExtension: "yes",
-      maximumDimension: 0,
+  lesionAspect: "unspecified",
+  otherLesionAspect: "",
+  hasSatelliteLesions: false,
+  hasOtherLesions: false,
+  otherLesionsDescription: "",
+  isIncludedInTotality: "unspecified",
+  blockCount: 1,
+  blockDescription: "",
+  subtype: "other",
+  subtypeOther: "",
+  growthPhase: "unspecified",
+  thickness: {
+    clarkThickness: 3,
+    breslowThickness: {
+      type: "precised",
+      distance: 0,
+      morphology: "Épithélioïde",
     },
   },
-  subtype: {
-    value: "Low-CSD melanoma (superficial spreading melanoma)",
-    otherValue: "",
+  hasUlceration: "not-identified",
+  mitoticActivity: 0,
+  hasTumoralRegression: "not-identified",
+  intraTumoralLymphocytes: "none",
+  hasMicroSatellites: "not-identified",
+  microSatelliteMarginState: "unspecified",
+  hasLymphaticOrVascularInvasion: false,
+  hasEpn: false,
+  otherMelanocyticLesions: [],
+  specimenExeresis: {
+    type: "oriented-complete-with-margins",
+    position: "à 12H",
+    distanceLateral: 0,
+    distanceDepth: 0,
   },
-  ancillaryStudies: {
-    brafTesting: {
-      hasBeenPerformed: false,
-      methodology: "",
-      results: "",
-    },
-    others: range(3).map(anEmptyTest),
+  lymphNodeCount: 0,
+  positiveLymphNodeCount: 0,
+  hasExtranodalExtension: false,
+  largestMetastasisSize: 0,
+  ihc: {
+    hasIhc: false,
+    blocks: [],
   },
-  pathologicalStaging: {
-    tnmDescriptors: [],
-    pt: "TX",
-    pn: "none",
-  },
+  hasMolecularBiology: false,
+  molecularBiology: "New generation sequencing demandé",
   comments: "",
-});
-
-const anEmptyTest = () => ({
-  name: "",
-  result: "",
 });
 
 type Props = {
@@ -308,715 +229,652 @@ type Props = {
 
 // FIXME: translate form
 export const InvasiveMelanomaForm = ({ formId }: Props) => {
-  const { state, clearState, setField } = useForm(getInitialState);
-  const hasErrors = false; // FIXME: add validations
+  const { state, setState, clearState, setField } = useForm(getInitialState);
+  // FIXME: add validations
+  //  - positiveLymphNodeCount must be <= lymphNodeCount
+  //  - lesionSite is mandatory
+  //  - blockCount must be > 0
+  //  - All sizes in mm must be > 0
+  //  - mitoticActivity can be 0
+  //  - If field is set to other, fieldOther is mandatory
+  const hasErrors = false;
+
+  let i = 1;
 
   return (
     <FormPage formId={formId} onClear={clearState}>
       <Stack spacing="lg">
-        <Select
-          label="Tumor site"
-          options={IS_SPECIFIED_OPTIONS}
-          value={state.tumorSite.value}
-          onChange={(value) =>
-            setField("tumorSite")({ ...state.tumorSite, value })
-          }
-        />
-        {state.tumorSite.value === "specified" ? (
-          <InputTextArea
-            lineCount={LINE_COUNT}
-            placeholder="FIXME: add placeholder"
-            value={state.tumorSite.details}
-            onChange={(value) =>
-              setField("tumorSite")({ ...state.tumorSite, details: value })
-            }
+        <Section index={i++} title="Renseignements cliniques">
+          <InputText
+            label="Site de la lésion"
+            value={state.lesionSite}
+            onChange={setField("lesionSite")}
           />
-        ) : undefined}
-        <Select
-          label="Clinical intent of procedure"
-          options={INTENT_OPTIONS}
-          value={state.intent}
-          onChange={setField("intent")}
-        />
-
-        <InputSpecimen state={state.specimen} setState={setField("specimen")} />
-
-        <InputPrimaryLesion
-          state={state.primaryLesion}
-          setState={setField("primaryLesion")}
-        />
-
-        {/* FIXME: check if there is a validation linked to the presence of invasions? Actually, shouldn't this always be the case for this specific form (as per its name)? */}
-        <SelectTroolean
-          label="Macroscopic satellite lesions"
-          value={state.hasSatelliteLesions}
-          onChange={setField("hasSatelliteLesions")}
-        />
-
-        <Select
-          label="Other lesion(s)"
-          options={PRESENCE_OPTIONS}
-          value={state.otherLesions.value}
-          onChange={(value) =>
-            setField("otherLesions")({ ...state.otherLesions, value })
-          }
-        />
-        {state.otherLesions.value === "present" ? (
-          <InputTextArea
-            lineCount={LINE_COUNT}
-            placeholder="FIXME: add placeholder"
-            value={state.otherLesions.details}
-            onChange={(value) =>
-              setField("otherLesions")({
-                ...state.otherLesions,
-                details: value,
-              })
-            }
-          />
-        ) : undefined}
-
-        <Select
-          label="Surgical margin/Tissue edges"
-          options={SURGICAL_MARGIN_OPTIONS}
-          value={state.surgicalMargin.option}
-          onChange={(value) =>
-            setField("surgicalMargin")({
-              ...state.surgicalMargin,
-              option: value,
-            })
-          }
-        />
-        {state.surgicalMargin.option ===
-        "Not involved by melanoma in situ or invasive melanoma" ? (
           <Select
-            label="Distance of melanoma in situ or invasive tumor from closest margin"
-            options={DISTANCE_OPTIONS}
-            value={state.surgicalMargin.location}
-            onChange={(value) =>
-              setField("surgicalMargin")({
-                ...state.surgicalMargin,
-                location: value,
-              })
-            }
+            options={LATERALITY_OPTIONS}
+            label="Latéralité"
+            value={state.laterality}
+            onChange={setField("laterality")}
           />
-        ) : undefined}
-        {state.surgicalMargin.option === "Cannot be assessed" ? undefined : (
+
+          <Line>
+            <Select
+              label="Type de prélèvement"
+              options={SAMPLING_TYPE_OPTIONS}
+              value={state.samplingType}
+              onChange={setField("samplingType")}
+            />
+            {state.samplingType === "other" ? (
+              <InputText
+                value={state.otherSamplingType}
+                onChange={setField("otherSamplingType")}
+              />
+            ) : undefined}
+          </Line>
+
+          <Select
+            label="Exérèse ganglionnaire"
+            options={LYMPH_NODE_EXERESIS_OPTIONS}
+            value={state.lymphNodeExeresis}
+            onChange={setField("lymphNodeExeresis")}
+          />
+          {state.lymphNodeExeresis === "no" ? undefined : (
+            <NestedItem depth={1}>
+              <InputText
+                label="Localisation"
+                value={state.lymphNodeExeresisLocation}
+                onChange={setField("lymphNodeExeresisLocation")}
+              />
+            </NestedItem>
+          )}
+        </Section>
+        <Section index={i++} title="Macroscopie">
+          <SelectBoolean
+            label="Orientation du prélèvement"
+            value={state.isSpecimenOriented}
+            onChange={setField("isSpecimenOriented")}
+          />
+          {state.isSpecimenOriented ? (
+            <NestedItem depth={1}>
+              <Line>
+                <Select
+                  options={ORIENTATION_METHOD_OPTIONS}
+                  value={state.orientationMethod}
+                  onChange={setField("orientationMethod")}
+                />
+                {state.orientationMethod === "Liège" ? undefined : (
+                  <>
+                    <Select
+                      label="situé"
+                      options={ORIENTATION_OPTIONS}
+                      value={state.orientation}
+                      onChange={setField("orientation")}
+                    />
+                    {state.orientation === "other" ? (
+                      <InputText
+                        value={state.orientationOther}
+                        onChange={setField("orientationOther")}
+                      />
+                    ) : undefined}
+                  </>
+                )}
+              </Line>
+            </NestedItem>
+          ) : undefined}
+          <InputSpecimen
+            state={state}
+            setState={(value) => setState({ ...state, ...value })}
+          />
+          <SelectBoolean
+            label="Lésions satellites"
+            value={state.hasSatelliteLesions}
+            onChange={setField("hasSatelliteLesions")}
+          />
+          <SelectBoolean
+            label="Autres lésions"
+            value={state.hasOtherLesions}
+            onChange={setField("hasOtherLesions")}
+          />
+          {state.hasOtherLesions ? (
+            <NestedItem depth={1}>
+              <InputTextArea
+                lineCount={2}
+                label="Description"
+                value={state.otherLesionsDescription}
+                onChange={setField("otherLesionsDescription")}
+              />
+            </NestedItem>
+          ) : undefined}
+          <SelectTroolean
+            label="Inclusion en totalité"
+            value={state.isIncludedInTotality}
+            onChange={setField("isIncludedInTotality")}
+          />
+          <InputNumber
+            label="Nombre de blocs"
+            min={1}
+            value={state.blockCount}
+            onChange={setField("blockCount")}
+          />
+          {/* FIXME: rework */}
           <InputTextArea
-            lineCount={LINE_COUNT}
-            label="Specify location(s), if possible"
-            value={state.surgicalMargin.location}
-            onChange={(value) =>
-              setField("surgicalMargin")({
-                ...state.surgicalMargin,
-                location: value,
-              })
-            }
+            label="Description des blocs"
+            value={state.blockDescription}
+            onChange={setField("blockDescription")}
           />
-        )}
-
-        <Select
-          label="Breslow thickness"
-          options={BRESLOW_THICKNESS_OPTIONS}
-          value={state.breslowThickness.option}
-          onChange={(value) =>
-            setField("breslowThickness")({
-              ...state.breslowThickness,
-              option: value,
-            })
-          }
-        />
-        {state.breslowThickness.option === "unspecified" ? undefined : (
-          <InputNumber
-            isDecimal
-            unit="mm"
-            value={state.breslowThickness.value}
-            onChange={(value) =>
-              setField("breslowThickness")({ ...state.breslowThickness, value })
-            }
+        </Section>
+        <Section index={i++} title="Microscopie">
+          <Line>
+            <Select
+              label="Sous-type de mélanome"
+              options={SUBTYPE_OPTIONS}
+              value={state.subtype}
+              onChange={setField("subtype")}
+            />
+            {state.subtype === "other" ? (
+              <InputText
+                value={state.subtypeOther}
+                onChange={setField("subtypeOther")}
+              />
+            ) : undefined}
+          </Line>
+          <Select
+            label="Phase de croissance"
+            options={GROWTH_PHASE_OPTIONS}
+            value={state.growthPhase}
+            onChange={setField("growthPhase")}
           />
-        )}
 
-        <Select
-          label="Ulceration"
-          options={PRESENCE_OPTIONS}
-          value={state.ulceration.presence}
-          onChange={(value) =>
-            setField("ulceration")({ ...state.ulceration, presence: value })
-          }
-        />
-        {state.ulceration.presence === "present" ? (
-          <InputNumber
-            unit="mm"
-            value={state.ulceration.value}
-            onChange={(value) =>
-              setField("ulceration")({ ...state.ulceration, value })
-            }
+          <InputThickness
+            state={state.thickness}
+            setState={setField("thickness")}
           />
-        ) : undefined}
 
-        <Select
-          label="Mitotic count"
-          options={IS_SPECIFIED_OPTIONS}
-          value={state.mitoticCount.option}
-          onChange={(value) =>
-            setField("mitoticCount")({ ...state.mitoticCount, option: value })
-          }
-        />
-        {state.mitoticCount.option === "specified" ? (
+          {/* TODO clean: add SelectPresence with grammatical gender */}
+          <Select
+            label="Ulcération"
+            options={PRESENCE_OPTIONS}
+            value={state.hasUlceration}
+            onChange={setField("hasUlceration")}
+          />
           <InputNumber
+            label="Activité mitotique"
             unit="mm-2"
-            value={state.mitoticCount.value}
-            onChange={(value) =>
-              setField("mitoticCount")({ ...state.mitoticCount, value })
-            }
+            value={state.mitoticActivity}
+            onChange={setField("mitoticActivity")}
           />
-        ) : undefined}
-
-        <Select
-          label="Microsatellites"
-          options={PRESENCE_OPTIONS}
-          value={state.microSatellites.presence}
-          onChange={(value) =>
-            setField("microSatellites")({
-              ...state.microSatellites,
-              presence: value,
-            })
-          }
-        />
-        {state.microSatellites.presence === "present" ? (
           <Select
-            label="Microsatellites margins"
-            options={MARGIN_OPTIONS}
-            value={state.microSatellites.margins}
-            onChange={(value) =>
-              setField("microSatellites")({
-                ...state.microSatellites,
-                margins: value,
-              })
-            }
+            label="Régression tumorale"
+            options={PRESENCE_OPTIONS}
+            value={state.hasTumoralRegression}
+            onChange={setField("hasTumoralRegression")}
           />
-        ) : undefined}
-
-        <Select
-          label="Clark infiltration level"
-          options={CLARK_INFILTRATION_LEVELS}
-          value={state.clarkInfiltationLevel}
-          onChange={setField("clarkInfiltationLevel")}
-        />
-
-        <HasInvasion
-          isOptional
-          value={state.hasLymphaticOrVascularInvasion}
-          onChange={setField("hasLymphaticOrVascularInvasion")}
-        />
-
-        <Select
-          label="Tumor-infiltrating lymphocites"
-          options={LYMPHOCITE_OPTIONS}
-          value={state.lymphocites}
-          onChange={setField("lymphocites")}
-        />
-
-        <Select
-          label="Tumor regression"
-          options={PRESENCE_OPTIONS}
-          value={state.tumorRegression.presence}
-          onChange={(value) =>
-            setField("tumorRegression")({
-              ...state.tumorRegression,
-              presence: value,
-            })
-          }
-        />
-        {state.tumorRegression.presence === "present" ? (
           <Select
-            label="Margins"
-            options={MARGIN_OPTIONS}
-            value={state.tumorRegression.margin}
-            onChange={(value) =>
-              setField("tumorRegression")({
-                ...state.tumorRegression,
-                margin: value,
-              })
-            }
+            label="Lymphocites intra-tumoraux"
+            options={LYMPHOCYTE_OPTIONS}
+            value={state.intraTumoralLymphocytes}
+            onChange={setField("intraTumoralLymphocytes")}
           />
-        ) : undefined}
 
-        <SelectTroolean
-          label="Neurotropism"
-          value={state.hasNeurotropism}
-          onChange={setField("hasNeurotropism")}
-        />
-
-        <Select
-          label="Desmoplastic melanoma component"
-          options={PRESENCE_OPTIONS}
-          value={state.desmoplasticMelanomaComponent.presence}
-          onChange={(value) =>
-            setField("desmoplasticMelanomaComponent")({
-              ...state.desmoplasticMelanomaComponent,
-              presence: value,
-            })
-          }
-        />
-        {state.desmoplasticMelanomaComponent.presence === "present" ? (
           <Select
-            options={DESMOPLASTIC_MELANOMA_OPTIONS}
-            value={state.desmoplasticMelanomaComponent.value}
-            onChange={(value) =>
-              setField("desmoplasticMelanomaComponent")({
-                ...state.desmoplasticMelanomaComponent,
-                value,
-              })
-            }
+            label="Nodules satellites (micro-satellites)"
+            options={PRESENCE_OPTIONS}
+            value={state.hasMicroSatellites}
+            onChange={setField("hasMicroSatellites")}
           />
-        ) : undefined}
+          {state.hasMicroSatellites === "present" ? (
+            <NestedItem depth={1}>
+              <Select
+                label="Marges"
+                options={MARGIN_STATE_OPTIONS}
+                value={state.microSatelliteMarginState}
+                onChange={setField("microSatelliteMarginState")}
+              />
+            </NestedItem>
+          ) : undefined}
 
-        <Select
-          label="Associated melanocytic lesion"
-          options={PRESENCE_OPTIONS}
-          value={state.associatedMelanocyticLesion.presence}
-          onChange={(value) =>
-            setField("associatedMelanocyticLesion")({
-              ...state.associatedMelanocyticLesion,
-              presence: value,
-            })
-          }
-        />
-        {state.associatedMelanocyticLesion.presence === "present" ? (
-          <InputTextArea
-            lineCount={LINE_COUNT}
-            placeholder="FIXME: add placeholder"
-            value={state.associatedMelanocyticLesion.value}
-            onChange={(value) =>
-              setField("associatedMelanocyticLesion")({
-                ...state.associatedMelanocyticLesion,
-                value,
-              })
-            }
+          <HasInvasion
+            value={state.hasLymphaticOrVascularInvasion}
+            onChange={setField("hasLymphaticOrVascularInvasion")}
           />
-        ) : undefined}
-
-        {state.specimen.lymphNodes.value === "submitted" ? (
-          <InputLymphNodesStatus
-            state={state.lymphNodesStatus}
-            setState={setField("lymphNodesStatus")}
+          <HasEpn value={state.hasEpn} onChange={setField("hasEpn")} />
+          <SelectList
+            label="Autres lésions mélanocytaires associées"
+            groups={MELANOCYTIC_LESION_GROUPS}
+            values={state.otherMelanocyticLesions}
+            onChange={setField("otherMelanocyticLesions")}
           />
-        ) : undefined}
 
-        <Select
-          label="Melanoma subtype"
-          options={SUBTYPE_OPTIONS}
-          value={state.subtype.value}
-          onChange={(value) => setField("subtype")({ ...state.subtype, value })}
-        />
-        {state.subtype.value === "other" ? (
-          <InputTextArea
-            lineCount={LINE_COUNT}
-            placeholder="FIXME: add placeholder"
-            value={state.subtype.otherValue}
-            onChange={(value) =>
-              setField("subtype")({ ...state.subtype, otherValue: value })
-            }
+          <InputExeresis
+            state={state.specimenExeresis}
+            isSpecimenOriented={state.isSpecimenOriented}
+            setState={setField("specimenExeresis")}
           />
-        ) : undefined}
+        </Section>
+        {state.lymphNodeExeresis === "no" ? undefined : (
+          <Section index={i++} title="Statut ganglionnaire">
+            <InputNumber
+              label="Nombre de ganglions étudiés"
+              value={state.lymphNodeCount}
+              onChange={setField("lymphNodeCount")}
+            />
+            <InputNumber
+              label="Nombre de ganglions positifs"
+              value={state.positiveLymphNodeCount}
+              onChange={setField("positiveLymphNodeCount")}
+            />
+            {state.positiveLymphNodeCount > 0 ? (
+              <NestedItem depth={1}>
+                <SelectBoolean
+                  label="Extension extra-ganglionnaire"
+                  value={state.hasExtranodalExtension}
+                  onChange={setField("hasExtranodalExtension")}
+                />
+                <InputNumber
+                  label="Diamètre de la plus grande métastase ganglionnaire"
+                  unit="mm"
+                  value={state.largestMetastasisSize}
+                  onChange={setField("largestMetastasisSize")}
+                />
+              </NestedItem>
+            ) : undefined}
+          </Section>
+        )}
+        <Section index={i++} title="Techniques complémentaires">
+          <Immunohistochemistry
+            containerCount={state.blockCount}
+            groups={INVASIVE_MELANOMA_ANTIBODY_GROUPS}
+            properties={INVASIVE_MELANOMA_ANTIBODY_PROPERTIES}
+            state={state.ihc}
+            setState={setField("ihc")}
+          />
 
-        <InputAncillaryStudies
-          state={state.ancillaryStudies}
-          setState={setField("ancillaryStudies")}
-        />
-
-        <InputPathologicalStaging
-          state={state.pathologicalStaging}
-          setState={setField("pathologicalStaging")}
-        />
-
-        {/* FIXME: update index */}
+          {/* FIXME: complete list */}
+          <SelectBoolean
+            label="Avez-vous fait une demande de biologie moléculaire?"
+            value={state.hasMolecularBiology}
+            onChange={setField("hasMolecularBiology")}
+          />
+          {state.hasMolecularBiology ? (
+            <NestedItem depth={1}>
+              <Select
+                label="Type"
+                options={MOLECULAR_BIOLOGY_OPTIONS}
+                value={state.molecularBiology}
+                onChange={setField("molecularBiology")}
+              />
+            </NestedItem>
+          ) : undefined}
+        </Section>
         <AdditionalRemarks
-          index={1}
+          index={i++}
           value={state.comments}
           onChange={setField("comments")}
         />
-
         {hasErrors ? undefined : (
           <Summary
             getContent={(language) =>
               generateReport({ form: { ...state, formId }, language })
             }
           />
-        )}
+        )}{" "}
       </Stack>
     </FormPage>
   );
 };
 
+type SpecimenState = Pick<
+  FormState,
+  | "specimenDimensions"
+  | "lesionDimensions"
+  | "lesionAspect"
+  | "otherLesionAspect"
+>;
+
 const InputSpecimen = ({
   state,
   setState,
 }: {
-  state: Specimen;
-  setState: (state: Specimen) => void;
+  state: SpecimenState;
+  setState: (state: SpecimenState) => void;
 }) => {
+  // TODO clean: extract dimension helpers
   const setField = patchState(state, setState);
 
   return (
     <>
       <Select
-        label="Specimen laterality"
-        options={LATERALITY_OPTIONS}
-        value={state.laterality}
-        onChange={setField("laterality")}
-      />
-
-      {/* FIXME: consider renaming to "technique" or something like this */}
-      <Select
-        label="Specimen(s) submitted"
-        options={TECHNIQUE_OPTIONS}
-        value={state.technique.value}
+        label="Taille du prélèvement"
+        options={DIMENSION_3D_OPTIONS}
+        value={state.specimenDimensions.type}
         onChange={(value) =>
-          setField("technique")({ ...state.technique, value })
+          setField("specimenDimensions")({
+            ...state.specimenDimensions,
+            type: value,
+          })
         }
       />
-      {state.technique.value === "other" ? (
-        <InputTextArea
-          lineCount={LINE_COUNT}
-          placeholder="FIXME: add placeholder"
-          value={state.technique.details}
-          onChange={(value) =>
-            setField("technique")({ ...state.technique, details: value })
-          }
+      {state.specimenDimensions.type === "unspecified" ? undefined : (
+        <NestedItem depth={1}>
+          <Line>
+            <InputNumber
+              label="Longueur"
+              unit="cm"
+              value={state.specimenDimensions.length}
+              onChange={(value) =>
+                setField("specimenDimensions")({
+                  ...state.specimenDimensions,
+                  length: value,
+                })
+              }
+            />
+            x{" "}
+            <InputNumber
+              label="Largeur"
+              unit="cm"
+              value={state.specimenDimensions.width}
+              onChange={(value) =>
+                setField("specimenDimensions")({
+                  ...state.specimenDimensions,
+                  width: value,
+                })
+              }
+            />
+            {state.specimenDimensions.type === "specified-with-depth" ? (
+              <>
+                x{" "}
+                <InputNumber
+                  label="Profondeur"
+                  unit="cm"
+                  value={state.specimenDimensions.depth}
+                  onChange={(value) =>
+                    setField("specimenDimensions")({
+                      ...state.specimenDimensions,
+                      depth: value,
+                    })
+                  }
+                />
+              </>
+            ) : undefined}
+          </Line>
+        </NestedItem>
+      )}
+
+      <Line>
+        <Select
+          label="Description macroscopique de la lésion"
+          options={ASPECT_OPTIONS}
+          value={state.lesionAspect}
+          onChange={setField("lesionAspect")}
         />
-      ) : undefined}
-
-      <Select
-        label="Lymph nodes"
-        options={LYMPH_NODE_OPTIONS}
-        value={state.lymphNodes.value}
-        onChange={(value) =>
-          setField("lymphNodes")({ ...state.lymphNodes, value })
-        }
-      />
-      {state.lymphNodes.value === "submitted" ? (
-        <InputTextArea
-          lineCount={LINE_COUNT}
-          placeholder="FIXME: add placeholder"
-          value={state.lymphNodes.details}
-          onChange={(value) =>
-            setField("lymphNodes")({ ...state.lymphNodes, details: value })
-          }
-        />
-      ) : undefined}
-
-      <Select
-        label="Specimen orientation"
-        options={ORIENTATION_OPTIONS}
-        value={state.orientation.value}
-        onChange={(value) =>
-          setField("orientation")({ ...state.orientation, value })
-        }
-      />
-      {state.orientation.value === "specified" ? (
-        <InputTextArea
-          lineCount={LINE_COUNT}
-          placeholder="FIXME: add placeholder"
-          value={state.orientation.details}
-          onChange={(value) =>
-            setField("orientation")({ ...state.orientation, details: value })
-          }
-        />
-      ) : undefined}
-    </>
-  );
-};
-
-const InputPrimaryLesion = ({
-  state,
-  setState,
-}: {
-  state: PrimaryLesion;
-  setState: (state: PrimaryLesion) => void;
-}) => {
-  const setField = patchState(state, setState);
-
-  return (
-    <>
-      <InputTextArea
-        lineCount={LINE_COUNT}
-        label="Macroscopic primary lesion description"
-        placeholder="FIXME: add placeholder"
-        value={state.description}
-        onChange={setField("description")}
-      />
-
-      <Select
-        label="Macroscopic primary lesion dimensions"
-        options={DIMENSIONS_OPTIONS}
-        value={state.dimensions.value}
-        onChange={(value) =>
-          setField("dimensions")({ ...state.dimensions, value })
-        }
-      />
-
-      {state.dimensions.value === "unspecified" ? undefined : (
-        <Stack direction="row" alignItems="center" spacing="md">
-          <InputNumber
-            label="Length"
-            unit="mm"
-            value={state.dimensions.length}
-            onChange={(value) =>
-              setField("dimensions")({ ...state.dimensions, length: value })
-            }
+        {state.lesionAspect === "other" ? (
+          <InputText
+            value={state.otherLesionAspect}
+            onChange={setField("otherLesionAspect")}
           />
-          x{" "}
-          <InputNumber
-            label="Width"
-            unit="mm"
-            value={state.dimensions.width}
-            onChange={(value) =>
-              setField("dimensions")({ ...state.dimensions, width: value })
-            }
-          />
-          {state.dimensions.value === "specified-with-depth" ? (
-            <>
-              x{" "}
-              <InputNumber
-                label="Depth"
-                unit="mm"
-                value={state.dimensions.depth}
-                onChange={(value) =>
-                  setField("dimensions")({ ...state.dimensions, depth: value })
-                }
-              />
-            </>
-          ) : undefined}
-        </Stack>
+        ) : undefined}
+      </Line>
+
+      <Select
+        label="Taille de la lésion"
+        options={DIMENSION_2D_OPTIONS}
+        value={state.lesionDimensions.type}
+        onChange={(value) =>
+          setField("lesionDimensions")({
+            ...state.lesionDimensions,
+            type: value,
+          })
+        }
+      />
+      {state.lesionDimensions.type === "unspecified" ? undefined : (
+        <NestedItem depth={1}>
+          <Line>
+            <InputNumber
+              label="Longueur"
+              unit="mm"
+              value={state.lesionDimensions.length}
+              onChange={(value) =>
+                setField("lesionDimensions")({
+                  ...state.lesionDimensions,
+                  length: value,
+                })
+              }
+            />
+            x{" "}
+            <InputNumber
+              label="Largeur"
+              unit="mm"
+              value={state.lesionDimensions.width}
+              onChange={(value) =>
+                setField("lesionDimensions")({
+                  ...state.lesionDimensions,
+                  width: value,
+                })
+              }
+            />
+          </Line>
+        </NestedItem>
       )}
     </>
   );
 };
 
-const InputLymphNodesStatus = ({
+const InputThickness = ({
   state,
   setState,
 }: {
-  state: LymphNodesStatus;
-  setState: (state: LymphNodesStatus) => void;
+  state: Thickness;
+  setState: (state: Thickness) => void;
 }) => {
   const setField = patchState(state, setState);
 
   return (
     <>
-      <Title title="Sentinel nodes" />
-      <NodeStatus
-        state={state.sentinelNodes}
-        setState={(value) =>
-          setField("sentinelNodes")({ ...state.sentinelNodes, ...value })
-        }
-      />
       <Select
-        label="Location of largest metastases"
-        options={METASTASIS_LOCATION_OPTIONS}
-        value={state.sentinelNodes.largestMetastasisLocation}
-        onChange={(value) =>
-          setField("sentinelNodes")({
-            ...state.sentinelNodes,
-            largestMetastasisLocation: value,
-          })
-        }
+        label="Épaisseur selon Clark"
+        options={CLARK_INFILTRATION_LEVELS}
+        value={state.clarkThickness}
+        onChange={setField("clarkThickness")}
       />
-      <Title title="Non-sentinel lymph nodes" />
-      <NodeStatus
-        state={state.nonSentinelLymphNodes}
-        setState={setField("nonSentinelLymphNodes")}
-      />
-      <Title title="Clinically apparent lymph nodes" />
-      <NodeStatus
-        state={state.clinicallyApparentLymphNodes}
-        setState={setField("clinicallyApparentLymphNodes")}
-      />
+      {state.clarkThickness === 1 ? undefined : (
+        <InputBreslowThickness
+          state={state.breslowThickness}
+          setState={setField("breslowThickness")}
+        />
+      )}
     </>
   );
 };
 
-const NodeStatus = ({
+const InputBreslowThickness = ({
   state,
   setState,
 }: {
-  state: LymphNodesStatusByType;
-  setState: (state: LymphNodesStatusByType) => void;
+  state: BreslowThickness;
+  setState: (state: BreslowThickness) => void;
 }) => {
   const setField = patchState(state, setState);
 
   return (
-    <>
-      {/* FIXME: clarify behavior for "Number cannot be determined" */}
-      <InputNumber
-        label="Number of nodes examined"
-        value={state.count}
-        onChange={setField("count")}
+    <Line>
+      <Select
+        options={BRESLOW_THICKNESS_TYPE_OPTIONS}
+        label="Épaisseur selon Breslow"
+        value={state.type}
+        onChange={setField("type")}
       />
       <InputNumber
-        label="Number of positive nodes"
-        value={state.positiveCount}
-        onChange={setField("positiveCount")}
-      />
-      <SelectTroolean
-        label="Extranodal extension"
-        value={state.extranodalExtension}
-        onChange={setField("extranodalExtension")}
-      />
-      <InputNumber
-        label="Maximum dimension of largest metastasis in a node"
+        value={state.distance}
         unit="mm"
-        value={state.maximumDimension}
-        onChange={setField("maximumDimension")}
+        onChange={setField("distance")}
       />
-    </>
-  );
-};
-
-const InputAncillaryStudies = ({
-  state,
-  setState,
-}: {
-  state: AncillaryStudies;
-  setState: (state: AncillaryStudies) => void;
-}) => {
-  const setField = patchState(state, setState);
-
-  return (
-    <>
-      <Title title="Ancillary studies" />
-      <Stack spacing="lg">
-        <InputBrafTesting
-          state={state.brafTesting}
-          setState={setField("brafTesting")}
+      {state.distance > 0 ? (
+        <Select
+          options={MORPHOLOGY_OPTIONS}
+          value={state.morphology}
+          onChange={setField("morphology")}
         />
-        <InputOtherTesting tests={state.others} onChange={setField("others")} />
-      </Stack>
-    </>
-  );
-};
-
-const InputBrafTesting = ({
-  state,
-  setState,
-}: {
-  state: AncillaryStudies["brafTesting"];
-  setState: (state: AncillaryStudies["brafTesting"]) => void;
-}) => {
-  const setField = patchState(state, setState);
-
-  return (
-    <NestedItem depth={1}>
-      <Title title="BRAF testing" />
-      <SelectBoolean
-        label="Was BRAF testing performed?"
-        value={state.hasBeenPerformed}
-        onChange={setField("hasBeenPerformed")}
-      />
-      {state.hasBeenPerformed ? (
-        <>
-          <InputTextArea
-            lineCount={LINE_COUNT}
-            label="Results"
-            value={state.results}
-            onChange={setField("results")}
-          />
-          <InputTextArea
-            lineCount={LINE_COUNT}
-            label="Methodology"
-            value={state.methodology}
-            onChange={setField("methodology")}
-          />
-        </>
       ) : undefined}
-    </NestedItem>
+    </Line>
   );
 };
 
-const InputOtherTesting = ({
-  tests,
-  onChange,
-}: {
-  tests: Test[];
-  onChange: (values: Test[]) => void;
-}) => {
-  return (
-    <NestedItem depth={1}>
-      <Title title="Other testing" />
-      {tests.map((test, index) => (
-        <TestingRow
-          key={index}
-          test={test}
-          onChange={(value) => onChange(patchArray(tests, index, () => value))}
-        />
-      ))}
-      {/* FIXME: check alignment (ensure consistency with other forms) */}
-      <Button
-        label="Ajouter un autre test"
-        onClick={() => onChange([...tests, anEmptyTest()])}
-      />
-    </NestedItem>
-  );
-};
-
-const TestingRow = ({
-  test,
-  onChange,
-}: {
-  test: Test;
-  onChange: (value: Test) => void;
-}) => {
-  const setField = patchState(test, onChange);
-
-  return (
-    <Stack direction="row" spacing="md">
-      <InputText
-        label="Test name"
-        value={test.name}
-        onChange={setField("name")}
-      />
-      <InputText
-        label="Result"
-        value={test.result}
-        onChange={setField("result")}
-      />
-    </Stack>
-  );
-};
-
-const InputPathologicalStaging = ({
+// TODO clean: handle read-only mode
+const ExeresisTypeDescription = ({
   state,
   setState,
 }: {
-  state: PathologicalStaging;
-  setState: (state: PathologicalStaging) => void;
+  state: SpecimenExeresis;
+  setState: (value: SpecimenExeresis) => void;
+}): Exclude<ReactNode, undefined> => {
+  const setField = patchState(state, setState);
+  const inputDistanceLateral = (
+    <InputNumber
+      isDecimal
+      isInline
+      unit="mm"
+      value={state.distanceLateral}
+      onChange={setField("distanceLateral")}
+    />
+  );
+  const inputDistanceDepth = (
+    <InputNumber
+      isDecimal
+      isInline
+      unit="mm"
+      value={state.distanceDepth}
+      onChange={setField("distanceDepth")}
+    />
+  );
+  const selectPosition = (
+    <Select
+      isInline
+      options={EXERESIS_POSITION_OPTIONS}
+      value={state.position}
+      onChange={setField("position")}
+    />
+  );
+
+  switch (state.type) {
+    case "oriented-complete-with-margins": {
+      return (
+        <>
+          Les limites chirurgicales latérales et profondes, passent en zone
+          saine, arrivant au plus proche à {inputDistanceLateral} de la limite
+          latérale {selectPosition} et {inputDistanceDepth} en profondeur.
+        </>
+      );
+    }
+
+    case "oriented-incomplete-laterally": {
+      return (
+        <>
+          Les limites chirurgicales latérales passent en zone lésionnelle,
+          arrivant au contact de la limite latérale {inputDistanceLateral}. La
+          limite chirurgicale profonde passe en zone saine avec une marge
+          minimale de {inputDistanceDepth}.
+        </>
+      );
+    }
+
+    case "non-assessable-specimen": {
+      return (
+        <>
+          La nature du prélèvement ne permet pas d'évaluer la qualité de
+          l'exérèse.
+        </>
+      );
+    }
+
+    case "non-assessable-specimen-inclusion": {
+      return (
+        <>
+          L'inclusion tangentielle du prélèvement ne permet pas d'évaluer la
+          qualité de l'exérèse.
+        </>
+      );
+    }
+
+    case "simple-complete": {
+      return (
+        <>
+          Les limites chirurgicales, latérales et profondes, passent en zone
+          saine.
+        </>
+      );
+    }
+
+    case "simple-complete-with-margins": {
+      return (
+        <>
+          Les limites chirurgicales, latérales et profondes, passent en zone
+          saine, arrivant au plus proche à {inputDistanceLateral} latéralement
+          et {inputDistanceDepth} en profondeur.
+        </>
+      );
+    }
+
+    case "simple-incomplete-laterally": {
+      return (
+        <>
+          Les limites chirurgicales latérales passent en zone lésionnelle. La
+          limite chirurgicale profonde passe en zone saine.
+        </>
+      );
+    }
+
+    case "simple-incomplete-depth": {
+      return (
+        <>
+          Les limites chirurgicales latérales passent en zone saine. La limite
+          chirurgicale profonde passe en zone lésionnelle.
+        </>
+      );
+    }
+  }
+};
+
+const InputExeresis = ({
+  state,
+  setState,
+  isSpecimenOriented,
+}: {
+  state: SpecimenExeresis;
+  setState: (state: SpecimenExeresis) => void;
+  isSpecimenOriented: boolean;
 }) => {
   const setField = patchState(state, setState);
 
+  const options = isSpecimenOriented
+    ? EXERIS_TYPE_OPTIONS_ORIENTED
+    : EXERIS_TYPE_OPTIONS_NOT_ORIENTED;
+
+  // When options change, reset type to first available value
+  useEffect(
+    () => {
+      const firstOption = options[0]?.value ?? "simple-complete";
+      setField("type")(firstOption);
+    },
+    // TODO CLEAN: find a way to clean this
+    // CAUTION: we disable the check on setField (which is unstable by nature) here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [options],
+  );
+
   return (
     <>
-      {/* TODO: this should be inferred from other data */}
-      <Title title="Pathological staging" />
-      <CheckboxList
-        title="TNM descriptors"
-        options={TNM_DESCRIPTOR_OPTIONS}
-        values={state.tnmDescriptors}
-        onChange={setField("tnmDescriptors")}
-      />
       <Select
-        label="Primary tumor (pT)"
-        options={PT_GROUPS}
-        value={state.pt}
-        onChange={setField("pt")}
+        label="Exérèse du prélèvement"
+        options={options}
+        value={state.type}
+        onChange={setField("type")}
       />
-      <Select
-        label="Regional lymph nodes (pN)"
-        options={PN_GROUPS}
-        value={state.pn}
-        onChange={setField("pn")}
-      />
+      <NestedItem depth={1}>
+        {/* CAUTION: this div is necessary for wrapping */}
+        <div>
+          <ExeresisTypeDescription state={state} setState={setState} />
+        </div>
+      </NestedItem>
     </>
   );
 };

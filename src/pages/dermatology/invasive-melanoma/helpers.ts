@@ -1,77 +1,126 @@
 import {
-  Option,
-  OptionOrGroup,
-  OTHER_ITEM,
-  SPECIFIED_ITEM,
-  toOption,
-  UNSPECIFIED_ITEM,
-} from "../../../ui";
+  AntibodyGroup,
+  PropertiesByAntibody,
+} from "../../../common/immunohistochemistry/helpers";
+import { NO_ITEM, Option, OTHER_ITEM, UNSPECIFIED_ITEM } from "../../../ui";
 
-export const IS_SPECIFIED_OPTIONS = [UNSPECIFIED_ITEM, SPECIFIED_ITEM];
-
-const INTENTS = [
-  "Excisional/complete diagnostic biopsy",
-  "Incisional/incomplete (partial) diagnostic biopsy",
-  "Wide excision",
-] as const;
-export const INTENT_OPTIONS = [UNSPECIFIED_ITEM, ...INTENTS.map(toOption)];
-export type Intent = (typeof INTENT_OPTIONS)[number]["value"];
+// FIXME: add translations
 
 export const LATERALITY_OPTIONS = [
+  { value: "left", label: "Gauche" },
+  { value: "midline", label: "Médian" },
+  { value: "right", label: "Droite" },
   UNSPECIFIED_ITEM,
-  { value: "left", label: "Left" },
-  { value: "midline", label: "Midline" },
-  { value: "right", label: "Right" },
 ] as const;
 export type Laterality = (typeof LATERALITY_OPTIONS)[number]["value"];
 
-const TECHNIQUES = [
-  "Punch technique",
-  "Shave technique (superficial)",
-  "Saucerization/scoop/deep shave technique",
-  "Curette",
-  "Fusiform/elliptical/disc (full-thickness)",
-] as const;
-export const TECHNIQUE_OPTIONS = [
-  UNSPECIFIED_ITEM,
-  ...TECHNIQUES.map(toOption),
+export const SAMPLING_TYPE_OPTIONS = [
+  { value: "exeresis", label: "Exérèse" },
+  { value: "shaving", label: "Shaving" },
+  { value: "biopsy", label: "Biopsie" },
   OTHER_ITEM,
-];
-export type TechniqueOption = (typeof TECHNIQUE_OPTIONS)[number]["value"];
-
-export const LYMPH_NODE_OPTIONS = [
-  { value: "not-submitted", label: "Not submitted" },
-  { value: "submitted", label: "Submitted" },
 ] as const;
-export type LymphNodeOption = (typeof LYMPH_NODE_OPTIONS)[number]["value"];
+export type SamplingType = (typeof SAMPLING_TYPE_OPTIONS)[number]["value"];
 
-export const ORIENTATION_OPTIONS = [UNSPECIFIED_ITEM, SPECIFIED_ITEM] as const;
+// FIXME: consider how to rename
+export const LYMPH_NODE_EXERESIS_OPTIONS = [
+  { value: "Ganglion sentinelle", label: "Ganglion sentinelle" },
+  { value: "Curage ganglionnaire", label: "Curage ganglionnaire" },
+  NO_ITEM,
+] as const;
+export type LymphNodeExeresis =
+  (typeof LYMPH_NODE_EXERESIS_OPTIONS)[number]["value"];
+
+export const ORIENTATION_METHOD_OPTIONS = [
+  { value: "Fil", label: "Fil" },
+  { value: "Agrafe", label: "Agrafe" },
+  { value: "label", label: "label" },
+  { value: "Épingle", label: "Épingle" },
+  { value: "Liège", label: "Liège" },
+] as const;
+export type OrientationMethod =
+  (typeof ORIENTATION_METHOD_OPTIONS)[number]["value"];
+
+export const ORIENTATION_OPTIONS = [
+  { value: "à 3H", label: "à 3H" },
+  { value: "à 6H", label: "à 6H" },
+  { value: "à 9H", label: "à 9H" },
+  { value: "à 12H", label: "à 12H" },
+  { value: "au pôle supérieur", label: "au pôle supérieur" },
+  { value: "au pôle inférieur ", label: "au pôle inférieur " },
+  { value: "au pôle médian ", label: "au pôle médian " },
+  { value: "au pôle latéral ", label: "au pôle latéral " },
+  { value: "au pôle antérieur ", label: "au pôle antérieur " },
+  { value: "au pôle postérieur", label: "au pôle postérieur" },
+  OTHER_ITEM,
+] as const;
 export type Orientation = (typeof ORIENTATION_OPTIONS)[number]["value"];
 
-export const DIMENSIONS_OPTIONS = [
+export const ASPECT_OPTIONS = [
+  { value: "Pigmentée", label: "Pigmentée" },
+  { value: "Plan", label: "Plan" },
+  { value: "Nodulaire", label: "Nodulaire" },
+  { value: "En relief", label: "En relief" },
+  { value: "Achromique", label: "Achromique" },
+  { value: "Ulcérée", label: "Ulcérée" },
+  OTHER_ITEM,
+  UNSPECIFIED_ITEM,
+] as const;
+export type Aspect = (typeof ASPECT_OPTIONS)[number]["value"];
+
+export const DIMENSION_3D_OPTIONS = [
   UNSPECIFIED_ITEM,
   { value: "specified-with-depth", label: "Précisé (avec profondeur)" },
   { value: "specified-without-depth", label: "Précisé (sans profondeur)" },
 ] as const;
-export type DimensionsType = (typeof DIMENSIONS_OPTIONS)[number]["value"];
+export type Dimension3d = (typeof DIMENSION_3D_OPTIONS)[number]["value"];
 
-export const PRESENCE_OPTIONS = [
-  { value: "not-identified", label: "Non identifié" },
-  { value: "present", label: "Présent" },
-] as const;
-export type Presence = (typeof PRESENCE_OPTIONS)[number]["value"];
-
-export const BRESLOW_THICKNESS_OPTIONS = [
+export const DIMENSION_2D_OPTIONS = [
   UNSPECIFIED_ITEM,
-  SPECIFIED_ITEM,
-  { value: "minimum", label: "At least" },
+  { value: "specified-without-depth", label: "Précisé (sans profondeur)" },
 ] as const;
-export type ThicknessOption =
-  (typeof BRESLOW_THICKNESS_OPTIONS)[number]["value"];
+export type Dimension2d = (typeof DIMENSION_2D_OPTIONS)[number]["value"];
 
-const MARGINS = ["Cannot be assessed", "Not involved", "Involved"] as const;
-export const MARGIN_OPTIONS = MARGINS.map(toOption);
-export type Margin = (typeof MARGIN_OPTIONS)[number]["value"];
+export const SUBTYPE_OPTIONS = [
+  {
+    value: "Mélanome à extension superficielle (SSM)",
+    label: "Mélanome à extension superficielle (SSM)",
+  },
+  { value: "Mélanome de Dubreuilh (LM)", label: "Mélanome de Dubreuilh (LM)" },
+  { value: "Mélanome desmoplastique", label: "Mélanome desmoplastique" },
+  {
+    value: "Tumeur maligne de Spitz (mélanome de Spitz)",
+    label: "Tumeur maligne de Spitz (mélanome de Spitz)",
+  },
+  { value: "Mélanome acro-lentigineux", label: "Mélanome acro-lentigineux" },
+  {
+    value: "Mélanomes des muqueuses (génital, buccal, nasosinusien)",
+    label: "Mélanomes des muqueuses (génital, buccal, nasosinusien)",
+  },
+  {
+    value: "Mélanome développé sur naevus bleu",
+    label: "Mélanome développé sur naevus bleu",
+  },
+  {
+    value: "Mélanome développé sur naevus congénital géant",
+    label: "Mélanome développé sur naevus congénital géant",
+  },
+  { value: "Mélanome nodulaire", label: "Mélanome nodulaire" },
+  { value: "Mélanome naevoïde", label: "Mélanome naevoïde" },
+  {
+    value: "Mélanome, sans autre spécificité",
+    label: "Mélanome, sans autre spécificité",
+  },
+  OTHER_ITEM,
+] as const;
+export type Subtype = (typeof SUBTYPE_OPTIONS)[number]["value"];
+
+export const GROWTH_PHASE_OPTIONS = [
+  { value: "horizontal", label: "Horizontale" },
+  { value: "vertical", label: "Verticale" },
+  UNSPECIFIED_ITEM,
+] as const;
+export type GrowthPhase = (typeof GROWTH_PHASE_OPTIONS)[number]["value"];
 
 // FIXME: align with DermatologyForm
 export type ClarkInfiltrationLevel = 1 | 2 | 3 | 4 | 5;
@@ -83,188 +132,201 @@ export const CLARK_INFILTRATION_LEVELS: Option<ClarkInfiltrationLevel>[] = [
   { value: 5, label: "V (hypoderme)" },
 ];
 
-export const LYMPHOCITE_OPTIONS = [
-  { value: "not-identified", label: "Not identified" },
-  { value: "brisk", label: "Brisk" },
-  { value: "non-brisk", label: "Non brisk" },
-] as const;
-export type LymphociteOption = (typeof LYMPHOCITE_OPTIONS)[number]["value"];
-
-export const DESMOPLASTIC_MELANOMA_OPTIONS = [
-  { value: "pure", label: "Pure (>90% desmoplastic melanoma)" },
-  { value: "mixed", label: "Mixed" },
-];
-export type DesmoplasticMelanomaOption =
-  (typeof DESMOPLASTIC_MELANOMA_OPTIONS)[number]["value"];
-
-const METASTASIS_LOCATIONS = [
-  "Subcapsular",
-  "Intraparenchymal",
-  "Both subcapsular and intraparenchymal",
-] as const;
-export const METASTASIS_LOCATION_OPTIONS = METASTASIS_LOCATIONS.map(toOption);
-export type MetastasisLocation =
-  (typeof METASTASIS_LOCATION_OPTIONS)[number]["value"];
-
-const SURGICAL_MARGINS = [
-  "Cannot be assessed",
-  "Not involved by melanoma in situ or invasive melanoma",
-  "Involved by melanoma in situ",
-  "Involved by invasive melanoma",
-] as const;
-export const SURGICAL_MARGIN_OPTIONS = SURGICAL_MARGINS.map(toOption);
-export type SurgicalMargin = (typeof SURGICAL_MARGIN_OPTIONS)[number]["value"];
-
-export const DISTANCE_OPTIONS = [
-  { value: "<= 1mm", label: "<= 1mm" },
-  { value: "> 1mm", label: "> 1mm" },
-];
-export type DistanceOption = (typeof DISTANCE_OPTIONS)[number]["value"];
-
-const SUBTYPES = [
-  "Low-CSD melanoma (superficial spreading melanoma)",
-  "Lentigo maligna melanoma (high-CSD melanoma)",
-  "Desmoplastic melanoma",
-  "Malignant Spitz tumor (Spitz melanoma)",
-  "Acral melanoma",
-  "Mucosal melanomas (genital, oral, sinonasal)",
-  "Melanoma arising in blue naevus",
-  "Melanoma arising in giant congenital naevus",
-  "Nodular melanoma",
-  "Naevoid melanoma",
-  "Melanoma, not otherwise classified",
+export const BRESLOW_THICKNESS_TYPE_OPTIONS = [
+  { value: "precised", label: "Précisé" },
+  { value: "at-least", label: "Au moins" },
 ] as const;
 
-export const SUBTYPE_OPTIONS = [...SUBTYPES.map(toOption), OTHER_ITEM];
+export type BreslowThicknessType =
+  (typeof BRESLOW_THICKNESS_TYPE_OPTIONS)[number]["value"];
 
-export type Subtype = (typeof SUBTYPE_OPTIONS)[number]["value"];
-
-export const TNM_DESCRIPTOR_OPTIONS = [
-  { value: "m", label: "Multiple primary tumors" },
-  { value: "r", label: "Recurrent" },
-  { value: "y", label: "Post-therapy" },
-  { value: "sn", label: "Sentinel node biopsy" },
+export const MORPHOLOGY_OPTIONS = [
+  { value: "Épithélioïde", label: "Épithélioïde" },
+  { value: "Fusiforme", label: "Fusiforme" },
+  { value: "Ballonisante", label: "Ballonisante" },
+  { value: "Naevocytoïde", label: "Naevocytoïde" },
 ] as const;
-export type TnmDescriptor = (typeof TNM_DESCRIPTOR_OPTIONS)[number]["value"];
+export type Morphology = (typeof MORPHOLOGY_OPTIONS)[number]["value"];
 
-// FIXME: rework API as options = Array<Option | {title: string, options: Option[]}>
-// FIXME: align with PTNM_OPTIONS (bladder-resection)
-export const PT_GROUPS: OptionOrGroup<Pt>[] = [
-  { value: "TX", label: "TX (primary tumor cannot be assessed)" },
+// FIXME: consider replacing Presence with a simple boolean
+// FIXME: discuss UX (do we want both a SelectBoolean and a SelectPresence?)
+export const PRESENCE_OPTIONS = [
+  { value: "not-identified", label: "Non-identifié" },
+  { value: "present", label: "Présence" },
+] as const;
+export type Presence = (typeof PRESENCE_OPTIONS)[number]["value"];
+
+export const LYMPHOCYTE_OPTIONS = [
+  { value: "none", label: "Absence d'infiltrat lymphocytaire" },
+  { value: "non-brisk", label: "Infiltrat lymphocytaire de type non-Brisk" },
+  { value: "brisk", label: "Infiltrat lymphocytaire de type Brisk" },
+] as const;
+export type LymphocyteOption = (typeof LYMPHOCYTE_OPTIONS)[number]["value"];
+
+export const MARGIN_STATE_OPTIONS = [
+  { value: "Saines", label: "Saines" },
+  { value: "Atteintes", label: "Atteintes" },
+  UNSPECIFIED_ITEM,
+] as const;
+export type MarginState = (typeof MARGIN_STATE_OPTIONS)[number]["value"];
+
+export type MelanocyticLesion =
+  (typeof MELANOCYTIC_LESION_GROUPS)[number]["options"][number]["value"];
+
+// TODO clean: convert to option list once SelectList accepts both options and groups
+export const MELANOCYTIC_LESION_GROUPS = [
   {
-    value: "T0",
-    label: "T0 (no evidence of primary tumor or regressed melanomas)",
-  },
-  { value: "Tis", label: "Tis (melanoma in situ, Clark level I)" },
-  {
-    title: "T1 (tumor 1mm or less in thickness)",
+    title: "",
     options: [
       {
-        value: "T1a",
-        label: "T1a (less than 0.8mm in thickness without ulceration)",
+        value: "Naevus jonctionnel composé ou dermique",
+        label: "Naevus jonctionnel composé ou dermique",
       },
       {
-        value: "T1b",
-        label:
-          "T1b (less than 0.8mm in thickness with ulceration or 0.8 mm or more but no more than 1mm in thickness, with or without ulceration)",
+        value: "Mélanocytome activé de la voie WNT (naevus)",
+        label: "Mélanocytome activé de la voie WNT (naevus)",
       },
-    ],
-  },
-  {
-    title: "T2 (tumor more than 1mm but not more than 2mm in thickness)",
-    options: [
-      { value: "T2a", label: "T2a (without ulceration)" },
-      { value: "T2b", label: "T2b (with ulceration)" },
-    ],
-  },
-  {
-    title: "T3 (tumor more than 2mm but not more than 4mm in thickness)",
-    options: [
-      { value: "T3a", label: "T3a (without ulceration)" },
-      { value: "T3b", label: "T3a (with ulceration)" },
-    ],
-  },
-  {
-    title: "T4 (tumor more than 4mm in thickness)",
-    options: [
-      { value: "T4a", label: "T4a (without ulceration)" },
-      { value: "T4b", label: "T4a (with ulceration)" },
+      {
+        value: "Mélanocytome épithélioïde pigmenté",
+        label: "Mélanocytome épithélioïde pigmenté",
+      },
+      {
+        value: "Mélanocytome inactivé par BAP1",
+        label: "Mélanocytome inactivé par BAP1",
+      },
+      {
+        value: "Tumeurs mélanocytaires activées par la voie MITF",
+        label: "Tumeurs mélanocytaires activées par la voie MITF",
+      },
+      { value: "Naevus de Spitz", label: "Naevus de Spitz" },
+      {
+        value: "Naevus pigmenté à cellules fusiformes (naevus de Reed)",
+        label: "Naevus pigmenté à cellules fusiformes (naevus de Reed)",
+      },
+      { value: "Naevus acral", label: "Naevus acral" },
+      {
+        value: "Naevus muqueux et génital",
+        label: "Naevus muqueux et génital",
+      },
+      { value: "Naevus bleu", label: "Naevus bleu" },
+      { value: "Naevus congénital", label: "Naevus congénital" },
     ],
   },
 ];
-export type Pt =
-  | "TX"
-  | "T0"
-  | "Tis"
-  | "T1a"
-  | "T1b"
-  | "T2a"
-  | "T2b"
-  | "T3a"
-  | "T3b"
-  | "T4a"
-  | "T4b";
 
-export const PN_GROUPS: OptionOrGroup<Pn>[] = [
-  { value: "none", label: "No nodes submitted or found" },
-  { value: "NX", label: "NX (regional nodes not assessed)" },
-  { value: "N0", label: "N0 (no regional lymph node metastases)" },
+const EXERIS_TYPE_OPTIONS_NOT_ASSESSABLE = [
   {
-    title:
-      "N1 (metastasis in one regional lymph node or intralymphatic regional metastasis without nodal metastases)",
+    value: "non-assessable-specimen",
+    label: "Non-évaluable à cause de la nature du prélèvement",
+  },
+  {
+    value: "non-assessable-specimen-inclusion",
+    label: "Non-évaluable à cause de l'inclusion du prélèvement",
+  },
+] as const;
+
+export const EXERIS_TYPE_OPTIONS_ORIENTED = [
+  {
+    value: "oriented-complete-with-margins",
+    label: "Exérèse orientée complète avec marges",
+  },
+  {
+    value: "oriented-incomplete-laterally",
+    label: "Exérèse orientée  incomplète latéralement",
+  },
+  ...EXERIS_TYPE_OPTIONS_NOT_ASSESSABLE,
+] as const;
+
+export const EXERIS_TYPE_OPTIONS_NOT_ORIENTED = [
+  { value: "simple-complete", label: "Exérèse simple complète" },
+  {
+    value: "simple-complete-with-margins",
+    label: "Exérèse simple complète avec marges",
+  },
+  {
+    value: "simple-incomplete-laterally",
+    label: "Exérèse simple incomplète latéralement",
+  },
+  {
+    value: "simple-incomplete-depth",
+    label: "Exérèse simple incomplète en profondeur",
+  },
+  ...EXERIS_TYPE_OPTIONS_NOT_ASSESSABLE,
+] as const;
+
+export type ExeresisType =
+  | (typeof EXERIS_TYPE_OPTIONS_ORIENTED)[number]["value"]
+  | (typeof EXERIS_TYPE_OPTIONS_NOT_ORIENTED)[number]["value"];
+
+export const EXERESIS_POSITION_OPTIONS = [
+  { value: "à 12H", label: "à 12H" },
+  { value: "à 1H", label: "à 1H" },
+  { value: "à 2H", label: "à 2H" },
+  { value: "à 3H", label: "à 3H" },
+  { value: "à 4H", label: "à 4H" },
+  { value: "à 5H", label: "à 5H" },
+  { value: "à 6H", label: "à 6H" },
+  { value: "à 7h", label: "à 7h" },
+  { value: "à 8H", label: "à 8H" },
+  { value: "à 9H", label: "à 9H" },
+  { value: "à 10H", label: "à 10H" },
+  { value: "à 11H", label: "à 11H" },
+  { value: "au pôle supérieur", label: "au pôle supérieur" },
+  { value: "au pôle inférieur", label: "au pôle inférieur" },
+  { value: "au pôle médian", label: "au pôle médian" },
+  { value: "au pôle latéral", label: "au pôle latéral" },
+  { value: "au pôle antérieur", label: "au pôle antérieur" },
+  { value: "au pôle postérieur", label: "au pôle postérieur" },
+] as const;
+export type ExeresisPosition =
+  (typeof EXERESIS_POSITION_OPTIONS)[number]["value"];
+
+export const MOLECULAR_BIOLOGY_OPTIONS = [
+  {
+    value: "New generation sequencing demandé",
+    label: "New generation sequencing demandé",
+  },
+  { value: "Idylla demandé", label: "Idylla demandé" },
+] as const;
+export type MolecularBiology =
+  (typeof MOLECULAR_BIOLOGY_OPTIONS)[number]["value"];
+
+export const INVASIVE_MELANOMA_ANTIBODY_GROUPS = [
+  {
+    title: "Anticorps de la différenciation mélanocytaire",
     options: [
-      {
-        value: "N1a",
-        label: "N1a (only microscopic metastasis, clinically occult)",
-      },
-      {
-        value: "N1b",
-        label: "N1b (macroscopic metastasis, clinically apparent)",
-      },
-      {
-        value: "N1c",
-        label:
-          "N1c (satellite or in-transit metastasis without regional nodal metastasis)",
-      },
+      { value: "SOX10" as const, label: "SOX10" },
+      { value: "Melan A" as const, label: "Melan A" },
     ],
   },
   {
-    title:
-      "N2 (metastasis in two or three regional lymph nodes or intralymphatic regional metastases)",
+    title: "Anticorps de la famille des cellules dérivées des crêtes neurales",
     options: [
-      { value: "N2a", label: "N2a (only microscopic nodal metastasis)" },
-      { value: "N2b", label: "N2b (macroscopic nodal metastasis)" },
-      {
-        value: "N2c",
-        label:
-          "N2c (satellite or in-transit metastasis with only one regional nodal metastasis)",
-      },
+      { value: "PS100" as const, label: "PS100" },
+      { value: "HMB45" as const, label: "HMB45" },
     ],
   },
   {
-    title:
-      "N3 (metastasis in four or more regional lymph nodes, or matted metastatic regional lymph nodes, or satellite(s) or in-transit metastasis with metastasis in two or more regional lymph node(s))",
+    title: "Anticorps diagnostiques",
     options: [
-      { value: "N3a", label: "N3a (only microscopic nodal metastasis)" },
-      { value: "N3b", label: "N3b (macroscopic nodal metastasis)" },
-      {
-        value: "N3c",
-        label:
-          "N3c (satellite or in-transit metastasis with two or more regional nodal metastasis)",
-      },
+      { value: "PRAME" as const, label: "PRAME" },
+      { value: "P16" as const, label: "P16" },
+      { value: "Ki67" as const, label: "Ki67" },
     ],
   },
-];
-export type Pn =
-  | "none"
-  | "NX"
-  | "N0"
-  | "N1a"
-  | "N1b"
-  | "N1c"
-  | "N2a"
-  | "N2b"
-  | "N2c"
-  | "N3a"
-  | "N3b"
-  | "N3c";
+  {
+    title: "Anticorps théranostiques",
+    options: [{ value: "BRAF" as const, label: "BRAF" }],
+  },
+] satisfies AntibodyGroup[];
+
+export const INVASIVE_MELANOMA_ANTIBODY_PROPERTIES: PropertiesByAntibody = {
+  SOX10: {},
+  "Melan A": {},
+  PS100: {},
+  HMB45: {},
+  PRAME: {},
+  P16: {},
+  Ki67: {},
+  BRAF: {},
+};
