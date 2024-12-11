@@ -7,7 +7,7 @@ export * from "./mock";
 export * from "./navigation";
 export * from "./options";
 export * from "./percent";
-export * from "./plural";
+export * from "./grammar";
 export * from "./report";
 export * from "./state";
 export * from "./text";

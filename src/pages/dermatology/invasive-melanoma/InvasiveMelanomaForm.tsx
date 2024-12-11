@@ -4,7 +4,7 @@ import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
 import { IhcState } from "../../../common/immunohistochemistry/helpers";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
-import { HasInvasion } from "../../../common/invasion/HasInvasion";
+import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import {
   InputNumber,
   InputText,
@@ -16,6 +16,7 @@ import {
   Select,
   SelectBoolean,
   SelectList,
+  SelectPresence,
   SelectTroolean,
   Stack,
   Summary,
@@ -60,8 +61,6 @@ import {
   ORIENTATION_METHOD_OPTIONS,
   ORIENTATION_OPTIONS,
   OrientationMethod,
-  Presence,
-  PRESENCE_OPTIONS,
   SAMPLING_TYPE_OPTIONS,
   SamplingType,
   Subtype,
@@ -109,11 +108,11 @@ export type FormState = {
   subtypeOther: string;
   growthPhase: GrowthPhase;
   thickness: Thickness;
-  hasUlceration: Presence;
+  hasUlceration: boolean;
   mitoticActivity: number;
-  hasTumoralRegression: Presence;
+  hasTumoralRegression: boolean;
   intraTumoralLymphocytes: LymphocyteOption;
-  hasMicroSatellites: Presence;
+  hasMicroSatellites: boolean;
   microSatelliteMarginState: MarginState;
   hasLymphaticOrVascularInvasion: boolean;
   hasEpn: boolean;
@@ -195,11 +194,11 @@ const getInitialState = (): FormState => ({
       morphology: "Épithélioïde",
     },
   },
-  hasUlceration: "not-identified",
+  hasUlceration: false,
   mitoticActivity: 0,
-  hasTumoralRegression: "not-identified",
+  hasTumoralRegression: false,
   intraTumoralLymphocytes: "none",
-  hasMicroSatellites: "not-identified",
+  hasMicroSatellites: false,
   microSatelliteMarginState: "unspecified",
   hasLymphaticOrVascularInvasion: false,
   hasEpn: false,
@@ -390,10 +389,9 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             setState={setField("thickness")}
           />
 
-          {/* TODO clean: add SelectPresence with grammatical gender */}
-          <Select
+          <SelectPresence
             label="Ulcération"
-            options={PRESENCE_OPTIONS}
+            grammaticalForm={{ gender: "feminine", number: "singular" }}
             value={state.hasUlceration}
             onChange={setField("hasUlceration")}
           />
@@ -403,9 +401,9 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             value={state.mitoticActivity}
             onChange={setField("mitoticActivity")}
           />
-          <Select
+          <SelectPresence
             label="Régression tumorale"
-            options={PRESENCE_OPTIONS}
+            grammaticalForm={{ gender: "feminine", number: "singular" }}
             value={state.hasTumoralRegression}
             onChange={setField("hasTumoralRegression")}
           />
@@ -416,13 +414,13 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             onChange={setField("intraTumoralLymphocytes")}
           />
 
-          <Select
+          <SelectPresence
+            grammaticalForm={{ gender: "masculine", number: "plural" }}
             label="Nodules satellites (micro-satellites)"
-            options={PRESENCE_OPTIONS}
             value={state.hasMicroSatellites}
             onChange={setField("hasMicroSatellites")}
           />
-          {state.hasMicroSatellites === "present" ? (
+          {state.hasMicroSatellites ? (
             <NestedItem depth={1}>
               <Select
                 label="Marges"
@@ -433,7 +431,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             </NestedItem>
           ) : undefined}
 
-          <HasInvasion
+          <HasLymphoVascularInvasion
             value={state.hasLymphaticOrVascularInvasion}
             onChange={setField("hasLymphaticOrVascularInvasion")}
           />

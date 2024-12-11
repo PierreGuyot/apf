@@ -295,6 +295,16 @@ export const DICTIONARY_EN: Record<string, string> = {
   Vessie: "TODO",
   Précisé: "TODO",
 
+  Présente: "Present",
+  Présentes: "Present",
+  Présent: "Present",
+  Présents: "Present",
+
+  "Non-identifiée": "Not identified",
+  "Non-identifiées": "Not identified",
+  "Non-identifié": "Not identified",
+  "Non-identifiés": "Not identified",
+
   // Translations to review
 
   // FIXME: confirm sample versus container

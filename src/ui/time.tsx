@@ -1,4 +1,4 @@
-import { count } from "./helpers/plural";
+import { count } from "./helpers/grammar";
 
 // Constants in milliseconds
 export const ONE_SECOND = 1000;

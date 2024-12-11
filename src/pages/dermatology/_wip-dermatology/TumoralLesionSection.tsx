@@ -1,5 +1,5 @@
-import { HasInvasion } from "../../../common/invasion/HasInvasion";
 import { HasEpn } from "../../../common/epn/HasEpn";
+import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import {
   InputNumber,
   Line,
@@ -109,7 +109,7 @@ export const TumoralLesionSection = ({
       ) : undefined}
 
       {hasSelectLymphaticOrVascularInvasion ? (
-        <HasInvasion
+        <HasLymphoVascularInvasion
           value={hasLymphaticOrVascularInvasion}
           onChange={setField("hasLymphaticOrVascularInvasion")}
         />

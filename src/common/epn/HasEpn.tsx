@@ -1,4 +1,4 @@
-import { SelectBoolean } from "../../ui";
+import { SelectPresence } from "../../ui";
 
 type Props = {
   value: boolean;
@@ -8,8 +8,9 @@ type Props = {
 
 // Perineural invasion
 export const HasEpn = ({ value, onChange }: Props) => (
-  <SelectBoolean
+  <SelectPresence
     value={value}
+    grammaticalForm={{ gender: "masculine", number: "plural" }}
     label="Engainements périnerveux"
     onChange={onChange}
   />

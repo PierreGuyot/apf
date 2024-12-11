@@ -15,3 +15,8 @@ export const pluralize = (count: number, word: string) => {
 
 export const count = (count: number, word: string) =>
   `${count} ${pluralize(count, word)}`;
+
+export type GrammaticalForm = {
+  number: "singular" | "plural";
+  gender: "feminine" | "masculine"; // Required in some languages like French
+};

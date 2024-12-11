@@ -6,7 +6,7 @@ import {
   validateIhc,
 } from "../../../common/immunohistochemistry/helpers";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
-import { HasInvasion } from "../../../common/invasion/HasInvasion";
+import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
 import {
   ColorationType,
@@ -169,7 +169,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 value={tumorQuantification}
                 onChange={setField("tumorQuantification")}
               />
-              <HasInvasion
+              <HasLymphoVascularInvasion
                 value={hasLymphaticOrVascularInvasion}
                 onChange={setField("hasLymphaticOrVascularInvasion")}
               />

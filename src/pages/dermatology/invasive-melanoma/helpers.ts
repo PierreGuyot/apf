@@ -148,14 +148,6 @@ export const MORPHOLOGY_OPTIONS = [
 ] as const;
 export type Morphology = (typeof MORPHOLOGY_OPTIONS)[number]["value"];
 
-// FIXME: consider replacing Presence with a simple boolean
-// FIXME: discuss UX (do we want both a SelectBoolean and a SelectPresence?)
-export const PRESENCE_OPTIONS = [
-  { value: "not-identified", label: "Non-identifié" },
-  { value: "present", label: "Présence" },
-] as const;
-export type Presence = (typeof PRESENCE_OPTIONS)[number]["value"];
-
 export const LYMPHOCYTE_OPTIONS = [
   { value: "none", label: "Absence d'infiltrat lymphocytaire" },
   { value: "non-brisk", label: "Infiltrat lymphocytaire de type non-Brisk" },

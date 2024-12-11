@@ -5,7 +5,7 @@ import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
 import { ModePicker } from "../../../common/ModePicker";
 
-import { HasInvasion } from "../../../common/invasion/HasInvasion";
+import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
 import {
   ColorationType,
@@ -320,7 +320,7 @@ const MicroscopySection = ({
         hasExtension
         errors={errors.tumor}
       />
-      <HasInvasion
+      <HasLymphoVascularInvasion
         value={state.hasLymphaticOrVascularInvasion}
         onChange={setField("hasLymphaticOrVascularInvasion")}
       />
