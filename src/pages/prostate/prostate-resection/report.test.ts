@@ -15,7 +15,7 @@ const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
   samplingType: "full",
   mainLesionType: "prostate-adenomyoma",
   tumorType: "acinar-adenocarcinoma-conventional",
-  priorConditions: "none",
+  previousTreatments: [],
   histologicalGrade: {
     a: 3,
     b: 3,
@@ -38,7 +38,7 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
   samplingType: "full",
   mainLesionType: "tumor",
   tumorType: "acinar-adenocarcinoma-conventional",
-  priorConditions: "none",
+  previousTreatments: [],
   histologicalGrade: {
     a: 4,
     b: 4,
@@ -93,7 +93,7 @@ Immunohistochimie :
 
 Adénocarcinome acinaire de type prostatique.
 
-Conditions pré-existantes : absence de traitement antérieur
+Traitements antérieurs : absence de traitement antérieur
 Score de Gleason : 8 (4 + 4) avec 100% de score 4 dont 20% de cribriforme, soit un score ISUP de 4.
 Estimation de la surface envahie : 5%
 Invasion lymphatique ou vasculaire : non

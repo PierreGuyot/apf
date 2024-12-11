@@ -2,7 +2,7 @@ import { Lines } from "./helpers";
 import { reportSection } from "./section.report";
 import { Language, translate } from "./translation";
 
-export const reportCheckboxList = ({
+export const reportSelectList = ({
   title,
   items,
   language,

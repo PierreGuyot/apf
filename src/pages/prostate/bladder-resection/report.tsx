@@ -6,13 +6,11 @@ import {
   filterNullish,
   FormId,
   item,
-  join,
   Language,
   Lines,
-  reportCheckboxList,
+  reportBoolean,
   reportSection,
-  reportTroolean,
-  reportValue,
+  reportSelectList,
   reportStructure,
 } from "../../../ui";
 import { FormState } from "./BladderResectionForm";
@@ -47,25 +45,14 @@ const getClinicalInfoSection = (
 ): Lines => {
   // Expert mode
   if (isExpertMode) {
-    const partPreviousTreatment = join(
-      reportTroolean({
-        label: "Traitements antérieurs",
-        value: form.hadPreviousTreatment,
-        language,
-      }),
-      form.hadPreviousTreatment
-        ? `(${reportValue(getTreatmentOption(form.previousTreatment).label, language)})`
-        : undefined,
-    );
-
     return [
-      reportTroolean({
+      reportBoolean({
         label:
           "Antécédents de maladie des voies urinaires ou de métastases à distance",
         value: form.medicalHistory,
         language,
       }),
-      ...(form.medicalHistory === "yes"
+      ...(form.medicalHistory
         ? [
             ...reportTumor({ tumor: form.previousTumor, language }),
             item(
@@ -73,7 +60,13 @@ const getClinicalInfoSection = (
               getLocationOption(form.location.location).label,
               language,
             ),
-            partPreviousTreatment,
+            ...reportSelectList({
+              title: "Traitements antérieurs",
+              items: form.previousTreatments.map(
+                (value) => getTreatmentOption(value).label,
+              ),
+              language,
+            }),
             item(
               "Aspect cystoscopique de la lésion actuelle",
               getLesionAspectOption(form.lesionAspect).label,
@@ -101,12 +94,12 @@ const getMicroscopySection = (
   language: Language,
 ): Lines => {
   const otherResults = reportSection("Autres résultats", language, [
-    ...reportCheckboxList({
+    ...reportSelectList({
       title: "Tumoraux",
       items: form.otherResults.tumoral,
       language,
     }),
-    ...reportCheckboxList({
+    ...reportSelectList({
       title: "Non-tumoraux",
       items: form.otherResults.nonTumoral,
       language,
@@ -125,22 +118,19 @@ const getMicroscopySection = (
     reportInvasion(form.hasLymphaticOrVascularInvasion, language),
 
     "", // Empty line
-    reportTroolean({
+    reportBoolean({
       label: "Copeaux de résection présentant de la musculeuse",
       value: form.muscularisPropria.isPresent,
       language,
     }),
-    form.muscularisPropria.isPresent === "yes"
+    form.muscularisPropria.isPresent
       ? // FIXME: will break translate on debug
         item(
           "Nombre de copeaux",
           String(form.muscularisPropria.chipCount),
           language,
         )
-      : // FIXME: will break translate on debug
-        form.muscularisPropria.isPresent === "unspecified"
-        ? item("Commentaire", form.muscularisPropria.notes, language)
-        : undefined,
+      : undefined,
     "", // Empty line
     ...otherResults,
   ].filter(filterNullish);

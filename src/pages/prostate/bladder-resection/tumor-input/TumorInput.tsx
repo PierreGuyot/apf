@@ -1,25 +1,24 @@
 import { useEffect } from "react";
-
 import {
   HelpIcon,
-  InputNumber,
   InputText,
+  Line,
   NestedItem,
   patchState,
   Select,
+  SelectComposition,
   Stack,
   Text,
-  ValidationErrors,
 } from "../../../../ui";
+import { CARCINOMA_SUBTYPES } from "../helpers";
 import {
   getGradeOptions,
-  getTumorSubtypeOptions,
-  hasTumoralExtensionSection,
+  getTumorCategory,
+  hasTumoralExtension,
+  Ptnm,
   PTNM_OPTIONS,
-  PtnmOption,
   Tumor,
-  TUMOR_TYPE_OPTIONS,
-  TumoralExtension,
+  TUMOR_TYPE_GROUPS,
   TumorType,
 } from "./helpers";
 
@@ -28,24 +27,18 @@ export const TumorInput = ({
   setState,
   hasGrade,
   hasExtension,
-  errors,
 }: {
   state: Tumor;
   setState: (value: Tumor) => void;
   hasGrade?: boolean;
   hasExtension?: boolean;
-  errors: string[];
 }) => {
   const setField = patchState(state, setState);
-  const subtypeOptions = getTumorSubtypeOptions(state.type);
   const gradeOptions = getGradeOptions(state.type);
 
-  // When tumor type changes, reset subtype and grade to first available values
+  // When tumor type changes, reset grade to first available value
   useEffect(
     () => {
-      const firstSubtypeOption = subtypeOptions[0]?.value ?? "none";
-      setField("subtype")(firstSubtypeOption);
-
       const firstGradeOption = gradeOptions[0]?.value ?? "";
       setField("grade")(firstGradeOption);
     },
@@ -57,49 +50,49 @@ export const TumorInput = ({
 
   return (
     <>
-      <Select
-        label="Type histologique de la tumeur"
-        options={TUMOR_TYPE_OPTIONS}
-        value={state.type}
-        onChange={setField("type")}
-      />
-      {subtypeOptions.length ? (
+      <Line>
         <Select
-          label="Sous-type histologique de la tumeur"
-          options={subtypeOptions}
-          value={state.subtype}
-          onChange={setField("subtype")}
+          label="Type histologique de la tumeur"
+          options={TUMOR_TYPE_GROUPS}
+          value={state.type}
+          onChange={setField("type")}
         />
-      ) : undefined}
-      {state.type === "other" ? (
-        <>
-          <InputText
-            label="Sous-type histologique de la tumeur"
-            value={state.otherSubtype}
-            onChange={setField("otherSubtype")}
+        {state.type === "other" ? (
+          <InputText value={state.typeOther} onChange={setField("typeOther")} />
+        ) : undefined}
+      </Line>
+
+      {getTumorCategory(state.type) === "Carcinome urothélial invasif" ? (
+        <NestedItem depth={1}>
+          <SelectComposition
+            items={CARCINOMA_SUBTYPES}
+            state={state.carcinomaComposition}
+            setState={setField("carcinomaComposition")}
           />
-          {hasGrade ? (
-            <InputText
-              label="Grade tumoral"
-              value={state.grade}
-              onChange={setField("grade")}
-            />
-          ) : undefined}
-        </>
-      ) : (
-        <Select
-          label="Grade tumoral"
-          options={gradeOptions}
-          value={state.grade}
-          onChange={setField("grade")}
-        />
-      )}
+        </NestedItem>
+      ) : undefined}
+
+      {hasGrade ? (
+        state.type === "other" ? (
+          <InputText
+            label="Grade tumoral"
+            value={state.grade}
+            onChange={setField("grade")}
+          />
+        ) : (
+          <Select
+            label="Grade tumoral"
+            options={gradeOptions}
+            value={state.grade}
+            onChange={setField("grade")}
+          />
+        )
+      ) : undefined}
       {hasExtension ? (
         <InputTumoralExtension
           tumorType={state.type}
-          state={state.extension}
-          setState={setField("extension")}
-          errors={errors}
+          value={state.extension}
+          onChange={setField("extension")}
         />
       ) : undefined}
     </>
@@ -108,67 +101,32 @@ export const TumorInput = ({
 
 const InputTumoralExtension = ({
   tumorType,
-  state,
-  setState,
-  errors,
+  value,
+  onChange,
 }: {
   tumorType: TumorType;
-  state: TumoralExtension;
-  setState: (value: TumoralExtension) => void;
-  errors: string[];
+  value: Ptnm;
+  onChange: (value: Ptnm) => void;
 }) => {
-  const setField = patchState(state, setState);
-
   // For these types, tumoral extension is automatically inferred
-  if (!hasTumoralExtensionSection(tumorType)) {
+  if (!hasTumoralExtension(tumorType)) {
     return undefined;
   }
 
   return (
-    <>
-      <Stack direction="row" spacing="md" alignItems="center">
-        <Text>Extension tumorale</Text>
-        <HelpIcon size="sm" content={PTNM_REFRESHER} />
-      </Stack>
-
-      <NestedItem depth={1}>
-        <Stack spacing="sm">
-          {PTNM_OPTIONS.map((option) => (
-            <TumoralExtensionItem
-              key={option.value}
-              option={option}
-              value={state[option.value] ?? 0}
-              onChange={setField(option.value)}
-            />
-          ))}
-        </Stack>
-      </NestedItem>
-      <ValidationErrors errors={errors} />
-    </>
-  );
-};
-
-const TumoralExtensionItem = ({
-  option,
-  value,
-  onChange,
-}: {
-  option: PtnmOption;
-  value: number;
-  onChange: (value: number) => void;
-}) => {
-  return (
-    <Stack direction="row" alignItems="center" spacing="md">
-      {/* TODO CLEAN: consider having a prop for the label width of inputs  */}
-      <div style={{ width: option.value === "other" ? undefined : "40px" }}>
-        {option.label}
-      </div>
-      <InputNumber unit="percent" max={100} value={value} onChange={onChange} />
+    <Stack direction="row" spacing="md" alignItems="center">
+      <Select
+        label="Extension tumorale"
+        options={PTNM_OPTIONS}
+        value={value}
+        onChange={onChange}
+      />
+      <HelpIcon size="sm" content={PTNM_REFRESHER} />
     </Stack>
   );
 };
 
-// TODO CLEAN: improve visuals
+// TODO clean: improve visuals
 const PTNM_REFRESHER = (
   <Stack minWidth="400px" spacing="sm">
     {PTNM_OPTIONS.map((option) => {

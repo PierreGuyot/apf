@@ -97,11 +97,12 @@ export const PageMain = () => {
                       <Stack spacing="sm">
                         {item.routes.map((route) => (
                           <Stack
+                            key={route.id}
                             direction="row"
                             spacing="sm"
                             alignItems="center"
                           >
-                            <FormRoute key={route.id} route={route.id} />
+                            <FormRoute route={route.id} />
                             {route.isWip ? <FeatureStatusBeta /> : undefined}
                           </Stack>
                         ))}

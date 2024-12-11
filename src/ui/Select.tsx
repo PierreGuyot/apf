@@ -12,6 +12,8 @@ import { Stack } from "./Stack";
 import { Text } from "./Text";
 import { DEFAULT_LANGUAGE, Language, translate } from "./translation";
 
+// TODO clean: consider extracting a SelectWithOther component
+
 type Props<T extends OptionValue> = {
   language?: Language;
   options: readonly OptionOrGroup<T>[];
@@ -35,9 +37,9 @@ function isOptionGroup<T extends OptionValue>(
 
 export function Select<T extends OptionValue>({
   language = DEFAULT_LANGUAGE,
-  options: _options,
+  options: optionsProp,
   value,
-  onChange: _onChange,
+  onChange: onChangeProp,
   label,
   labelSize = "md",
   isInline,
@@ -47,17 +49,17 @@ export function Select<T extends OptionValue>({
 }: Props<T>) {
   const id = useMemo(anId, []);
 
-  const flatOptions = useMemo(
-    (): readonly Option<T>[] =>
-      _options.flatMap((item) => (isOptionGroup(item) ? item.options : [item])),
-    [_options],
-  );
+  const flatOptions = useMemo((): readonly Option<T>[] => {
+    return optionsProp.flatMap((item) =>
+      isOptionGroup(item) ? item.options : [item],
+    );
+  }, [optionsProp]);
 
-  const optionsByValue = useMemo(
-    () =>
-      Object.fromEntries(flatOptions.map((option) => [option.value, option])),
-    [flatOptions],
-  );
+  const optionsByValue = useMemo(() => {
+    return Object.fromEntries(
+      flatOptions.map((option) => [option.value, option]),
+    );
+  }, [flatOptions]);
 
   const content = useMemo(() => {
     if (isReadOnly) {
@@ -72,7 +74,7 @@ export function Select<T extends OptionValue>({
     const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const rawValue = e.target.value;
       const { value } = optionsByValue[String(rawValue)];
-      _onChange(value);
+      onChangeProp(value);
     };
 
     return (
@@ -83,7 +85,7 @@ export function Select<T extends OptionValue>({
         id={id}
         onChange={onChange}
       >
-        {_options.map((item) =>
+        {optionsProp.map((item) =>
           isOptionGroup(item) ? (
             <optgroup key={item.title} label={translate(item.title, language)}>
               {item.options.map((option) => (
@@ -105,9 +107,9 @@ export function Select<T extends OptionValue>({
       </select>
     );
   }, [
-    _onChange,
+    onChangeProp,
     optionsByValue,
-    _options,
+    optionsProp,
     flatOptions,
     id,
     isReadOnly,

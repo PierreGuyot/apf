@@ -1,4 +1,3 @@
-import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
 import {
@@ -15,12 +14,14 @@ import {
 } from "../../../common/resection-macroscopy/validation";
 import {
   DEFAULT_LANGUAGE,
+  InputTextArea,
   Line,
   Section,
   Select,
   SelectList,
   Stack,
   Summary,
+  Text,
   useForm,
   ValidationErrors,
 } from "../../../ui";
@@ -36,11 +37,11 @@ import {
 } from "../helpers";
 import { CellGleason } from "../prostate-biopsy/cells";
 import {
-  isApplicable,
+  isGleasonScoreApplicable,
   MAIN_LESION_TYPES,
   MainLesionType,
-  PRIOR_CONDITION_OPTIONS,
-  PriorCondition,
+  PREVIOUS_TREATMENT_GROUPS,
+  PreviousTreatment,
   ProstateResectionFormId,
   TUMOR_QUANTIFICATION_OPTIONS,
   TumorQuantification,
@@ -48,6 +49,7 @@ import {
 import { generateReport } from "./report";
 
 export type FormState = {
+  previousTreatments: PreviousTreatment[];
   caseSummary: string;
   chipWeight: number; // In grams
   samplingType: SamplingType;
@@ -55,7 +57,6 @@ export type FormState = {
   coloration: ColorationType;
   mainLesionType: MainLesionType;
   tumorType: TumorType;
-  priorConditions: PriorCondition;
   histologicalGrade: GleasonItem;
   tumorQuantification: TumorQuantification;
   hasLymphaticOrVascularInvasion: boolean;
@@ -65,14 +66,14 @@ export type FormState = {
 };
 
 const getInitialState = (): FormState => ({
+  previousTreatments: [],
   caseSummary: "",
   chipWeight: 0,
-  blockCount: 0,
+  blockCount: 1,
   coloration: "HES",
   samplingType: "full",
   mainLesionType: "prostate-adenomyoma",
   tumorType: "acinar-adenocarcinoma-conventional",
-  priorConditions: "none",
   histologicalGrade: DEFAULT_GLEASON_ITEM,
   tumorQuantification: ">5%",
   hasLymphaticOrVascularInvasion: false,
@@ -102,7 +103,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
     blockCount,
     mainLesionType,
     tumorType,
-    priorConditions,
+    previousTreatments,
     histologicalGrade,
     tumorQuantification,
     hasLymphaticOrVascularInvasion,
@@ -118,11 +119,20 @@ export const ProstateResectionForm = ({ formId }: Props) => {
   return (
     <FormPage formId={formId} onClear={clearState}>
       <Stack spacing="lg">
-        <ClinicalInfo
-          index={1}
-          value={caseSummary}
-          onChange={setField("caseSummary")}
-        />
+        <Section title="Renseignements cliniques" index={1}>
+          <SelectList
+            label="Traitements antérieurs"
+            groups={PREVIOUS_TREATMENT_GROUPS}
+            values={previousTreatments}
+            onChange={setField("previousTreatments")}
+          />
+          <InputTextArea
+            label="Autres renseignements cliniques"
+            value={caseSummary}
+            placeholder="Ajoutez ici les renseignements cliniques."
+            onChange={setField("caseSummary")}
+          />
+        </Section>
 
         <ResectionMacroscopy
           index={2}
@@ -147,13 +157,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 value={tumorType}
                 onChange={setField("tumorType")}
               />
-              <Select
-                label="Conditions pré-existantes"
-                options={PRIOR_CONDITION_OPTIONS}
-                value={priorConditions}
-                onChange={setField("priorConditions")}
-              />
-              {isApplicable(priorConditions) ? (
+              {isGleasonScoreApplicable(previousTreatments) ? (
                 <Line>
                   Score de Gleason :{" "}
                   <CellGleason
@@ -162,7 +166,13 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                     onChange={setField("histologicalGrade")}
                   />
                 </Line>
-              ) : undefined}
+              ) : (
+                <Line>
+                  <Text color="secondary">
+                    Gleason score is not applicable.
+                  </Text>
+                </Line>
+              )}
               <Select
                 label="Estimation de la surface envahie"
                 options={TUMOR_QUANTIFICATION_OPTIONS}
@@ -186,6 +196,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
 
         <Section title="Immunohistochimie" index={4}>
           <Immunohistochemistry
+            containerCount={blockCount}
             groups={PROSTATE_ANTIBODY_GROUPS}
             properties={PROSTATE_ANTIBODY_PROPERTIES}
             state={ihc}

@@ -5,17 +5,16 @@ import { Report, ReportParams } from "./report";
 
 const MOCK_DATA: ReportParams = {
   clinicalInfo: "MOCK_CLINICAL_INFO",
-  medicalHistory: "yes",
+  medicalHistory: true,
   previousTumor: {
     type: "other",
-    subtype: "Adénocarcinome de type digestif",
-    otherSubtype: "mock_subtype",
+    typeOther: "mock_subtype",
+    carcinomaComposition: { Conventionnel: 100 },
     grade: "",
-    extension: {},
+    extension: "pT1",
   },
   location: { location: "Urètre masculin", sublocation: "Urètre pénien" },
-  hadPreviousTreatment: "yes",
-  previousTreatment: "Résection transurétrale de vessie",
+  previousTreatments: ["Résection transurétrale de vessie"],
   lesionAspect: "Polypoïde",
   otherLesionAspect: "",
   chipWeight: 2,
@@ -23,24 +22,29 @@ const MOCK_DATA: ReportParams = {
   blockCount: 2,
   coloration: "HE",
   tumor: {
-    type: "Malpighien",
-    subtype: "Carcinome épidermoïde",
-    otherSubtype: "",
+    type: "Carcinome épidermoïde",
+    typeOther: "",
+    carcinomaComposition: { Conventionnel: 100 },
     grade: "g1",
-    extension: {
-      pT1a: 10,
-      pT1b: 80,
-      other: 10,
-    },
+    extension: "pT3b",
   },
   hasLymphaticOrVascularInvasion: true,
-  muscularisPropria: { isPresent: "yes", chipCount: 10, notes: "" },
+  muscularisPropria: {
+    isPresent: true,
+    chipCount: 10,
+    invadedChipCount: 2,
+    notes: "",
+  },
   otherResults: {
     tumoral: [
       "Papillome urothélial, type inversé",
       "Néoplasme urothélial papillaire à faible potentiel de malignité",
     ],
     nonTumoral: ["Métaplasie intestinale", "Bilharziose"],
+  },
+  ihc: {
+    hasIhc: false,
+    blocks: [],
   },
   comments: "MOCK_COMMENTS",
   formId: "bladder-transurethral-resection",
@@ -56,8 +60,7 @@ Macroscopie :
     Échantillonnage en 2 blocs (fixation : formol tamponné 4%, coloration HE)
 
 Microscopie :
-    Type histologique de la tumeur : malpighien
-    Sous-type histologique de la tumeur : carcinome épidermoïde
+    Type histologique de la tumeur : carcinome épidermoïde
     Grade tumoral : g1 (bien différencié)
     Extension tumorale :
          - pT1a : 10%
@@ -118,7 +121,6 @@ const SAMPLE_EXPERT_MODE_FR = `RÉSECTION TRANSURÉTRALE DE VESSIE
 
 Antécédents de maladie des voies urinaires ou de métastases à distance : oui
 Type histologique de la tumeur : other
-Sous-type histologique de la tumeur : mock_subtype
 Localisation : urètre masculin
 Traitements antérieurs : oui (résection transurétrale de vessie)
 Aspect cystoscopique de la lésion actuelle : polypoïde
@@ -128,8 +130,7 @@ Macroscopie :
     Échantillonnage en 2 blocs (fixation : formol tamponné 4%, coloration HE)
 
 Microscopie :
-    Type histologique de la tumeur : malpighien
-    Sous-type histologique de la tumeur : carcinome épidermoïde
+    Type histologique de la tumeur : carcinome épidermoïde
     Grade tumoral : g1 (bien différencié)
     Extension tumorale :
          - pT1a : 10%

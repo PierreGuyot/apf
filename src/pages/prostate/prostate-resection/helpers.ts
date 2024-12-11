@@ -1,4 +1,4 @@
-import { findOption, Option } from "../../../ui";
+import { findOption, Option, OptionGroup } from "../../../ui";
 
 export type ProstateResectionFormId =
   | "prostate-transurethral-resection"
@@ -28,17 +28,12 @@ export const MAIN_LESION_TYPES: Option<MainLesionType>[] = [
   },
 ];
 
-export type PriorCondition =
-  | "none"
+export type PreviousTreatment =
   | "non-applicable-radiotherapy"
   | "non-applicable-hormonotherapy-chimiotherapy"
   | "applicable-radiotherapy"
   | "hormonotherapy-chimiotherapy";
-export const PRIOR_CONDITION_OPTIONS: Option<PriorCondition>[] = [
-  {
-    value: "none",
-    label: "Absence de traitement antérieur",
-  },
+const PREVIOUS_TREATMENT_OPTIONS: Option<PreviousTreatment>[] = [
   {
     value: "non-applicable-radiotherapy",
     label:
@@ -59,13 +54,26 @@ export const PRIOR_CONDITION_OPTIONS: Option<PriorCondition>[] = [
     label:
       "Applicable en raison de modifications histologiques mineures liées à un traitement antérieur (hormonothérapie ou chimiothérapie)",
   },
+] as const;
+export const PREVIOUS_TREATMENT_GROUPS: OptionGroup<PreviousTreatment>[] = [
+  {
+    title: "", // TODO clean: fix API
+    options: PREVIOUS_TREATMENT_OPTIONS,
+  },
 ];
 
-export const getPriorConditionOption = findOption(PRIOR_CONDITION_OPTIONS);
+export const getPreviousTreatmentOption = findOption(
+  PREVIOUS_TREATMENT_OPTIONS,
+);
 
-export const isApplicable = (value: PriorCondition) =>
-  value !== "non-applicable-radiotherapy" &&
-  value !== "non-applicable-hormonotherapy-chimiotherapy";
+export const isGleasonScoreApplicable = (
+  previousTreatments: PreviousTreatment[],
+) =>
+  previousTreatments.every(
+    (treatment) =>
+      treatment !== "non-applicable-hormonotherapy-chimiotherapy" &&
+      treatment !== "applicable-radiotherapy",
+  );
 
 export type TumorQuantification = "1%" | "2%" | "3%" | "4%" | "5%" | ">5%";
 export const TUMOR_QUANTIFICATION_OPTIONS: Option<TumorQuantification>[] = [
