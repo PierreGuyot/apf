@@ -22,13 +22,13 @@ export const reportImmunohistochemistry = (
     return [];
   }
 
-  return reportSection(
-    "Immunohistochimie",
+  return reportSection({
+    title: "Immunohistochimie",
     language,
-    ihc.blocks.flatMap((block) =>
+    content: ihc.blocks.flatMap((block) =>
       renderBlock(block, language, hasMultipleBlocks),
     ),
-  );
+  });
 };
 
 const renderBlock = (block: Block, language: Language, hasTitle: boolean) => {

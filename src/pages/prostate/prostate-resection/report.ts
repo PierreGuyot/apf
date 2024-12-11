@@ -8,7 +8,7 @@ import {
   assertUnreachable,
   getSelectedOptions,
   item,
-  reportCheckboxList,
+  reportSelectList,
   reportStructure,
   translate,
 } from "../../../ui";
@@ -21,9 +21,9 @@ import { reportImmunohistochemistry } from "../report";
 import { FormState } from "./ProstateResectionForm";
 import {
   ProstateResectionFormId,
-  getPriorConditionOption,
+  getPreviousTreatmentOption,
   getTumorQuantificationOption,
-  isApplicable,
+  isGleasonScoreApplicable,
 } from "./helpers";
 
 export type ReportParams = FormState & {
@@ -37,17 +37,21 @@ const reportConclusion = (form: ReportParams, language: Language): Lines => {
   // Tumor presence
   if (form.mainLesionType === "tumor") {
     const { label: tumorTypeLabel } = getTumorTypeOption(form.tumorType);
-    const { label: priorConditionsLabel } = getPriorConditionOption(
-      form.priorConditions,
-    );
     const { label: tumorQuantificationLabel } = getTumorQuantificationOption(
       form.tumorQuantification,
     );
 
     return [
       `${t(tumorTypeLabel)}.\n`, // We add an empty line for aesthetic purposes
-      item("Conditions pré-existantes", priorConditionsLabel, language),
-      isApplicable(form.priorConditions)
+      ...reportSelectList({
+        title: "Traitements antérieurs",
+        items: form.previousTreatments.map(
+          (value) => getPreviousTreatmentOption(value).label,
+        ),
+        language,
+        emptyState: "absence de traitement antérieur",
+      }),
+      isGleasonScoreApplicable(form.previousTreatments)
         ? // FIXME: will break translate on debug
           item(
             "Score de Gleason",
@@ -122,7 +126,7 @@ const reportOtherLesions = (form: ReportParams, language: Language): Lines => {
     groups: OTHER_LESION_GROUPS,
   }).map((item) => item.label);
 
-  return reportCheckboxList({
+  return reportSelectList({
     title: "Autres lésions",
     items: selectedItems,
     language,

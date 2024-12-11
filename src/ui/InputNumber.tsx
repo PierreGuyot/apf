@@ -36,7 +36,7 @@ const validate = ({
 };
 
 // TODO CLEAN: handle an `isDisabled` prop
-// FIXME: max prop is not working properly
+// FIXME: max prop is not working properly, check min prop too
 
 export const InputNumber = ({
   value,

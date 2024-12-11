@@ -52,7 +52,11 @@ export const ResectionMacroscopy = ({
           value={samplingType}
           onChange={setField("samplingType")}
         />{" "}
-        <InputNumber value={blockCount} onChange={setField("blockCount")} />{" "}
+        <InputNumber
+          min={1}
+          value={blockCount}
+          onChange={setField("blockCount")}
+        />{" "}
         blocs (fixation : formol tamponné 4%, coloration:{" "}
         <Select
           options={COLORATION_OPTIONS}

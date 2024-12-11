@@ -1,4 +1,8 @@
 import {
+  AntibodyGroup,
+  PropertiesByAntibody,
+} from "../../../common/immunohistochemistry/helpers";
+import {
   findOption,
   Flatten,
   Option,
@@ -52,8 +56,8 @@ export type FullLocation = {
   sublocation: Sublocation;
 };
 export const DEFAULT_FULL_LOCATION: FullLocation = {
-  location: "Urètre masculin",
-  sublocation: "Urètre pénien",
+  location: "Vessie",
+  sublocation: "Trigone",
 };
 export const getSublocationOptions = (
   type: Location,
@@ -70,11 +74,19 @@ export const getSublocationOptions = (
 const TREATMENTS = [
   "Résection transurétrale de vessie",
   "BCG thérapie",
-  // FIXME: complete list
+  "Radiothérapie",
+  "Chimiothérapie",
+  "Hormonothérapie",
 ] as const;
 export type Treatment = (typeof TREATMENTS)[number];
 export const TREATMENT_OPTIONS: Option<Treatment>[] = TREATMENTS.map(toOption);
 export const getTreatmentOption = findOption(TREATMENT_OPTIONS);
+export const TREATMENT_GROUPS = [
+  {
+    title: "", // TODO clean: fix API
+    options: TREATMENT_OPTIONS,
+  },
+];
 
 /** Lesion aspect */
 
@@ -115,8 +127,9 @@ export const NON_TUMORAL_RESULT_GROUPS = [
   {
     title: "", // TODO clean: fix API
     options: [
-      "Inflammation / changements régénératifs",
-      "Changements liés à la thérapie",
+      "Inflammation",
+      "Dystrophie d'aspect régénératifs",
+      "Altérations morphologiques liées à la thérapie",
       "Artéfact de cautérisation",
       "Cystite cystique et glandulaire",
       "Métaplasie malpighienne kératinisante",
@@ -125,3 +138,49 @@ export const NON_TUMORAL_RESULT_GROUPS = [
     ].map(toOption),
   },
 ];
+
+/** Antibodies */
+
+// FIXME: un-mock
+export const BLADDER_RESECTION_ANTIBODY_GROUPS = [
+  {
+    title: "TODO",
+    options: [{ value: "TODO" as const, label: "TODO" }],
+  },
+] satisfies AntibodyGroup[];
+export const BLADDER_RESECTION_ANTIBODY_PROPERTIES: PropertiesByAntibody = {
+  TODO: {},
+};
+
+/** Urothelial invasive carcinoma */
+
+export const CARCINOMA_SUBTYPES = [
+  { value: "Conventionnel", label: "Conventionnel" },
+  { value: "Micropapillaire", label: "Micropapillaire" },
+  { value: "En nid", label: "En nid" },
+  { value: "Tubulaire et microkystique", label: "Tubulaire et microkystique" },
+  { value: "De type lymphoépithélial", label: "De type lymphoépithélial" },
+  { value: "De type plasmacytoïde", label: "De type plasmacytoïde" },
+  { value: "Sarcomatoïde", label: "Sarcomatoïde" },
+  { value: "À cellules géantes", label: "À cellules géantes" },
+  { value: "Peu différencié", label: "Peu différencié" },
+  { value: "Riche en lipides", label: "Riche en lipides" },
+  {
+    value: "À cellules claires (riche en glycogène)",
+    label: "À cellules claires (riche en glycogène)",
+  },
+  {
+    value: "À différenciation malpighienne",
+    label: "À différenciation malpighienne",
+  },
+  {
+    value: "À différenciation glandulaire",
+    label: "À différenciation glandulaire",
+  },
+  {
+    value: "Avec différenciation trophoblastique à différenciation müllérienne",
+    label: "Avec différenciation trophoblastique à différenciation müllérienne",
+  },
+] as const;
+type CarcinomaSubtype = (typeof CARCINOMA_SUBTYPES)[number]["value"];
+export type CarcinomaSubtypes = Partial<Record<CarcinomaSubtype, number>>;

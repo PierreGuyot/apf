@@ -80,6 +80,7 @@ export type FormState = {
   // Macroscopy
   isSpecimenOriented: boolean;
   orientationMethod: OrientationMethod;
+  orientationMethodOther: string;
   orientation: Orientation;
   orientationOther: string;
   specimenDimensions: {
@@ -161,6 +162,7 @@ const getInitialState = (): FormState => ({
   lymphNodeExeresisLocation: "",
   isSpecimenOriented: true,
   orientationMethod: "Fil",
+  orientationMethodOther: "",
   orientation: "à 12H",
   orientationOther: "",
   specimenDimensions: {
@@ -185,7 +187,7 @@ const getInitialState = (): FormState => ({
   blockDescription: "",
   subtype: "other",
   subtypeOther: "",
-  growthPhase: "unspecified",
+  growthPhase: "horizontal",
   thickness: {
     clarkThickness: 3,
     breslowThickness: {
@@ -238,12 +240,12 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
   //  - If field is set to other, fieldOther is mandatory
   const hasErrors = false;
 
-  let i = 1;
+  let index = 1;
 
   return (
     <FormPage formId={formId} onClear={clearState}>
       <Stack spacing="lg">
-        <Section index={i++} title="Renseignements cliniques">
+        <Section index={index++} title="Renseignements cliniques">
           <InputText
             label="Site de la lésion"
             value={state.lesionSite}
@@ -287,7 +289,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             </NestedItem>
           )}
         </Section>
-        <Section index={i++} title="Macroscopie">
+        <Section index={index++} title="Macroscopie">
           <SelectBoolean
             label="Orientation du prélèvement"
             value={state.isSpecimenOriented}
@@ -301,6 +303,12 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                   value={state.orientationMethod}
                   onChange={setField("orientationMethod")}
                 />
+                {state.orientationMethod === "other" ? (
+                  <InputText
+                    value={state.orientationMethodOther}
+                    onChange={setField("orientationMethodOther")}
+                  />
+                ) : undefined}
                 {state.orientationMethod === "Liège" ? undefined : (
                   <>
                     <Select
@@ -355,14 +363,14 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             value={state.blockCount}
             onChange={setField("blockCount")}
           />
-          {/* FIXME: rework */}
           <InputTextArea
             label="Description des blocs"
+            placeholder="Décrivez ici les blocs."
             value={state.blockDescription}
             onChange={setField("blockDescription")}
           />
         </Section>
-        <Section index={i++} title="Microscopie">
+        <Section index={index++} title="Microscopie">
           <Line>
             <Select
               label="Sous-type de mélanome"
@@ -398,6 +406,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
           <InputNumber
             label="Activité mitotique"
             unit="mm-2"
+            isDecimal
             value={state.mitoticActivity}
             onChange={setField("mitoticActivity")}
           />
@@ -408,7 +417,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             onChange={setField("hasTumoralRegression")}
           />
           <Select
-            label="Lymphocites intra-tumoraux"
+            label="Lymphocytes intra-tumoraux"
             options={LYMPHOCYTE_OPTIONS}
             value={state.intraTumoralLymphocytes}
             onChange={setField("intraTumoralLymphocytes")}
@@ -450,7 +459,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
           />
         </Section>
         {state.lymphNodeExeresis === "no" ? undefined : (
-          <Section index={i++} title="Statut ganglionnaire">
+          <Section index={index++} title="Statut ganglionnaire">
             <InputNumber
               label="Nombre de ganglions étudiés"
               value={state.lymphNodeCount}
@@ -471,6 +480,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                 <InputNumber
                   label="Diamètre de la plus grande métastase ganglionnaire"
                   unit="mm"
+                  isDecimal
                   value={state.largestMetastasisSize}
                   onChange={setField("largestMetastasisSize")}
                 />
@@ -478,7 +488,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             ) : undefined}
           </Section>
         )}
-        <Section index={i++} title="Techniques complémentaires">
+        <Section index={index++} title="Techniques complémentaires">
           <Immunohistochemistry
             containerCount={state.blockCount}
             groups={INVASIVE_MELANOMA_ANTIBODY_GROUPS}
@@ -505,7 +515,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
           ) : undefined}
         </Section>
         <AdditionalRemarks
-          index={i++}
+          index={index++}
           value={state.comments}
           onChange={setField("comments")}
         />
@@ -558,6 +568,7 @@ const InputSpecimen = ({
             <InputNumber
               label="Longueur"
               unit="cm"
+              isDecimal
               value={state.specimenDimensions.length}
               onChange={(value) =>
                 setField("specimenDimensions")({
@@ -570,6 +581,7 @@ const InputSpecimen = ({
             <InputNumber
               label="Largeur"
               unit="cm"
+              isDecimal
               value={state.specimenDimensions.width}
               onChange={(value) =>
                 setField("specimenDimensions")({
@@ -584,6 +596,7 @@ const InputSpecimen = ({
                 <InputNumber
                   label="Profondeur"
                   unit="cm"
+                  isDecimal
                   value={state.specimenDimensions.depth}
                   onChange={(value) =>
                     setField("specimenDimensions")({
@@ -630,6 +643,7 @@ const InputSpecimen = ({
             <InputNumber
               label="Longueur"
               unit="mm"
+              isDecimal
               value={state.lesionDimensions.length}
               onChange={(value) =>
                 setField("lesionDimensions")({
@@ -642,6 +656,7 @@ const InputSpecimen = ({
             <InputNumber
               label="Largeur"
               unit="mm"
+              isDecimal
               value={state.lesionDimensions.width}
               onChange={(value) =>
                 setField("lesionDimensions")({
@@ -704,6 +719,7 @@ const InputBreslowThickness = ({
       <InputNumber
         value={state.distance}
         unit="mm"
+        isDecimal
         onChange={setField("distance")}
       />
       {state.distance > 0 ? (
@@ -768,9 +784,9 @@ const ExeresisTypeDescription = ({
       return (
         <>
           Les limites chirurgicales latérales passent en zone lésionnelle,
-          arrivant au contact de la limite latérale {inputDistanceLateral}. La
-          limite chirurgicale profonde passe en zone saine avec une marge
-          minimale de {inputDistanceDepth}.
+          arrivant au contact de la limite latérale {selectPosition}. La limite
+          chirurgicale profonde passe en zone saine avec une marge minimale de{" "}
+          {inputDistanceDepth}.
         </>
       );
     }

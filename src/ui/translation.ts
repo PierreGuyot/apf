@@ -69,7 +69,6 @@ export const DICTIONARY_EN: Record<string, string> = {
     "Large cell neuroendocrine carcinoma",
   "Carcinome neuroendocrine à petites cellules":
     "Small cell neuroendocrine carcinoma",
-  "Conditions pré-existantes": "Pre-existing conditions",
   Conclusion: "Conclusion",
   "Invasion lymphatique ou vasculaire": "Lymphatic or vascular invasion",
   "Engainements périnerveux": "Perineural Invasion",
@@ -231,6 +230,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Carcinome urothélial, tubulaire et microkystique": "TODO",
   "Carcinome verruqueux": "TODO",
   "Changements liés à la thérapie": "TODO",
+  Chimiothérapie: "TODO",
   "Copeaux de résection présentant de la musculeuse": "TODO",
   "Cystite cystique et glandulaire": "TODO",
   "Droit (préciser tiers proximal, médian, distal)": "TODO",
@@ -241,6 +241,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Gauche (préciser tiers proximal, médian, distal)": "TODO",
   "Grade tumoral": "TODO",
   "Haut grade": "TODO",
+  Hormonothérapie: "TODO",
   "Impossible à déterminer": "TODO",
   "Inflammation / changements régénératifs": "TODO",
   "invasion de l'urètre, les canaux ou des acini prostatiques sans invasion stromale.":
@@ -266,7 +267,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Paroi latérale gauche": "TODO",
   "Paroi postérieure": "TODO",
   "Plage érythémateuse": "TODO",
-  "Sous-type histologique de la tumeur": "TODO",
+  Radiothérapie: "TODO",
   "Urètre antérieur": "TODO",
   "Urètre bulbomembraneux": "TODO",
   "Urètre féminin": "TODO",
@@ -319,7 +320,8 @@ export const DICTIONARY_EN: Record<string, string> = {
   // FIXME: should these two items be merged?
   "Antécédents de maladie des voies urinaires ou de métastases à distance":
     "TODO",
-  "Traitements antérieurs": "TODO",
+  "Traitements antérieurs": "Previous treatments",
+  "absence de traitement antérieur": "no previous treatments",
 
   // FIXME: should these two items be merged?
   "Type histologique de la tumeur": "TODO",

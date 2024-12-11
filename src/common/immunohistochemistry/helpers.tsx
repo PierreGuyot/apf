@@ -44,7 +44,10 @@ export type AntibodyType =
   | "P16"
   | "PRAME"
   | "PS100"
-  | "SOX10";
+  | "SOX10"
+
+  // FIXME: remove mock
+  | "TODO";
 
 export type AntibodyClone =
   | "6F11"
@@ -209,6 +212,12 @@ export const ANTIBODIES_PROPERTIES: Record<
   SOX10: {
     label: "SOX10",
     clones: [{ value: "EP268", label: "EP268" }],
+  },
+
+  // FIXME: remove
+  TODO: {
+    label: "TODO",
+    clones: [],
   },
 };
 

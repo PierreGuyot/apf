@@ -1,23 +1,27 @@
 import {
   findOption,
-  Flatten,
   Option,
+  OptionOrGroup,
   OTHER_ITEM,
   toOption,
-  ValueOf,
 } from "../../../../ui";
+import { CarcinomaSubtypes as CarcinomaComposition } from "../helpers";
 
 export type BladderResectionFormId = "bladder-transurethral-resection";
 
 /** Tumor type */
 
-const TUMOR_SUBTYPES = {
-  "Carcinome urothélial papillaire, non invasif": [],
-  "Carcinome urothélial in situ": [
-    // FIXME: complete
-    "TODO",
+export const TUMOR_TYPES_BY_CATEGORY = {
+  "Carcinome urothélial papillaire, non invasif": [
+    "Carcinome urothélial papillaire, non invasif",
   ],
-  "Carcinome urothélial invasif (conventionnel)": [
+  "Papillome urothélial": ["Papillome urothélial"],
+  "Tumeur urothéliale papillaire vésicale de bas potentiel de malignité": [
+    "Tumeur urothéliale papillaire vésicale de bas potentiel de malignité",
+  ],
+  "Papillome inversé urothélial": ["Papillome inversé urothélial"],
+  "Carcinome urothélial in situ": ["Carcinome urothélial in situ"],
+  "Carcinome urothélial invasif": [
     "Carcinome urothélial conventionnel",
     "Carcinome urothélial micropapillaire",
     "Carcinome urothélial en nid",
@@ -53,44 +57,63 @@ const TUMOR_SUBTYPES = {
     "Carcinome neuroendocrine à grandes cellules",
     "Tumeur neuroendocrine bien différenciée",
   ],
+  other: ["other"],
 } as const;
-const TUMOR_SUBTYPE_OPTIONS = Object.fromEntries(
-  Object.entries(TUMOR_SUBTYPES).map(([type, subtypes]) => [
-    type,
-    subtypes.map(toOption),
-  ]),
-) as Record<TumorType, Option<TumorSubtype>[]>;
 
-export type TumorType = keyof typeof TUMOR_SUBTYPES | "other";
-const TUMOR_TYPES = Object.keys(TUMOR_SUBTYPES) as TumorType[];
-export const TUMOR_TYPE_OPTIONS: Option<TumorType>[] = [
-  ...TUMOR_TYPES.map(toOption),
-  OTHER_ITEM,
-];
+type TumorCategory = keyof typeof TUMOR_TYPES_BY_CATEGORY;
+export type TumorType = (typeof TUMOR_TYPES_BY_CATEGORY)[TumorCategory][number];
+
+// CAUTION: this cast is type-unsafe
+const TUMOR_CATEGORY_BY_TYPE = Object.fromEntries(
+  Object.entries(TUMOR_TYPES_BY_CATEGORY)
+    .map(([category, items]): [TumorType, TumorCategory][] =>
+      items.map((item) => [
+        // CAUTION: this cast is type-unsafe
+        item,
+        category as TumorCategory,
+      ]),
+    )
+    .flat(),
+) as Record<TumorType, TumorCategory>;
+export const getTumorCategory = (type: TumorType): TumorCategory =>
+  TUMOR_CATEGORY_BY_TYPE[type];
+
+export const TUMOR_TYPE_GROUPS = Object.entries(TUMOR_TYPES_BY_CATEGORY).map(
+  ([category, items]): OptionOrGroup<TumorType> => {
+    const options: Option<TumorType>[] = items.map((value) =>
+      value === "other" ? OTHER_ITEM : { value, label: value },
+    );
+
+    if (items.length === 1) {
+      return options[0];
+    }
+
+    return {
+      // CAUTION: this cast is type-unsafe
+      title: category as TumorCategory,
+      options,
+    };
+  },
+);
+
+const TUMOR_TYPE_OPTIONS = Object.values(TUMOR_TYPES_BY_CATEGORY)
+  .flat()
+  .map(toOption);
 export const getTumorTypeOption = findOption(TUMOR_TYPE_OPTIONS);
-type TumorSubtype = ValueOf<Flatten<typeof TUMOR_SUBTYPES>>;
+
 export type Tumor = {
   type: TumorType;
-  subtype: TumorSubtype;
-  otherSubtype: string;
+  typeOther: string;
+  carcinomaComposition: CarcinomaComposition;
   grade: string;
-  extension: TumoralExtension;
+  extension: Ptnm;
 };
 export const DEFAULT_TUMOR: Tumor = {
   type: "Carcinome urothélial papillaire, non invasif",
-  subtype: "Carcinome urothélial conventionnel",
-  otherSubtype: "",
+  typeOther: "",
+  carcinomaComposition: { Conventionnel: 100 },
   grade: "",
-  extension: {},
-};
-export const getTumorSubtypeOptions = (
-  type: TumorType,
-): readonly Option<TumorSubtype>[] => {
-  if (type === "other") {
-    return [];
-  }
-
-  return TUMOR_SUBTYPE_OPTIONS[type];
+  extension: "pT1",
 };
 
 /** Tumor grade */
@@ -107,15 +130,25 @@ export const getGradeOption = findOption(GRADE_OPTIONS);
 const GRADE_UROTHELIAL_CARCINOMA = ["high-grade", "low-grade"].map(
   getGradeOption,
 );
+
+// FIXME: update list
+const MOCK_GRADE_OPTIONS = ["TODO"].map(toOption);
+
 const GRADE_OPTIONS_G = ["g1", "g2", "g3"].map(getGradeOption);
 const GRADE_OPTIONS_NEUROENDOCRINE = ["TODO"].map(getGradeOption);
 const GRADE_OPTIONS_OTHER: Option<string>[] = [];
-export const getGradeOptions = (tumorType: TumorType): Option<string>[] => {
-  switch (tumorType) {
+export const getGradeOptions = (type: TumorType): Option<string>[] => {
+  switch (getTumorCategory(type)) {
     case "Carcinome urothélial papillaire, non invasif":
     case "Carcinome urothélial in situ":
-    case "Carcinome urothélial invasif (conventionnel)": {
+    case "Carcinome urothélial invasif": {
       return GRADE_UROTHELIAL_CARCINOMA;
+    }
+
+    case "Papillome urothélial":
+    case "Tumeur urothéliale papillaire vésicale de bas potentiel de malignit\u00E9":
+    case "Papillome inversé urothélial": {
+      return MOCK_GRADE_OPTIONS;
     }
 
     case "Malpighien":
@@ -173,23 +206,10 @@ export const PTNM_OPTIONS = [
     label: "pT4",
     tooltip: "invasion du stroma prostatique.",
   },
-  {
-    value: "other",
-    label: "Impossible à déterminer",
-    tooltip: "",
-  },
 ] as const;
-// TODO clean: resolve naming conflict between type and component
-export type PtnmOptionType = (typeof PTNM_OPTIONS)[number]["value"];
-export type PtnmOption = {
-  value: PtnmOptionType;
-  label: string;
-  tooltip: string;
-};
-export type TumoralExtension = Partial<Record<PtnmOptionType, number>>;
-
+export type Ptnm = (typeof PTNM_OPTIONS)[number]["value"];
 export const getPtnmOption = findOption(PTNM_OPTIONS);
 
-export const hasTumoralExtensionSection = (type: TumorType) =>
+export const hasTumoralExtension = (type: TumorType) =>
   type !== "Carcinome urothélial papillaire, non invasif" &&
   type !== "Carcinome urothélial in situ";

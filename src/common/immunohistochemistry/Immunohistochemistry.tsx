@@ -73,14 +73,14 @@ export const Immunohistochemistry = ({
     <>
       <SelectBoolean
         value={hasIhc}
-        label="Avez-vous réalisé une immunohistochimie ?"
+        label="Étude immunohistochimique"
         onChange={setField("hasIhc")}
       />
       {hasIhc ? (
         <>
           {hasMultipleBlocks ? (
             <SelectList
-              label="Sur quels blocs avez-vous réalisé une immunohistochimie ?"
+              label="Blocs utilisés"
               groups={blockGroups}
               values={selectedBlocks}
               hasList={false}
@@ -153,7 +153,7 @@ const BlockSection = ({
   const content = (
     <Stack spacing="md">
       <SelectList
-        label="Quels sont les anticorps utilisés ?"
+        label="Anticorps utilisés"
         groups={groups}
         values={selectedAntibodies}
         hasList={false}

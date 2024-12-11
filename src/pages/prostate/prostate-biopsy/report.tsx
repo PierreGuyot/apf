@@ -79,16 +79,21 @@ const getClinicalInformationSection = (
   const content = [
     `${t("PSA")}${colon} ${formatWithUnit(form.psaRate, "ng-per-mL")}`,
     reportBoolean({ label: "IRM", value: form.hasMri, language }),
-    ...reportSection(
-      "Cibles",
+    ...reportSection({
+      title: "Cibles",
       language,
-      form.piradsItems.map((item) =>
+      content: form.piradsItems.map((item) =>
         renderPiradsItem(form.formId, item, form.rows, language),
       ),
-    ),
+    }),
   ];
 
-  return reportSection("Renseignements cliniques", language, content, true);
+  return reportSection({
+    title: "Renseignements cliniques",
+    language,
+    content,
+    hasSeparationLine: true,
+  });
 };
 
 const getLocations = (rows: Row[], language: Language) => {
@@ -149,7 +154,7 @@ const getLocationSection = (
       : `${t("Total")}${colon} ${tumorSize}mm out of ${totalSize}mm examined (${containerLocations})`,
   ].filter(filterEmpty);
 
-  return reportSection("Localisation", language, content);
+  return reportSection({ title: "Localisation", language, content });
 };
 
 const reportTep = (
@@ -222,12 +227,12 @@ const getConclusionSection = (
   language: Language,
   isExpertMode: boolean,
 ): string[] => {
-  return reportSection(
-    "Conclusion",
+  return reportSection({
+    title: "Conclusion",
     language,
-    getConclusionContent(params, language, isExpertMode),
-    true,
-  );
+    content: getConclusionContent(params, language, isExpertMode),
+    hasSeparationLine: true,
+  });
 };
 
 export const generateReport = (

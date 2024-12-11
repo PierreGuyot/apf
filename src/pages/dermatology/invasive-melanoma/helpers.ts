@@ -34,9 +34,10 @@ export type LymphNodeExeresis =
 export const ORIENTATION_METHOD_OPTIONS = [
   { value: "Fil", label: "Fil" },
   { value: "Agrafe", label: "Agrafe" },
-  { value: "label", label: "label" },
+  { value: "Encoche", label: "Encoche" },
   { value: "Épingle", label: "Épingle" },
   { value: "Liège", label: "Liège" },
+  OTHER_ITEM,
 ] as const;
 export type OrientationMethod =
   (typeof ORIENTATION_METHOD_OPTIONS)[number]["value"];
@@ -118,18 +119,17 @@ export type Subtype = (typeof SUBTYPE_OPTIONS)[number]["value"];
 export const GROWTH_PHASE_OPTIONS = [
   { value: "horizontal", label: "Horizontale" },
   { value: "vertical", label: "Verticale" },
-  UNSPECIFIED_ITEM,
 ] as const;
 export type GrowthPhase = (typeof GROWTH_PHASE_OPTIONS)[number]["value"];
 
 // FIXME: align with DermatologyForm
 export type ClarkInfiltrationLevel = 1 | 2 | 3 | 4 | 5;
 export const CLARK_INFILTRATION_LEVELS: Option<ClarkInfiltrationLevel>[] = [
-  { value: 1, label: "I (épiderme)" },
-  { value: 2, label: "II (derme papillaire)" },
-  { value: 3, label: "III (réticulaire)" },
-  { value: 4, label: "IV (profond)" },
-  { value: 5, label: "V (hypoderme)" },
+  { value: 1, label: "Intra-épidermique/confiné à l'épiderme (niveau I)" },
+  { value: 2, label: "Infiltration débutante du derme papillaire (niveau II)" },
+  { value: 3, label: "Infiltration de tout le derme papillaire (niveau III)" },
+  { value: 4, label: "Infiltration du derme réticulaire (niveau IV)" },
+  { value: 5, label: "Infiltration de l'hypoderme (niveau V)" },
 ];
 
 export const BRESLOW_THICKNESS_TYPE_OPTIONS = [
@@ -165,10 +165,9 @@ export type MarginState = (typeof MARGIN_STATE_OPTIONS)[number]["value"];
 export type MelanocyticLesion =
   (typeof MELANOCYTIC_LESION_GROUPS)[number]["options"][number]["value"];
 
-// TODO clean: convert to option list once SelectList accepts both options and groups
 export const MELANOCYTIC_LESION_GROUPS = [
   {
-    title: "",
+    title: "", // TODO clean: fix API
     options: [
       {
         value: "Naevus jonctionnel composé ou dermique",

@@ -15,23 +15,23 @@ import {
 import {
   InputNumber,
   InputText,
-  InputTextArea,
   Line,
   NestedItem,
   noop,
   patchState,
   Section,
   Select,
+  SelectBoolean,
   SelectList,
-  SelectTroolean,
+  SelectPresence,
   Stack,
-  sum,
   Summary,
   Text,
-  Troolean,
   useForm,
 } from "../../../ui";
 import {
+  BLADDER_RESECTION_ANTIBODY_GROUPS,
+  BLADDER_RESECTION_ANTIBODY_PROPERTIES,
   BladderResectionFormId,
   DEFAULT_FULL_LOCATION,
   FullLocation,
@@ -41,17 +41,19 @@ import {
   LOCATION_OPTIONS,
   NON_TUMORAL_RESULT_GROUPS,
   Treatment,
-  TREATMENT_OPTIONS,
+  TREATMENT_GROUPS,
   TUMORAL_RESULT_GROUPS,
 } from "./helpers";
 import { generateReport } from "./report";
 import { TumorInput } from "./tumor-input/TumorInput";
-import { DEFAULT_TUMOR, Tumor } from "./tumor-input/helpers";
-import { validateTumorInput } from "./tumor-input/validate";
+import { DEFAULT_TUMOR, Ptnm, Tumor } from "./tumor-input/helpers";
+import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
+import { IhcState } from "../../../common/immunohistochemistry/helpers";
 
 type MuscularisPropria = {
-  isPresent: Troolean;
+  isPresent: boolean;
   chipCount: number;
+  invadedChipCount: number;
   notes: string;
 };
 
@@ -66,12 +68,11 @@ export type FormState = {
   clinicalInfo: string;
 
   // Expert mode
-  medicalHistory: Troolean;
+  medicalHistory: boolean;
   previousTumor: Tumor;
 
   location: FullLocation;
-  hadPreviousTreatment: Troolean;
-  previousTreatment: Treatment;
+  previousTreatments: Treatment[];
   lesionAspect: LesionAspect;
   otherLesionAspect: string;
 
@@ -87,6 +88,9 @@ export type FormState = {
   muscularisPropria: MuscularisPropria;
   otherResults: OtherResults;
 
+  // Immunohistochemistry
+  ihc: IhcState;
+
   // Additional notes
   comments: string;
 };
@@ -97,11 +101,10 @@ const getInitialState = (): FormState => ({
   clinicalInfo: "",
 
   // Expert mode
-  medicalHistory: "unspecified",
+  medicalHistory: false,
   previousTumor: DEFAULT_TUMOR,
   location: DEFAULT_FULL_LOCATION,
-  hadPreviousTreatment: "unspecified",
-  previousTreatment: TREATMENT_OPTIONS[0].value,
+  previousTreatments: [],
   lesionAspect: LESION_ASPECT_OPTIONS[0].value,
   otherLesionAspect: "",
 
@@ -115,13 +118,20 @@ const getInitialState = (): FormState => ({
   tumor: DEFAULT_TUMOR,
   hasLymphaticOrVascularInvasion: false,
   muscularisPropria: {
-    isPresent: "unspecified",
+    isPresent: false,
     chipCount: 0,
+    invadedChipCount: 0,
     notes: "",
   },
   otherResults: {
     tumoral: [],
     nonTumoral: [],
+  },
+
+  // Immunohistochemistry
+  ihc: {
+    hasIhc: false,
+    blocks: [],
   },
 
   // Additional notes
@@ -130,11 +140,6 @@ const getInitialState = (): FormState => ({
 
 type Props = {
   formId: BladderResectionFormId;
-};
-
-const validateMicroscopy = ({ tumor }: { tumor: Tumor }) => {
-  const errors = validateTumorInput(tumor);
-  return { tumor: errors };
 };
 
 export const BladderResectionForm = ({ formId }: Props) => {
@@ -163,43 +168,52 @@ export const BladderResectionFormContent = ({
   const isExpertMode = mode === "expert";
 
   const macroscopyErrors = validateMacroscopy(state);
-  const microscopyErrors = validateMicroscopy(state);
-  const hasErrors =
-    !!macroscopyErrors.length ||
-    sum(Object.values(microscopyErrors).map((errors) => errors.length));
+  const hasErrors = !!macroscopyErrors.length;
+
+  let index = 1;
 
   return (
     <FormPage formId={formId} onClear={clearState}>
       <Stack spacing="lg">
         {isExpertMode ? (
           <ClinicalInfoExpert
+            index={index++}
             state={state}
             setState={(value) => setState({ ...state, ...value })}
           />
         ) : (
           <ClinicalInfo
-            index={1}
+            index={index++}
             value={clinicalInfo}
             onChange={setField("clinicalInfo")}
           />
         )}
 
         <ResectionMacroscopy
-          index={2}
+          index={index++}
           state={state}
           setState={(value) => setState({ ...state, ...value })}
           errors={macroscopyErrors}
         />
 
         <MicroscopySection
-          index={3}
+          index={index++}
           state={state}
           setState={(value) => setState({ ...state, ...value })}
-          errors={microscopyErrors}
         />
 
+        <Section index={index++} title="Immunohistochimie">
+          <Immunohistochemistry
+            containerCount={state.blockCount}
+            groups={BLADDER_RESECTION_ANTIBODY_GROUPS}
+            properties={BLADDER_RESECTION_ANTIBODY_PROPERTIES}
+            state={state.ihc}
+            setState={setField("ihc")}
+          />{" "}
+        </Section>
+
         <AdditionalRemarks
-          index={4}
+          index={index++}
           value={state.comments}
           onChange={setField("comments")}
         />
@@ -221,53 +235,48 @@ type ClinicalInfoState = Pick<
   | "medicalHistory"
   | "previousTumor"
   | "location"
-  | "hadPreviousTreatment"
-  | "previousTreatment"
+  | "previousTreatments"
   | "lesionAspect"
   | "otherLesionAspect"
 >;
 const ClinicalInfoExpert = ({
+  index,
   state,
   setState,
 }: {
+  index: number;
   state: ClinicalInfoState;
   setState: (value: ClinicalInfoState) => void;
 }) => {
   const setField = patchState(state, setState);
 
   return (
-    <Section title="Renseignements cliniques" index={1}>
-      <SelectTroolean
+    <Section title="Renseignements cliniques" index={index}>
+      <SelectBoolean
         label="Antécédents de maladie des voies urinaires ou de métastases à distance"
         value={state.medicalHistory}
         onChange={setField("medicalHistory")}
       />
-      {state.medicalHistory === "yes" ? (
+      {state.medicalHistory ? (
         <>
+          {/* TODO clean: fix line height */}
           <TumorInput
             state={state.previousTumor}
             setState={setField("previousTumor")}
-            errors={[]}
+            hasGrade
+            hasExtension
           />
           <LocationInput
             state={state.location}
             setState={setField("location")}
           />
           <Line>
-            <SelectTroolean
+            <SelectList
               label="Traitements antérieurs"
-              value={state.hadPreviousTreatment}
-              onChange={setField("hadPreviousTreatment")}
+              groups={TREATMENT_GROUPS}
+              values={state.previousTreatments}
+              onChange={setField("previousTreatments")}
             />
-            {state.hadPreviousTreatment === "yes" ? (
-              <>
-                <Select
-                  value={state.previousTreatment}
-                  options={TREATMENT_OPTIONS}
-                  onChange={setField("previousTreatment")}
-                />
-              </>
-            ) : undefined}
           </Line>
 
           <Line>
@@ -302,12 +311,10 @@ const MicroscopySection = ({
   index,
   state,
   setState,
-  errors,
 }: {
   index: number;
   state: MicroscopyState;
   setState: (value: MicroscopyState) => void;
-  errors: { tumor: string[] };
 }) => {
   const setField = patchState(state, setState);
 
@@ -318,13 +325,13 @@ const MicroscopySection = ({
         setState={setField("tumor")}
         hasGrade
         hasExtension
-        errors={errors.tumor}
       />
       <HasLymphoVascularInvasion
         value={state.hasLymphaticOrVascularInvasion}
         onChange={setField("hasLymphaticOrVascularInvasion")}
       />
       <InputMuscularisPropria
+        tumorExtension={state.tumor.extension}
         state={state.muscularisPropria}
         setState={setField("muscularisPropria")}
       />
@@ -337,38 +344,42 @@ const MicroscopySection = ({
 };
 
 const InputMuscularisPropria = ({
+  tumorExtension,
   state,
   setState,
 }: {
+  tumorExtension: Ptnm;
   state: MuscularisPropria;
   setState: (value: MuscularisPropria) => void;
 }) => {
   const setField = patchState(state, setState);
+  const hasTumorInvasion =
+    tumorExtension !== "pT1" &&
+    tumorExtension !== "pT1a" &&
+    tumorExtension !== "pT1b";
 
   return (
     <>
-      <SelectTroolean
+      <SelectPresence
         label="Copeaux de résection présentant de la musculeuse"
+        grammaticalForm={{ gender: "masculine", number: "plural" }}
         value={state.isPresent}
         onChange={setField("isPresent")}
       />
-      {state.isPresent === "yes" ? (
+      {state.isPresent ? (
         <NestedItem depth={1}>
           <InputNumber
             label="Nombre de copeaux"
             value={state.chipCount}
             onChange={setField("chipCount")}
           />
-        </NestedItem>
-      ) : state.isPresent === "unspecified" ? (
-        <NestedItem depth={1}>
-          <InputTextArea
-            label="Commentaire"
-            placeholder="Ajoutez vos commentaires dans ce champ."
-            lineCount={2}
-            value={state.notes}
-            onChange={setField("notes")}
-          />
+          {hasTumorInvasion ? (
+            <InputNumber
+              label="Nombre de copeaux présentant une invasion tumorale"
+              value={state.invadedChipCount}
+              onChange={setField("invadedChipCount")}
+            />
+          ) : undefined}
         </NestedItem>
       ) : undefined}
     </>
