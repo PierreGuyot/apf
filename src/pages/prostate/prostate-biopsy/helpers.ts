@@ -139,7 +139,9 @@ const byGleasonScore = (item2: GleasonItem, item1: GleasonItem) =>
   // By total
   totalScore(item1) - totalScore(item2) ||
   // By left value in case of equality
-  item1.a - item2.a;
+  item1.a - item2.a ||
+  // By cribriform percentage in case of equality
+  item1.percentage - item2.percentage;
 
 export const getMaximumByGleasonScore = (items: GleasonItem[]) =>
   items.sort(byGleasonScore)[0] ?? DEFAULT_GLEASON_ITEM;

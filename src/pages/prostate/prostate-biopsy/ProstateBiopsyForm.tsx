@@ -367,6 +367,7 @@ const ProstateBiopsyFormContent = ({
         */}
           <Select
             value={containerCount}
+            // FIXME: reword
             label="Combien de pots avez-vous ?"
             options={CONTAINER_COUNT_OPTIONS}
             onChange={setField("containerCount")}
