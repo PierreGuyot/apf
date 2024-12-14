@@ -106,6 +106,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   "Tissu extra-prostatique": "Periprostatic Fat Invasion",
   "Tumeur neuroendocrine bien différenciée":
     "Well-differentiated neuroendocrine tumor",
+  "Autres renseignements cliniques": "Other clinical info",
   Adénose: "Adenosis",
   ASAP: "ASAP",
   Atrophie: "Atrophy",

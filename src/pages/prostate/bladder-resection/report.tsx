@@ -66,6 +66,7 @@ const getClinicalInfoSection = (
                 (value) => getTreatmentOption(value).label,
               ),
               language,
+              emptyState: "absence de traitement antérieur",
             }),
             item(
               "Aspect cystoscopique de la lésion actuelle",

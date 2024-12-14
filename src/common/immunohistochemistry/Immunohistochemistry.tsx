@@ -51,7 +51,7 @@ export const Immunohistochemistry = ({
 
   const hasMultipleBlocks = typeof containerCount === "number";
 
-  const blockOptions = getBlockOptions(containerCount ?? 1);
+  const blockOptions = getBlockOptions(containerCount || 1); // There should be at least one block
   const blockGroups = useMemo(
     () => [
       {

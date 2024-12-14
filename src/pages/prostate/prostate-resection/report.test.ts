@@ -16,6 +16,7 @@ const MOCK_DATA_WITHOUT_TUMOR: ReportParams = {
   mainLesionType: "prostate-adenomyoma",
   tumorType: "acinar-adenocarcinoma-conventional",
   previousTreatments: [],
+  histologicalGradeApplicability: "applicable",
   histologicalGrade: {
     a: 3,
     b: 3,
@@ -39,6 +40,7 @@ const MOCK_DATA_WITH_TUMOR: ReportParams = {
   mainLesionType: "tumor",
   tumorType: "acinar-adenocarcinoma-conventional",
   previousTreatments: [],
+  histologicalGradeApplicability: "applicable",
   histologicalGrade: {
     a: 4,
     b: 4,
@@ -58,7 +60,9 @@ describe("generateReport", () => {
       `RÉSECTION TRANSURÉTRALE DE PROSTATE
 
 Renseignements cliniques :
-    MOCK-clinical-info
+    Traitements antérieurs : absence de traitement antérieur
+    Autres renseignements cliniques :
+        MOCK-clinical-info
 
 Poids des copeaux : 10g
 Inclusion en totalité en 5 blocs (fixation : formol tamponné 4%, coloration HES)
@@ -81,7 +85,9 @@ Autres lésions :
       `RÉSECTION TRANSURÉTRALE DE PROSTATE
 
 Renseignements cliniques :
-    MOCK-clinical-info
+    Traitements antérieurs : absence de traitement antérieur
+    Autres renseignements cliniques :
+        MOCK-clinical-info
 
 Poids des copeaux : 10g
 Inclusion en totalité en 5 blocs (fixation : formol tamponné 4%, coloration HES)
@@ -93,7 +99,6 @@ Immunohistochimie :
 
 Adénocarcinome acinaire de type prostatique.
 
-Traitements antérieurs : absence de traitement antérieur
 Score de Gleason : 8 (4 + 4) avec 100% de score 4 dont 20% de cribriforme, soit un score ISUP de 4.
 Estimation de la surface envahie : 5%
 Invasion lymphatique ou vasculaire : non
@@ -110,7 +115,9 @@ Autres lésions :
       `TRANSURETHRAL PROSTATIC RESECTION
 
 Case summary:
-    MOCK-clinical-info
+    Previous treatments: no previous treatments
+    Other clinical info:
+        MOCK-clinical-info
 
 Total chip weight: 10g
 Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
@@ -133,7 +140,9 @@ Other lesions:
       `TRANSURETHRAL PROSTATIC RESECTION
 
 Case summary:
-    MOCK-clinical-info
+    Previous treatments: no previous treatments
+    Other clinical info:
+        MOCK-clinical-info
 
 Total chip weight: 10g
 Full inclusion in 5 blocks (fixation : buffered formalin 4%, stain HES)
@@ -145,7 +154,6 @@ Immunohistochemistry:
 
 Acinar adenocarcinoma, conventional (usual).
 
-Previous treatments: no previous treatments
 Gleason Score: 8 (4 + 4) with 100% of score 4 of which 20% cribriform, i.e. an ISUP score of 4.
 Tumor quantification: 5%
 Lymphatic or vascular invasion: no

@@ -29,31 +29,13 @@ export const MAIN_LESION_TYPES: Option<MainLesionType>[] = [
 ];
 
 export type PreviousTreatment =
-  | "non-applicable-radiotherapy"
-  | "non-applicable-hormonotherapy-chimiotherapy"
-  | "applicable-radiotherapy"
-  | "hormonotherapy-chimiotherapy";
+  | "radiotherapy"
+  | "hormonotherapy"
+  | "chimiotherapy";
 const PREVIOUS_TREATMENT_OPTIONS: Option<PreviousTreatment>[] = [
-  {
-    value: "non-applicable-radiotherapy",
-    label:
-      "Non applicable en raison de modifications histologiques majeures liées à un traitement antérieur (radiothérapie)",
-  },
-  {
-    value: "non-applicable-hormonotherapy-chimiotherapy",
-    label:
-      "Non applicable en raison de modifications histologiques majeures liées à un traitement antérieur (hormonothérapie ou chimiothérapie)",
-  },
-  {
-    value: "applicable-radiotherapy",
-    label:
-      "Applicable en raison de modifications histologiques mineures liées à un traitement antérieur (radiothérapie)",
-  },
-  {
-    value: "hormonotherapy-chimiotherapy",
-    label:
-      "Applicable en raison de modifications histologiques mineures liées à un traitement antérieur (hormonothérapie ou chimiothérapie)",
-  },
+  { value: "radiotherapy", label: "Radiothérapie" },
+  { value: "hormonotherapy", label: "Hormonothérapie" },
+  { value: "chimiotherapy", label: "Chimiothérapie" },
 ] as const;
 export const PREVIOUS_TREATMENT_GROUPS: OptionGroup<PreviousTreatment>[] = [
   {
@@ -66,14 +48,16 @@ export const getPreviousTreatmentOption = findOption(
   PREVIOUS_TREATMENT_OPTIONS,
 );
 
-export const isGleasonScoreApplicable = (
-  previousTreatments: PreviousTreatment[],
-) =>
-  previousTreatments.every(
-    (treatment) =>
-      treatment !== "non-applicable-hormonotherapy-chimiotherapy" &&
-      treatment !== "applicable-radiotherapy",
-  );
+export const HISTOLOGICAL_APPLICABILITY_OPTIONS = [
+  { value: "applicable", label: "Applicable" },
+  {
+    value: "non-applicable",
+    label:
+      "Non applicable (modifications histologiques majeures dues à un traitement antérieur)",
+  },
+] as const;
+export type HistologicalApplicability =
+  (typeof HISTOLOGICAL_APPLICABILITY_OPTIONS)[number]["value"];
 
 export type TumorQuantification = "1%" | "2%" | "3%" | "4%" | "5%" | ">5%";
 export const TUMOR_QUANTIFICATION_OPTIONS: Option<TumorQuantification>[] = [

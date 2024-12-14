@@ -21,7 +21,6 @@ import {
   SelectList,
   Stack,
   Summary,
-  Text,
   useForm,
   ValidationErrors,
 } from "../../../ui";
@@ -37,7 +36,8 @@ import {
 } from "../helpers";
 import { CellGleason } from "../prostate-biopsy/cells";
 import {
-  isGleasonScoreApplicable,
+  HISTOLOGICAL_APPLICABILITY_OPTIONS,
+  HistologicalApplicability as HistologicalGradeApplicability,
   MAIN_LESION_TYPES,
   MainLesionType,
   PREVIOUS_TREATMENT_GROUPS,
@@ -57,6 +57,7 @@ export type FormState = {
   coloration: ColorationType;
   mainLesionType: MainLesionType;
   tumorType: TumorType;
+  histologicalGradeApplicability: HistologicalGradeApplicability;
   histologicalGrade: GleasonItem;
   tumorQuantification: TumorQuantification;
   hasLymphaticOrVascularInvasion: boolean;
@@ -69,11 +70,12 @@ const getInitialState = (): FormState => ({
   previousTreatments: [],
   caseSummary: "",
   chipWeight: 0,
-  blockCount: 1,
+  blockCount: 0,
   coloration: "HES",
   samplingType: "full",
   mainLesionType: "prostate-adenomyoma",
   tumorType: "acinar-adenocarcinoma-conventional",
+  histologicalGradeApplicability: "applicable",
   histologicalGrade: DEFAULT_GLEASON_ITEM,
   tumorQuantification: ">5%",
   hasLymphaticOrVascularInvasion: false,
@@ -104,6 +106,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
     mainLesionType,
     tumorType,
     previousTreatments,
+    histologicalGradeApplicability,
     histologicalGrade,
     tumorQuantification,
     hasLymphaticOrVascularInvasion,
@@ -157,22 +160,21 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 value={tumorType}
                 onChange={setField("tumorType")}
               />
-              {isGleasonScoreApplicable(previousTreatments) ? (
-                <Line>
-                  Score de Gleason :{" "}
+              <Line>
+                <Select
+                  label="Score de Gleason"
+                  options={HISTOLOGICAL_APPLICABILITY_OPTIONS}
+                  value={histologicalGradeApplicability}
+                  onChange={setField("histologicalGradeApplicability")}
+                />
+                {histologicalGradeApplicability === "applicable" ? (
                   <CellGleason
                     language={DEFAULT_LANGUAGE}
                     value={histologicalGrade}
                     onChange={setField("histologicalGrade")}
                   />
-                </Line>
-              ) : (
-                <Line>
-                  <Text color="secondary">
-                    Gleason score is not applicable.
-                  </Text>
-                </Line>
-              )}
+                ) : undefined}
+              </Line>
               <Select
                 label="Estimation de la surface envahie"
                 options={TUMOR_QUANTIFICATION_OPTIONS}

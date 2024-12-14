@@ -1,4 +1,3 @@
-import { reportCaseSummary } from "../../../common/case-summary.report";
 import { reportEpn } from "../../../common/epn/report";
 import { reportInvasion } from "../../../common/invasion/report";
 import { reportResectionMacroscopy } from "../../../common/resection-macroscopy/report";
@@ -8,8 +7,10 @@ import {
   assertUnreachable,
   getSelectedOptions,
   item,
+  reportSection,
   reportSelectList,
   reportStructure,
+  reportTextArea,
   translate,
 } from "../../../ui";
 import {
@@ -23,11 +24,32 @@ import {
   ProstateResectionFormId,
   getPreviousTreatmentOption,
   getTumorQuantificationOption,
-  isGleasonScoreApplicable,
 } from "./helpers";
 
 export type ReportParams = FormState & {
   formId: ProstateResectionFormId;
+};
+
+const reportCaseSummary = (form: ReportParams, language: Language): Lines => {
+  return reportSection({
+    title: "Renseignements cliniques",
+    language,
+    content: [
+      ...reportSelectList({
+        title: "Traitements antérieurs",
+        items: form.previousTreatments.map(
+          (value) => getPreviousTreatmentOption(value).label,
+        ),
+        language,
+        emptyState: "absence de traitement antérieur",
+      }),
+      ...reportTextArea(
+        "Autres renseignements cliniques",
+        form.caseSummary,
+        language,
+      ),
+    ],
+  });
 };
 
 // NOTE: inline translation
@@ -43,15 +65,7 @@ const reportConclusion = (form: ReportParams, language: Language): Lines => {
 
     return [
       `${t(tumorTypeLabel)}.\n`, // We add an empty line for aesthetic purposes
-      ...reportSelectList({
-        title: "Traitements antérieurs",
-        items: form.previousTreatments.map(
-          (value) => getPreviousTreatmentOption(value).label,
-        ),
-        language,
-        emptyState: "absence de traitement antérieur",
-      }),
-      isGleasonScoreApplicable(form.previousTreatments)
+      form.histologicalGradeApplicability === "applicable"
         ? // FIXME: will break translate on debug
           item(
             "Score de Gleason",
@@ -139,7 +153,7 @@ export const generateReport = (
   language: Language,
 ): string => {
   return reportStructure(form.formId, language, [
-    reportCaseSummary(form.caseSummary, language),
+    reportCaseSummary(form, language),
     reportResectionMacroscopy(form, language),
     reportImmunohistochemistry(form.ihc, language, false),
     reportConclusion(form, language),
