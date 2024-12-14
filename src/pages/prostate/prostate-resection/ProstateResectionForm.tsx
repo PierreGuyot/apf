@@ -10,7 +10,7 @@ import { ResectionMacroscopy } from "../../../common/resection-macroscopy/Resect
 import {
   ColorationType,
   SamplingType,
-  validateMacroscopy,
+  validateResectionMacroscopy,
 } from "../../../common/resection-macroscopy/validation";
 import {
   DEFAULT_LANGUAGE,
@@ -22,7 +22,6 @@ import {
   Stack,
   Summary,
   useForm,
-  ValidationErrors,
 } from "../../../ui";
 import {
   DEFAULT_GLEASON_ITEM,
@@ -101,7 +100,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
   const { state, setField, clearState, setState } = useForm(getInitialState);
   const {
     caseSummary,
-    chipWeight,
     blockCount,
     mainLesionType,
     tumorType,
@@ -115,8 +113,8 @@ export const ProstateResectionForm = ({ formId }: Props) => {
     ihc,
   } = state;
 
-  const macroscopyErrors = validateMacroscopy({ chipWeight, blockCount });
-  const ihcErrors = validateIhc({ ihc, hasMultipleBlocks: false });
+  const macroscopyErrors = validateResectionMacroscopy(state);
+  const ihcErrors = validateIhc({ ihc, containerCount: blockCount });
   const hasErrors = !!macroscopyErrors.length || !!ihcErrors!.length;
 
   return (
@@ -203,10 +201,6 @@ export const ProstateResectionForm = ({ formId }: Props) => {
             properties={PROSTATE_ANTIBODY_PROPERTIES}
             state={ihc}
             setState={setField("ihc")}
-          />
-
-          <ValidationErrors
-            header="La section Immunohistochimie comporte les erreurs suivantes :"
             errors={ihcErrors}
           />
         </Section>

@@ -14,8 +14,7 @@ export const COLORATION_OPTIONS: Option<ColorationType>[] = [
   { value: "HE", label: "HE" },
 ];
 
-// TODO clean: add tests
-export const validateMacroscopy = ({
+export const validateResectionMacroscopy = ({
   chipWeight,
   blockCount,
 }: {

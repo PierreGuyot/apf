@@ -3,7 +3,6 @@ import {
   HelpIcon,
   InputText,
   Line,
-  NestedItem,
   patchState,
   Select,
   SelectComposition,
@@ -27,11 +26,15 @@ export const TumorInput = ({
   setState,
   hasGrade,
   hasExtension,
+  hasComposition,
+  error,
 }: {
   state: Tumor;
   setState: (value: Tumor) => void;
   hasGrade?: boolean;
   hasExtension?: boolean;
+  hasComposition?: boolean;
+  error?: string;
 }) => {
   const setField = patchState(state, setState);
   const gradeOptions = getGradeOptions(state.type);
@@ -62,14 +65,14 @@ export const TumorInput = ({
         ) : undefined}
       </Line>
 
-      {getTumorCategory(state.type) === "Carcinome urothélial invasif" ? (
-        <NestedItem depth={1}>
-          <SelectComposition
-            items={CARCINOMA_SUBTYPES}
-            state={state.carcinomaComposition}
-            setState={setField("carcinomaComposition")}
-          />
-        </NestedItem>
+      {hasComposition &&
+      getTumorCategory(state.type) === "Carcinome urothélial invasif" ? (
+        <SelectComposition
+          items={CARCINOMA_SUBTYPES}
+          value={state.carcinomaComposition}
+          onChange={setField("carcinomaComposition")}
+          error={error}
+        />
       ) : undefined}
 
       {hasGrade ? (

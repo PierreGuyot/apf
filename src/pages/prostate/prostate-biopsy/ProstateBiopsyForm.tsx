@@ -324,7 +324,7 @@ const ProstateBiopsyFormContent = ({
     rows: visibleRows,
     piradsItems: visiblePiradsItems,
   });
-  const ihcErrors = validateIhc({ ihc, hasMultipleBlocks: true });
+  const ihcErrors = validateIhc({ ihc, containerCount });
 
   const hasErrors = !!biopsyTableErrors.length || !!ihcErrors.length;
 
@@ -407,10 +407,6 @@ const ProstateBiopsyFormContent = ({
             properties={PROSTATE_ANTIBODY_PROPERTIES}
             state={ihc}
             setState={setField("ihc")}
-          />
-
-          <ValidationErrors
-            header="La section Immunohistochimie comporte les erreurs suivantes :"
             errors={ihcErrors}
           />
         </Section>

@@ -7,6 +7,7 @@ import {
   SelectList,
   Stack,
   SubSection,
+  ValidationErrors,
 } from "../../ui";
 import { AntibodySection } from "./_AntibodySection";
 import {
@@ -25,6 +26,7 @@ type Props = {
   properties: PropertiesByAntibody;
   state: IhcState;
   setState: (state: IhcState) => void;
+  errors: string[];
 };
 
 const getBlockOptions = (count: number) =>
@@ -39,6 +41,7 @@ export const Immunohistochemistry = ({
   properties,
   state,
   setState,
+  errors,
 }: Props) => {
   const { hasIhc, blocks } = state;
   const setField = patchState(state, setState);
@@ -106,6 +109,7 @@ export const Immunohistochemistry = ({
           })}
         </>
       ) : undefined}
+      <ValidationErrors errors={errors} />
     </>
   );
 };

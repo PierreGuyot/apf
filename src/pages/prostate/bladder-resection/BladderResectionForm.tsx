@@ -5,12 +5,17 @@ import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
 import { ModePicker } from "../../../common/ModePicker";
 
+import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
+import {
+  IhcState,
+  validateIhc,
+} from "../../../common/immunohistochemistry/helpers";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
 import {
   ColorationType,
   SamplingType,
-  validateMacroscopy,
+  validateResectionMacroscopy,
 } from "../../../common/resection-macroscopy/validation";
 import {
   InputNumber,
@@ -29,6 +34,7 @@ import {
   Text,
   useForm,
 } from "../../../ui";
+import { validateComposition } from "../../../ui/select-composition.validation";
 import {
   BLADDER_RESECTION_ANTIBODY_GROUPS,
   BLADDER_RESECTION_ANTIBODY_PROPERTIES,
@@ -47,8 +53,6 @@ import {
 import { generateReport } from "./report";
 import { TumorInput } from "./tumor-input/TumorInput";
 import { DEFAULT_TUMOR, Ptnm, Tumor } from "./tumor-input/helpers";
-import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
-import { IhcState } from "../../../common/immunohistochemistry/helpers";
 
 type MuscularisPropria = {
   isPresent: boolean;
@@ -167,8 +171,17 @@ export const BladderResectionFormContent = ({
   const { clinicalInfo } = state;
   const isExpertMode = mode === "expert";
 
-  const macroscopyErrors = validateMacroscopy(state);
-  const hasErrors = !!macroscopyErrors.length;
+  const macroscopyErrors = validateResectionMacroscopy(state);
+  const tumorCompositionError = validateComposition(
+    state.tumor.carcinomaComposition,
+  );
+  const ihcErrors = validateIhc({
+    ihc: state.ihc,
+    containerCount: state.blockCount,
+  });
+
+  const hasErrors =
+    !!macroscopyErrors.length || !!tumorCompositionError || !!ihcErrors.length;
 
   let index = 1;
 
@@ -200,6 +213,7 @@ export const BladderResectionFormContent = ({
           index={index++}
           state={state}
           setState={(value) => setState({ ...state, ...value })}
+          error={tumorCompositionError}
         />
 
         <Section index={index++} title="Immunohistochimie">
@@ -209,7 +223,8 @@ export const BladderResectionFormContent = ({
             properties={BLADDER_RESECTION_ANTIBODY_PROPERTIES}
             state={state.ihc}
             setState={setField("ihc")}
-          />{" "}
+            errors={ihcErrors}
+          />
         </Section>
 
         <AdditionalRemarks
@@ -311,10 +326,12 @@ const MicroscopySection = ({
   index,
   state,
   setState,
+  error,
 }: {
   index: number;
   state: MicroscopyState;
   setState: (value: MicroscopyState) => void;
+  error?: string;
 }) => {
   const setField = patchState(state, setState);
 
@@ -323,8 +340,10 @@ const MicroscopySection = ({
       <TumorInput
         state={state.tumor}
         setState={setField("tumor")}
+        error={error}
         hasGrade
         hasExtension
+        hasComposition
       />
       <HasLymphoVascularInvasion
         value={state.hasLymphaticOrVascularInvasion}

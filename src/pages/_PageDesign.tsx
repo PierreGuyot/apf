@@ -26,6 +26,7 @@ import {
   Pill,
   Select,
   SelectBoolean,
+  SelectComposition,
   SelectList,
   SelectNumber,
   SelectTroolean,
@@ -42,6 +43,7 @@ import {
   Troolean,
   ValidationErrors,
 } from "../ui";
+import { validateComposition } from "../ui/select-composition.validation";
 
 // Fixtures
 
@@ -102,6 +104,7 @@ export const DesignPage = () => {
         <EntrySelectNumber />
         <EntrySelectBoolean />
         <EntrySelectTroolean />
+        <EntrySelectComposition />
 
         <EntryBanner />
         <EntryButton />
@@ -499,6 +502,30 @@ const EntrySelectTroolean = () => {
         label="An example troolean selection (yes, no, or unspecified)"
         value={value}
         onChange={onChange}
+      />
+    </DocumentationEntry>
+  );
+};
+
+const COMPOSITION_ITEMS = [
+  { label: "Composant 1", value: "component-1" },
+  { label: "Composant 2", value: "component-2" },
+  { label: "Composant 3", value: "component-3" },
+];
+
+const EntrySelectComposition = () => {
+  const [composition, setComposition] = useState<
+    Partial<Record<string, number>>
+  >({});
+  const error = validateComposition(composition);
+
+  return (
+    <DocumentationEntry name="SelectComposition">
+      <SelectComposition
+        items={COMPOSITION_ITEMS}
+        value={composition}
+        onChange={setComposition}
+        error={error}
       />
     </DocumentationEntry>
   );

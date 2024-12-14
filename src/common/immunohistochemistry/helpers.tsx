@@ -233,10 +233,10 @@ export type PropertiesByAntibody = Partial<
 // TODO clean: test extensively
 export const validateIhc = ({
   ihc,
-  hasMultipleBlocks,
+  containerCount,
 }: {
   ihc: IhcState;
-  hasMultipleBlocks: boolean;
+  containerCount?: number;
 }) => {
   if (!ihc.hasIhc) {
     return [];
@@ -247,6 +247,8 @@ export const validateIhc = ({
   if (ihc.blocks.length === 0) {
     errors.push(`Aucun bloc n'est sélectionné pour l'immunohistochimie.`);
   }
+
+  const hasMultipleBlocks = typeof containerCount === "number";
 
   ihc.blocks.forEach((block) => {
     if (block.antibodies.length === 0) {

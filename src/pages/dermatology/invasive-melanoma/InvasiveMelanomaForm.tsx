@@ -2,7 +2,10 @@ import { ReactNode, useEffect } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
-import { IhcState } from "../../../common/immunohistochemistry/helpers";
+import {
+  IhcState,
+  validateIhc,
+} from "../../../common/immunohistochemistry/helpers";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import {
@@ -238,6 +241,10 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
   //  - All sizes in mm must be > 0
   //  - mitoticActivity can be 0
   //  - If field is set to other, fieldOther is mandatory
+  const ihcErrors = validateIhc({
+    ihc: state.ihc,
+    containerCount: state.blockCount,
+  });
   const hasErrors = false;
 
   let index = 1;
@@ -492,6 +499,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             properties={INVASIVE_MELANOMA_ANTIBODY_PROPERTIES}
             state={state.ihc}
             setState={setField("ihc")}
+            errors={ihcErrors}
           />
 
           {/* FIXME: complete list */}
