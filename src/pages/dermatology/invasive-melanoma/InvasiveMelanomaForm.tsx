@@ -158,7 +158,7 @@ const getInitialState = (): FormState => ({
   laterality: "unspecified",
   samplingType: "exeresis",
   otherSamplingType: "",
-  lymphNodeExeresis: "Ganglion sentinelle",
+  lymphNodeExeresis: "no",
   lymphNodeExeresisLocation: "",
   isSpecimenOriented: true,
   orientationMethod: "Fil",
@@ -166,18 +166,18 @@ const getInitialState = (): FormState => ({
   orientation: "à 12H",
   orientationOther: "",
   specimenDimensions: {
-    type: "unspecified",
+    type: "specified-with-depth",
     length: 0,
     width: 0,
     depth: 0,
   },
   lesionDimensions: {
-    type: "unspecified",
+    type: "specified-without-depth",
     length: 0,
     width: 0,
     depth: 0,
   },
-  lesionAspect: "unspecified",
+  lesionAspect: "Pigmentée",
   otherLesionAspect: "",
   hasSatelliteLesions: false,
   hasOtherLesions: false,
@@ -185,11 +185,11 @@ const getInitialState = (): FormState => ({
   isIncludedInTotality: "unspecified",
   blockCount: 1,
   blockDescription: "",
-  subtype: "other",
+  subtype: "Mélanome à extension superficielle (SSM)",
   subtypeOther: "",
   growthPhase: "horizontal",
   thickness: {
-    clarkThickness: 3,
+    clarkThickness: 1,
     breslowThickness: {
       type: "precised",
       distance: 0,
@@ -405,7 +405,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
           />
           <InputNumber
             label="Activité mitotique"
-            unit="mm-2"
+            unit="mitoses-per-mm-2"
             isDecimal
             value={state.mitoticActivity}
             onChange={setField("mitoticActivity")}
@@ -422,7 +422,17 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             value={state.intraTumoralLymphocytes}
             onChange={setField("intraTumoralLymphocytes")}
           />
-
+          <HasEpn value={state.hasEpn} onChange={setField("hasEpn")} />
+          <HasLymphoVascularInvasion
+            value={state.hasLymphaticOrVascularInvasion}
+            onChange={setField("hasLymphaticOrVascularInvasion")}
+          />
+          <SelectList
+            label="Autres lésions mélanocytaires associées"
+            groups={MELANOCYTIC_LESION_GROUPS}
+            values={state.otherMelanocyticLesions}
+            onChange={setField("otherMelanocyticLesions")}
+          />
           <SelectPresence
             grammaticalForm={{ gender: "masculine", number: "plural" }}
             label="Nodules satellites (micro-satellites)"
@@ -439,19 +449,6 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
               />
             </NestedItem>
           ) : undefined}
-
-          <HasLymphoVascularInvasion
-            value={state.hasLymphaticOrVascularInvasion}
-            onChange={setField("hasLymphaticOrVascularInvasion")}
-          />
-          <HasEpn value={state.hasEpn} onChange={setField("hasEpn")} />
-          <SelectList
-            label="Autres lésions mélanocytaires associées"
-            groups={MELANOCYTIC_LESION_GROUPS}
-            values={state.otherMelanocyticLesions}
-            onChange={setField("otherMelanocyticLesions")}
-          />
-
           <InputExeresis
             state={state.specimenExeresis}
             isSpecimenOriented={state.isSpecimenOriented}

@@ -1,12 +1,20 @@
-export type Unit = "g" | "mm" | "mm-2" | "cm" | "ng-per-mL" | "percent";
+export type Unit =
+  | "g"
+  | "mm"
+  | "mm-2"
+  | "cm"
+  | "ng-per-mL"
+  | "percent"
+  | "mitoses-per-mm-2";
 
 const UNIT_LABELS: Record<Unit, string> = {
   g: "g",
   mm: "mm",
-  "mm-2": "mm²",
+  "mm-2": "mm⁻²",
   cm: "cm",
   "ng-per-mL": "ng.mL⁻¹",
   percent: "%",
+  "mitoses-per-mm-2": "mitoses par mm²",
 };
 
 export const getUnitLabel = (unit: Unit) => UNIT_LABELS[unit];
