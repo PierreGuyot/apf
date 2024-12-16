@@ -3,6 +3,7 @@ export * from "./Button";
 export * from "./Checkbox";
 export * from "./CheckboxList";
 export * from "./Disclaimer";
+export * from "./ErrorList";
 export * from "./ErrorMessage";
 export * from "./helpers";
 export * from "./HelpIcon";
