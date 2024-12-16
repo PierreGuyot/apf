@@ -245,7 +245,7 @@ export const DICTIONARY_EN: Record<string, string> = {
   Hormonothérapie: "TODO",
   "Impossible à déterminer": "TODO",
   "Inflammation / changements régénératifs": "TODO",
-  "invasion de l'urètre, les canaux ou des acini prostatiques sans invasion stromale.":
+  "invasion de l'urètre, des canaux ou des acini prostatiques sans invasion stromale.":
     "TODO",
   "invasion de la musculeuse.": "TODO",
   "invasion du chorion avec dépassement de la musculaire muqueuse.": "TODO",

@@ -194,7 +194,7 @@ export const PTNM_OPTIONS = [
     value: "pT3a",
     label: "pT3a",
     tooltip:
-      "invasion de l'urètre, les canaux ou des acini prostatiques sans invasion stromale.",
+      "invasion de l'urètre, des canaux ou des acini prostatiques sans invasion stromale.",
   },
   {
     value: "pT3b",
