@@ -1,3 +1,4 @@
+import { join } from "./helpers";
 import { useBoolean } from "./helpers/state";
 import css from "./tooltip.module.css";
 
@@ -12,6 +13,7 @@ import {
 
 type Props = PropsWithChildren<{
   content: ReactNode;
+  variant?: "info" | "error";
   mode?: "click" | "hover";
   onClose?: () => void;
 }>;
@@ -49,6 +51,7 @@ const getStyle = ({ x, y }: translation) => ({
 
 export const Tooltip = ({
   content,
+  variant = "info",
   mode = "hover",
   onClose,
   children,
@@ -121,7 +124,7 @@ export const Tooltip = ({
       </span>
       {isOpen ? (
         <div
-          className={css.content}
+          className={join(css.content, css[variant])}
           ref={tooltipContent}
           style={getStyle(translation)}
         >

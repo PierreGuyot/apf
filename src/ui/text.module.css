@@ -2,6 +2,10 @@
 
 /* Size */
 
+.size--xs {
+  font-size: var(--text-xs);
+}
+
 .size--sm {
   font-size: var(--text-sm);
 }

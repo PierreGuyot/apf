@@ -9,11 +9,14 @@
   border: none;
 
   /** Custom style */
-  padding: var(--spacing-xs);
+  padding: 0 var(--spacing-xs);
 
   /* Common interaction style */
   background-color: var(--background-interaction);
   border-bottom: 1px solid var(--border-interaction);
+
+  /* CAUTION: border is counted in the height */
+  height: calc(var(--height-field) - 1px);
 
   &::placeholder {
     color: var(--text-interaction);

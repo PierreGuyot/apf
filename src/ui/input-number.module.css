@@ -10,12 +10,17 @@
   border: none;
 
   /* Custom style */
-  padding: var(--spacing-xs) var(--spacing-sm);
+  padding: 0 var(--spacing-xs);
   border: 1px solid transparent;
+
+  height: var(--height-field);
 
   /* Common interaction style */
   background-color: var(--background-interaction);
   border-bottom: 1px solid var(--border-interaction);
+
+  /* CAUTION: border is counted in the height */
+  height: calc(var(--height-field) - 1px);
 
   &::placeholder {
     color: var(--text-interaction);

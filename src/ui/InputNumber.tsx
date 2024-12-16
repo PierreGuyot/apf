@@ -7,6 +7,7 @@ import css from "./input-number.module.css";
 import { InputProps, OnInput } from "./input.types";
 import { Label } from "./Label";
 import { Stack } from "./Stack";
+import { ErrorMessage } from "./ErrorMessage";
 
 // TODO clean: add tooltip to display error message
 
@@ -19,7 +20,7 @@ type Props = InputProps<number> & {
   isDecimal?: boolean;
 };
 
-// Validates `0`, `1`, `10`, `2.`, `2.5`, but not the empty string, `12.3.`
+// Validates `0`, `1`, `10`, `2.`, `2.5`, but not `12.3.`, or the empty string
 const REGEX_DECIMAL = /^\d+(\.(\d+)?)?$/;
 // Validates `0`, `1`, `10`, but not the empty string
 const REGEX_INTEGER = /^\d+$/;
@@ -50,6 +51,7 @@ export const InputNumber = ({
   isInline,
   isReadOnly,
   onChange,
+  errorMessage,
 }: Props) => {
   const [isTouched, setIsTouched] = useBoolean(false);
   const [_value, _setValue] = useString(String(value));
@@ -98,36 +100,41 @@ export const InputNumber = ({
 
   return (
     // TODO clean: mutualize style with other inputs and selects
-    <Stack direction="row" alignItems="center" isInline={isInline} spacing="sm">
-      {label ? <Label label={label} /> : undefined}
+    <Stack direction="row" alignItems="start" isInline={isInline} spacing="sm">
+      {label ? <Label label={label} size="md" /> : undefined}
       {isReadOnly ? (
         value
       ) : (
-        <Stack direction="row" isInline>
-          <input
-            className={join(
-              css.input,
-              css[size],
-              shouldDisplayError ? css.isInvalid : undefined,
-            )}
-            // CAUTION:
-            // Native type number inputs are poorly implemented so we resort to customizing a string input
-            // (See https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/)
-            // For instance, it is impossible to clear a type number input
-            type="text"
-            inputMode="numeric"
-            value={_value}
-            min={min}
-            max={max}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onInput={onInput}
-          />
-          {unit ? (
-            // CAUTION: the margin is required because isInline: true will cancel the effect of the spacing prop on the parent Stack
-            <Stack isInline marginLeft="xs">
-              <InlineCode>{getUnitLabel(unit)}</InlineCode>
-            </Stack>
+        <Stack spacing="xs" isInline>
+          <Stack direction="row" isInline>
+            <input
+              className={join(
+                css.input,
+                css[size],
+                shouldDisplayError ? css.isInvalid : undefined,
+              )}
+              // CAUTION:
+              // Native type number inputs are poorly implemented so we resort to customizing a string input
+              // (See https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/)
+              // For instance, it is impossible to clear a type number input
+              type="text"
+              inputMode="numeric"
+              value={_value}
+              min={min}
+              max={max}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onInput={onInput}
+            />
+            {unit ? (
+              // CAUTION: the margin is required because isInline: true will cancel the effect of the spacing prop on the parent Stack
+              <Stack isInline marginLeft="xs">
+                <InlineCode>{getUnitLabel(unit)}</InlineCode>
+              </Stack>
+            ) : undefined}
+          </Stack>
+          {isTouched || isSubmitted ? (
+            <ErrorMessage errorMessage={errorMessage} />
           ) : undefined}
         </Stack>
       )}

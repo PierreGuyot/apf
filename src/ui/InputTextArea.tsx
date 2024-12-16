@@ -33,7 +33,7 @@ export const InputTextArea = ({
 
   return (
     <Stack spacing="xs">
-      {label ? <Label label={label} placement="above" /> : undefined}
+      {label ? <Label label={label} size="md" placement="above" /> : undefined}
       {isReadOnly ? (
         value
       ) : (

@@ -20,7 +20,17 @@
   padding: 0.7rem;
   border-radius: var(--border-radius-md);
 
-  /* TODO clean: have blue and grey variants (see Select) */
-  background-color: var(--background-interaction);
-  border: 1px solid var(--border-interaction);
+  /* TODO: add neutral variant */
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+}
+
+.info {
+  --background-color: var(--background-interaction);
+  --border-color: var(--border-interaction);
+}
+
+.error {
+  --background-color: var(--background-warning);
+  --border-color: var(--border-warning);
 }

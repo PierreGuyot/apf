@@ -1,9 +1,9 @@
 import { ErrorMessage } from "./ErrorMessage";
-import { Label } from "./Label";
 import { join } from "./helpers/helpers";
+import { useBoolean } from "./helpers/state";
 import css from "./input-text.module.css";
 import { InputProps, OnInput } from "./input.types";
-import { useBoolean } from "./helpers/state";
+import { Label } from "./Label";
 import { Stack } from "./Stack";
 
 type InputType = "text" | "password";

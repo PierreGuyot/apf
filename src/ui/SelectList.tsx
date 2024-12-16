@@ -109,7 +109,7 @@ export function SelectList<T extends OptionValue>({
   return (
     // TODO clean: mutualize style with other inputs and selects
     <Stack direction="row" alignItems="center" wrap="wrap" spacing="sm">
-      {label ? <Label label={label} /> : undefined}
+      {label ? <Label label={label} size="md" /> : undefined}
       {content}
     </Stack>
   );

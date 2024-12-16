@@ -10,7 +10,7 @@ export const ErrorMessage = ({ errorMessage }: Props) => {
   }
 
   return (
-    <Text as="div" size="sm" color="warning">
+    <Text as="div" size="xs" color="warning">
       {errorMessage}
     </Text>
   );

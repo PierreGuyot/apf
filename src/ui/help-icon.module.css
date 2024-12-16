@@ -7,10 +7,15 @@
   justify-content: center;
   align-items: center;
   border-radius: 100%;
-  font-weight: bold;
-  color: var(--text-knockout);
-  background-color: var(--background-info);
   cursor: pointer;
+
+  color: var(--text-knockout);
+  background-color: var(--background-color);
+}
+
+/* Size */
+.xs {
+  --height: var(--height-xs);
 }
 
 .sm {
@@ -19,6 +24,16 @@
 
 .md {
   --height: var(--height-md);
+}
+
+/* Variant */
+
+.info {
+  --background-color: var(--background-info);
+}
+
+.error {
+  --background-color: var(--background-warning-contrast);
 }
 
 .content {

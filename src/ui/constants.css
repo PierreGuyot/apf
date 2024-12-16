@@ -6,6 +6,7 @@
   --background-default: rgb(255, 255, 255);
   --background-secondary: rgb(236, 236, 236);
   --background-warning: rgb(254, 237, 237);
+  --background-warning-contrast: rgb(255, 0, 0);
   --background-interaction: rgb(223, 243, 255);
   --background-read-only: rgb(236, 236, 236);
   --background-disabled: rgb(211, 211, 211);
@@ -23,6 +24,7 @@
   --text-interaction: rgb(114, 176, 214);
 
   /* Font size*/
+  --text-xs: 0.7rem;
   --text-sm: 0.8rem;
   --text-md: 1rem;
   --title-sm: 1.1rem;
@@ -30,8 +32,10 @@
   --title-lg: 2.5rem;
 
   /* Height */
+  --height-xs: 0.8rem;
   --height-sm: 1.2rem;
   --height-md: 1.6rem;
+  --height-field: 1.2rem;
 
   /* Border radius */
   --border-radius-md: 0.2rem;
