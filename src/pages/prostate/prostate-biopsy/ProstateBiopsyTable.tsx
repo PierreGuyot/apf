@@ -55,7 +55,7 @@ const TableHeader = ({ language }: { language: Language }) => {
         <th scope="col">{t("Nombre")}</th>
         <th scope="col">{t("Taille")}</th>
         <th scope="col">{t("Nombre")} +</th>
-        <th scope="col">{t("Taille")} *</th>
+        <th scope="col">{t("Taille")}</th>
         <th scope="col">{t("Score de Gleason")}</th>
         <th scope="col">{t("EPN")}</th>
         <th scope="col">{t("TEP")}</th>
