@@ -5,6 +5,7 @@
   min-height: 100vh;
   margin-left: 150px;
   border-left: 1px solid var(--border-secondary);
+  min-width: 800px;
 }
 
 .md {

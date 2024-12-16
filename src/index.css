@@ -1,3 +1,5 @@
+@import "./ui/constants.css";
+
 /* Global CSS */
 
 /* CAUTION: this is the only allowed unscoped CSS file (as it handles global style) */
@@ -15,8 +17,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+}
+
+html {
   /* Base font size */
-  /* Every other font size should be specified in rem units  */
+  /* Every other font size should be specified in rem units */
   font-size: 15px;
 }
 

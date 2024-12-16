@@ -83,6 +83,7 @@ export function SelectList<T extends OptionValue>({
           }
           onClose={onCommit}
         >
+          {/* FIXME: align height on inputs and other fields */}
           <Button _className={css.button} label="+" onClick={noop} />
         </Tooltip>
         {hasList ? (
