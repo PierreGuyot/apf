@@ -65,6 +65,7 @@ export const ResectionMacroscopy = ({
         />
         )
       </Line>
+      {/* FIXME: inline errors when possible */}
       <ValidationErrors
         header="La section Macroscopie comporte les erreurs suivantes :"
         errors={errors}

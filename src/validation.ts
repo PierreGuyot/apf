@@ -1,10 +1,30 @@
-export const ERROR_MANDATORY_FIELD = "Champ obligatoire";
+export const ERROR_MANDATORY_FIELD = "Le champ est obligatoire.";
 
-type Error = string | string[] | undefined;
+// Standard error format
+// TODO: use as base type (in particular, for all inputs)
+export type Errors =
+  | string
+  | string[]
+  | Record<string, string | undefined>
+  | undefined;
 
 // TODO: add tests
 
-export const reduceErrors = (errors: Record<string, Error> | Error[]) =>
-  !!Object.values(errors).filter((value) =>
-    Array.isArray(value) ? !!value.length : !!value,
-  ).length;
+export const reduceErrors = (
+  errors: Record<string, Errors> | Errors[],
+): boolean =>
+  !!Object.values(errors).filter((value) => {
+    if (typeof value === "undefined") {
+      return false;
+    }
+
+    if (typeof value === "string") {
+      return !!value;
+    }
+
+    if (Array.isArray(value)) {
+      return !!value.length;
+    }
+
+    return reduceErrors(value);
+  }).length;

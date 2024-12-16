@@ -393,6 +393,7 @@ const ProstateBiopsyFormContent = ({
                 onChange={setField("tumorType")}
               />
             ) : undefined}
+            {/* FIXME: inline errors when possible */}
             <ValidationErrors
               header="Le tableau comporte les erreurs suivantes :"
               errors={biopsyTableErrors}

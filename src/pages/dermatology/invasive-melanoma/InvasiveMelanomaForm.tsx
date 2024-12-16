@@ -9,7 +9,6 @@ import {
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import {
-  ErrorList,
   filterNullish,
   InputNumber,
   InputText,
@@ -24,6 +23,7 @@ import {
   Summary,
   useForm,
 } from "../../../ui";
+import { ERROR_MANDATORY_FIELD, reduceErrors } from "../../../validation";
 import {
   BRESLOW_THICKNESS_TYPE_OPTIONS,
   BreslowThicknessType,
@@ -59,7 +59,6 @@ import { Macroscopy } from "./macroscopy/Macroscopy";
 import { getMacroscopyState, MacroscopyState } from "./macroscopy/state";
 import { validateMacroscopy } from "./macroscopy/validation";
 import { generateReport } from "./report";
-import { ERROR_MANDATORY_FIELD, reduceErrors } from "../../../validation";
 
 export type FormState = MacroscopyState & {
   // Clinical info
@@ -173,23 +172,23 @@ type Props = {
 const validateSpecimenExeresis = (value: SpecimenExeresis) => {
   const inputDistanceLateral = value.distanceLateral
     ? undefined
-    : "La distance latérale doit être renseignée.";
+    : ERROR_MANDATORY_FIELD;
   const inputDistanceDepth = value.distanceDepth
     ? undefined
-    : "La profondeur doit être renseignée.";
+    : ERROR_MANDATORY_FIELD;
 
   switch (value.type) {
     case "oriented-complete-with-margins":
     case "simple-complete-with-margins": {
-      return [inputDistanceLateral, inputDistanceDepth].filter(filterNullish);
+      return { inputDistanceLateral, inputDistanceDepth };
     }
 
     case "oriented-incomplete-laterally": {
-      return [inputDistanceDepth].filter(filterNullish);
+      return { inputDistanceDepth };
     }
 
     default:
-      return [];
+      return {};
   }
 };
 
@@ -264,7 +263,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             label="Site de la lésion"
             value={state.lesionSite}
             onChange={setField("lesionSite")}
-            errorMessage={errors.lesionSite}
+            errors={errors.lesionSite}
           />
           <Stack direction="row" spacing="sm" alignItems="start">
             <Select
@@ -277,7 +276,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
               <InputText
                 value={state.samplingTypeOther}
                 onChange={setField("samplingTypeOther")}
-                errorMessage={errors.samplingType}
+                errors={errors.samplingType}
               />
             ) : undefined}
           </Stack>
@@ -294,7 +293,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                 label="Localisation"
                 value={state.lymphNodeExeresisLocation}
                 onChange={setField("lymphNodeExeresisLocation")}
-                errorMessage={errors.lymphNodeExeresisLocation}
+                errors={errors.lymphNodeExeresisLocation}
               />
             </NestedItem>
           )}
@@ -319,7 +318,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
               <InputText
                 value={state.subtypeOther}
                 onChange={setField("subtypeOther")}
-                errorMessage={errors.subtypeOther}
+                errors={errors.subtypeOther}
               />
             ) : undefined}
           </Stack>
@@ -399,15 +398,15 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
               label="Nombre de ganglions étudiés"
               value={state.lymphNodeCount}
               onChange={setField("lymphNodeCount")}
-              errorMessage={errors.lymphNodeCount}
+              errors={errors.lymphNodeCount}
             />
             <Stack spacing="xs">
               <InputNumber
                 label="Nombre de ganglions positifs"
                 value={state.positiveLymphNodeCount}
                 onChange={setField("positiveLymphNodeCount")}
+                errors={errors.positiveLymphNodeCount}
               />
-              <ErrorList errors={errors.positiveLymphNodeCount} />
             </Stack>
             {state.positiveLymphNodeCount > 0 ? (
               <NestedItem depth={1}>
@@ -422,7 +421,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                   isDecimal
                   value={state.largestMetastasisSize}
                   onChange={setField("largestMetastasisSize")}
-                  errorMessage={errors.largestMetastasisSize}
+                  errors={errors.largestMetastasisSize}
                 />
               </NestedItem>
             ) : undefined}
@@ -526,7 +525,7 @@ const InputBreslowThickness = ({
         unit="mm"
         isDecimal
         onChange={setField("distance")}
-        errorMessage={error}
+        errors={error}
       />
       {state.distance > 0 ? (
         <Select
@@ -543,9 +542,11 @@ const InputBreslowThickness = ({
 const ExeresisTypeDescription = ({
   state,
   setState,
+  errors,
 }: {
   state: SpecimenExeresis;
   setState: (value: SpecimenExeresis) => void;
+  errors: ReturnType<typeof validateSpecimenExeresis>;
 }): Exclude<ReactNode, undefined> => {
   const setField = patchState(state, setState);
   const inputDistanceLateral = (
@@ -554,6 +555,7 @@ const ExeresisTypeDescription = ({
       isInline
       unit="mm"
       value={state.distanceLateral}
+      errors={errors.inputDistanceLateral}
       onChange={setField("distanceLateral")}
     />
   );
@@ -563,6 +565,7 @@ const ExeresisTypeDescription = ({
       isInline
       unit="mm"
       value={state.distanceDepth}
+      errors={errors.inputDistanceDepth}
       onChange={setField("distanceDepth")}
     />
   );
@@ -664,7 +667,7 @@ const InputExeresis = ({
   state: SpecimenExeresis;
   setState: (state: SpecimenExeresis) => void;
   isSpecimenOriented: boolean;
-  errors: string[];
+  errors: ReturnType<typeof validateSpecimenExeresis>;
 }) => {
   const setField = patchState(state, setState);
 
@@ -696,9 +699,12 @@ const InputExeresis = ({
         <Stack spacing="xs">
           {/* CAUTION: this div is necessary for wrapping */}
           <div>
-            <ExeresisTypeDescription state={state} setState={setState} />
+            <ExeresisTypeDescription
+              state={state}
+              setState={setState}
+              errors={errors}
+            />
           </div>
-          <ErrorList errors={errors} />
         </Stack>
       </NestedItem>
     </>

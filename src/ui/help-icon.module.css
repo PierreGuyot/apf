@@ -13,6 +13,10 @@
   background-color: var(--background-color);
 }
 
+.isInline {
+  display: inline-flex;
+}
+
 /* Size */
 .xs {
   --height: var(--height-xs);

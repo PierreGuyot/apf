@@ -134,7 +134,7 @@ export const PageMain = () => {
                 }
               }}
               isSubmitted={isSubmitted}
-              errorMessage={isSubmitted ? error : undefined}
+              errors={isSubmitted ? error : undefined}
             />
           </Stack>
         )}

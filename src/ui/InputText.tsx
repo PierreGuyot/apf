@@ -1,6 +1,6 @@
-import { ErrorMessage } from "./ErrorMessage";
-import { join } from "./helpers/helpers";
-import { useBoolean } from "./helpers/state";
+import { ErrorList } from "./ErrorList";
+import { filterNullish, join } from "./helpers/helpers";
+import { HelpIcon } from "./HelpIcon";
 import css from "./input-text.module.css";
 import { InputProps, OnInput } from "./input.types";
 import { Label } from "./Label";
@@ -23,28 +23,30 @@ export const InputText = ({
   labelSize = "md",
   placeholder,
   isFullWidth,
-  errorMessage,
-  isSubmitted,
+  errors: errorMessageProp,
+  isSubmitted = true,
   isReadOnly,
   onChange,
   onReturn,
 }: Props) => {
-  const [isTouched, setIsTouched] = useBoolean(false);
-  const onBlur = () => setIsTouched(true);
   const onInput: OnInput<HTMLInputElement> = (e) => {
     // CAUTION: this cast is type-unsafe
     const inputEvent = e.target as HTMLInputElement;
     onChange(inputEvent.value);
   };
 
+  const errorMessage = (
+    Array.isArray(errorMessageProp) ? errorMessageProp : [errorMessageProp]
+  ).filter(filterNullish);
+
   return (
     // TODO clean: mutualize style with other inputs and selects
-    <Stack direction="row" alignItems="center" spacing="sm">
+    <Stack direction="row" spacing="sm">
       {label ? <Label label={label} size={labelSize} /> : undefined}
       {isReadOnly ? (
         value
       ) : (
-        <>
+        <Stack spacing="sm" direction="row" alignItems="center">
           <input
             className={join(
               css.input,
@@ -53,7 +55,6 @@ export const InputText = ({
             type={type}
             placeholder={placeholder}
             value={value}
-            onBlur={onBlur}
             onInput={onInput}
             onKeyDown={(e) => {
               if (onReturn && e.key === "Enter") {
@@ -61,10 +62,14 @@ export const InputText = ({
               }
             }}
           />
-          {isTouched || isSubmitted ? (
-            <ErrorMessage errorMessage={errorMessage} />
+          {isSubmitted && errorMessage.length ? (
+            <HelpIcon
+              variant="error"
+              size="xs"
+              content={<ErrorList errors={errorMessage} />}
+            />
           ) : undefined}
-        </>
+        </Stack>
       )}
     </Stack>
   );

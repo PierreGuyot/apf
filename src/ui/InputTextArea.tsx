@@ -1,8 +1,9 @@
-import { ErrorMessage } from "./ErrorMessage";
-import { Label } from "./Label";
+import { ErrorList } from "./ErrorList";
+import { filterNullish } from "./helpers";
+import { HelpIcon } from "./HelpIcon";
 import css from "./input-text-area.module.css";
 import { InputProps, OnInput } from "./input.types";
-import { useBoolean } from "./helpers/state";
+import { Label } from "./Label";
 import { Stack } from "./Stack";
 
 type Props = InputProps<string> & {
@@ -18,38 +19,46 @@ export const InputTextArea = ({
   label,
   placeholder,
   lineCount = DEFAULT_LINE_COUNT,
-  errorMessage,
-  isSubmitted,
+  errors: errorMessageProp,
+  isSubmitted = true,
   isReadOnly,
   onChange,
 }: Props) => {
-  const [isTouched, setIsTouched] = useBoolean(false);
-  const onBlur = () => setIsTouched(true);
   const onInput: OnInput<HTMLTextAreaElement> = (e) => {
     // CAUTION: this cast is type-unsafe
     const inputEvent = e.target as HTMLTextAreaElement;
     onChange(inputEvent.value);
   };
 
+  const errorMessage = (
+    Array.isArray(errorMessageProp) ? errorMessageProp : [errorMessageProp]
+  ).filter(filterNullish);
+
   return (
     <Stack spacing="xs">
-      {label ? <Label label={label} size="md" placement="above" /> : undefined}
+      <Stack direction="row" alignItems="center" spacing="sm">
+        {label ? (
+          <Label label={label} size="md" placement="above" />
+        ) : undefined}
+        {isSubmitted && errorMessage.length ? (
+          <HelpIcon
+            variant="error"
+            size="xs"
+            content={<ErrorList errors={errorMessage} />}
+          />
+        ) : undefined}
+      </Stack>
+
       {isReadOnly ? (
         value
       ) : (
-        <>
-          <textarea
-            className={css.input}
-            value={value}
-            rows={lineCount}
-            placeholder={placeholder}
-            onBlur={onBlur}
-            onInput={onInput}
-          />
-          {isTouched || isSubmitted ? (
-            <ErrorMessage errorMessage={errorMessage} />
-          ) : undefined}
-        </>
+        <textarea
+          className={css.input}
+          value={value}
+          rows={lineCount}
+          placeholder={placeholder}
+          onInput={onInput}
+        />
       )}
     </Stack>
   );

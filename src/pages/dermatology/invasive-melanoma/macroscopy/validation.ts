@@ -1,4 +1,3 @@
-import { filterNullish } from "../../../../ui";
 import { ERROR_MANDATORY_FIELD } from "../../../../validation";
 import { Dimension3d } from "../helpers";
 import { MacroscopyState } from "./state";
@@ -14,23 +13,23 @@ const validateDimensions = ({
   length: number;
   width: number;
   depth?: number;
-}): string[] => {
+}) => {
   switch (type) {
     case "unspecified": {
-      return [];
+      return {};
     }
     case "specified-with-depth": {
-      return [
-        length ? undefined : "Le champ Longueur doit être renseigné.",
-        width ? undefined : "Le champ Largeur doit être renseigné.",
-        depth ? undefined : "Le champ Profondeur doit être renseigné.",
-      ].filter(filterNullish);
+      return {
+        length: length ? undefined : ERROR_MANDATORY_FIELD,
+        width: width ? undefined : ERROR_MANDATORY_FIELD,
+        depth: depth ? undefined : ERROR_MANDATORY_FIELD,
+      };
     }
     case "specified-without-depth": {
-      return [
-        length ? undefined : "Le champ Longueur doit être renseigné.",
-        width ? undefined : "Le champ Largeur doit être renseigné.",
-      ].filter(filterNullish);
+      return {
+        length: length ? undefined : ERROR_MANDATORY_FIELD,
+        width: width ? undefined : ERROR_MANDATORY_FIELD,
+      };
     }
   }
 };

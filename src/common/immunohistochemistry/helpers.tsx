@@ -231,6 +231,7 @@ export type PropertiesByAntibody = Partial<
 >;
 
 // TODO clean: test extensively
+// FIXME: inline errors when possible (return object instead of array)
 export const validateIhc = ({
   ihc,
   containerCount,

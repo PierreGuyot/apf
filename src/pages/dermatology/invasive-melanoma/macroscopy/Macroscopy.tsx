@@ -1,5 +1,4 @@
 import {
-  ErrorList,
   InputNumber,
   InputText,
   InputTextArea,
@@ -54,7 +53,7 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
               <InputText
                 value={state.orientationMethodOther}
                 onChange={setField("orientationMethodOther")}
-                errorMessage={errors.orientationMethodOther}
+                errors={errors.orientationMethodOther}
               />
             ) : undefined}
             {state.orientationMethod === "Liège" ? undefined : (
@@ -69,7 +68,7 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
                   <InputText
                     value={state.orientationOther}
                     onChange={setField("orientationOther")}
-                    errorMessage={errors.orientationOther}
+                    errors={errors.orientationOther}
                   />
                 ) : undefined}
               </>
@@ -105,7 +104,7 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
             placeholder="Décrivez ici les autres lésions."
             value={state.otherLesionsDescription}
             onChange={setField("otherLesionsDescription")}
-            errorMessage={errors.otherLesionsDescription}
+            errors={errors.otherLesionsDescription}
           />
         </NestedItem>
       ) : undefined}
@@ -126,6 +125,7 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
         placeholder="Décrivez ici les blocs."
         value={state.blockDescription}
         onChange={setField("blockDescription")}
+        errors={errors.blockDescription}
       />
     </Section>
   );
@@ -147,8 +147,8 @@ const InputSpecimen = ({
   state: SpecimenState;
   setState: (state: SpecimenState) => void;
   errors: {
-    specimenDimensions: string[];
-    lesionDimensions: string[];
+    specimenDimensions: Record<string, string | undefined>;
+    lesionDimensions: Record<string, string | undefined>;
     lesionAspectOther?: string;
   };
 }) => {
@@ -177,6 +177,7 @@ const InputSpecimen = ({
                 unit="cm"
                 isDecimal
                 value={state.specimenDimensions.length}
+                errors={errors.specimenDimensions.length}
                 onChange={(value) =>
                   setField("specimenDimensions")({
                     ...state.specimenDimensions,
@@ -190,6 +191,7 @@ const InputSpecimen = ({
                 unit="cm"
                 isDecimal
                 value={state.specimenDimensions.width}
+                errors={errors.specimenDimensions.width}
                 onChange={(value) =>
                   setField("specimenDimensions")({
                     ...state.specimenDimensions,
@@ -205,6 +207,7 @@ const InputSpecimen = ({
                     unit="cm"
                     isDecimal
                     value={state.specimenDimensions.depth}
+                    errors={errors.specimenDimensions.depth}
                     onChange={(value) =>
                       setField("specimenDimensions")({
                         ...state.specimenDimensions,
@@ -215,7 +218,6 @@ const InputSpecimen = ({
                 </>
               ) : undefined}
             </Line>
-            <ErrorList errors={errors.specimenDimensions} />
           </Stack>
         </NestedItem>
       )}
@@ -231,7 +233,7 @@ const InputSpecimen = ({
           <InputText
             value={state.lesionAspectOther}
             onChange={setField("lesionAspectOther")}
-            errorMessage={errors.lesionAspectOther}
+            errors={errors.lesionAspectOther}
           />
         ) : undefined}
       </Stack>
@@ -256,6 +258,7 @@ const InputSpecimen = ({
                 unit="mm"
                 isDecimal
                 value={state.lesionDimensions.length}
+                errors={errors.lesionDimensions.length}
                 onChange={(value) =>
                   setField("lesionDimensions")({
                     ...state.lesionDimensions,
@@ -269,6 +272,7 @@ const InputSpecimen = ({
                 unit="mm"
                 isDecimal
                 value={state.lesionDimensions.width}
+                errors={errors.lesionDimensions.width}
                 onChange={(value) =>
                   setField("lesionDimensions")({
                     ...state.lesionDimensions,
@@ -277,7 +281,6 @@ const InputSpecimen = ({
                 }
               />
             </Line>
-            <ErrorList errors={errors.lesionDimensions} />
           </Stack>
         </NestedItem>
       )}
@@ -322,7 +325,7 @@ const InputInking = ({
               <InputText
                 value={value.orientationOther}
                 onChange={setField("orientationOther")}
-                errorMessage={error}
+                errors={error}
               />
             ) : undefined}
           </Stack>

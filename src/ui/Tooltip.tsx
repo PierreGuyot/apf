@@ -11,6 +11,8 @@ import {
   useState,
 } from "react";
 
+// TODO clean: this component is a quick hack, fully rewrite (using a React Portal)
+
 type Props = PropsWithChildren<{
   content: ReactNode;
   variant?: "info" | "error";
@@ -22,7 +24,6 @@ type translation = { x: number; y: number };
 const TRANSLATION: translation = { x: 20000, y: 20000 };
 
 // Compute translation to avoid cutting with the window's border
-// TODO clean: this is a quick fix, consider improving this later
 const computeTranslation = (
   content: HTMLDivElement,
   handle: HTMLDivElement,

@@ -1,15 +1,14 @@
 import { useEffect, useMemo } from "react";
-import { clamp, join } from "./helpers/helpers";
+import { clamp, filterNullish, join } from "./helpers/helpers";
 import { useBoolean, useString } from "./helpers/state";
 import { Unit, getUnitLabel } from "./helpers/units";
+import { HelpIcon } from "./HelpIcon";
 import { InlineCode } from "./InlineCode";
 import css from "./input-number.module.css";
 import { InputProps, OnInput } from "./input.types";
 import { Label } from "./Label";
 import { Stack } from "./Stack";
-import { ErrorMessage } from "./ErrorMessage";
-
-// TODO clean: add tooltip to display error message
+import { ErrorList } from "./ErrorList";
 
 type Props = InputProps<number> & {
   min?: number;
@@ -47,11 +46,11 @@ export const InputNumber = ({
   unit,
   size = "md",
   isDecimal = false,
-  isSubmitted,
+  isSubmitted = true,
   isInline,
   isReadOnly,
   onChange,
-  errorMessage,
+  errors: errorMessageProp,
 }: Props) => {
   const [isTouched, setIsTouched] = useBoolean(false);
   const [_value, _setValue] = useString(String(value));
@@ -64,7 +63,7 @@ export const InputNumber = ({
     () => validate({ value: _value, isDecimal }),
     [_value, isDecimal],
   );
-  const shouldDisplayError = isTouched || isSubmitted ? hasError : undefined;
+  const hasInternalError = (isTouched ?? isSubmitted) ? hasError : false;
 
   const onFocus = () => {
     setIsTouched(true);
@@ -98,6 +97,10 @@ export const InputNumber = ({
     onChange(clampedValue);
   };
 
+  const errorMessage = (
+    Array.isArray(errorMessageProp) ? errorMessageProp : [errorMessageProp]
+  ).filter(filterNullish);
+
   return (
     // TODO clean: mutualize style with other inputs and selects
     <Stack direction="row" alignItems="start" isInline={isInline} spacing="sm">
@@ -106,12 +109,12 @@ export const InputNumber = ({
         value
       ) : (
         <Stack spacing="xs" isInline>
-          <Stack direction="row" isInline>
+          <Stack direction="row" spacing="sm" isInline>
             <input
               className={join(
                 css.input,
                 css[size],
-                shouldDisplayError ? css.isInvalid : undefined,
+                hasInternalError ? css.isInvalid : undefined,
               )}
               // CAUTION:
               // Native type number inputs are poorly implemented so we resort to customizing a string input
@@ -132,10 +135,16 @@ export const InputNumber = ({
                 <InlineCode>{getUnitLabel(unit)}</InlineCode>
               </Stack>
             ) : undefined}
+            {isSubmitted && errorMessage.length ? (
+              <Stack isInline marginLeft="xs">
+                <HelpIcon
+                  variant="error"
+                  size="xs"
+                  content={<ErrorList errors={errorMessage} />}
+                />
+              </Stack>
+            ) : undefined}
           </Stack>
-          {isTouched || isSubmitted ? (
-            <ErrorMessage errorMessage={errorMessage} />
-          ) : undefined}
         </Stack>
       )}
     </Stack>

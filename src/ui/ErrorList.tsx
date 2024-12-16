@@ -3,12 +3,12 @@ import { ErrorMessage, Stack } from ".";
 // TODO clean: add to documentation
 
 type Props = {
-  errors?: string[];
+  errors: string[] | Record<string, string | undefined> | undefined;
 };
 
 export const ErrorList = ({ errors = [] }: Props) => (
   <Stack>
-    {errors.map((error) => (
+    {Object.values(errors).map((error) => (
       <ErrorMessage key={error} errorMessage={error} />
     ))}
   </Stack>
