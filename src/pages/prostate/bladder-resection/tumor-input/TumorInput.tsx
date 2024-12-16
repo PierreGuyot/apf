@@ -55,7 +55,7 @@ export const TumorInput = ({
     <>
       <Line>
         <Select
-          label="Type histologique de la tumeur"
+          label="Type histologique de l'antériorité"
           options={TUMOR_TYPE_GROUPS}
           value={state.type}
           onChange={setField("type")}
