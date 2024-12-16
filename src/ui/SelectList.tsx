@@ -20,7 +20,7 @@ type Props<T extends OptionValue> = {
   hasList?: boolean;
   language?: Language;
   // TODO: use OptionOrGroup instead
-  groups: OptionGroup<T>[];
+  groups: readonly OptionGroup<T>[];
 };
 
 export function getSelectedOptions<T extends OptionValue>({
@@ -28,7 +28,7 @@ export function getSelectedOptions<T extends OptionValue>({
   values,
 }: {
   // TODO: use OptionOrGroup instead
-  groups: OptionGroup<T>[];
+  groups: readonly OptionGroup<T>[];
   values: T[];
 }) {
   return groups

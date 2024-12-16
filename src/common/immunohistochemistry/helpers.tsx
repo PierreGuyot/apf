@@ -266,8 +266,8 @@ export const validateIhc = ({
             // Clone field is optional
             errors.push(
               hasMultipleBlocks
-                ? `Dans le bloc ${block.index}, les champs Nom et Résultat pour les anticorps autres doit être remplis.`
-                : `Les champs Nom et Résultat pour les anticorps autres doit être remplis.`,
+                ? `Dans le bloc ${block.index}, les champs Nom et Résultat pour les anticorps autres doivent être renseignés.`
+                : `Les champs Nom et Résultat pour les anticorps autres doivent être renseignés.`,
             );
           }
         });

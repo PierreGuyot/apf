@@ -9,6 +9,8 @@ import {
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import {
+  ErrorMessage,
+  filterNullish,
   InputNumber,
   InputText,
   InputTextArea,
@@ -37,17 +39,15 @@ import {
   Dimension3d,
   DIMENSION_2D_OPTIONS,
   DIMENSION_3D_OPTIONS,
-  EXERESIS_POSITION_OPTIONS,
-  ExeresisPosition,
   ExeresisType,
   EXERIS_TYPE_OPTIONS_NOT_ORIENTED,
   EXERIS_TYPE_OPTIONS_ORIENTED,
   GROWTH_PHASE_OPTIONS,
   GrowthPhase,
+  Inking,
+  INKING_COLORS_OPTIONS,
   INVASIVE_MELANOMA_ANTIBODY_GROUPS,
   INVASIVE_MELANOMA_ANTIBODY_PROPERTIES,
-  Laterality,
-  LATERALITY_OPTIONS,
   LYMPH_NODE_EXERESIS_OPTIONS,
   LymphNodeExeresis,
   LYMPHOCYTE_OPTIONS,
@@ -63,6 +63,8 @@ import {
   Orientation,
   ORIENTATION_METHOD_OPTIONS,
   ORIENTATION_OPTIONS,
+  ORIENTATION_OPTIONS_FULL,
+  OrientationFull,
   OrientationMethod,
   SAMPLING_TYPE_OPTIONS,
   SamplingType,
@@ -74,9 +76,8 @@ import { generateReport } from "./report";
 export type FormState = {
   // Clinical info
   lesionSite: string;
-  laterality: Laterality;
   samplingType: SamplingType;
-  otherSamplingType: string;
+  samplingTypeOther: string;
   lymphNodeExeresis: LymphNodeExeresis;
   lymphNodeExeresisLocation: string;
 
@@ -96,13 +97,13 @@ export type FormState = {
     type: Dimension2d;
     length: number;
     width: number;
-    depth: number;
   };
   lesionAspect: Aspect;
-  otherLesionAspect: string;
+  lesionAspectOther: string;
   hasSatelliteLesions: boolean;
   hasOtherLesions: boolean;
   otherLesionsDescription: string;
+  inking: Inking;
   isIncludedInTotality: Troolean;
   blockCount: number;
   blockDescription: string;
@@ -151,22 +152,21 @@ type BreslowThickness = {
 
 type SpecimenExeresis = {
   type: ExeresisType;
-  position: ExeresisPosition;
+  position: OrientationFull;
   distanceLateral: number;
   distanceDepth: number;
 };
 
 const getInitialState = (): FormState => ({
   lesionSite: "",
-  laterality: "unspecified",
   samplingType: "exeresis",
-  otherSamplingType: "",
+  samplingTypeOther: "",
   lymphNodeExeresis: "no",
   lymphNodeExeresisLocation: "",
   isSpecimenOriented: true,
   orientationMethod: "Fil",
   orientationMethodOther: "",
-  orientation: "à 12H",
+  orientation: "à 12h",
   orientationOther: "",
   specimenDimensions: {
     type: "specified-with-depth",
@@ -178,13 +178,18 @@ const getInitialState = (): FormState => ({
     type: "specified-without-depth",
     length: 0,
     width: 0,
-    depth: 0,
   },
   lesionAspect: "Pigmentée",
-  otherLesionAspect: "",
+  lesionAspectOther: "",
   hasSatelliteLesions: false,
   hasOtherLesions: false,
   otherLesionsDescription: "",
+  inking: {
+    hasInking: false,
+    color: "blue",
+    orientation: "other",
+    orientationOther: "",
+  },
   isIncludedInTotality: "unspecified",
   blockCount: 1,
   blockDescription: "",
@@ -210,7 +215,7 @@ const getInitialState = (): FormState => ({
   otherMelanocyticLesions: [],
   specimenExeresis: {
     type: "oriented-complete-with-margins",
-    position: "à 12H",
+    position: "à 12h",
     distanceLateral: 0,
     distanceDepth: 0,
   },
@@ -223,7 +228,7 @@ const getInitialState = (): FormState => ({
     blocks: [],
   },
   hasMolecularBiology: false,
-  molecularBiology: "New generation sequencing demandé",
+  molecularBiology: "New Generation Sequencing",
   comments: "",
 });
 
@@ -231,21 +236,151 @@ type Props = {
   formId: "invasive-melanoma";
 };
 
+// TODO: clean and extract validation helpers
+type Error = string | string[] | undefined;
+const reduceErrors = (errors: Record<string, Error> | Error[]) =>
+  !!Object.values(errors).filter((value) =>
+    Array.isArray(value) ? !!value.length : !!value,
+  ).length;
+const validateDimensions = ({
+  type,
+  length,
+  width,
+  depth = 0,
+}: {
+  type: Dimension3d;
+  length: number;
+  width: number;
+  depth?: number;
+}): string[] => {
+  switch (type) {
+    case "unspecified": {
+      return [];
+    }
+    case "specified-with-depth": {
+      return [
+        length ? undefined : "Le champ Longueur doit être renseigné.",
+        width ? undefined : "Le champ Largeur doit être renseigné.",
+        depth ? undefined : "Le champ Profondeur doit être renseigné.",
+      ].filter(filterNullish);
+    }
+    case "specified-without-depth": {
+      return [
+        length ? undefined : "Le champ Longueur doit être renseigné.",
+        width ? undefined : "Le champ Largeur doit être renseigné.",
+      ].filter(filterNullish);
+    }
+  }
+};
+
+const validateSpecimenExeresis = (value: SpecimenExeresis) => {
+  const inputDistanceLateral = value.distanceLateral
+    ? undefined
+    : "La distance latérale doit être renseignée.";
+  const inputDistanceDepth = value.distanceDepth
+    ? undefined
+    : "La profondeur doit être renseignée.";
+
+  switch (value.type) {
+    case "oriented-complete-with-margins":
+    case "simple-complete-with-margins": {
+      return [inputDistanceLateral, inputDistanceDepth].filter(filterNullish);
+    }
+
+    case "oriented-incomplete-laterally": {
+      return [inputDistanceDepth].filter(filterNullish);
+    }
+
+    default:
+      return [];
+  }
+};
+
+const ERROR_MANDATORY_FIELD = "Champ obligatoire";
+
+const validateForm = (state: FormState) => ({
+  // Clinical info
+  lesionSite: state.lesionSite ? undefined : ERROR_MANDATORY_FIELD,
+  samplingType:
+    state.samplingType !== "other" || state.samplingTypeOther
+      ? undefined
+      : ERROR_MANDATORY_FIELD,
+  lymphNodeExeresisLocation: state.lymphNodeExeresisLocation
+    ? undefined
+    : ERROR_MANDATORY_FIELD,
+
+  // Macroscopy
+  orientationMethodOther:
+    state.orientationMethod !== "other" || state.orientationMethodOther
+      ? undefined
+      : ERROR_MANDATORY_FIELD,
+  orientationOther:
+    state.orientation !== "other" || state.orientationOther
+      ? undefined
+      : ERROR_MANDATORY_FIELD,
+  specimenDimensions: validateDimensions(state.specimenDimensions),
+  lesionDimensions: validateDimensions(state.lesionDimensions),
+  lesionAspectOther:
+    state.lesionAspect !== "other" || state.lesionAspectOther
+      ? undefined
+      : ERROR_MANDATORY_FIELD,
+  otherLesionsDescription:
+    !state.hasOtherLesions || state.otherLesionsDescription
+      ? undefined
+      : ERROR_MANDATORY_FIELD,
+  inkingOrientationOther:
+    state.inking.orientation !== "other" || state.inking.orientationOther
+      ? undefined
+      : ERROR_MANDATORY_FIELD,
+  blockDescription: state.blockDescription ? undefined : ERROR_MANDATORY_FIELD,
+
+  // Microscopy
+  subtypeOther:
+    state.subtype !== "other" || state.subtypeOther
+      ? undefined
+      : ERROR_MANDATORY_FIELD,
+  breslowThickness: state.thickness.breslowThickness.distance
+    ? undefined
+    : ERROR_MANDATORY_FIELD,
+  // NOTE: mitoticActivity can be 0
+  specimenExeresis: validateSpecimenExeresis(state.specimenExeresis),
+
+  // Lymph node status
+  ...validateLymphNodeStatus(state),
+
+  // Immunohistochemistry
+  ihc: validateIhc({
+    ihc: state.ihc,
+    containerCount: state.blockCount,
+  }),
+});
+
+const validateLymphNodeStatus = (state: FormState) => {
+  if (state.lymphNodeExeresis === "no") {
+    return {};
+  }
+
+  return {
+    lymphNodeCount: state.lymphNodeCount ? undefined : ERROR_MANDATORY_FIELD,
+    positiveLymphNodeCount: [
+      state.positiveLymphNodeCount ? undefined : ERROR_MANDATORY_FIELD,
+      state.lymphNodeCount >= state.positiveLymphNodeCount
+        ? undefined
+        : "Le nombre de ganglions positifs doit être inférieur ou égal au nombre de ganglions étudiés.",
+    ].filter(filterNullish),
+    largestMetastasisSize:
+      state.positiveLymphNodeCount === 0 || state.largestMetastasisSize
+        ? undefined
+        : ERROR_MANDATORY_FIELD,
+  };
+};
+
 // FIXME: translate form
 export const InvasiveMelanomaForm = ({ formId }: Props) => {
   const { state, setState, clearState, setField } = useForm(getInitialState);
-  // FIXME: add validations
-  //  - positiveLymphNodeCount must be <= lymphNodeCount
-  //  - lesionSite is mandatory
-  //  - blockCount must be > 0
-  //  - All sizes in mm must be > 0
-  //  - mitoticActivity can be 0
-  //  - If field is set to other, fieldOther is mandatory
-  const ihcErrors = validateIhc({
-    ihc: state.ihc,
-    containerCount: state.blockCount,
-  });
-  const hasErrors = false;
+
+  const errors = validateForm(state);
+  const hasErrors = reduceErrors(errors);
 
   let index = 1;
 
@@ -257,15 +392,9 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             label="Site de la lésion"
             value={state.lesionSite}
             onChange={setField("lesionSite")}
+            errorMessage={errors.lesionSite}
           />
-          <Select
-            options={LATERALITY_OPTIONS}
-            label="Latéralité"
-            value={state.laterality}
-            onChange={setField("laterality")}
-          />
-
-          <Line>
+          <Stack direction="row" spacing="sm" alignItems="start">
             <Select
               label="Type de prélèvement"
               options={SAMPLING_TYPE_OPTIONS}
@@ -274,11 +403,12 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             />
             {state.samplingType === "other" ? (
               <InputText
-                value={state.otherSamplingType}
-                onChange={setField("otherSamplingType")}
+                value={state.samplingTypeOther}
+                onChange={setField("samplingTypeOther")}
+                errorMessage={errors.samplingType}
               />
             ) : undefined}
-          </Line>
+          </Stack>
 
           <Select
             label="Exérèse ganglionnaire"
@@ -292,10 +422,13 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                 label="Localisation"
                 value={state.lymphNodeExeresisLocation}
                 onChange={setField("lymphNodeExeresisLocation")}
+                errorMessage={errors.lymphNodeExeresisLocation}
               />
             </NestedItem>
           )}
         </Section>
+
+        {/* TODO: extract to a separate file for dermatology */}
         <Section index={index++} title="Macroscopie">
           <SelectBoolean
             label="Orientation du prélèvement"
@@ -304,7 +437,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
           />
           {state.isSpecimenOriented ? (
             <NestedItem depth={1}>
-              <Line>
+              <Stack direction="row" alignItems="start" spacing="sm">
                 <Select
                   options={ORIENTATION_METHOD_OPTIONS}
                   value={state.orientationMethod}
@@ -314,6 +447,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                   <InputText
                     value={state.orientationMethodOther}
                     onChange={setField("orientationMethodOther")}
+                    errorMessage={errors.orientationMethodOther}
                   />
                 ) : undefined}
                 {state.orientationMethod === "Liège" ? undefined : (
@@ -328,16 +462,18 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                       <InputText
                         value={state.orientationOther}
                         onChange={setField("orientationOther")}
+                        errorMessage={errors.orientationOther}
                       />
                     ) : undefined}
                   </>
                 )}
-              </Line>
+              </Stack>
             </NestedItem>
           ) : undefined}
           <InputSpecimen
             state={state}
             setState={(value) => setState({ ...state, ...value })}
+            errors={errors}
           />
           <SelectBoolean
             label="Lésions satellites"
@@ -349,13 +485,20 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             value={state.hasOtherLesions}
             onChange={setField("hasOtherLesions")}
           />
+          <InputInking
+            value={state.inking}
+            onChange={setField("inking")}
+            error={errors.inkingOrientationOther}
+          />
           {state.hasOtherLesions ? (
             <NestedItem depth={1}>
               <InputTextArea
                 lineCount={2}
                 label="Description"
+                placeholder="Décrivez ici les autres lésions."
                 value={state.otherLesionsDescription}
                 onChange={setField("otherLesionsDescription")}
+                errorMessage={errors.otherLesionsDescription}
               />
             </NestedItem>
           ) : undefined}
@@ -370,6 +513,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             value={state.blockCount}
             onChange={setField("blockCount")}
           />
+          {/* TODO: update block description */}
           <InputTextArea
             label="Description des blocs"
             placeholder="Décrivez ici les blocs."
@@ -378,7 +522,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
           />
         </Section>
         <Section index={index++} title="Microscopie">
-          <Line>
+          <Stack direction="row" alignItems="start" spacing="sm">
             <Select
               label="Sous-type de mélanome"
               options={SUBTYPE_OPTIONS}
@@ -389,21 +533,21 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
               <InputText
                 value={state.subtypeOther}
                 onChange={setField("subtypeOther")}
+                errorMessage={errors.subtypeOther}
               />
             ) : undefined}
-          </Line>
+          </Stack>
           <Select
             label="Phase de croissance"
             options={GROWTH_PHASE_OPTIONS}
             value={state.growthPhase}
             onChange={setField("growthPhase")}
           />
-
           <InputThickness
             state={state.thickness}
             setState={setField("thickness")}
+            error={errors.breslowThickness}
           />
-
           <SelectPresence
             label="Ulcération"
             grammaticalForm={{ gender: "feminine", number: "singular" }}
@@ -460,6 +604,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             state={state.specimenExeresis}
             isSpecimenOriented={state.isSpecimenOriented}
             setState={setField("specimenExeresis")}
+            errors={errors.specimenExeresis}
           />
         </Section>
         {state.lymphNodeExeresis === "no" ? undefined : (
@@ -468,12 +613,16 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
               label="Nombre de ganglions étudiés"
               value={state.lymphNodeCount}
               onChange={setField("lymphNodeCount")}
+              errorMessage={errors.lymphNodeCount}
             />
-            <InputNumber
-              label="Nombre de ganglions positifs"
-              value={state.positiveLymphNodeCount}
-              onChange={setField("positiveLymphNodeCount")}
-            />
+            <Stack spacing="xs">
+              <InputNumber
+                label="Nombre de ganglions positifs"
+                value={state.positiveLymphNodeCount}
+                onChange={setField("positiveLymphNodeCount")}
+              />
+              <ErrorList errors={errors.positiveLymphNodeCount} />
+            </Stack>
             {state.positiveLymphNodeCount > 0 ? (
               <NestedItem depth={1}>
                 <SelectBoolean
@@ -487,6 +636,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                   isDecimal
                   value={state.largestMetastasisSize}
                   onChange={setField("largestMetastasisSize")}
+                  errorMessage={errors.largestMetastasisSize}
                 />
               </NestedItem>
             ) : undefined}
@@ -499,7 +649,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             properties={INVASIVE_MELANOMA_ANTIBODY_PROPERTIES}
             state={state.ihc}
             setState={setField("ihc")}
-            errors={ihcErrors}
+            errors={errors.ihc}
           />
 
           {/* FIXME: complete list */}
@@ -530,7 +680,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
               generateReport({ form: { ...state, formId }, language })
             }
           />
-        )}{" "}
+        )}
       </Stack>
     </FormPage>
   );
@@ -541,15 +691,21 @@ type SpecimenState = Pick<
   | "specimenDimensions"
   | "lesionDimensions"
   | "lesionAspect"
-  | "otherLesionAspect"
+  | "lesionAspectOther"
 >;
 
 const InputSpecimen = ({
   state,
   setState,
+  errors,
 }: {
   state: SpecimenState;
   setState: (state: SpecimenState) => void;
+  errors: {
+    specimenDimensions: string[];
+    lesionDimensions: string[];
+    lesionAspectOther?: string;
+  };
 }) => {
   // TODO clean: extract dimension helpers
   const setField = patchState(state, setState);
@@ -569,54 +725,57 @@ const InputSpecimen = ({
       />
       {state.specimenDimensions.type === "unspecified" ? undefined : (
         <NestedItem depth={1}>
-          <Line>
-            <InputNumber
-              label="Longueur"
-              unit="cm"
-              isDecimal
-              value={state.specimenDimensions.length}
-              onChange={(value) =>
-                setField("specimenDimensions")({
-                  ...state.specimenDimensions,
-                  length: value,
-                })
-              }
-            />
-            x{" "}
-            <InputNumber
-              label="Largeur"
-              unit="cm"
-              isDecimal
-              value={state.specimenDimensions.width}
-              onChange={(value) =>
-                setField("specimenDimensions")({
-                  ...state.specimenDimensions,
-                  width: value,
-                })
-              }
-            />
-            {state.specimenDimensions.type === "specified-with-depth" ? (
-              <>
-                x{" "}
-                <InputNumber
-                  label="Profondeur"
-                  unit="cm"
-                  isDecimal
-                  value={state.specimenDimensions.depth}
-                  onChange={(value) =>
-                    setField("specimenDimensions")({
-                      ...state.specimenDimensions,
-                      depth: value,
-                    })
-                  }
-                />
-              </>
-            ) : undefined}
-          </Line>
+          <Stack spacing="sm">
+            <Line>
+              <InputNumber
+                label="Longueur"
+                unit="cm"
+                isDecimal
+                value={state.specimenDimensions.length}
+                onChange={(value) =>
+                  setField("specimenDimensions")({
+                    ...state.specimenDimensions,
+                    length: value,
+                  })
+                }
+              />
+              x{" "}
+              <InputNumber
+                label="Largeur"
+                unit="cm"
+                isDecimal
+                value={state.specimenDimensions.width}
+                onChange={(value) =>
+                  setField("specimenDimensions")({
+                    ...state.specimenDimensions,
+                    width: value,
+                  })
+                }
+              />
+              {state.specimenDimensions.type === "specified-with-depth" ? (
+                <>
+                  x{" "}
+                  <InputNumber
+                    label="Profondeur"
+                    unit="cm"
+                    isDecimal
+                    value={state.specimenDimensions.depth}
+                    onChange={(value) =>
+                      setField("specimenDimensions")({
+                        ...state.specimenDimensions,
+                        depth: value,
+                      })
+                    }
+                  />
+                </>
+              ) : undefined}
+            </Line>
+            <ErrorList errors={errors.specimenDimensions} />
+          </Stack>
         </NestedItem>
       )}
 
-      <Line>
+      <Stack direction="row" spacing="sm" alignItems="start">
         <Select
           label="Description macroscopique de la lésion"
           options={ASPECT_OPTIONS}
@@ -625,11 +784,12 @@ const InputSpecimen = ({
         />
         {state.lesionAspect === "other" ? (
           <InputText
-            value={state.otherLesionAspect}
-            onChange={setField("otherLesionAspect")}
+            value={state.lesionAspectOther}
+            onChange={setField("lesionAspectOther")}
+            errorMessage={errors.lesionAspectOther}
           />
         ) : undefined}
-      </Line>
+      </Stack>
 
       <Select
         label="Taille de la lésion"
@@ -644,33 +804,36 @@ const InputSpecimen = ({
       />
       {state.lesionDimensions.type === "unspecified" ? undefined : (
         <NestedItem depth={1}>
-          <Line>
-            <InputNumber
-              label="Longueur"
-              unit="mm"
-              isDecimal
-              value={state.lesionDimensions.length}
-              onChange={(value) =>
-                setField("lesionDimensions")({
-                  ...state.lesionDimensions,
-                  length: value,
-                })
-              }
-            />
-            x{" "}
-            <InputNumber
-              label="Largeur"
-              unit="mm"
-              isDecimal
-              value={state.lesionDimensions.width}
-              onChange={(value) =>
-                setField("lesionDimensions")({
-                  ...state.lesionDimensions,
-                  width: value,
-                })
-              }
-            />
-          </Line>
+          <Stack spacing="sm">
+            <Line>
+              <InputNumber
+                label="Longueur"
+                unit="mm"
+                isDecimal
+                value={state.lesionDimensions.length}
+                onChange={(value) =>
+                  setField("lesionDimensions")({
+                    ...state.lesionDimensions,
+                    length: value,
+                  })
+                }
+              />
+              x{" "}
+              <InputNumber
+                label="Largeur"
+                unit="mm"
+                isDecimal
+                value={state.lesionDimensions.width}
+                onChange={(value) =>
+                  setField("lesionDimensions")({
+                    ...state.lesionDimensions,
+                    width: value,
+                  })
+                }
+              />
+            </Line>
+            <ErrorList errors={errors.lesionDimensions} />
+          </Stack>
         </NestedItem>
       )}
     </>
@@ -680,9 +843,11 @@ const InputSpecimen = ({
 const InputThickness = ({
   state,
   setState,
+  error,
 }: {
   state: Thickness;
   setState: (state: Thickness) => void;
+  error?: string;
 }) => {
   const setField = patchState(state, setState);
 
@@ -698,6 +863,7 @@ const InputThickness = ({
         <InputBreslowThickness
           state={state.breslowThickness}
           setState={setField("breslowThickness")}
+          error={error}
         />
       )}
     </>
@@ -707,14 +873,16 @@ const InputThickness = ({
 const InputBreslowThickness = ({
   state,
   setState,
+  error,
 }: {
   state: BreslowThickness;
   setState: (state: BreslowThickness) => void;
+  error?: string;
 }) => {
   const setField = patchState(state, setState);
 
   return (
-    <Line>
+    <Stack direction="row" alignItems="start" spacing="sm">
       <Select
         options={BRESLOW_THICKNESS_TYPE_OPTIONS}
         label="Épaisseur selon Breslow"
@@ -726,6 +894,7 @@ const InputBreslowThickness = ({
         unit="mm"
         isDecimal
         onChange={setField("distance")}
+        errorMessage={error}
       />
       {state.distance > 0 ? (
         <Select
@@ -734,7 +903,7 @@ const InputBreslowThickness = ({
           onChange={setField("morphology")}
         />
       ) : undefined}
-    </Line>
+    </Stack>
   );
 };
 
@@ -768,7 +937,7 @@ const ExeresisTypeDescription = ({
   const selectPosition = (
     <Select
       isInline
-      options={EXERESIS_POSITION_OPTIONS}
+      options={ORIENTATION_OPTIONS_FULL}
       value={state.position}
       onChange={setField("position")}
     />
@@ -853,14 +1022,17 @@ const ExeresisTypeDescription = ({
   }
 };
 
+// TODO: extract to a separate file for dermatology
 const InputExeresis = ({
   state,
   setState,
   isSpecimenOriented,
+  errors,
 }: {
   state: SpecimenExeresis;
   setState: (state: SpecimenExeresis) => void;
   isSpecimenOriented: boolean;
+  errors: string[];
 }) => {
   const setField = patchState(state, setState);
 
@@ -889,11 +1061,70 @@ const InputExeresis = ({
         onChange={setField("type")}
       />
       <NestedItem depth={1}>
-        {/* CAUTION: this div is necessary for wrapping */}
-        <div>
-          <ExeresisTypeDescription state={state} setState={setState} />
-        </div>
+        <Stack spacing="xs">
+          {/* CAUTION: this div is necessary for wrapping */}
+          <div>
+            <ExeresisTypeDescription state={state} setState={setState} />
+          </div>
+          <ErrorList errors={errors} />
+        </Stack>
       </NestedItem>
+    </>
+  );
+};
+
+// TODO: clean and extract
+const ErrorList = ({ errors = [] }: { errors?: string[] }) => (
+  <Stack>
+    {errors.map((error) => (
+      <ErrorMessage key={error} errorMessage={error} />
+    ))}
+  </Stack>
+);
+
+const InputInking = ({
+  value,
+  onChange,
+  error,
+}: {
+  value: Inking;
+  onChange: (value: Inking) => void;
+  error?: string;
+}) => {
+  const setField = patchState(value, onChange);
+
+  return (
+    <>
+      <SelectBoolean
+        label="Encrage"
+        value={value.hasInking}
+        onChange={setField("hasInking")}
+      />
+      {value.hasInking ? (
+        <NestedItem depth={1}>
+          <Select
+            options={INKING_COLORS_OPTIONS}
+            label="Couleur"
+            value={value.color}
+            onChange={setField("color")}
+          />
+          <Stack direction="row" spacing="sm" alignItems="start">
+            <Select
+              options={ORIENTATION_OPTIONS}
+              label="Orientation"
+              value={value.orientation}
+              onChange={setField("orientation")}
+            />
+            {value.orientation === "other" ? (
+              <InputText
+                value={value.orientationOther}
+                onChange={setField("orientationOther")}
+                errorMessage={error}
+              />
+            ) : undefined}
+          </Stack>
+        </NestedItem>
+      ) : undefined}
     </>
   );
 };

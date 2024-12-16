@@ -35,13 +35,12 @@ const MOCK_DATA: ReportParams = {
     invadedChipCount: 2,
     notes: "",
   },
-  otherResults: {
-    tumoral: [
-      "Papillome urothélial, type inversé",
-      "Néoplasme urothélial papillaire à faible potentiel de malignité",
-    ],
-    nonTumoral: ["Métaplasie intestinale", "Bilharziose"],
-  },
+  otherLesions: [
+    "Papillome urothélial, type inversé",
+    "Néoplasme urothélial papillaire à faible potentiel de malignité",
+    "Métaplasie intestinale",
+    "Bilharziose",
+  ],
   ihc: {
     hasIhc: false,
     blocks: [],

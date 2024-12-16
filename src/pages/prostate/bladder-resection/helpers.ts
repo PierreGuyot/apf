@@ -107,37 +107,65 @@ export const LESION_ASPECT_OPTIONS: Option<LesionAspect>[] = [
 ];
 export const getLesionAspectOption = findOption(LESION_ASPECT_OPTIONS);
 
-/** Other results */
+/** Other lesions */
 
-export const TUMORAL_RESULT_GROUPS = [
+export const OTHER_LESION_GROUPS = [
   {
-    title: "", // TODO clean: fix API
+    title: "Tumoral",
     options: [
-      "Carcinome urothélial in situ (focal)",
-      "Carcinome urothélial in situ (multifocal)",
-      "Papillome urothélial",
-      "Papillome urothélial, type inversé",
-      "Néoplasme urothélial papillaire à faible potentiel de malignité",
-      "Dysplasie urothéliale",
-    ].map(toOption),
+      {
+        value: "Carcinome urothélial in situ (focal)",
+        label: "Carcinome urothélial in situ (focal)",
+      },
+      {
+        value: "Carcinome urothélial in situ (multifocal)",
+        label: "Carcinome urothélial in situ (multifocal)",
+      },
+      { value: "Papillome urothélial", label: "Papillome urothélial" },
+      {
+        value: "Papillome urothélial, type inversé",
+        label: "Papillome urothélial, type inversé",
+      },
+      {
+        value:
+          "Néoplasme urothélial papillaire à faible potentiel de malignité",
+        label:
+          "Néoplasme urothélial papillaire à faible potentiel de malignité",
+      },
+      { value: "Dysplasie urothéliale", label: "Dysplasie urothéliale" },
+    ],
   },
-];
-
-export const NON_TUMORAL_RESULT_GROUPS = [
   {
-    title: "", // TODO clean: fix API
+    title: "Non-tumoral",
     options: [
-      "Inflammation",
-      "Dystrophie d'aspect régénératifs",
-      "Altérations morphologiques liées à la thérapie",
-      "Artéfact de cautérisation",
-      "Cystite cystique et glandulaire",
-      "Métaplasie malpighienne kératinisante",
-      "Métaplasie intestinale",
-      "Bilharziose",
-    ].map(toOption),
+      { value: "Inflammation", label: "Inflammation" },
+      {
+        value: "Dystrophie d'aspect régénératifs",
+        label: "Dystrophie d'aspect régénératifs",
+      },
+      {
+        value: "Altérations morphologiques liées à la thérapie",
+        label: "Altérations morphologiques liées à la thérapie",
+      },
+      {
+        value: "Artéfact de cautérisation",
+        label: "Artéfact de cautérisation",
+      },
+      {
+        value: "Cystite cystique et glandulaire",
+        label: "Cystite cystique et glandulaire",
+      },
+      {
+        value: "Métaplasie malpighienne kératinisante",
+        label: "Métaplasie malpighienne kératinisante",
+      },
+      { value: "Métaplasie intestinale", label: "Métaplasie intestinale" },
+      { value: "Bilharziose", label: "Bilharziose" },
+    ],
   },
-];
+] as const;
+export type OtherLesion =
+  (typeof OTHER_LESION_GROUPS)[number]["options"][number]["value"];
 
 /** Antibodies */
 

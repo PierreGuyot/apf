@@ -2,17 +2,15 @@ import {
   AntibodyGroup,
   PropertiesByAntibody,
 } from "../../../common/immunohistochemistry/helpers";
-import { NO_ITEM, Option, OTHER_ITEM, UNSPECIFIED_ITEM } from "../../../ui";
+import {
+  findOption,
+  NO_ITEM,
+  Option,
+  OTHER_ITEM,
+  UNSPECIFIED_ITEM,
+} from "../../../ui";
 
 // FIXME: add translations
-
-export const LATERALITY_OPTIONS = [
-  { value: "left", label: "Gauche" },
-  { value: "midline", label: "Médian" },
-  { value: "right", label: "Droite" },
-  UNSPECIFIED_ITEM,
-] as const;
-export type Laterality = (typeof LATERALITY_OPTIONS)[number]["value"];
 
 export const SAMPLING_TYPE_OPTIONS = [
   { value: "exeresis", label: "Exérèse" },
@@ -22,7 +20,6 @@ export const SAMPLING_TYPE_OPTIONS = [
 ] as const;
 export type SamplingType = (typeof SAMPLING_TYPE_OPTIONS)[number]["value"];
 
-// FIXME: consider how to rename
 export const LYMPH_NODE_EXERESIS_OPTIONS = [
   { value: "Ganglion sentinelle", label: "Ganglion sentinelle" },
   { value: "Curage ganglionnaire", label: "Curage ganglionnaire" },
@@ -42,33 +39,6 @@ export const ORIENTATION_METHOD_OPTIONS = [
 export type OrientationMethod =
   (typeof ORIENTATION_METHOD_OPTIONS)[number]["value"];
 
-export const ORIENTATION_OPTIONS = [
-  { value: "à 3H", label: "à 3H" },
-  { value: "à 6H", label: "à 6H" },
-  { value: "à 9H", label: "à 9H" },
-  { value: "à 12H", label: "à 12H" },
-  { value: "au pôle supérieur", label: "au pôle supérieur" },
-  { value: "au pôle inférieur ", label: "au pôle inférieur " },
-  { value: "au pôle médian ", label: "au pôle médian " },
-  { value: "au pôle latéral ", label: "au pôle latéral " },
-  { value: "au pôle antérieur ", label: "au pôle antérieur " },
-  { value: "au pôle postérieur", label: "au pôle postérieur" },
-  OTHER_ITEM,
-] as const;
-export type Orientation = (typeof ORIENTATION_OPTIONS)[number]["value"];
-
-export const ASPECT_OPTIONS = [
-  { value: "Pigmentée", label: "Pigmentée" },
-  { value: "Plan", label: "Plan" },
-  { value: "Nodulaire", label: "Nodulaire" },
-  { value: "En relief", label: "En relief" },
-  { value: "Achromique", label: "Achromique" },
-  { value: "Ulcérée", label: "Ulcérée" },
-  OTHER_ITEM,
-  UNSPECIFIED_ITEM,
-] as const;
-export type Aspect = (typeof ASPECT_OPTIONS)[number]["value"];
-
 export const DIMENSION_3D_OPTIONS = [
   UNSPECIFIED_ITEM,
   { value: "specified-with-depth", label: "Précisé (avec profondeur)" },
@@ -82,18 +52,56 @@ export const DIMENSION_2D_OPTIONS = [
 ] as const;
 export type Dimension2d = (typeof DIMENSION_2D_OPTIONS)[number]["value"];
 
+export const ASPECT_OPTIONS = [
+  { value: "Pigmentée", label: "Pigmentée" },
+  { value: "Plan", label: "Plan" },
+  { value: "Nodulaire", label: "Nodulaire" },
+  { value: "En relief", label: "En relief" },
+  { value: "Achromique", label: "Achromique" },
+  { value: "Ulcérée", label: "Ulcérée" },
+  OTHER_ITEM,
+  UNSPECIFIED_ITEM,
+] as const;
+export type Aspect = (typeof ASPECT_OPTIONS)[number]["value"];
+
+export const INKING_COLORS_OPTIONS = [
+  { value: "blue", label: "Bleu" },
+  { value: "green", label: "Vert" },
+  { value: "yellow", label: "Jaune" },
+  { value: "red", label: "Rouge" },
+  { value: "purple", label: "Violet" },
+  { value: "black", label: "Noir" },
+] as const;
+type InkingColor = (typeof INKING_COLORS_OPTIONS)[number]["value"];
+export const getInkingColorOption = findOption(INKING_COLORS_OPTIONS);
+export type Inking = {
+  hasInking: boolean;
+  color: InkingColor;
+  orientation: Orientation;
+  orientationOther: string;
+};
+
 export const SUBTYPE_OPTIONS = [
   {
     value: "Mélanome à extension superficielle (SSM)",
     label: "Mélanome à extension superficielle (SSM)",
   },
-  { value: "Mélanome de Dubreuilh (LM)", label: "Mélanome de Dubreuilh (LM)" },
-  { value: "Mélanome desmoplastique", label: "Mélanome desmoplastique" },
+  {
+    value: "Mélanome de Dubreuilh (LM)",
+    label: "Mélanome de Dubreuilh (LM)",
+  },
+  {
+    value: "Mélanome desmoplastique",
+    label: "Mélanome desmoplastique",
+  },
   {
     value: "Tumeur maligne de Spitz (mélanome de Spitz)",
     label: "Tumeur maligne de Spitz (mélanome de Spitz)",
   },
-  { value: "Mélanome acro-lentigineux", label: "Mélanome acro-lentigineux" },
+  {
+    value: "Mélanome acro-lentigineux",
+    label: "Mélanome acro-lentigineux",
+  },
   {
     value: "Mélanomes des muqueuses (génital, buccal, nasosinusien)",
     label: "Mélanomes des muqueuses (génital, buccal, nasosinusien)",
@@ -106,8 +114,14 @@ export const SUBTYPE_OPTIONS = [
     value: "Mélanome développé sur naevus congénital géant",
     label: "Mélanome développé sur naevus congénital géant",
   },
-  { value: "Mélanome nodulaire", label: "Mélanome nodulaire" },
-  { value: "Mélanome naevoïde", label: "Mélanome naevoïde" },
+  {
+    value: "Mélanome nodulaire",
+    label: "Mélanome nodulaire",
+  },
+  {
+    value: "Mélanome naevoïde",
+    label: "Mélanome naevoïde",
+  },
   {
     value: "Mélanome, sans autre spécificité",
     label: "Mélanome, sans autre spécificité",
@@ -162,9 +176,6 @@ export const MARGIN_STATE_OPTIONS = [
 ] as const;
 export type MarginState = (typeof MARGIN_STATE_OPTIONS)[number]["value"];
 
-export type MelanocyticLesion =
-  (typeof MELANOCYTIC_LESION_GROUPS)[number]["options"][number]["value"];
-
 export const MELANOCYTIC_LESION_GROUPS = [
   {
     title: "", // TODO clean: fix API
@@ -189,21 +200,35 @@ export const MELANOCYTIC_LESION_GROUPS = [
         value: "Tumeurs mélanocytaires activées par la voie MITF",
         label: "Tumeurs mélanocytaires activées par la voie MITF",
       },
-      { value: "Naevus de Spitz", label: "Naevus de Spitz" },
+      {
+        value: "Naevus de Spitz",
+        label: "Naevus de Spitz",
+      },
       {
         value: "Naevus pigmenté à cellules fusiformes (naevus de Reed)",
         label: "Naevus pigmenté à cellules fusiformes (naevus de Reed)",
       },
-      { value: "Naevus acral", label: "Naevus acral" },
+      {
+        value: "Naevus acral",
+        label: "Naevus acral",
+      },
       {
         value: "Naevus muqueux et génital",
         label: "Naevus muqueux et génital",
       },
-      { value: "Naevus bleu", label: "Naevus bleu" },
-      { value: "Naevus congénital", label: "Naevus congénital" },
+      {
+        value: "Naevus bleu",
+        label: "Naevus bleu",
+      },
+      {
+        value: "Naevus congénital",
+        label: "Naevus congénital",
+      },
     ],
   },
-];
+] as const;
+export type MelanocyticLesion =
+  (typeof MELANOCYTIC_LESION_GROUPS)[number]["options"][number]["value"];
 
 const EXERIS_TYPE_OPTIONS_NOT_ASSESSABLE = [
   {
@@ -229,7 +254,10 @@ export const EXERIS_TYPE_OPTIONS_ORIENTED = [
 ] as const;
 
 export const EXERIS_TYPE_OPTIONS_NOT_ORIENTED = [
-  { value: "simple-complete", label: "Exérèse simple complète" },
+  {
+    value: "simple-complete",
+    label: "Exérèse simple complète",
+  },
   {
     value: "simple-complete-with-margins",
     label: "Exérèse simple complète avec marges",
@@ -249,19 +277,11 @@ export type ExeresisType =
   | (typeof EXERIS_TYPE_OPTIONS_ORIENTED)[number]["value"]
   | (typeof EXERIS_TYPE_OPTIONS_NOT_ORIENTED)[number]["value"];
 
-export const EXERESIS_POSITION_OPTIONS = [
-  { value: "à 12H", label: "à 12H" },
-  { value: "à 1H", label: "à 1H" },
-  { value: "à 2H", label: "à 2H" },
-  { value: "à 3H", label: "à 3H" },
-  { value: "à 4H", label: "à 4H" },
-  { value: "à 5H", label: "à 5H" },
-  { value: "à 6H", label: "à 6H" },
-  { value: "à 7h", label: "à 7h" },
-  { value: "à 8H", label: "à 8H" },
-  { value: "à 9H", label: "à 9H" },
-  { value: "à 10H", label: "à 10H" },
-  { value: "à 11H", label: "à 11H" },
+const ORIENTATIONS = [
+  { value: "à 3h", label: "à 3h" },
+  { value: "à 6h", label: "à 6h" },
+  { value: "à 9h", label: "à 9h" },
+  { value: "à 12h", label: "à 12h" },
   { value: "au pôle supérieur", label: "au pôle supérieur" },
   { value: "au pôle inférieur", label: "au pôle inférieur" },
   { value: "au pôle médian", label: "au pôle médian" },
@@ -269,15 +289,29 @@ export const EXERESIS_POSITION_OPTIONS = [
   { value: "au pôle antérieur", label: "au pôle antérieur" },
   { value: "au pôle postérieur", label: "au pôle postérieur" },
 ] as const;
-export type ExeresisPosition =
-  (typeof EXERESIS_POSITION_OPTIONS)[number]["value"];
+
+// With option Other
+export const ORIENTATION_OPTIONS = [...ORIENTATIONS, OTHER_ITEM] as const;
+export type Orientation = (typeof ORIENTATION_OPTIONS)[number]["value"];
+
+// With all hour positions
+export const ORIENTATION_OPTIONS_FULL = [
+  ...ORIENTATIONS,
+  { value: "à 1h", label: "à 1h" },
+  { value: "à 2h", label: "à 2h" },
+  { value: "à 4h", label: "à 4h" },
+  { value: "à 5h", label: "à 5h" },
+  { value: "à 7h", label: "à 7h" },
+  { value: "à 8h", label: "à 8h" },
+  { value: "à 10h", label: "à 10h" },
+  { value: "à 11h", label: "à 11h" },
+] as const;
+export type OrientationFull =
+  (typeof ORIENTATION_OPTIONS_FULL)[number]["value"];
 
 export const MOLECULAR_BIOLOGY_OPTIONS = [
-  {
-    value: "New generation sequencing demandé",
-    label: "New generation sequencing demandé",
-  },
-  { value: "Idylla demandé", label: "Idylla demandé" },
+  { value: "New Generation Sequencing", label: "New Generation Sequencing" },
+  { value: "Idylla", label: "Idylla" },
 ] as const;
 export type MolecularBiology =
   (typeof MOLECULAR_BIOLOGY_OPTIONS)[number]["value"];

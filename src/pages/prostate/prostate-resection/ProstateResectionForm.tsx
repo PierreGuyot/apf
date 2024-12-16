@@ -179,11 +179,11 @@ export const ProstateResectionForm = ({ formId }: Props) => {
                 value={tumorQuantification}
                 onChange={setField("tumorQuantification")}
               />
+              <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
               <HasLymphoVascularInvasion
                 value={hasLymphaticOrVascularInvasion}
                 onChange={setField("hasLymphaticOrVascularInvasion")}
               />
-              <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
             </>
           ) : undefined}
           <SelectList

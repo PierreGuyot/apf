@@ -94,23 +94,6 @@ const getMicroscopySection = (
   form: ReportParams,
   language: Language,
 ): Lines => {
-  const otherResults = reportSection({
-    title: "Autres résultats",
-    language,
-    content: [
-      ...reportSelectList({
-        title: "Tumoraux",
-        items: form.otherResults.tumoral,
-        language,
-      }),
-      ...reportSelectList({
-        title: "Non-tumoraux",
-        items: form.otherResults.nonTumoral,
-        language,
-      }),
-    ],
-  });
-
   const content = [
     ...reportTumor({
       tumor: form.tumor,
@@ -137,7 +120,11 @@ const getMicroscopySection = (
         )
       : undefined,
     "", // Empty line
-    ...otherResults,
+    ...reportSelectList({
+      title: "Autres lésions",
+      language,
+      items: form.otherLesions,
+    }),
   ].filter(filterNullish);
 
   return reportSection({ title: "Microscopie", language, content });

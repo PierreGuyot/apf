@@ -20,13 +20,13 @@ export const SPECIFIED_ITEM = {
 export type OptionValue = string | number | boolean;
 
 export type Option<T extends OptionValue> = {
-  readonly value: T;
-  readonly label: string;
+  value: T;
+  label: string;
 };
 
 export type OptionGroup<T extends OptionValue> = {
-  readonly title: string;
-  readonly options: Option<T>[];
+  title: string;
+  options: readonly Option<T>[];
 };
 
 export type OptionOrGroup<T extends OptionValue> = Option<T> | OptionGroup<T>;

@@ -109,6 +109,7 @@ export const Immunohistochemistry = ({
           })}
         </>
       ) : undefined}
+      {/* TODO: consider inlining errors */}
       <ValidationErrors errors={errors} />
     </>
   );

@@ -31,7 +31,6 @@ import {
   SelectPresence,
   Stack,
   Summary,
-  Text,
   useForm,
 } from "../../../ui";
 import { validateComposition } from "../../../ui/select-composition.validation";
@@ -45,10 +44,10 @@ import {
   LESION_ASPECT_OPTIONS,
   LesionAspect,
   LOCATION_OPTIONS,
-  NON_TUMORAL_RESULT_GROUPS,
+  OTHER_LESION_GROUPS,
+  OtherLesion,
   Treatment,
   TREATMENT_GROUPS,
-  TUMORAL_RESULT_GROUPS,
 } from "./helpers";
 import { generateReport } from "./report";
 import { TumorInput } from "./tumor-input/TumorInput";
@@ -59,11 +58,6 @@ type MuscularisPropria = {
   chipCount: number;
   invadedChipCount: number;
   notes: string;
-};
-
-type OtherResults = {
-  tumoral: string[];
-  nonTumoral: string[];
 };
 
 export type FormState = {
@@ -90,7 +84,7 @@ export type FormState = {
   tumor: Tumor;
   hasLymphaticOrVascularInvasion: boolean;
   muscularisPropria: MuscularisPropria;
-  otherResults: OtherResults;
+  otherLesions: OtherLesion[];
 
   // Immunohistochemistry
   ihc: IhcState;
@@ -127,10 +121,7 @@ const getInitialState = (): FormState => ({
     invadedChipCount: 0,
     notes: "",
   },
-  otherResults: {
-    tumoral: [],
-    nonTumoral: [],
-  },
+  otherLesions: [],
 
   // Immunohistochemistry
   ihc: {
@@ -320,7 +311,7 @@ type MicroscopyState = Pick<
   | "tumor"
   | "hasLymphaticOrVascularInvasion"
   | "muscularisPropria"
-  | "otherResults"
+  | "otherLesions"
 >;
 const MicroscopySection = ({
   index,
@@ -354,9 +345,11 @@ const MicroscopySection = ({
         state={state.muscularisPropria}
         setState={setField("muscularisPropria")}
       />
-      <InputOtherResults
-        state={state.otherResults}
-        setState={setField("otherResults")}
+      <SelectList
+        label="Autres lésions"
+        values={state.otherLesions}
+        groups={OTHER_LESION_GROUPS}
+        onChange={setField("otherLesions")}
       />
     </Section>
   );
@@ -402,36 +395,6 @@ const InputMuscularisPropria = ({
         </NestedItem>
       ) : undefined}
     </>
-  );
-};
-
-const InputOtherResults = ({
-  state,
-  setState,
-}: {
-  state: OtherResults;
-  setState: (value: OtherResults) => void;
-}) => {
-  const setField = patchState(state, setState);
-
-  return (
-    <Stack spacing="md">
-      <Text variant="bold">Autres résultats</Text>
-      <NestedItem depth={1}>
-        <SelectList
-          label="Tumoraux"
-          values={state.tumoral}
-          groups={TUMORAL_RESULT_GROUPS}
-          onChange={setField("tumoral")}
-        />
-        <SelectList
-          label="Non tumoraux"
-          values={state.nonTumoral}
-          groups={NON_TUMORAL_RESULT_GROUPS}
-          onChange={setField("nonTumoral")}
-        />
-      </NestedItem>
-    </Stack>
   );
 };
 

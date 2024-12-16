@@ -107,15 +107,14 @@ export const TumoralLesionSection = ({
           />
         </>
       ) : undefined}
-
+      {hasSelectPerineuralInvasion ? (
+        <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
+      ) : undefined}
       {hasSelectLymphaticOrVascularInvasion ? (
         <HasLymphoVascularInvasion
           value={hasLymphaticOrVascularInvasion}
           onChange={setField("hasLymphaticOrVascularInvasion")}
         />
-      ) : undefined}
-      {hasSelectPerineuralInvasion ? (
-        <HasEpn value={hasEpn} onChange={setField("hasEpn")} />
       ) : undefined}
       {hasSelectClarkInfiltrationLevel ? (
         <SelectClarkInfiltrationLevel
