@@ -193,8 +193,8 @@ export const MELANOCYTIC_LESION_GROUPS = [
         label: "Naevus jonctionnel, composé ou dermique",
       },
       {
-        value: "Mélanocytome avec activation de voie WNT",
-        label: "Mélanocytome avec activation de voie WNT",
+        value: "Mélanocytome avec activation de la voie WNT",
+        label: "Mélanocytome avec activation de la voie WNT",
       },
       {
         value: "Mélanocytome épithélioïde pigmenté",
