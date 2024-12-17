@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { Button } from "./Button";
 import { CheckboxList } from "./CheckboxList";
 import { noop } from "./helpers/helpers";
 import { OptionGroup, OptionValue } from "./helpers/options";
@@ -84,7 +83,9 @@ export function SelectList<T extends OptionValue>({
           onClose={onCommit}
         >
           {/* FIXME: align height on inputs and other fields */}
-          <Button _className={css.button} label="+" onClick={noop} />
+          <button className={css.button} onClick={noop}>
+            +
+          </button>
         </Tooltip>
         {hasList ? (
           <>

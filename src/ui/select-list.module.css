@@ -6,8 +6,14 @@
 }
 
 .button {
+  cursor: pointer;
   border-radius: var(--border-radius-md);
-  aspect-ratio: 1;
   background-color: var(--background-interaction);
   border: 1px solid var(--border-interaction);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--height-field);
+  width: var(--height-field);
+  aspect-ratio: 1;
 }
