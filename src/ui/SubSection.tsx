@@ -11,6 +11,6 @@ type Props = PropsWithChildren<{
 export const SubSection = ({ title, children }: Props) => (
   <div>
     {title ? <Title title={title} /> : undefined}
-    <NestedItem depth={1}>{children}</NestedItem>
+    <NestedItem>{children}</NestedItem>
   </div>
 );

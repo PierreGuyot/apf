@@ -5,11 +5,10 @@ import { size } from "./sizes";
 import { Stack } from "./Stack";
 
 type Props = PropsWithChildren<{
-  // TODO clean: make depth default to 1
   depth?: number;
 }>;
 
-export const NestedItem = ({ depth = 0, children }: Props) => (
+export const NestedItem = ({ depth = 1, children }: Props) => (
   <div
     className={depth ? css.isNested : undefined}
     style={{ paddingLeft: `calc(${depth} * ${size("lg")})` }}

@@ -18,7 +18,7 @@ export function SelectComposition<T extends string>({
 }: Props<T>) {
   const setField = patchState(value, onChange);
   return (
-    <NestedItem depth={1}>
+    <NestedItem>
       {items.map((item) => (
         <InputNumber
           label={item.label}

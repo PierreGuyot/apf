@@ -377,7 +377,7 @@ const InputMuscularisPropria = ({
         onChange={setField("isPresent")}
       />
       {state.isPresent ? (
-        <NestedItem depth={1}>
+        <NestedItem>
           <InputNumber
             label="Nombre de copeaux"
             value={state.chipCount}

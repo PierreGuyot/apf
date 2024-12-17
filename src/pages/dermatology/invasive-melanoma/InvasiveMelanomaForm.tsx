@@ -291,7 +291,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             onChange={setField("lymphNodeExeresis")}
           />
           {state.lymphNodeExeresis === "no" ? undefined : (
-            <NestedItem depth={1}>
+            <NestedItem>
               <InputText
                 label="Localisation"
                 value={state.lymphNodeExeresisLocation}
@@ -362,7 +362,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             onChange={setField("intraTumoralLymphocytes")}
           />
           {state.intraTumoralLymphocytes === "non-brisk" ? (
-            <NestedItem depth={1}>
+            <NestedItem>
               <Select
                 label="Sévérité"
                 options={LYMPHOCYTE_INFILTRATION_SEVERITY_OPTIONS}
@@ -390,7 +390,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             onChange={setField("hasMicroSatellites")}
           />
           {state.hasMicroSatellites ? (
-            <NestedItem depth={1}>
+            <NestedItem>
               <Select
                 label="Marges"
                 options={MARGIN_STATE_OPTIONS}
@@ -423,7 +423,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
               />
             </Stack>
             {state.positiveLymphNodeCount > 0 ? (
-              <NestedItem depth={1}>
+              <NestedItem>
                 <SelectPresence
                   grammaticalForm={{ gender: "feminine", number: "singular" }}
                   label="Extension extra-ganglionnaire"
@@ -465,7 +465,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             onChange={setField("hasMolecularBiology")}
           />
           {state.hasMolecularBiology ? (
-            <NestedItem depth={1}>
+            <NestedItem>
               <Select
                 label="Type"
                 options={MOLECULAR_BIOLOGY_OPTIONS}
@@ -716,7 +716,7 @@ const InputExeresis = ({
         value={state.type}
         onChange={setField("type")}
       />
-      <NestedItem depth={1}>
+      <NestedItem>
         <Stack spacing="xs">
           {/* CAUTION: this div is necessary for wrapping */}
           <div>

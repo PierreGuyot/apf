@@ -42,7 +42,7 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
         onChange={setField("isSpecimenOriented")}
       />
       {state.isSpecimenOriented ? (
-        <NestedItem depth={1}>
+        <NestedItem>
           <Stack direction="row" alignItems="start" spacing="sm">
             <Select
               options={ORIENTATION_METHOD_OPTIONS}
@@ -92,7 +92,7 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
         onChange={setField("hasOtherLesions")}
       />
       {state.hasOtherLesions ? (
-        <NestedItem depth={1}>
+        <NestedItem>
           <InputTextArea
             lineCount={2}
             label="Description"
@@ -169,7 +169,7 @@ const InputSpecimen = ({
         }
       />
       {state.specimenDimensions.type === "unspecified" ? undefined : (
-        <NestedItem depth={1}>
+        <NestedItem>
           <Stack spacing="sm">
             <Line>
               <InputNumber
@@ -252,7 +252,7 @@ const InputSpecimen = ({
             }
           />
           {state.lesionDimensions.type === "unspecified" ? undefined : (
-            <NestedItem depth={1}>
+            <NestedItem>
               <Stack spacing="sm">
                 <Line>
                   <InputNumber
@@ -311,7 +311,7 @@ const InputInking = ({
         onChange={setField("hasInking")}
       />
       {value.hasInking ? (
-        <NestedItem depth={1}>
+        <NestedItem>
           <Select
             options={INKING_COLORS_OPTIONS}
             label="Couleur"

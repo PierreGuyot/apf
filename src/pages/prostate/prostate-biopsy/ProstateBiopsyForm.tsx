@@ -502,7 +502,7 @@ const ClinicalInfoExpert = ({
                     onChange={setField("targetCount")}
                   />
                   {targetCount ? (
-                    <NestedItem depth={1}>
+                    <NestedItem>
                       <PiradsSelect
                         formId={formId}
                         visibleRowCount={targetCount}
