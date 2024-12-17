@@ -23,6 +23,7 @@ import {
   Summary,
   useForm,
 } from "../../../ui";
+import { reduceErrors } from "../../../validation";
 import {
   DEFAULT_GLEASON_ITEM,
   GleasonItem,
@@ -115,7 +116,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
 
   const macroscopyErrors = validateResectionMacroscopy(state);
   const ihcErrors = validateIhc({ ihc, containerCount: blockCount });
-  const hasErrors = !!macroscopyErrors.length || !!ihcErrors!.length;
+  const hasErrors = reduceErrors(macroscopyErrors) || !!ihcErrors.length;
 
   return (
     <FormPage formId={formId} onClear={clearState}>

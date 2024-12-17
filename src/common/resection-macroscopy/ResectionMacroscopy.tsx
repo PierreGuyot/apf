@@ -1,11 +1,4 @@
-import {
-  InputNumber,
-  Line,
-  patchState,
-  Section,
-  Select,
-  ValidationErrors,
-} from "../../ui";
+import { InputNumber, Line, patchState, Section, Select } from "../../ui";
 
 import {
   COLORATION_OPTIONS,
@@ -25,7 +18,10 @@ type Props = {
   index: number;
   state: MacroscopyState;
   setState: (value: MacroscopyState) => void;
-  errors: string[];
+  errors: {
+    chipWeight?: string;
+    blockCount?: string;
+  };
 };
 
 export const ResectionMacroscopy = ({
@@ -45,6 +41,7 @@ export const ResectionMacroscopy = ({
         unit="g"
         isDecimal
         onChange={setField("chipWeight")}
+        errors={errors.chipWeight}
       />
       <Line>
         <Select
@@ -56,6 +53,7 @@ export const ResectionMacroscopy = ({
           min={1}
           value={blockCount}
           onChange={setField("blockCount")}
+          errors={errors.blockCount}
         />{" "}
         blocs (fixation : formol tamponné 4%, coloration:{" "}
         <Select
@@ -65,11 +63,6 @@ export const ResectionMacroscopy = ({
         />
         )
       </Line>
-      {/* FIXME: inline errors when possible */}
-      <ValidationErrors
-        header="La section Macroscopie comporte les erreurs suivantes :"
-        errors={errors}
-      />
     </Section>
   );
 };

@@ -1,4 +1,5 @@
 import { findOption, Option } from "../../ui";
+import { ERROR_MANDATORY_FIELD } from "../../validation";
 
 export type SamplingType = "full" | "partial";
 export const SAMPLING_TYPES: Option<SamplingType>[] = [
@@ -20,16 +21,7 @@ export const validateResectionMacroscopy = ({
 }: {
   chipWeight: number;
   blockCount: number;
-}) => {
-  const errors: string[] = [];
-
-  if (!chipWeight) {
-    errors.push("Le poids des copeaux est égal à 0.");
-  }
-
-  if (!blockCount) {
-    errors.push("Le nombre de blocs est égal à 0.");
-  }
-
-  return errors;
-};
+}) => ({
+  chipWeight: chipWeight ? undefined : ERROR_MANDATORY_FIELD,
+  blockCount: blockCount ? undefined : ERROR_MANDATORY_FIELD,
+});

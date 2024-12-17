@@ -52,6 +52,7 @@ import {
 import { generateReport } from "./report";
 import { TumorInput } from "./tumor-input/TumorInput";
 import { DEFAULT_TUMOR, Ptnm, Tumor } from "./tumor-input/helpers";
+import { reduceErrors } from "../../../validation";
 
 type MuscularisPropria = {
   isPresent: boolean;
@@ -172,7 +173,9 @@ export const BladderResectionFormContent = ({
   });
 
   const hasErrors =
-    !!macroscopyErrors.length || !!tumorCompositionError || !!ihcErrors.length;
+    reduceErrors(macroscopyErrors) ||
+    !!tumorCompositionError ||
+    !!ihcErrors.length;
 
   let index = 1;
 
