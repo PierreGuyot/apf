@@ -238,51 +238,55 @@ const InputSpecimen = ({
         ) : undefined}
       </Stack>
 
-      <Select
-        label="Taille de la lésion"
-        options={DIMENSION_2D_OPTIONS}
-        value={state.lesionDimensions.type}
-        onChange={(value) =>
-          setField("lesionDimensions")({
-            ...state.lesionDimensions,
-            type: value,
-          })
-        }
-      />
-      {state.lesionDimensions.type === "unspecified" ? undefined : (
-        <NestedItem depth={1}>
-          <Stack spacing="sm">
-            <Line>
-              <InputNumber
-                label="Longueur"
-                unit="mm"
-                isDecimal
-                value={state.lesionDimensions.length}
-                errors={errors.lesionDimensions.length}
-                onChange={(value) =>
-                  setField("lesionDimensions")({
-                    ...state.lesionDimensions,
-                    length: value,
-                  })
-                }
-              />
-              x{" "}
-              <InputNumber
-                label="Largeur"
-                unit="mm"
-                isDecimal
-                value={state.lesionDimensions.width}
-                errors={errors.lesionDimensions.width}
-                onChange={(value) =>
-                  setField("lesionDimensions")({
-                    ...state.lesionDimensions,
-                    width: value,
-                  })
-                }
-              />
-            </Line>
-          </Stack>
-        </NestedItem>
+      {state.lesionAspect === "unspecified" ? undefined : (
+        <>
+          <Select
+            label="Taille de la lésion"
+            options={DIMENSION_2D_OPTIONS}
+            value={state.lesionDimensions.type}
+            onChange={(value) =>
+              setField("lesionDimensions")({
+                ...state.lesionDimensions,
+                type: value,
+              })
+            }
+          />
+          {state.lesionDimensions.type === "unspecified" ? undefined : (
+            <NestedItem depth={1}>
+              <Stack spacing="sm">
+                <Line>
+                  <InputNumber
+                    label="Longueur"
+                    unit="mm"
+                    isDecimal
+                    value={state.lesionDimensions.length}
+                    errors={errors.lesionDimensions.length}
+                    onChange={(value) =>
+                      setField("lesionDimensions")({
+                        ...state.lesionDimensions,
+                        length: value,
+                      })
+                    }
+                  />
+                  x{" "}
+                  <InputNumber
+                    label="Largeur"
+                    unit="mm"
+                    isDecimal
+                    value={state.lesionDimensions.width}
+                    errors={errors.lesionDimensions.width}
+                    onChange={(value) =>
+                      setField("lesionDimensions")({
+                        ...state.lesionDimensions,
+                        width: value,
+                      })
+                    }
+                  />
+                </Line>
+              </Stack>
+            </NestedItem>
+          )}
+        </>
       )}
     </>
   );
