@@ -27,16 +27,30 @@ const REGEX_INTEGER = /^\d+$/;
 const validate = ({
   value,
   isDecimal,
+  min,
+  max,
 }: {
   value: string;
   isDecimal: boolean;
+  min: number | undefined;
+  max: number | undefined;
 }) => {
   const regex = isDecimal ? REGEX_DECIMAL : REGEX_INTEGER;
-  return !regex.test(value);
+  if (!regex.test(value)) {
+    return "String is not a valid number.";
+  }
+
+  const valueAsNumber = Number(value);
+  const clampedValue = clamp({ value: valueAsNumber, min, max });
+
+  if (valueAsNumber !== clampedValue) {
+    return `Value is not inside specified range ${min}-${max}`;
+  }
+
+  return undefined;
 };
 
 // TODO CLEAN: handle an `isDisabled` prop
-// FIXME: max prop is not working properly, check min prop too
 
 export const InputNumber = ({
   value,
@@ -60,8 +74,8 @@ export const InputNumber = ({
   }, [_setValue, value]);
 
   const hasError = useMemo(
-    () => validate({ value: _value, isDecimal }),
-    [_value, isDecimal],
+    () => validate({ value: _value, isDecimal, min, max }),
+    [_value, isDecimal, min, max],
   );
   const hasInternalError = (isTouched ?? isSubmitted) ? hasError : false;
 
@@ -78,7 +92,9 @@ export const InputNumber = ({
     // - If the field is empty, reset to minimal value
     // - If the field is filled, reset to last valid value
     const resetValue = min ?? 0;
-    _setValue(String(_value ? value : resetValue));
+    const newValue = _value ? value : resetValue;
+    _setValue(String(newValue));
+    onChange(newValue);
   };
 
   const onInput: OnInput<HTMLInputElement> = (e) => {
@@ -88,7 +104,7 @@ export const InputNumber = ({
 
     _setValue(stringValue);
 
-    if (validate({ value: stringValue, isDecimal })) {
+    if (validate({ value: stringValue, isDecimal, min, max })) {
       return;
     }
 
