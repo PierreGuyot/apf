@@ -218,10 +218,7 @@ const validateForm = (state: FormState) => ({
   ...validateLymphNodeStatus(state),
 
   // Immunohistochemistry
-  ihc: validateIhc({
-    ihc: state.ihc,
-    containerCount: state.blockCount,
-  }),
+  ihc: validateIhc(state.ihc),
 });
 
 const validateLymphNodeStatus = (state: FormState) => {

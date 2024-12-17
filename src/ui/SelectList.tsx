@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckboxList } from "./CheckboxList";
+import { ErrorList } from "./ErrorList";
 import { noop } from "./helpers/helpers";
 import { OptionGroup, OptionValue } from "./helpers/options";
+import { HelpIcon } from "./HelpIcon";
 import { Label } from "./Label";
 import { Pill } from "./Pill";
 import css from "./select-list.module.css";
@@ -20,6 +22,7 @@ type Props<T extends OptionValue> = {
   language?: Language;
   // TODO: use OptionOrGroup instead
   groups: readonly OptionGroup<T>[];
+  errors?: string;
 };
 
 export function getSelectedOptions<T extends OptionValue>({
@@ -44,6 +47,7 @@ export function SelectList<T extends OptionValue>({
   values,
   isReadOnly,
   onChange,
+  errors,
 }: Props<T>) {
   // Internal state of the tooltip
   const [_values, _setValues] = useState<T[]>(values);
@@ -104,9 +108,25 @@ export function SelectList<T extends OptionValue>({
             )}
           </>
         ) : undefined}
+        {errors ? (
+          <HelpIcon
+            variant="error"
+            size="xs"
+            content={<ErrorList errors={[errors]} />}
+          />
+        ) : undefined}
       </>
     );
-  }, [emptyState, groups, hasList, isReadOnly, language, onChange, _values]);
+  }, [
+    emptyState,
+    groups,
+    hasList,
+    isReadOnly,
+    language,
+    onChange,
+    _values,
+    errors,
+  ]);
 
   return (
     // TODO clean: mutualize style with other inputs and selects

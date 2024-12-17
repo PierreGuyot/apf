@@ -1,49 +1,50 @@
+import { ERROR_MANDATORY_FIELD } from "../../validation";
 import { IhcState } from "./helpers";
 
+export type BlockErrors = {
+  antibodyCount?: string;
+  antibodies: AntibodyOtherError[][];
+};
+
+export type AntibodyOtherError = { name?: string; result?: string };
+
+export type IhcErrors = {
+  blockCount?: string;
+  blocks: BlockErrors[];
+};
+
 // FIXME: inline errors when possible (return object instead of array)
-export const validateIhc = ({
-  ihc,
-  containerCount,
-}: {
-  ihc: IhcState;
-  containerCount?: number;
-}) => {
+export const validateIhc = (ihc: IhcState): IhcErrors => {
   if (!ihc.hasIhc) {
-    return [];
+    return { blocks: [] };
   }
 
-  const errors: string[] = [];
-
-  if (ihc.blocks.length === 0) {
-    errors.push(`Aucun bloc n'est sélectionné pour l'immunohistochimie.`);
-  }
-
-  const hasMultipleBlocks = typeof containerCount === "number";
-
+  const errors: BlockErrors[] = [];
   ihc.blocks.forEach((block) => {
-    if (block.antibodies.length === 0) {
-      errors.push(
-        hasMultipleBlocks
-          ? `Aucun anticorps n'est sélectionné pour le bloc ${block.index}.`
-          : `Aucun anticorps n'est sélectionné.`,
-      );
-    }
+    let antibodyCountError =
+      block.antibodies.length === 0
+        ? "Aucun anticorps n'est sélectionné."
+        : undefined;
 
-    block.antibodies.forEach((antibody) => {
-      if (antibody.type === "others") {
-        antibody.values.forEach((value) => {
-          if (!value.name || !value.result) {
-            // Clone field is optional
-            errors.push(
-              hasMultipleBlocks
-                ? `Dans le bloc ${block.index}, les champs Nom et Résultat pour les anticorps autres doivent être renseignés.`
-                : `Les champs Nom et Résultat pour les anticorps autres doivent être renseignés.`,
-            );
-          }
-        });
+    let antibodiesErrors = block.antibodies.map((antibody) => {
+      if (antibody.type !== "others") {
+        return [];
       }
+
+      return antibody.values.map((value) => ({
+        name: value.name ? undefined : ERROR_MANDATORY_FIELD,
+        result: value.result ? undefined : ERROR_MANDATORY_FIELD,
+      }));
+    });
+
+    errors.push({
+      antibodyCount: antibodyCountError,
+      antibodies: antibodiesErrors,
     });
   });
 
-  return errors;
+  return {
+    blockCount: ihc.blocks.length ? undefined : "Aucun bloc n'est sélectionné.",
+    blocks: errors,
+  };
 };

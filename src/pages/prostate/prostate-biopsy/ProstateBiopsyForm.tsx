@@ -323,7 +323,7 @@ const ProstateBiopsyFormContent = ({
     rows: visibleRows,
     piradsItems: visiblePiradsItems,
   });
-  const ihcErrors = validateIhc({ ihc, containerCount });
+  const ihcErrors = validateIhc(ihc);
   const hasErrors = reduceErrors(biopsyTableErrors) || reduceErrors(ihcErrors);
 
   const getReportContent = (language: Language) =>

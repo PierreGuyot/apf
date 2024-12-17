@@ -165,10 +165,7 @@ export const BladderResectionFormContent = ({
   const tumorCompositionError = validateComposition(
     state.tumor.carcinomaComposition,
   );
-  const ihcErrors = validateIhc({
-    ihc: state.ihc,
-    containerCount: state.blockCount,
-  });
+  const ihcErrors = validateIhc(state.ihc);
 
   const hasErrors =
     reduceErrors(macroscopyErrors) ||

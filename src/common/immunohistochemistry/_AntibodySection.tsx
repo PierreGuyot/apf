@@ -16,16 +16,25 @@ import {
   PropertiesByAntibody,
   StandardAntibody,
 } from "./helpers";
+import { AntibodyOtherError } from "./validation";
 
 type Props = {
   properties: PropertiesByAntibody;
   state: AntibodyData;
   setState: (value: AntibodyData) => void;
+  errors: AntibodyOtherError[];
 };
 
-export const AntibodySection = ({ properties, state, setState }: Props) => {
+export const AntibodySection = ({
+  properties,
+  state,
+  setState,
+  errors,
+}: Props) => {
   if (state.type === "others") {
-    return <OtherAntibodySection state={state} setState={setState} />;
+    return (
+      <OtherAntibodySection state={state} setState={setState} errors={errors} />
+    );
   }
 
   return (
@@ -91,9 +100,11 @@ const AntibodyForm = ({
 const OtherAntibodySection = ({
   state,
   setState,
+  errors,
 }: {
   state: OtherAntibodies;
   setState: (value: OtherAntibodies) => void;
+  errors: AntibodyOtherError[];
 }) => {
   const setField = patchState(state, setState);
   const onAdd = () => {
@@ -123,6 +134,7 @@ const OtherAntibodySection = ({
                 setField("values")(newValues);
               }}
               onDelete={() => onDelete(index)}
+              errors={errors[index]}
             />
           ))}
         </Stack>
@@ -137,37 +149,43 @@ const OtherAntibodyItem = ({
   setState,
   itemCount,
   onDelete,
+  errors,
 }: {
   state: OtherAntibody;
   setState: (value: OtherAntibody) => void;
   itemCount: number;
   onDelete: () => void;
+  errors: AntibodyOtherError;
 }) => {
   const setField = patchState(state, setState);
 
   return (
-    <Stack direction="row" spacing="md">
-      <InputText
-        label="Nom de l'anticorps"
-        labelSize="sm"
-        value={state.name}
-        onChange={setField("name")}
-      />
-      <InputText
-        label="Clone utilisé"
-        labelSize="sm"
-        value={state.clone}
-        onChange={setField("clone")}
-      />
-      <InputText
-        label="Résultat"
-        labelSize="sm"
-        value={state.result}
-        onChange={setField("result")}
-      />
-      {itemCount === 1 ? undefined : (
-        <Button label="Supprimer" onClick={onDelete} />
-      )}
-    </Stack>
+    <>
+      <Stack direction="row" spacing="md">
+        <InputText
+          label="Nom"
+          labelSize="sm"
+          value={state.name}
+          onChange={setField("name")}
+          errors={errors.name}
+        />
+        <InputText
+          label="Clone"
+          labelSize="sm"
+          value={state.clone}
+          onChange={setField("clone")}
+        />
+        <InputText
+          label="Résultat"
+          labelSize="sm"
+          value={state.result}
+          onChange={setField("result")}
+          errors={errors.result}
+        />
+        {itemCount === 1 ? undefined : (
+          <Button label="Supprimer" onClick={onDelete} />
+        )}
+      </Stack>
+    </>
   );
 };

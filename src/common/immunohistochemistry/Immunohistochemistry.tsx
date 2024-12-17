@@ -7,7 +7,6 @@ import {
   SelectList,
   Stack,
   SubSection,
-  ValidationErrors,
 } from "../../ui";
 import { AntibodySection } from "./_AntibodySection";
 import {
@@ -19,6 +18,7 @@ import {
   IhcState,
   PropertiesByAntibody,
 } from "./helpers";
+import { BlockErrors, IhcErrors } from "./validation";
 
 type Props = {
   containerCount?: number;
@@ -26,7 +26,7 @@ type Props = {
   properties: PropertiesByAntibody;
   state: IhcState;
   setState: (state: IhcState) => void;
-  errors: string[];
+  errors: IhcErrors;
 };
 
 const getBlockOptions = (count: number) =>
@@ -88,6 +88,7 @@ export const Immunohistochemistry = ({
               values={selectedBlocks}
               hasList={false}
               onChange={onSelectBlocks}
+              errors={errors.blockCount}
             />
           ) : undefined}
           {blocks.map((block, index) => {
@@ -104,13 +105,12 @@ export const Immunohistochemistry = ({
                 properties={properties}
                 isNested={hasMultipleBlocks}
                 setBlock={setBlock}
+                errors={errors.blocks[index]}
               />
             );
           })}
         </>
       ) : undefined}
-      {/* FIXME: inline errors when possible */}
-      <ValidationErrors errors={errors} />
     </>
   );
 };
@@ -121,12 +121,14 @@ const BlockSection = ({
   antibodyGroups,
   isNested,
   setBlock,
+  errors,
 }: {
   block: Block;
   properties: PropertiesByAntibody;
   antibodyGroups: AntibodyGroup[];
   isNested: boolean;
   setBlock: (value: Block) => void;
+  errors: BlockErrors;
 }) => {
   const { antibodies } = block;
   const setField = patchState(block, setBlock);
@@ -163,6 +165,7 @@ const BlockSection = ({
         values={selectedAntibodies}
         hasList={false}
         onChange={onSelectAntibodies}
+        errors={errors.antibodyCount}
       />
       {antibodies.map((antibody, index) => {
         const setAntibody = (value: AntibodyData) => {
@@ -176,6 +179,7 @@ const BlockSection = ({
             properties={properties}
             state={antibody}
             setState={setAntibody}
+            errors={errors.antibodies[index]}
           />
         );
       })}
