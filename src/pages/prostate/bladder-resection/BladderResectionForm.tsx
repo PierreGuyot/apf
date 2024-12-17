@@ -6,10 +6,8 @@ import { FormPage } from "../../../common/FormPage";
 import { ModePicker } from "../../../common/ModePicker";
 
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
-import {
-  IhcState,
-  validateIhc,
-} from "../../../common/immunohistochemistry/helpers";
+import { IhcState } from "../../../common/immunohistochemistry/helpers";
+import { validateIhc } from "../../../common/immunohistochemistry/validation";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
 import {

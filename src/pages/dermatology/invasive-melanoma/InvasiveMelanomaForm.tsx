@@ -2,10 +2,7 @@ import { ReactNode, useEffect } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
-import {
-  IhcState,
-  validateIhc,
-} from "../../../common/immunohistochemistry/helpers";
+import { IhcState } from "../../../common/immunohistochemistry/helpers";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import {
@@ -59,6 +56,7 @@ import { Macroscopy } from "./macroscopy/Macroscopy";
 import { getMacroscopyState, MacroscopyState } from "./macroscopy/state";
 import { validateMacroscopy } from "./macroscopy/validation";
 import { generateReport } from "./report";
+import { validateIhc } from "../../../common/immunohistochemistry/validation";
 
 export type FormState = MacroscopyState & {
   // Clinical info

@@ -1,10 +1,8 @@
 import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
-import {
-  IhcState,
-  validateIhc,
-} from "../../../common/immunohistochemistry/helpers";
+import { IhcState } from "../../../common/immunohistochemistry/helpers";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
+import { validateIhc } from "../../../common/immunohistochemistry/validation";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import { ResectionMacroscopy } from "../../../common/resection-macroscopy/ResectionMacroscopy";
 import {
