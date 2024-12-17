@@ -1,12 +1,9 @@
 @import "./constants.css";
 
 .main {
-  position: relative;
-}
-
-.handle {
   display: inline-flex;
   width: fit-content;
+  position: relative;
 }
 
 .content {

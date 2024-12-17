@@ -120,7 +120,7 @@ export const Tooltip = ({
 
   return (
     <span className={css.main}>
-      <span className={css.handle} ref={tooltipHandle} {...callbacks}>
+      <span ref={tooltipHandle} {...callbacks}>
         <span>{children}</span>
       </span>
       {isOpen ? (
