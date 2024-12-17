@@ -6,6 +6,7 @@ type Props = {
   max: number;
   label?: string;
   value: number;
+  isInline?: boolean;
   isReadOnly?: boolean;
   onChange: (value: number) => void;
 };

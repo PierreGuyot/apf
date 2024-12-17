@@ -77,9 +77,22 @@ export const getInkingColorOption = findOption(INKING_COLORS_OPTIONS);
 export type Inking = {
   hasInking: boolean;
   color: InkingColor;
-  orientation: Orientation;
+  orientation: Orientation | "other";
   orientationOther: string;
 };
+
+export const BLOCK_SAMPLING_OPTIONS_SINGLE = [
+  { value: "Après section en deux", label: "Après section en deux" },
+  { value: "Tel quel", label: "Tel quel" },
+] as const;
+export const BLOCK_SAMPLING_OPTIONS_MULTIPLE = [
+  { value: "En croix", label: "En croix" },
+  { value: "En tranches transversales", label: "En tranches transversales" },
+  { value: "En tranches longitudinales", label: "En tranches longitudinales" },
+] as const;
+export type BlockSampling =
+  | (typeof BLOCK_SAMPLING_OPTIONS_SINGLE)[number]["value"]
+  | (typeof BLOCK_SAMPLING_OPTIONS_MULTIPLE)[number]["value"];
 
 export const SUBTYPE_OPTIONS = [
   {
@@ -285,7 +298,8 @@ export type ExeresisType =
   | (typeof EXERIS_TYPE_OPTIONS_ORIENTED)[number]["value"]
   | (typeof EXERIS_TYPE_OPTIONS_NOT_ORIENTED)[number]["value"];
 
-const ORIENTATIONS = [
+// With only 3h multiples
+export const ORIENTATION_OPTIONS = [
   { value: "à 3h", label: "à 3h" },
   { value: "à 6h", label: "à 6h" },
   { value: "à 9h", label: "à 9h" },
@@ -298,13 +312,16 @@ const ORIENTATIONS = [
   { value: "au pôle postérieur", label: "au pôle postérieur" },
 ] as const;
 
-// With option Other
-export const ORIENTATION_OPTIONS = [...ORIENTATIONS, OTHER_ITEM] as const;
+// With only 3h multiples and option Other
+export const ORIENTATION_OPTIONS_WITH_OTHER = [
+  ...ORIENTATION_OPTIONS,
+  OTHER_ITEM,
+] as const;
 export type Orientation = (typeof ORIENTATION_OPTIONS)[number]["value"];
 
 // With all hour positions
 export const ORIENTATION_OPTIONS_FULL = [
-  ...ORIENTATIONS,
+  ...ORIENTATION_OPTIONS,
   { value: "à 1h", label: "à 1h" },
   { value: "à 2h", label: "à 2h" },
   { value: "à 4h", label: "à 4h" },
@@ -316,6 +333,22 @@ export const ORIENTATION_OPTIONS_FULL = [
 ] as const;
 export type OrientationFull =
   (typeof ORIENTATION_OPTIONS_FULL)[number]["value"];
+
+// Dumb but straightforward mapping
+const OPPOSITE_ORIENTATION_MAPPING: Record<Orientation, Orientation> = {
+  "à 3h": "à 9h",
+  "à 6h": "à 12h",
+  "à 9h": "à 3h",
+  "à 12h": "à 6h",
+  "au pôle supérieur": "au pôle inférieur",
+  "au pôle inférieur": "au pôle supérieur",
+  "au pôle médian": "au pôle médian",
+  "au pôle latéral": "au pôle médian",
+  "au pôle antérieur": "au pôle postérieur",
+  "au pôle postérieur": "au pôle antérieur",
+};
+export const getOppositeDirection = (orientation: Orientation): Orientation =>
+  OPPOSITE_ORIENTATION_MAPPING[orientation];
 
 export const METASTASIS_LOCATION_OPTIONS = [
   { value: "Sous-capsulaire", label: "Sous-capsulaire" },

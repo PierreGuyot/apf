@@ -42,5 +42,9 @@ export const useForm = <State>(getInitialState: () => State) => {
     [getInitialState],
   );
 
+  // TODO CLEAN: consider changing setState type everywhere to match React's setState function signature:
+  // setState: (value: State) => void)
+  //   would become
+  // setState: (updater: (currentState: State) => State) => void)
   return { state, setState, setField, clearState };
 };

@@ -8,7 +8,6 @@ import {
   Section,
   Select,
   SelectBoolean,
-  SelectTroolean,
   Stack,
 } from "../../../../ui";
 import {
@@ -19,7 +18,9 @@ import {
   INKING_COLORS_OPTIONS,
   ORIENTATION_METHOD_OPTIONS,
   ORIENTATION_OPTIONS,
+  ORIENTATION_OPTIONS_WITH_OTHER,
 } from "../helpers";
+import { BlockDescription } from "./BlockDescription";
 import { MacroscopyState } from "./state";
 import { MacroscopyErrors } from "./validation";
 
@@ -60,7 +61,7 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
               <>
                 <Select
                   label="situé"
-                  options={ORIENTATION_OPTIONS}
+                  options={ORIENTATION_OPTIONS_WITH_OTHER}
                   value={state.orientation}
                   onChange={setField("orientation")}
                 />
@@ -108,24 +109,10 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
         onChange={setField("inking")}
         error={errors.inkingOrientationOther}
       />
-      <SelectTroolean
-        label="Inclusion en totalité"
-        value={state.isIncludedInTotality}
-        onChange={setField("isIncludedInTotality")}
-      />
-      <InputNumber
-        label="Nombre de blocs"
-        min={1}
-        value={state.blockCount}
-        onChange={setField("blockCount")}
-      />
-      {/* TODO: update block description */}
-      <InputTextArea
-        label="Description des blocs"
-        placeholder="Décrivez ici les blocs."
-        value={state.blockDescription}
-        onChange={setField("blockDescription")}
-        errors={errors.blockDescription}
+      <BlockDescription
+        state={state}
+        setState={(value) => setState({ ...state, ...value })}
+        errors={errors}
       />
     </Section>
   );

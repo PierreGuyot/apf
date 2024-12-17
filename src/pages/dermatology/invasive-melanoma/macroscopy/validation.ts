@@ -57,7 +57,10 @@ export const validateMacroscopy = (state: MacroscopyState) => ({
     state.inking.orientation !== "other" || state.inking.orientationOther
       ? undefined
       : ERROR_MANDATORY_FIELD,
-  blockDescription: state.blockDescription ? undefined : ERROR_MANDATORY_FIELD,
+  secondBlockIndex:
+    state.secondBlockIndex === state.blockIndex
+      ? "Les deux numéros de blocs ne peuvent pas être égaux."
+      : undefined,
 });
 
 export type MacroscopyErrors = ReturnType<typeof validateMacroscopy>;

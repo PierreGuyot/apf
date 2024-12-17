@@ -1,6 +1,7 @@
 import { Troolean } from "../../../../ui";
 import {
   Aspect,
+  BlockSampling,
   Dimension2d,
   Dimension3d,
   Inking,
@@ -12,7 +13,7 @@ export type MacroscopyState = {
   isSpecimenOriented: boolean;
   orientationMethod: OrientationMethod;
   orientationMethodOther: string;
-  orientation: Orientation;
+  orientation: Orientation | "other";
   orientationOther: string;
   specimenDimensions: {
     type: Dimension3d;
@@ -33,7 +34,10 @@ export type MacroscopyState = {
   inking: Inking;
   isIncludedInTotality: Troolean;
   blockCount: number;
-  blockDescription: string;
+  blockSampling: BlockSampling;
+  position: Orientation;
+  blockIndex: number;
+  secondBlockIndex: number;
 };
 
 export const getMacroscopyState = (): MacroscopyState => ({
@@ -66,5 +70,8 @@ export const getMacroscopyState = (): MacroscopyState => ({
   },
   isIncludedInTotality: "unspecified",
   blockCount: 1,
-  blockDescription: "",
+  blockSampling: "En croix",
+  position: "à 3h",
+  blockIndex: 0,
+  secondBlockIndex: 0,
 });
