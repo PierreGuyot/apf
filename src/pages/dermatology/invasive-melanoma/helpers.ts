@@ -309,6 +309,17 @@ export const ORIENTATION_OPTIONS_FULL = [
 export type OrientationFull =
   (typeof ORIENTATION_OPTIONS_FULL)[number]["value"];
 
+export const METASTASIS_LOCATION_OPTIONS = [
+  { value: "Sous-capsulaire", label: "Sous-capsulaire" },
+  { value: "Intraparenchymateux", label: "Intraparenchymateux" },
+  {
+    value: "Sous-capsulaire et intraparenchymateux",
+    label: "Sous-capsulaire et intraparenchymateux",
+  },
+];
+export type MetastasisLocation =
+  (typeof METASTASIS_LOCATION_OPTIONS)[number]["value"];
+
 export const MOLECULAR_BIOLOGY_OPTIONS = [
   { value: "New Generation Sequencing", label: "New Generation Sequencing" },
   { value: "Idylla", label: "Idylla" },

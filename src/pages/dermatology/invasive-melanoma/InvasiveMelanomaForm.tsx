@@ -41,6 +41,8 @@ import {
   MarginState,
   MELANOCYTIC_LESION_GROUPS,
   MelanocyticLesion,
+  METASTASIS_LOCATION_OPTIONS,
+  MetastasisLocation,
   MOLECULAR_BIOLOGY_OPTIONS,
   MolecularBiology,
   Morphology,
@@ -87,6 +89,7 @@ export type FormState = MacroscopyState & {
   positiveLymphNodeCount: number;
   hasExtranodalExtension: boolean;
   largestMetastasisSize: number;
+  metastasisLocation: MetastasisLocation;
 
   // Ancillary studies
   ihc: IhcState;
@@ -154,6 +157,7 @@ const getInitialState = (): FormState => ({
   positiveLymphNodeCount: 0,
   hasExtranodalExtension: false,
   largestMetastasisSize: 0,
+  metastasisLocation: "Sous-capsulaire",
   ihc: {
     hasIhc: false,
     blocks: [],
@@ -418,6 +422,12 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
                   value={state.largestMetastasisSize}
                   onChange={setField("largestMetastasisSize")}
                   errors={errors.largestMetastasisSize}
+                />
+                <Select
+                  label="Localisation de la métastase"
+                  options={METASTASIS_LOCATION_OPTIONS}
+                  value={state.metastasisLocation}
+                  onChange={setField("metastasisLocation")}
                 />
               </NestedItem>
             ) : undefined}
