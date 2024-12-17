@@ -14,7 +14,7 @@ const UNIT_LABELS: Record<Unit, string> = {
   cm: "cm",
   "ng-per-mL": "ng.mL⁻¹",
   percent: "%",
-  "mitoses-per-mm-2": "mitoses par mm²",
+  "mitoses-per-mm-2": "mitose(s) par mm²",
 };
 
 export const getUnitLabel = (unit: Unit) => UNIT_LABELS[unit];
