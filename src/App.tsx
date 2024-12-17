@@ -1,8 +1,9 @@
 import { isFeatureFlagEnabled } from "./feature-flags";
 import { PageMain } from "./pages/PageMain";
 import { DesignPage } from "./pages/_PageDesign";
-import { InvasiveMelanomaForm } from "./pages/dermatology/invasive-melanoma/InvasiveMelanomaForm";
 import { DermatologyForm } from "./pages/dermatology/_wip-dermatology/DermatologyForm";
+import { InvasiveMelanomaForm } from "./pages/dermatology/invasive-melanoma/InvasiveMelanomaForm";
+import { ThyroidForm } from "./pages/dermatology/thyroid/ThyroidForm";
 import { BladderResectionForm } from "./pages/prostate/bladder-resection/BladderResectionForm";
 import { ProstateBiopsyForm } from "./pages/prostate/prostate-biopsy/ProstateBiopsyForm";
 import { ProstateResectionForm } from "./pages/prostate/prostate-resection/ProstateResectionForm";
@@ -15,7 +16,6 @@ import {
   Route,
   useHash,
 } from "./ui";
-import { ThyroidForm } from "./pages/dermatology/thyroid/ThyroidForm";
 
 const isEnabledRoute = (value: string): value is Route => {
   if (!isRoute(value)) {
