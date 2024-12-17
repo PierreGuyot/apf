@@ -35,7 +35,9 @@ import {
   INVASIVE_MELANOMA_ANTIBODY_PROPERTIES,
   LYMPH_NODE_EXERESIS_OPTIONS,
   LymphNodeExeresis,
+  LYMPHOCYTE_INFILTRATION_SEVERITY_OPTIONS,
   LYMPHOCYTE_OPTIONS,
+  LymphocyteInfiltrationSeverity,
   LymphocyteOption,
   MARGIN_STATE_OPTIONS,
   MarginState,
@@ -77,6 +79,7 @@ export type FormState = MacroscopyState & {
   mitoticActivity: number;
   hasTumoralRegression: boolean;
   intraTumoralLymphocytes: LymphocyteOption;
+  lymphocyteInfiltrationSeverity: LymphocyteInfiltrationSeverity;
   hasMicroSatellites: boolean;
   microSatelliteMarginState: MarginState;
   hasLymphaticOrVascularInvasion: boolean;
@@ -142,6 +145,7 @@ const getInitialState = (): FormState => ({
   mitoticActivity: 0,
   hasTumoralRegression: false,
   intraTumoralLymphocytes: "none",
+  lymphocyteInfiltrationSeverity: "Légère",
   hasMicroSatellites: false,
   microSatelliteMarginState: "unspecified",
   hasLymphaticOrVascularInvasion: false,
@@ -357,6 +361,17 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             value={state.intraTumoralLymphocytes}
             onChange={setField("intraTumoralLymphocytes")}
           />
+          {state.intraTumoralLymphocytes === "non-brisk" ? (
+            <NestedItem depth={1}>
+              <Select
+                label="Sévérité"
+                options={LYMPHOCYTE_INFILTRATION_SEVERITY_OPTIONS}
+                value={state.lymphocyteInfiltrationSeverity}
+                onChange={setField("lymphocyteInfiltrationSeverity")}
+              />
+            </NestedItem>
+          ) : undefined}
+
           <HasEpn value={state.hasEpn} onChange={setField("hasEpn")} />
           <HasLymphoVascularInvasion
             value={state.hasLymphaticOrVascularInvasion}

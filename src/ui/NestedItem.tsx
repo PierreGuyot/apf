@@ -5,6 +5,7 @@ import { size } from "./sizes";
 import { Stack } from "./Stack";
 
 type Props = PropsWithChildren<{
+  // TODO clean: make depth default to 1
   depth?: number;
 }>;
 

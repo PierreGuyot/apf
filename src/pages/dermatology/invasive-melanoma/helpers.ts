@@ -169,6 +169,14 @@ export const LYMPHOCYTE_OPTIONS = [
 ] as const;
 export type LymphocyteOption = (typeof LYMPHOCYTE_OPTIONS)[number]["value"];
 
+export const LYMPHOCYTE_INFILTRATION_SEVERITY_OPTIONS = [
+  { value: "Légère", label: "Légère" },
+  { value: "Modérée", label: "Modérée" },
+  { value: "Sévère", label: "Sévère" },
+] as const;
+export type LymphocyteInfiltrationSeverity =
+  (typeof LYMPHOCYTE_INFILTRATION_SEVERITY_OPTIONS)[number]["value"];
+
 export const MARGIN_STATE_OPTIONS = [
   { value: "Saines", label: "Saines" },
   { value: "Atteintes", label: "Atteintes" },
