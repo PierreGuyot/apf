@@ -1,9 +1,10 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
 import { IhcState } from "../../../common/immunohistochemistry/helpers";
 import { Immunohistochemistry } from "../../../common/immunohistochemistry/Immunohistochemistry";
+import { validateIhc } from "../../../common/immunohistochemistry/validation";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import {
   filterNullish,
@@ -60,7 +61,6 @@ import { Macroscopy } from "./macroscopy/Macroscopy";
 import { getMacroscopyState, MacroscopyState } from "./macroscopy/state";
 import { validateMacroscopy } from "./macroscopy/validation";
 import { generateReport } from "./report";
-import { validateIhc } from "../../../common/immunohistochemistry/validation";
 
 export type FormState = MacroscopyState & {
   // Clinical info
@@ -695,18 +695,6 @@ const InputExeresis = ({
   const options = isSpecimenOriented
     ? EXERIS_TYPE_OPTIONS_ORIENTED
     : EXERIS_TYPE_OPTIONS_NOT_ORIENTED;
-
-  // When options change, reset type to first available value
-  useEffect(
-    () => {
-      const firstOption = options[0]?.value ?? "simple-complete";
-      setField("type")(firstOption);
-    },
-    // TODO CLEAN: find a way to clean this
-    // CAUTION: we disable the check on setField (which is unstable by nature) here
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [options],
-  );
 
   return (
     <>

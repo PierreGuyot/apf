@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { anId, join } from "./helpers/helpers";
 import {
   Option,
@@ -60,6 +60,16 @@ export function Select<T extends OptionValue>({
       flatOptions.map((option) => [option.value, option]),
     );
   }, [flatOptions]);
+
+  // If options changes and value is not valid anymore, update the value to the first available.
+  // Typically useful when options are dynamic.
+  useEffect(() => {
+    if (flatOptions.some((option) => option.value === value)) {
+      return;
+    }
+
+    onChangeProp(flatOptions[0].value);
+  }, [value, flatOptions, onChangeProp]);
 
   const content = useMemo(() => {
     if (isReadOnly) {

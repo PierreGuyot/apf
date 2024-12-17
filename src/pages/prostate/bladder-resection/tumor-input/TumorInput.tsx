@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   HelpIcon,
   InputText,
@@ -39,18 +38,6 @@ export const TumorInput = ({
   const setField = patchState(state, setState);
   const gradeOptions = getGradeOptions(state.type);
 
-  // When tumor type changes, reset grade to first available value
-  useEffect(
-    () => {
-      const firstGradeOption = gradeOptions[0]?.value ?? "";
-      setField("grade")(firstGradeOption);
-    },
-    // TODO CLEAN: find a way to clean this
-    // CAUTION: we disable the check on setField (which is unstable by nature) here
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state.type],
-  );
-
   return (
     <>
       <Line>
@@ -74,7 +61,6 @@ export const TumorInput = ({
           error={error}
         />
       ) : undefined}
-
       {hasGrade ? (
         state.type === "other" ? (
           <InputText

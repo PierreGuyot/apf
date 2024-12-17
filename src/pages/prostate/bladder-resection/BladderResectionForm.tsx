@@ -1,5 +1,5 @@
 import { Mode } from "fs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { ClinicalInfo } from "../../../common/ClinicalInfo";
 import { FormPage } from "../../../common/FormPage";
@@ -263,7 +263,6 @@ const ClinicalInfoExpert = ({
       />
       {state.medicalHistory ? (
         <>
-          {/* TODO clean: fix line height */}
           <TumorInput
             state={state.previousTumor}
             setState={setField("previousTumor")}
@@ -405,18 +404,6 @@ const LocationInput = ({
 }) => {
   const setField = patchState(state, setState);
   const sublocationOptions = getSublocationOptions(state.location);
-
-  // When sublocation options change, reset sublocation to first available value
-  useEffect(
-    () => {
-      const firstOption = sublocationOptions[0]?.value ?? "none";
-      setField("sublocation")(firstOption);
-    },
-    // TODO CLEAN: find a way to clean this
-    // CAUTION: we disable the check on setField (which is unstable by nature) here
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [state.location],
-  );
 
   return (
     <>
