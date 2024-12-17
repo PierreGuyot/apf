@@ -6,5 +6,5 @@ export const validateComposition = (
   const total = sum(Object.values(composition).filter(filterNullish));
   return total === 100
     ? undefined
-    : `Le total doit être égal à 100% (${100 - total}% pour l'instant).`;
+    : `Le total doit être égal à 100% (${total}% pour l'instant).`;
 };
