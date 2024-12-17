@@ -33,6 +33,7 @@ import {
   sumArrays,
   useForm,
 } from "../../../ui";
+import { reduceErrors } from "../../../validation";
 import {
   PROSTATE_ANTIBODY_GROUPS,
   PROSTATE_ANTIBODY_PROPERTIES,
@@ -325,8 +326,7 @@ const ProstateBiopsyFormContent = ({
     piradsItems: visiblePiradsItems,
   });
   const ihcErrors = validateIhc({ ihc, containerCount });
-
-  const hasErrors = !!biopsyTableErrors.length || !!ihcErrors.length;
+  const hasErrors = reduceErrors(biopsyTableErrors) || reduceErrors(ihcErrors);
 
   const getReportContent = (language: Language) =>
     generateReport(

@@ -116,7 +116,7 @@ export const ProstateResectionForm = ({ formId }: Props) => {
 
   const macroscopyErrors = validateResectionMacroscopy(state);
   const ihcErrors = validateIhc({ ihc, containerCount: blockCount });
-  const hasErrors = reduceErrors(macroscopyErrors) || !!ihcErrors.length;
+  const hasErrors = reduceErrors(macroscopyErrors) || reduceErrors(ihcErrors);
 
   return (
     <FormPage formId={formId} onClear={clearState}>

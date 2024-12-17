@@ -34,6 +34,7 @@ import {
   useForm,
 } from "../../../ui";
 import { validateComposition } from "../../../ui/select-composition.validation";
+import { reduceErrors } from "../../../validation";
 import {
   BLADDER_RESECTION_ANTIBODY_GROUPS,
   BLADDER_RESECTION_ANTIBODY_PROPERTIES,
@@ -52,7 +53,6 @@ import {
 import { generateReport } from "./report";
 import { TumorInput } from "./tumor-input/TumorInput";
 import { DEFAULT_TUMOR, Ptnm, Tumor } from "./tumor-input/helpers";
-import { reduceErrors } from "../../../validation";
 
 type MuscularisPropria = {
   isPresent: boolean;
@@ -174,8 +174,8 @@ export const BladderResectionFormContent = ({
 
   const hasErrors =
     reduceErrors(macroscopyErrors) ||
-    !!tumorCompositionError ||
-    !!ihcErrors.length;
+    reduceErrors(tumorCompositionError) ||
+    reduceErrors(ihcErrors);
 
   let index = 1;
 
