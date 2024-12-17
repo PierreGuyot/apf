@@ -91,11 +91,6 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
         value={state.hasOtherLesions}
         onChange={setField("hasOtherLesions")}
       />
-      <InputInking
-        value={state.inking}
-        onChange={setField("inking")}
-        error={errors.inkingOrientationOther}
-      />
       {state.hasOtherLesions ? (
         <NestedItem depth={1}>
           <InputTextArea
@@ -108,6 +103,11 @@ export const Macroscopy = ({ index, state, setState, errors }: Props) => {
           />
         </NestedItem>
       ) : undefined}
+      <InputInking
+        value={state.inking}
+        onChange={setField("inking")}
+        error={errors.inkingOrientationOther}
+      />
       <SelectTroolean
         label="Inclusion en totalité"
         value={state.isIncludedInTotality}
@@ -224,7 +224,7 @@ const InputSpecimen = ({
 
       <Stack direction="row" spacing="sm" alignItems="start">
         <Select
-          label="Description macroscopique de la lésion"
+          label="Aspect de la lésion"
           options={ASPECT_OPTIONS}
           value={state.lesionAspect}
           onChange={setField("lesionAspect")}

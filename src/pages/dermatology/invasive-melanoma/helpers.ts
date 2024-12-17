@@ -139,11 +139,11 @@ export type GrowthPhase = (typeof GROWTH_PHASE_OPTIONS)[number]["value"];
 // FIXME: align with DermatologyForm
 export type ClarkInfiltrationLevel = 1 | 2 | 3 | 4 | 5;
 export const CLARK_INFILTRATION_LEVELS: Option<ClarkInfiltrationLevel>[] = [
-  { value: 1, label: "Intra-épidermique/confiné à l'épiderme (niveau I)" },
-  { value: 2, label: "Infiltration débutante du derme papillaire (niveau II)" },
-  { value: 3, label: "Infiltration de tout le derme papillaire (niveau III)" },
-  { value: 4, label: "Infiltration du derme réticulaire (niveau IV)" },
-  { value: 5, label: "Infiltration de l'hypoderme (niveau V)" },
+  { value: 1, label: "Intra-épidermique/confiné à l'épiderme (niveau 1)" },
+  { value: 2, label: "Infiltration débutante du derme papillaire (niveau 2)" },
+  { value: 3, label: "Infiltration de tout le derme papillaire (niveau 3)" },
+  { value: 4, label: "Infiltration du derme réticulaire (niveau 4)" },
+  { value: 5, label: "Infiltration de l'hypoderme (niveau 5)" },
 ];
 
 export const BRESLOW_THICKNESS_TYPE_OPTIONS = [
@@ -181,20 +181,20 @@ export const MELANOCYTIC_LESION_GROUPS = [
     title: "", // TODO clean: fix API
     options: [
       {
-        value: "Naevus jonctionnel composé ou dermique",
-        label: "Naevus jonctionnel composé ou dermique",
+        value: "Naevus jonctionnel, composé ou dermique",
+        label: "Naevus jonctionnel, composé ou dermique",
       },
       {
-        value: "Mélanocytome activé de la voie WNT (naevus)",
-        label: "Mélanocytome activé de la voie WNT (naevus)",
+        value: "Mélanocytome avec activation de voie WNT",
+        label: "Mélanocytome avec activation de voie WNT",
       },
       {
         value: "Mélanocytome épithélioïde pigmenté",
         label: "Mélanocytome épithélioïde pigmenté",
       },
       {
-        value: "Mélanocytome inactivé par BAP1",
-        label: "Mélanocytome inactivé par BAP1",
+        value: "Mélanocytome avec inactivation de BAP1",
+        label: "Mélanocytome avec inactivation de BAP1",
       },
       {
         value: "Tumeurs mélanocytaires activées par la voie MITF",

@@ -390,14 +390,14 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
         {state.lymphNodeExeresis === "no" ? undefined : (
           <Section index={index++} title="Statut ganglionnaire">
             <InputNumber
-              label="Nombre de ganglions étudiés"
+              label="Nombre de ganglion(s) étudié(s)"
               value={state.lymphNodeCount}
               onChange={setField("lymphNodeCount")}
               errors={errors.lymphNodeCount}
             />
             <Stack spacing="xs">
               <InputNumber
-                label="Nombre de ganglions positifs"
+                label="Nombre de ganglion(s) métastatique(s)"
                 value={state.positiveLymphNodeCount}
                 onChange={setField("positiveLymphNodeCount")}
                 errors={errors.positiveLymphNodeCount}
@@ -405,13 +405,14 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             </Stack>
             {state.positiveLymphNodeCount > 0 ? (
               <NestedItem depth={1}>
-                <SelectBoolean
+                <SelectPresence
+                  grammaticalForm={{ gender: "feminine", number: "singular" }}
                   label="Extension extra-ganglionnaire"
                   value={state.hasExtranodalExtension}
                   onChange={setField("hasExtranodalExtension")}
                 />
                 <InputNumber
-                  label="Diamètre de la plus grande métastase ganglionnaire"
+                  label="Taille de la plus grande métastase ganglionnaire"
                   unit="mm"
                   isDecimal
                   value={state.largestMetastasisSize}

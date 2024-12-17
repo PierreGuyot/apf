@@ -29,6 +29,7 @@ import {
   SelectComposition,
   SelectList,
   SelectNumber,
+  SelectPresence,
   SelectTroolean,
   size,
   Size,
@@ -104,6 +105,7 @@ export const DesignPage = () => {
         <EntrySelectNumber />
         <EntrySelectBoolean />
         <EntrySelectTroolean />
+        <EntrySelectPresence />
         <EntrySelectComposition />
 
         <EntryBanner />
@@ -500,6 +502,21 @@ const EntrySelectTroolean = () => {
     <DocumentationEntry name="SelectTroolean">
       <SelectTroolean
         label="An example troolean selection (yes, no, or unspecified)"
+        value={value}
+        onChange={onChange}
+      />
+    </DocumentationEntry>
+  );
+};
+
+const EntrySelectPresence = () => {
+  const [value, onChange] = useState<boolean>(false);
+
+  return (
+    <DocumentationEntry name="SelectPresence">
+      <SelectPresence
+        grammaticalForm={{ gender: "feminine", number: "singular" }}
+        label="An example presence selection"
         value={value}
         onChange={onChange}
       />

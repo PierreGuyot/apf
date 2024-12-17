@@ -60,8 +60,8 @@ export const getMacroscopyState = (): MacroscopyState => ({
   otherLesionsDescription: "",
   inking: {
     hasInking: false,
-    color: "blue",
-    orientation: "other",
+    color: "green",
+    orientation: "à 3h",
     orientationOther: "",
   },
   isIncludedInTotality: "unspecified",
