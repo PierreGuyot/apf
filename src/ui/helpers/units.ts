@@ -17,6 +17,7 @@ const UNIT_LABELS: Record<Unit, string> = {
   "mitoses-per-mm-2": "mitose(s) par mm²",
 };
 
+// TODO clean: handle plural
 export const getUnitLabel = (unit: Unit) => UNIT_LABELS[unit];
 export const formatWithUnit = (value: number, unit: Unit) => {
   const label = getUnitLabel(unit);

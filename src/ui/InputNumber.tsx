@@ -122,7 +122,10 @@ export const InputNumber = ({
     <Stack direction="row" alignItems="start" isInline={isInline} spacing="sm">
       {label ? <Label label={label} size="md" /> : undefined}
       {isReadOnly ? (
-        value
+        <>
+          {value}
+          {unit ? ` ${getUnitLabel(unit)}` : ""}
+        </>
       ) : (
         <Stack spacing="xs" isInline>
           <Stack direction="row" spacing="sm" isInline>

@@ -88,7 +88,6 @@ export const BLOCK_SAMPLING_OPTIONS_SINGLE = [
 export const BLOCK_SAMPLING_OPTIONS_MULTIPLE = [
   { value: "En croix", label: "En croix" },
   { value: "En tranches transversales", label: "En tranches transversales" },
-  { value: "En tranches longitudinales", label: "En tranches longitudinales" },
 ] as const;
 export type BlockSampling =
   | (typeof BLOCK_SAMPLING_OPTIONS_SINGLE)[number]["value"]
@@ -149,9 +148,8 @@ export const GROWTH_PHASE_OPTIONS = [
 ] as const;
 export type GrowthPhase = (typeof GROWTH_PHASE_OPTIONS)[number]["value"];
 
-// FIXME: align with DermatologyForm
-export type ClarkInfiltrationLevel = 1 | 2 | 3 | 4 | 5;
-export const CLARK_INFILTRATION_LEVELS: Option<ClarkInfiltrationLevel>[] = [
+export type ClarkLevel = 1 | 2 | 3 | 4 | 5;
+export const CLARK_LEVELS: Option<ClarkLevel>[] = [
   { value: 1, label: "Intra-épidermique/confiné à l'épiderme (niveau 1)" },
   { value: 2, label: "Infiltration débutante du derme papillaire (niveau 2)" },
   { value: 3, label: "Infiltration de tout le derme papillaire (niveau 3)" },
@@ -183,9 +181,9 @@ export const LYMPHOCYTE_OPTIONS = [
 export type LymphocyteOption = (typeof LYMPHOCYTE_OPTIONS)[number]["value"];
 
 export const LYMPHOCYTE_INFILTRATION_SEVERITY_OPTIONS = [
-  { value: "Légère", label: "Légère" },
-  { value: "Modérée", label: "Modérée" },
-  { value: "Sévère", label: "Sévère" },
+  { value: "Léger", label: "Léger" },
+  { value: "Modéré", label: "Modéré" },
+  { value: "Intense", label: "Intense" },
 ] as const;
 export type LymphocyteInfiltrationSeverity =
   (typeof LYMPHOCYTE_INFILTRATION_SEVERITY_OPTIONS)[number]["value"];

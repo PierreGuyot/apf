@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { AdditionalRemarks } from "../../../common/AdditionalRemarks";
 import { HasEpn } from "../../../common/epn/HasEpn";
 import { FormPage } from "../../../common/FormPage";
@@ -8,8 +8,10 @@ import { validateIhc } from "../../../common/immunohistochemistry/validation";
 import { HasLymphoVascularInvasion } from "../../../common/invasion/HasLymphoVascularInvasion";
 import {
   filterNullish,
+  HelpIcon,
   InputNumber,
   InputText,
+  Line,
   NestedItem,
   patchState,
   Section,
@@ -25,8 +27,8 @@ import { ERROR_MANDATORY_FIELD, reduceErrors } from "../../../validation";
 import {
   BRESLOW_THICKNESS_TYPE_OPTIONS,
   BreslowThicknessType,
-  CLARK_INFILTRATION_LEVELS,
-  ClarkInfiltrationLevel,
+  CLARK_LEVELS,
+  ClarkLevel,
   ExeresisType,
   EXERIS_TYPE_OPTIONS_NOT_ORIENTED,
   EXERIS_TYPE_OPTIONS_ORIENTED,
@@ -104,7 +106,7 @@ export type FormState = MacroscopyState & {
 };
 
 type Thickness = {
-  clarkThickness: ClarkInfiltrationLevel;
+  clarkLevel: ClarkLevel;
   breslowThickness: BreslowThickness;
 };
 
@@ -134,7 +136,7 @@ const getInitialState = (): FormState => ({
   subtypeOther: "",
   growthPhase: "horizontal",
   thickness: {
-    clarkThickness: 1,
+    clarkLevel: 1,
     breslowThickness: {
       type: "precised",
       distance: 0,
@@ -145,7 +147,7 @@ const getInitialState = (): FormState => ({
   mitoticActivity: 0,
   hasTumoralRegression: false,
   intraTumoralLymphocytes: "none",
-  lymphocyteInfiltrationSeverity: "Légère",
+  lymphocyteInfiltrationSeverity: "Léger",
   hasMicroSatellites: false,
   microSatelliteMarginState: "unspecified",
   hasLymphaticOrVascularInvasion: false,
@@ -342,11 +344,9 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             value={state.hasUlceration}
             onChange={setField("hasUlceration")}
           />
-          <InputNumber
-            label="Activité mitotique"
-            unit="mitoses-per-mm-2"
-            isDecimal
-            value={state.mitoticActivity}
+          <MitoticActivity
+            mitoticActivity={state.mitoticActivity}
+            clarkLevel={state.thickness.clarkLevel}
             onChange={setField("mitoticActivity")}
           />
           <SelectPresence
@@ -355,22 +355,22 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
             value={state.hasTumoralRegression}
             onChange={setField("hasTumoralRegression")}
           />
-          <Select
-            label="Lymphocytes intra-tumoraux"
-            options={LYMPHOCYTE_OPTIONS}
-            value={state.intraTumoralLymphocytes}
-            onChange={setField("intraTumoralLymphocytes")}
-          />
-          {state.intraTumoralLymphocytes === "non-brisk" ? (
-            <NestedItem>
+
+          <Line>
+            <Select
+              label="Lymphocytes intra-tumoraux"
+              options={LYMPHOCYTE_OPTIONS}
+              value={state.intraTumoralLymphocytes}
+              onChange={setField("intraTumoralLymphocytes")}
+            />
+            {state.intraTumoralLymphocytes === "non-brisk" ? (
               <Select
-                label="Sévérité"
                 options={LYMPHOCYTE_INFILTRATION_SEVERITY_OPTIONS}
                 value={state.lymphocyteInfiltrationSeverity}
                 onChange={setField("lymphocyteInfiltrationSeverity")}
               />
-            </NestedItem>
-          ) : undefined}
+            ) : undefined}
+          </Line>
 
           <HasEpn value={state.hasEpn} onChange={setField("hasEpn")} />
           <HasLymphoVascularInvasion
@@ -385,7 +385,7 @@ export const InvasiveMelanomaForm = ({ formId }: Props) => {
           />
           <SelectPresence
             grammaticalForm={{ gender: "masculine", number: "plural" }}
-            label="Nodules satellites (micro-satellites)"
+            label="Nodule(s) satellite(s)"
             value={state.hasMicroSatellites}
             onChange={setField("hasMicroSatellites")}
           />
@@ -506,12 +506,12 @@ const InputThickness = ({
   return (
     <>
       <Select
-        label="Épaisseur selon Clark"
-        options={CLARK_INFILTRATION_LEVELS}
-        value={state.clarkThickness}
-        onChange={setField("clarkThickness")}
+        label="Niveau de Clark"
+        options={CLARK_LEVELS}
+        value={state.clarkLevel}
+        onChange={setField("clarkLevel")}
       />
-      {state.clarkThickness === 1 ? undefined : (
+      {state.clarkLevel === 1 ? undefined : (
         <InputBreslowThickness
           state={state.breslowThickness}
           setState={setField("breslowThickness")}
@@ -717,5 +717,42 @@ const InputExeresis = ({
         </Stack>
       </NestedItem>
     </>
+  );
+};
+
+const MitoticActivity = ({
+  mitoticActivity,
+  clarkLevel,
+  onChange,
+}: {
+  mitoticActivity: number;
+  clarkLevel: ClarkLevel;
+  onChange: (value: number) => void;
+}) => {
+  // If Clark level is minimal, mitotic activity must be 0
+  const isReadOnly = clarkLevel === 1;
+  useEffect(() => {
+    if (isReadOnly) {
+      onChange(0);
+    }
+  }, [clarkLevel, isReadOnly, onChange]);
+
+  return (
+    <Line>
+      <InputNumber
+        isReadOnly={isReadOnly}
+        label="Activité mitotique"
+        unit="mitoses-per-mm-2"
+        isDecimal
+        value={mitoticActivity}
+        onChange={onChange}
+      />
+      {isReadOnly ? (
+        <HelpIcon
+          content="L'évaluation de l'activité mitotitque ne doit être effectuée que dans le contingent infiltrant des mélanomes (AJCC, 8ème édition, page 574)."
+          size="sm"
+        />
+      ) : undefined}
+    </Line>
   );
 };
