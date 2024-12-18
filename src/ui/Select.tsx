@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { anId, join } from "./helpers/helpers";
+import { anId, filterNullish, join } from "./helpers/helpers";
 import {
   Option,
   OptionGroup,
@@ -7,6 +7,8 @@ import {
   OptionValue,
 } from "./helpers/options";
 
+import { ErrorList } from "./ErrorList";
+import { HelpIcon } from "./HelpIcon";
 import css from "./select.module.css";
 import { Stack } from "./Stack";
 import { Text } from "./Text";
@@ -19,6 +21,7 @@ type Props<T extends OptionValue> = {
   options: readonly OptionOrGroup<T>[];
   value: T;
   onChange: (value: T) => void;
+  errors?: string | string[] | undefined;
 
   // TODO: make label mandatory to avoid forgetting it (label: string | undefined)
   label?: string;
@@ -40,6 +43,7 @@ export function Select<T extends OptionValue>({
   options: optionsProp,
   value,
   onChange: onChangeProp,
+  errors: errorsProp,
   label,
   labelSize = "md",
   isInline,
@@ -70,6 +74,10 @@ export function Select<T extends OptionValue>({
 
     onChangeProp(flatOptions[0].value);
   }, [value, flatOptions, onChangeProp]);
+
+  const errors = (Array.isArray(errorsProp) ? errorsProp : [errorsProp]).filter(
+    filterNullish,
+  );
 
   const content = useMemo(() => {
     if (isReadOnly) {
@@ -148,6 +156,13 @@ export function Select<T extends OptionValue>({
         </label>
       ) : undefined}
       {content}
+      {errors.length ? (
+        <HelpIcon
+          variant="error"
+          size="xs"
+          content={<ErrorList errors={errors} />}
+        />
+      ) : undefined}
     </Stack>
   );
 }

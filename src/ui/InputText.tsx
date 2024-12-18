@@ -23,7 +23,7 @@ export const InputText = ({
   labelSize = "md",
   placeholder,
   isFullWidth,
-  errors: errorMessageProp,
+  errors: errorsProp,
   isSubmitted = true,
   isReadOnly,
   onChange,
@@ -35,9 +35,9 @@ export const InputText = ({
     onChange(inputEvent.value);
   };
 
-  const errorMessage = (
-    Array.isArray(errorMessageProp) ? errorMessageProp : [errorMessageProp]
-  ).filter(filterNullish);
+  const errors = (Array.isArray(errorsProp) ? errorsProp : [errorsProp]).filter(
+    filterNullish,
+  );
 
   return (
     // TODO clean: mutualize style with other inputs and selects
@@ -62,11 +62,11 @@ export const InputText = ({
               }
             }}
           />
-          {isSubmitted && errorMessage.length ? (
+          {isSubmitted && errors.length ? (
             <HelpIcon
               variant="error"
               size="xs"
-              content={<ErrorList errors={errorMessage} />}
+              content={<ErrorList errors={errors} />}
             />
           ) : undefined}
         </Stack>

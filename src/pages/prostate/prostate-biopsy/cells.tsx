@@ -1,5 +1,8 @@
 import { Fragment } from "react";
 import {
+  ErrorList,
+  filterNullish,
+  HelpIcon,
   InputNumber,
   Language,
   range,
@@ -34,29 +37,46 @@ export const CellSize = ({
   onChange,
   inputCount,
   isReadOnly,
+  errors,
 }: {
   values: number[];
   isReadOnly?: boolean;
   onChange: (value: number[]) => void;
   inputCount: number;
-}) => (
-  <Stack direction="row" alignItems="center" spacing="xs">
-    {range(inputCount).map((_, i) => (
-      <Fragment key={i}>
-        <InputNumber
-          value={values[i]}
-          isReadOnly={isReadOnly}
-          onChange={(updatedNumber) => {
-            const updatedArray = [...values];
-            updatedArray[i] = updatedNumber;
-            onChange(updatedArray);
-          }}
+  errors: {
+    fields: Array<string | undefined>;
+    total?: string;
+  };
+}) => {
+  return (
+    <Stack direction="row" spacing="sm" alignItems="center">
+      <Stack direction="row" alignItems="center" spacing="xs">
+        {range(inputCount).map((_, i) => (
+          <Fragment key={i}>
+            <InputNumber
+              value={values[i]}
+              isReadOnly={isReadOnly}
+              onChange={(updatedNumber) => {
+                const updatedArray = [...values];
+                updatedArray[i] = updatedNumber;
+                onChange(updatedArray);
+              }}
+              errors={errors.fields[i]}
+            />
+            {i === inputCount - 1 ? undefined : <Plus />}
+          </Fragment>
+        ))}
+      </Stack>
+      {errors.total && errors.fields.filter(filterNullish).length === 0 ? (
+        <HelpIcon
+          variant="error"
+          size="xs"
+          content={<ErrorList errors={[errors.total]} />}
         />
-        {i === inputCount - 1 ? undefined : <Plus />}
-      </Fragment>
-    ))}
-  </Stack>
-);
+      ) : undefined}
+    </Stack>
+  );
+};
 
 export const CellGleason = ({
   language,

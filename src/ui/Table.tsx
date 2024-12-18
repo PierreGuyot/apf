@@ -13,6 +13,9 @@ type BaseColumn<Key, Value, Row> = {
     row: Row,
     isReadOnly: boolean,
     onChange: (value: Value) => void,
+    index: number,
+    // TODO clean: make arguments named
+    // TODO clean: consider passing error instead of having to use errors[index]
   ) => ReactNode;
   total?: (rows: Row[]) => ReactNode;
 };
@@ -76,13 +79,17 @@ export function Table<Row>({
                       <div
                         className={join(css.cell, css[`cell--${alignment}`])}
                       >
-                        {column.render(row, isReadOnly, (value) =>
-                          onChange(
-                            patchArray(rows, rowIndex, (row) => ({
-                              ...row,
-                              [column.key]: value,
-                            })),
-                          ),
+                        {column.render(
+                          row,
+                          isReadOnly,
+                          (value) =>
+                            onChange(
+                              patchArray(rows, rowIndex, (row) => ({
+                                ...row,
+                                [column.key]: value,
+                              })),
+                            ),
+                          rowIndex,
                         )}
                       </div>
                     )}

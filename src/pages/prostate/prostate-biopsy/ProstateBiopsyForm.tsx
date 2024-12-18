@@ -20,10 +20,7 @@ import {
   Stack,
   Summary,
   ValidationErrors,
-  count,
-  filterNullish,
   isDebug,
-  naturalJoin,
   noop,
   patchState,
   range,
@@ -37,7 +34,6 @@ import {
   PROSTATE_ANTIBODY_PROPERTIES,
   TUMOR_TYPES,
   TumorType,
-  getTumorTypeOption,
 } from "../helpers";
 import { PiradsSelect } from "./PiradsSelect";
 import { ProstateBiopsyTable } from "./ProstateBiopsyTable";
@@ -49,13 +45,13 @@ import {
   ProstateBiopsyFormId,
   Row,
   RowWithMetadata,
-  SEXTANT_COUNT,
   Score,
   anEmptyPiradsItem,
   anEmptyRow,
   getMaximumByGleasonScore,
 } from "./helpers";
 import { generateReport } from "./report";
+import { validateBiopsyTable } from "./validation";
 
 // TODO clean: test extensively
 // CAUTION: be very cautious about counting only visible items
@@ -83,110 +79,6 @@ const getScore = (rows: Row[]): Score => {
     tumorCount,
     ...tumorScore,
   };
-};
-
-// CAUTION: only count visible inputs for size (not the hidden ones)
-const hasValidSizes = (row: RowWithMetadata) => {
-  const biopsySizes = row.biopsySize.slice(0, row.biopsySizeInputCount);
-  const tumorSizes = row.tumorSize.slice(0, row.tumorSizeInputCount);
-  return [...biopsySizes, ...tumorSizes].every((size) => size > 0);
-};
-
-// TODO clean: test extensively
-const validateBiopsyTable = ({
-  sextantName,
-  rows,
-  containerCount,
-  piradsItems,
-  tumorType,
-}: {
-  sextantName: string;
-  rows: RowWithMetadata[];
-  containerCount: number;
-  piradsItems: PiradsItem[];
-  tumorType: TumorType;
-}) => {
-  const errors: string[] = [];
-
-  const sextants = rows.filter((row) => row.type === "sextant");
-  const sextantCount = sextants.length;
-  const targets = rows.filter((row) => row.type === "target");
-  const targetCount = targets.length;
-  const expectedTargetCount = containerCount - SEXTANT_COUNT;
-
-  // List of locations
-
-  if (targetCount !== expectedTargetCount) {
-    errors.push(
-      `Le tableau devrait contenir ${count(expectedTargetCount, "cible")} et non ${targetCount}.`,
-    );
-    errors.push(
-      `Le tableau devrait contenir ${count(SEXTANT_COUNT, sextantName)} et non ${sextantCount}.`,
-    );
-  }
-
-  const locations = new Set(sextants.map((sextant) => sextant.location));
-  if (locations.size !== SEXTANT_COUNT) {
-    errors.push(
-      `Le tableau devrait contenir un et un seul sextant à chacune des six positions.`,
-    );
-  }
-
-  // Biopsy count
-
-  rows.forEach((row, index) => {
-    if (row.tumorCount > row.biopsyCount) {
-      errors.push(
-        `Le nombre de biopsies présentant une tumeur pour le pot numéro ${index + 1} est plus grand que le nombre de biopsies.`,
-      );
-    }
-  });
-
-  // Sizes
-
-  const rowNumbersWithInvalidSizes = rows
-    .map((row, index) => (hasValidSizes(row) ? undefined : index + 1))
-    .filter(filterNullish);
-  if (rowNumbersWithInvalidSizes.length) {
-    errors.push(
-      `Certaines tailles sont égales à 0 (pots numéros ${naturalJoin(rowNumbersWithInvalidSizes, DEFAULT_LANGUAGE)}).`,
-    );
-  }
-
-  // PIRADS
-
-  // There can be more targets in the table than PIRADS items
-  // But the PIRADS items must match the targets declared in the table
-  const tableTargets = new Set(
-    rows.filter((row) => row.type === "target").map((item) => item.location),
-  );
-  piradsItems.forEach((item, index) => {
-    const match = tableTargets.has(item.location);
-    if (!match) {
-      errors.push(
-        `La position du PIRADS numéro ${index + 1} ne correspond pas à aucune cible indiquée dans le tableau.`,
-      );
-    }
-  });
-
-  // Gleason score
-
-  const tumorTypeOption = getTumorTypeOption(tumorType);
-  const targetScore = tumorTypeOption.score;
-  if (targetScore) {
-    const matchingScore = rows.find(
-      (row) =>
-        row.tumorGleason.a === targetScore ||
-        row.tumorGleason.b === targetScore,
-    );
-    if (!matchingScore) {
-      errors.push(
-        `Il n'y a aucun score de Gleason dans le tableau qui corresponde à une tumeur de type histologique ${tumorTypeOption.label}.`,
-      );
-    }
-  }
-
-  return errors;
 };
 
 export type FormState = {
@@ -381,6 +273,7 @@ const ProstateBiopsyFormContent = ({
             visibleRowCount={containerCount}
             score={score}
             onChange={setField("rows")}
+            errors={biopsyTableErrors.rows}
           />
           <Stack maxWidth={FORM_MAX_WIDTH} spacing="md">
             {score.tumorCount ? (
@@ -391,10 +284,9 @@ const ProstateBiopsyFormContent = ({
                 onChange={setField("tumorType")}
               />
             ) : undefined}
-            {/* FIXME: inline errors when possible */}
             <ValidationErrors
               header="Le tableau comporte les erreurs suivantes :"
-              errors={biopsyTableErrors}
+              errors={biopsyTableErrors.errors}
             />
           </Stack>
         </Stack>

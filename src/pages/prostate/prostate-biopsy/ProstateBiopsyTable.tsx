@@ -24,6 +24,7 @@ import {
   Score,
   getContainerTypes,
 } from "./helpers";
+import { RowErrors } from "./validation";
 
 const BIOPSY_COUNT_OPTIONS: Option<number>[] = [1, 2, 3, 4].map(toOption);
 const TUMOR_COUNT_OPTIONS: Option<number>[] = [0, 1, 2, 3, 4].map(toOption);
@@ -72,6 +73,7 @@ type Props = {
   score: Score;
   isReadOnly?: boolean;
   onChange: (rows: RowWithMetadata[]) => void;
+  errors?: RowErrors[];
 };
 
 export const ProstateBiopsyTable = ({
@@ -82,6 +84,7 @@ export const ProstateBiopsyTable = ({
   score,
   isReadOnly,
   onChange: _onChange,
+  errors = [],
 }: Props) => {
   const COLUMNS: Column<RowWithMetadata>[] = [
     {
@@ -133,26 +136,30 @@ export const ProstateBiopsyTable = ({
       label: "Biopsy Size",
       key: "biopsySize",
       alignment: "left",
-      render: (row, isReadOnly, onChange) => (
-        <CellSize
-          values={row.biopsySize}
-          inputCount={row.biopsySizeInputCount}
-          isReadOnly={isReadOnly}
-          onChange={onChange}
-        />
-      ),
+      render: (row, isReadOnly, onChange, index) => {
+        return (
+          <CellSize
+            values={row.biopsySize}
+            inputCount={row.biopsySizeInputCount}
+            isReadOnly={isReadOnly}
+            onChange={onChange}
+            errors={errors[index].biopsySizes}
+          />
+        );
+      },
       total: (_rows) => <span>{score.biopsySize}</span>,
     },
     {
       label: "Tumor count",
       key: "tumorCount",
-      render: (row, isReadOnly, onChange) => (
+      render: (row, isReadOnly, onChange, index) => (
         <Select
           language={language}
           value={row.tumorCount}
           options={TUMOR_COUNT_OPTIONS}
           isReadOnly={isReadOnly}
           onChange={onChange}
+          errors={errors[index].tumorCount}
         />
       ),
       total: (_rows) => <span>{score.tumorCount}</span>,
@@ -162,12 +169,13 @@ export const ProstateBiopsyTable = ({
       key: "tumorSize",
       alignment: "left",
       isDisabled: (row) => row.tumorCount === 0,
-      render: (row, isReadOnly, onChange) => (
+      render: (row, isReadOnly, onChange, index) => (
         <CellSize
           values={row.tumorSize}
           inputCount={row.tumorSizeInputCount}
           isReadOnly={isReadOnly}
           onChange={onChange}
+          errors={errors[index].tumorSizes}
         />
       ),
       total: (_rows) => <span>{score.tumorSize}</span>,
