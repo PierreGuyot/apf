@@ -71,7 +71,7 @@ const AntibodyForm = ({
       </Stack>
       <Select
         width="150px"
-        label="Clone utilisé"
+        label="Clone"
         labelSize="sm"
         options={clones}
         value={state.clone}
